@@ -1,0 +1,88 @@
+@import '~@angular/material/core/theming/palette';
+@import '~@angular/material/core/theming/theming';
+
+@mixin tang-apply-theme-sign-in-panel($theme) {
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  tang-sign-in-panel-component {
+    .drop-shadow {
+      border-radius: inherit;
+      box-shadow: 0 2em 4em 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .sign-in-panel-content {
+      height: 31em;
+      width: 25em;
+      background-color: md-color($background, card);
+      color: md-color($foreground, text);
+    }
+
+    .sign-in-panel-body {
+      padding-top: 0;
+    }
+
+    .sign-in-panel-header {
+      background: md-color($background, app-bar);
+      padding: .75em 2em 1.5em 2em;
+    }
+
+    .header h2 {
+      margin-bottom: .25em;
+    }
+
+    .content {
+      padding: 1em 2em 1em 2em;
+    }
+
+    h3 {
+      margin-top: .25em;
+      margin-bottom: .25em;
+    }
+
+    .forgot-password-link {
+      margin-bottom: 1.0em;
+      font-size: x-small;
+    }
+
+    .username-field {
+      margin-top: .1em;
+      padding-top: .1em;
+    }
+
+    .password-field {
+      margin-top: .1em;
+      padding-top: .1em;
+    }
+
+    .remember-me {
+      margin-top: 1.5em;
+    }
+
+    .remember-me-text {
+      margin-left: 1em;
+    }
+
+    .actionFailed {
+      color: red;
+      padding: .75em 0 0 0;
+      margin: 0;
+    }
+  }
+
+  /* Demo Styles. @todo ggranum: Separate the demo content so it's not included in users' production builds. */
+
+  .sign-in-page-content, tang-sign-in-panel-demo .demo-content {
+    font-family: RobotoDraft, 'Helvetica Neue', Helvetica, Arial, serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 24px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-touch-callout: none;
+    background-color: md-color($background, background);
+  }
+
+}
+
+

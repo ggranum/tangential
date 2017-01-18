@@ -1,0 +1,62 @@
+<form *ngIf="role != null"
+      flex layout="column" layout-align="start"
+      (ngSubmit)="onSubmit($event)" #theForm="ngForm">
+  <div class="tang-role-form-wrapper" flex layout="column" layout-align="start">
+    <div flex layout="row" layout-align="start center">
+      <div class="tang-list-item-select" flex="10">
+        <md-checkbox [checked]="selected" (change)="doToggleSelected()"></md-checkbox>
+      </div>
+      <div flex layout="row" layout-align="space-between center">
+        <div class="tang-role-inputs-wrapper" layout="row" flex="80" layout-align="space-between">
+          <md-input [(ngModel)]="role.$key" name="name" #fName="ngModel"
+                    class="tang-input"
+                    dividerColor="accent"
+                    flex="40"
+                    [type]="'text'"
+                    required minlength="2"
+                    value="{{role.$key}}"
+                    placeholder="Name"
+                    (change)="onChange($event)"
+                    (focus)="onFocus($event)"
+                    (blur)="onBlur($event)"
+          ></md-input>
+          <md-input [(ngModel)]="role.description" name="description" #fDescription="ngModel"
+                    class="tang-description tang-input"
+                    dividerColor="accent"
+                    flex="60"
+                    [type]="'text'"
+                    value="{{role.description}}"
+                    (change)="onChange($event)"
+                    (focus)="onFocus($event)"
+                    (blur)="onBlur($event)"
+                    placeholder="Description"></md-input>
+        </div>
+        <div class="tang-delete-button" flex layout="row" layout-align="end center">
+          <button md-mini-fab
+                  type="button"
+                  aria-label="Delete Role"
+                  (focus)="onFocus($event)"
+                  (blur)="onBlur($event)"
+                  (click)="doRemoveRole()"
+                  [disabled]="false">
+            <md-icon class="md-24">delete</md-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <tang-drawer [expanded]="expanded" (expandedChanged)="expanded = $event" flex="initial" layout="column"
+               layout-align="start">
+      <div class="tang-role-permissions-wrapper" flex layout="row" layout-wrap layout-align="start center">
+        <div class="tang-sub-heading">Permissions:</div>
+        <div class="tang-user-permission" flex *ngFor="let perm of permissions.valuesAry()">
+          <md-checkbox [checked]="hasPermission(perm)" (change)="doTogglePermission(perm)">
+            <span flex="50">{{perm.$key}}</span>
+          </md-checkbox>
+        </div>
+      </div>
+    </tang-drawer>
+  </div>
+</form>
+
+
+

@@ -1,0 +1,57 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["es6", "dom"],
+    "mapRoot": "./",
+    "module": "es6",
+    "moduleResolution": "node",
+    "outDir": "../dist/out-tsc",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "target": "es5",
+    "typeRoots": [
+      "../node_modules/@types"
+    ],
+    "types": [
+      "jasmine"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@tangential/common": [
+        "./lib/util/common"
+      ],
+      "@tangential/firebase": [
+        "./lib/util/firebase"
+      ],
+      "@tangential/media-types": [
+        "./lib/media-types"
+      ],
+      "@tangential/authorization-service": [
+        "./lib/authorization-service"
+      ],
+      "@tangential/admin-ui": [
+        "./lib/admin-ui"
+      ],
+      "@tangential/email-password-top-nav-login": [
+        "./lib/email-password-top-nav-login"
+      ],
+      "@tangential/sign-in-panel": [
+        "./lib/sign-in-panel"
+      ],
+      "@tangential/asciidoctor-panel": [
+        "./lib/asciidoctor-panel"
+      ],
+      "@tangential/inline-login-form": [
+        "./lib/ux/inline-login-form"
+      ],
+      "@tangential/drawer": [
+        "./lib/drawer"
+      ],
+      "@tangential/inline-profile": [
+        "./ux/inline-profile"
+      ]
+    }
+  }
+}

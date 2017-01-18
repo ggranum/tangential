@@ -1,0 +1,51 @@
+{
+  "rules": {
+    "content": {
+      ".read": "true",
+      ".write": "auth != null"
+    },
+    "auth": {
+      ".read": "true",
+      ".write": "auth.uid === 'gulp-service-worker'",
+      "permissions": {
+        ".read": "true",
+        ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' PERMISSION').exists()"
+      },
+      "roles": {
+        ".read": "true",
+        ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' ROLE').exists()"
+      },
+      "users": {
+        ".read": "auth != null",
+        ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' USER').exists()",
+        "$uid": {
+          ".write": "auth.uid == $uid && (!data.exists() || !newData.child('email').exists())"
+        }
+      },
+      "user_granted_permissions": {
+        ".read": "true",
+        ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE')  + ' PERMISSION').exists()"
+      },
+      "user_effective_permissions": {
+        ".read": "true",
+        ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' PERMISSION').exists()"
+      },
+      "role_permissions": {
+        ".read": "true",
+        "$uid": {
+          ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' PERMISSION').exists()"
+        }
+      },
+      "user_roles": {
+        ".read": "true",
+        "$uid": {
+          ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' ROLE').exists()"
+        }
+      }
+    },
+    "items": {
+      ".read": "true",
+      ".write": "auth != null"
+    }
+  }
+}

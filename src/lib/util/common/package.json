@@ -1,0 +1,17 @@
+{
+  "name": "@tangential/common",
+  "version": "0.0.1-beta.0",
+  "description": "Utility classes and shared functionality for the Tangential components.",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ggranum/tangential.git"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ggranum/tangential/issues"
+  },
+  "homepage": "https://github.com/ggranum/tangential#readme"
+}

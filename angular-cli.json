@@ -1,0 +1,61 @@
+{
+  "project": {
+    "version": "1.0.0-beta.19-3",
+    "name": "tangential-demo"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "demo-app/favicon.ico",
+        "demo-app/vendor/material-fonts.woff2"
+      ],
+      "index": "demo-app/index.html",
+      "main": "demo-app/main.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.json",
+      "prefix": "demo-app",
+      "mobile": false,
+      "styles": [
+        "demo-app/theme.scss",
+        "demo-app/angular-material.layouts.min.css",
+        "demo-app/vendor/material-icons.css"
+      ],
+      "scripts": [],
+      "environments": {
+        "source": "demo-app/environments/environment.ts",
+        "dev": "demo-app/environments/environment.dev.ts",
+        "prod": "demo-app/environments/environment.prod.ts"
+      }
+    }
+  ],
+  "addons": [],
+  "packages": [],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "prefixInterfaces": false,
+    "inline": {
+      "style": false,
+      "template": false
+    },
+    "spec": {
+      "class": false,
+      "component": true,
+      "directive": true,
+      "module": false,
+      "pipe": true,
+      "service": true
+    }
+  }
+}

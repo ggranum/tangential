@@ -1,0 +1,11 @@
+tang-permission-list /deep/ md-list md-list-item .md-list-item {
+  height: 5em;
+}
+
+tang-permission-list /deep/ .ng-valid[required], .ng-valid.required {
+  border-left: 5px solid #42A948; /* green */
+}
+
+tang-permission-list /deep/ .ng-invalid:not(form) {
+  border-left: 5px solid #a94442; /* red */
+}
