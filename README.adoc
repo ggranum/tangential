@@ -87,25 +87,6 @@ Once you've created the project, open it to the overview page (if it wasn't open
 You will also need to enable email/password authentication. Do so here: https://console.firebase.google.com/project/${YourProject}/authentication/providers
 
 
-==== Firebase API Configuration: environment.local.ts
-
-The following assumes you have a .gitignore line that ignores \*.local.* files. You do NOT want to commit the following information into a public repository.
-
-
-Navigate to './src/environments' and create a new file named 'environment.local.ts'. Paste your firebase credentials in so the file looks like the following:
-
-[source, javascript]
-
-export const noCommitEnvironment = {
-  firebaseConfig: {
-    apiKey: "your-key",
-    authDomain: "${yourproject}",
-    databaseURL: "https://${yourproject}.firebaseio.com",
-    storageBucket: "${yourproject}.appspot.com",
-    messagingSenderId: "yourSenderId"
-  }
-};
-
 ==== Initialize your Firebase project
 
 Right now you have no data stored in your firebase project (*NOTE* if this is not the case, make backups or go start a new project!). The User Management console has a bit of a boot-strap issue, as you need certain permissions in order to assign permissions to User's... but if you don't have any user's with those rights... Exactly. So we will bypass the Tangential-Demo admin panel for this first bit of configuration. *Which WILL DELETE ALL YOUR EXISTING CONTENT*.
@@ -125,7 +106,7 @@ You'll probably be told to login. And once you do (and re-run 'list') you'll get
 ┌────────────────────────┬────────────────────────────┬─────────────┐
 │ Name                   │ Project ID / Instance      │ Permissions │
 ├────────────────────────┼────────────────────────────┼─────────────┤
-│ TangentialDemo (current) │ tangentialdemo               │ Owner       │
+│ TangentialDemo         │ tangentialdemo             │ Owner       │
 └────────────────────────┴────────────────────────────┴─────────────┘
 
 Now open link:.firebaserc[] and replace 'tangentialdemo' with the *Project ID* of your project.

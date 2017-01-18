@@ -27,7 +27,7 @@
   "scripts": {
     "build": "gulp build:components",
     "build.release": "gulp build:release",
-    "fireabse.init-project": "gulp firebase:init-project",
+    "firebase.init-project": "gulp firebase:init-project",
     "fireabse.init-database": "gulp firebase:init-database",
     "publish": "gulp publish",
     "serve": "ng serve",
@@ -80,7 +80,7 @@
     "conventional-recommended-bump": "0.3.0",
     "core-js": "^2.4.1",
     "express": "4.14.0",
-    "firebase-admin": "^4.0.4",
+    "firebase-admin": "4.0.5",
     "firebase-tools": "3.1.0",
     "fs-extra": "1.0.0",
     "glob": "^6.0.4",

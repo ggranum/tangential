@@ -1,14 +1,15 @@
+///<reference path="../../../node_modules/firebase-admin/lib/index.d.ts"/>
 /**
  * Firebase does not allow for pulling down all your database user UID's easily. Nor do they work to make it clear
  * WHY they left this obvious feature out of their API. There are claims around the internet about security, but
  * they don't link to their reasoning in the API, which is super confusing.
  *
- * SO, anyway, to get a list of Users from your DB you will need to visit the admin console at firebase.google.com.
+ * SO, anyway, to get a list of Users from your DB you will need to visit the admin console at firebaseAdmin.google.com.
  *
  * The steps to extract a list of usable UID values:
  *
- * 1) Navigate to your app in the firebase.google.com console - e.g.
- *      https://console.firebase.google.com/project/{your-project}/authentication/users
+ * 1) Navigate to your app in the firebaseAdmin.google.com console - e.g.
+ *      https://console.firebaseAdmin.google.com/project/{your-project}/authentication/users
  * 2) Change the 'Rows per page' at the bottom of the table to 250 / Max
  * 3) Inspect (using dev tools) the header of the table. In the inspection window, find the html element:
  *      <md-card md-cell="12" class="a12n-users-wrapper _md md-gmp-blue-theme"> ....
@@ -21,8 +22,8 @@
  *
  *
  * Alternatively, you can use the Network tab:
- * 1) Navigate to your app in the firebase.google.com console - e.g.
- *      https://console.firebase.google.com/project/{your-project}/authentication/users
+ * 1) Navigate to your app in the firebaseAdmin.google.com console - e.g.
+ *      https://console.firebaseAdmin.google.com/project/{your-project}/authentication/users
  * 2) Open the developer console and navigate to the network tab.
  * 3) Allow the page to fully load.
  * 4) Copy the response body of the 'queryaccount' request(s) that should now be present - these are cumulative, so
@@ -36,14 +37,12 @@ import fs = require('fs');
 import {task} from 'gulp';
 import {join} from 'path';
 import crypto = require('crypto')
-import {Auth} from "firebase-admin/lib/auth/auth";
 import {PROJECT_ROOT} from '../constants';
 const jsonFile = require('jsonfile');
-const admin = require("firebase-admin");
+const firebaseAdmin = require("firebase-admin");
 const readline = require('readline');
 import {firebaseConfig} from './firebase-config'
 import {ReadLine} from "readline";
-import {FirebaseNamespace} from "firebase-admin/lib/firebase-namespace";
 
 /**
  *
@@ -59,8 +58,8 @@ const filePaths = {
   authUsersLocalTS: join(DEFAULTS_PATH, 'users.local.ts'),
   firebaseRC: join(PROJECT_ROOT, '.firebaserc'),
   firebaseConfig: join(PROJECT_ROOT, 'config/authorization-service/firebase-config.local.ts'),
-  accountKey: join(PROJECT_ROOT, "firebase.service-account-key.local.json"),
-  usersToDelete: join(PROJECT_ROOT, 'firebase.users-to-delete.local.json')
+  accountKey: join(PROJECT_ROOT, "firebaseAdmin.service-account-key.local.json"),
+  usersToDelete: join(PROJECT_ROOT, 'firebaseAdmin.users-to-delete.local.json')
 }
 
 
@@ -68,19 +67,19 @@ class RemoteProjectInitializer {
   static initAuthUsers(): Promise<void> {
     let promises: Promise<void>[] = []
     let admin = initializeFirebaseApp()
-    let auth:Auth = <Auth>admin.auth()
+    let auth:admin.auth.Auth = firebaseAdmin.auth()
     let users = jsonFile.readFileSync(filePaths.authUsersLocal)
     users.forEach((user: any) => {
       if (user.uid) {
         let promise: Promise<void> = new Promise((resolve, reject) => {
           auth.getUser(user.uid).then(() => {
-            auth.updateUser(user.uid, user).then(() => resolve()).catch((e) => {
+            auth.updateUser(user.uid, user).then(() => resolve()).catch((e:any) => {
               console.log('Error updating user: ', e)
               reject(e)
             })
-          }).catch((e) => {
+          }).catch((e:any) => {
             // doesn't exist yet.
-            auth.createUser(user).then(() => resolve()).catch((e) => {
+            auth.createUser(user).then(() => resolve()).catch((e:any) => {
               console.log('Error creating user: ', e)
               reject(e)
             })
@@ -96,8 +95,8 @@ class RemoteProjectInitializer {
     let admin = initializeFirebaseApp()
     // Silly hack to get autocomplete.
     //noinspection UnnecessaryLocalVariableJS
-    let dbX:any= admin.database()
-    let db:firebase.database.Database = dbX
+    let dbX:any= firebaseAdmin.database()
+    let db:admin.database.Database = dbX
 
 
     return new Promise((resolve, reject) => {
@@ -111,7 +110,7 @@ class RemoteProjectInitializer {
           let authData = jsonFile.readFileSync(filePaths.authData)
           ref.set(authData, (error:any)=>{
             if(error){
-              console.error('Error pushing default Authentication configuration to Firebase.', error)
+              console.error('Error pushing default Authentication configuration to firebaseAdmin.', error)
             } else{
               console.log(`   pushed Auth data to remote Firebase project.`)
             }
@@ -120,7 +119,7 @@ class RemoteProjectInitializer {
           })
         }
       }, (error:any) => {
-        console.error('Error pushing default Authentication configuration to Firebase.', error)
+        console.error('Error pushing default Authentication configuration to firebaseAdmin.', error)
         db.goOffline()
         resolve()
       })
@@ -225,7 +224,7 @@ class ProjectInitializer {
 
   static initCertStub(projectName: string) {
     console.log('Visit your firebase console to create your service account cert file: ',
-      `https://console.firebase.google.com/project/${projectName}/settings/serviceaccounts/adminsdk`)
+      `https://console.firebaseAdmin.google.com/project/${projectName}/settings/serviceaccounts/adminsdk`)
 
     jsonFile.writeFileSync(filePaths.accountKey, {
       "type": "service_account",
@@ -268,8 +267,8 @@ task('firebase:init-project', (done: any) => {
 
 task('firebase:clean-users', ['firebase:init-project'], (done: any) => {
   let promises: Promise<void>[] = []
-  let admin = initializeFirebaseApp()
-  let auth:Auth = <Auth>admin.auth()
+  initializeFirebaseApp()
+  let auth = firebaseAdmin.auth()
 
   let userIds = jsonFile.readFileSync(filePaths.usersToDelete)
 
@@ -285,16 +284,16 @@ task('firebase:clean-users', ['firebase:init-project'], (done: any) => {
 
 
 task('firebase:init-database',  (done: any) => {
-    RemoteProjectInitializer.initAuthUsers().then(() => {
-      RemoteProjectInitializer.pushDefaultAuth().then(()=>{
-        console.log('Remote configuration complete.')
-        done()
-      }, (e)=>{
-        console.log('error', e)
-      })
-    }, (e)=>{
+  RemoteProjectInitializer.initAuthUsers().then(() => {
+    RemoteProjectInitializer.pushDefaultAuth().then(()=>{
+      console.log('Remote configuration complete.')
+      done()
+    }, (e:any)=>{
       console.log('error', e)
     })
+  }, (e:any)=>{
+    console.log('error', e)
+  })
 });
 
 function randomPassword(length: number = 12): string {
@@ -303,11 +302,11 @@ function randomPassword(length: number = 12): string {
 }
 
 let firebaseInitialized: boolean = false
-function initializeFirebaseApp(): FirebaseNamespace {
+function initializeFirebaseApp(): admin.app.App {
   if (!firebaseInitialized) {
     let firebaseProject = jsonFile.readFileSync(join(PROJECT_ROOT, '.firebaserc')).projects.default
-    admin.initializeApp({
-      credential: admin.credential.cert(filePaths.accountKey),
+    firebaseAdmin.initializeApp({
+      credential: firebaseAdmin.credential.cert(filePaths.accountKey),
       databaseURL: "https://" + firebaseProject + ".firebaseio.com",
       databaseAuthVariableOverride: {
         uid: "gulp-service-worker"
@@ -315,5 +314,5 @@ function initializeFirebaseApp(): FirebaseNamespace {
     });
     firebaseInitialized = true
   }
-  return admin
+  return firebaseAdmin
 }

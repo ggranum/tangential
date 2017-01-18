@@ -32,7 +32,7 @@ So for now, please feel free to bounce around this demo. Create an account and s
 
 == Flagship 'Component': User management and authorization services for apps that use Firebase for backend services.
 
-Recreating authorization management for each new app you want to put on the web, bluntly, sucks. Firebase does a lot of the work for authentication management for us, but it doesn't provide permissions, roles, or content-level access control. So while it's great to not have to handle re-implementing the 27 different kinds of authorization... we still have to role our own access management. 
+Recreating authorization management for each new app you want to put on the web, bluntly, sucks. Firebase does a lot of the work for authentication management for us, but it doesn't provide permissions, roles, or content-level access control; which is to say Firebase handles identity but not access control levels. So while it's great to not have to handle re-implementing the 27 different kinds of authorization... we still have to role our own access management. 
 
 Tangential was started to pursue the primary goal of providing an off-the-shelf module for access control, usable in Angular (2+) based, Firebase hosted web-apps. Because access control is the most tedious, boring, and, unfortunately, critical aspect of site development. Even throw-away sites need *proper* access control if they happen to collect any user data at all. Creating Rules in Firebase is a great and necessary start, but it's not shockingly user-friendly.
  
