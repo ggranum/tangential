@@ -1,0 +1,25 @@
+{
+  "name": "@tangential/drawer",
+  "version": "0.0.1-beta.0",
+  "description": "UI drawer (flyout, slide-out etc)",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ggranum/tangential.git"
+  },
+  "keywords": [
+    "angular",
+    "angular2",
+    "component"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ggranum/tangential/issues"
+  },
+  "homepage": "https://github.com/ggranum/tangential#readme",
+  "peerDependencies": {
+    "@angular/core": "~2.2.0",
+    "@angular/common": "~2.2.0"
+  }
+}

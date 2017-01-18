@@ -1,0 +1,73 @@
+.tang-input {
+  margin-left: 2em;
+}
+
+.tang-role-roles-wrapper, .tang-role-permissions-wrapper {
+  margin-left: 8em;
+  .tang-role-role, .tang-role-permission {
+    margin-left: 2em;
+  }
+}
+
+.tang-sub-heading {
+  font-size: larger;
+}
+
+
+
+tang-role-component {
+
+  .tang-input {
+    margin-left: 2em;
+  }
+
+  .tang-list-item-select {
+    padding-left: 2em;
+  }
+
+  .tang-list-item-action-button-container {
+    padding-right: 2em;
+  }
+
+  .tang-role-permissions-wrapper {
+    margin-left: 4em;
+    margin-bottom: 4em;
+    .tang-role-role, .tang-role-permission {
+      margin-left: 2em;
+    }
+  }
+
+  .tang-sub-heading {
+    font-size: larger;
+  }
+
+  .tang-explicitly-granted {
+    color: green;
+  }
+
+  .tang-explicitly-revoked {
+    color: red;
+  }
+
+  .tang-drawer-toggle {
+    border-top: 1px solid black;
+  }
+
+  .toggle-shape-container {
+  }
+
+  .tang-toggle-shape {
+    height: 2em;
+    width: 4em;
+  }
+  .tang-toggle-shape {
+    path {
+      stroke: #AAA;
+      fill: #DDD;
+    }
+    line {
+      stroke: #444;
+    }
+  }
+
+}

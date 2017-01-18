@@ -1,0 +1,22 @@
+
+.tang-nav-login-form /deep/ * {
+  font-size: medium;
+}
+
+.tang-input {
+  margin-right: 1em;
+}
+
+.tang-button {
+  margin-right: 1em;
+  vertical-align: middle;
+  width: 8em;
+
+  .tang-button-icon {
+    font-size: small;
+  }
+
+  .tang-button-text {
+    padding-left: .2em;
+  }
+}

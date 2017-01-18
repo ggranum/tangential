@@ -1,0 +1,188 @@
+{
+  "permissions": {
+    "ADD PERMISSION": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 1
+    },
+    "MODIFY PERMISSION": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 2
+    },
+    "REMOVE PERMISSION": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 3
+    },
+    "ADD ROLE": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 10
+    },
+    "MODIFY ROLE": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 11
+    },
+    "REMOVE ROLE": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 12
+    },
+    "ADD USER": {
+      "createdMils": 1481726286361,
+      "trustLevel": 0,
+      "description": "",
+      "orderIndex": 4
+    },
+    "MODIFY USER": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 5
+    },
+    "REMOVE USER": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 6
+    },
+    "GRANT ROLE": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 15
+    },
+    "REVOKE ROLE": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 15
+    },
+    "GRANT PERMISSION": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 13
+    },
+    "REVOKE PERMISSION": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 14
+    },
+    "MODIFY OWN PROFILE": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 20
+    },
+    "REGISTER OWN ACCOUNT": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 15
+    }
+  },
+  "role_permissions": {
+    "Administrator": {
+      "ADD PERMISSION": true,
+      "MODIFY PERMISSION": true,
+      "REMOVE PERMISSION": true,
+      "ADD ROLE": true,
+      "MODIFY ROLE": true,
+      "REMOVE ROLE": true,
+      "ADD USER": true,
+      "MODIFY USER": true,
+      "REMOVE USER": true,
+      "GRANT PERMISSION": true,
+      "REVOKE PERMISSION": true,
+      "GRANT ROLE": true,
+      "REVOKE ROLE": true,
+      "MODIFY OWN PROFILE": true,
+      "REGISTER OWN ACCOUNT": true
+    },
+    "Anonymous": {
+      "REGISTER OWN ACCOUNT": true
+    },
+    "Registered Visitor": {
+      "MODIFY OWN PROFILE": true
+    }
+  },
+  "roles": {
+    "Administrator": {
+      "createdMils": 1481726286361,
+      "description": "Default Administrator Role"
+    },
+    "Limited Administrator": {
+      "createdMils": 1481726286361,
+      "description": "Default Administrator Role"
+    },
+    "Anonymous": {
+      "createdMils": 1481726286361,
+      "trustLevel": 0,
+      "description": "Default anonymous role. Frequently has the right to create their own account."
+    },
+    "Registered Visitor": {
+      "createdMils": 1481726286361,
+      "description": "Default non-anonymous role. Any user that has created an account, or has had an account created for them."
+    }
+  },
+  "user_effective_permissions": {
+    "Administrator": {
+      "ADD PERMISSION": true,
+      "ADD ROLE": true,
+      "ADD USER": true,
+      "GRANT ROLE": true,
+      "GRANT PERMISSION": true,
+      "MODIFY OWN PROFILE": true,
+      "MODIFY PERMISSION": true,
+      "MODIFY ROLE": true,
+      "MODIFY USER": true,
+      "REGISTER OWN ACCOUNT": true,
+      "REMOVE PERMISSION": true,
+      "REMOVE ROLE": true,
+      "REVOKE ROLE": true,
+      "REMOVE USER": true,
+      "REVOKE PERMISSION": true
+    },
+    "Limited Administrator": {
+      "ADD PERMISSION": true,
+      "ADD ROLE": true,
+      "ADD USER": true,
+      "GRANT ROLE": true,
+      "GRANT PERMISSION": true,
+      "MODIFY OWN PROFILE": true,
+      "MODIFY PERMISSION": true,
+      "MODIFY ROLE": true,
+      "MODIFY USER": true,
+      "REGISTER OWN ACCOUNT": true,
+      "REMOVE PERMISSION": true,
+      "REMOVE ROLE": true,
+      "REVOKE ROLE": true,
+      "REMOVE USER": true,
+      "REVOKE PERMISSION": true
+    },
+    "Anonymous": {
+      "REGISTER OWN ACCOUNT": true
+    }
+  },
+  "user_roles": {
+    "Administrator": {
+      "Administrator": true
+    },
+    "Anonymous": {
+      "Anonymous": true
+    }
+  },
+  "users": {
+    "Administrator": {
+      "createdMils": 1481726286370,
+      "displayName": "Administrator Account",
+      "email": "not-configured@example.com"
+    },
+    "AssistantAdmin": {
+      "createdMils": 1481726286370,
+      "displayName": "Assistant Administrator Account",
+      "email": "not-configured~assist@example.com"
+    },
+    "Anonymous": {
+      "createdMils": 1481726286371,
+      "displayName": "Anonymous",
+      "email": "NA@example.com"
+    }
+  }
+}

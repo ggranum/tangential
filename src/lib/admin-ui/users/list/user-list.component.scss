@@ -1,0 +1,11 @@
+/deep/ tang-user-list md-list md-list-item .md-list-item {
+  height: auto;
+}
+
+/deep/ tang-user-list .ng-valid[required], .ng-valid.required {
+  border-left: 5px solid #42A948; /* green */
+}
+
+/deep/ tang-user-list .ng-invalid:not(form) {
+  border-left: 5px solid #a94442; /* red */
+}

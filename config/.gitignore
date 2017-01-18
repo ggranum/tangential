@@ -1,0 +1,3 @@
+*.js
+!ng2-cli.karma.conf.js
+!ng2-cli.protractor.conf.js

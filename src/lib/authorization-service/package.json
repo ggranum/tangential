@@ -1,0 +1,31 @@
+{
+  "name": "@tangential/authorization-service",
+  "version": "0.0.1-beta.0",
+  "description": "Angular based, Firebase-hosted Authorization Module",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ggranum/tangential.git"
+  },
+  "keywords": [
+    "angular",
+    "angular2",
+    "components",
+    "authentication",
+    "auth",
+    "firebase",
+    "angularFire"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ggranum/tangential/issues"
+  },
+  "homepage": "https://github.com/ggranum/tangential#readme",
+  "peerDependencies": {
+    "@angular/core": "~2.2.0",
+    "@angular/common": "~2.2.0",
+    "@tangential/media-types": "0.0.1-beta.5",
+    "@tangential/common": "0.0.1-beta.5"
+  }
+}

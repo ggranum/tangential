@@ -1,0 +1,40 @@
+<div *ngIf="isSignedOut(signInState) || isUnknownState(signInState)" class="tang-nav-login-form" layout="row"
+     layout-align="space-between center">
+  <form (ngSubmit)="onSubmit($event)" #loginForm="ngForm" flex layout="row" layout-align="space-between center">
+    <md-input [(ngModel)]="username" name="fUsername" #fUsername="ngModel"
+              class="tang-username tang-input"
+              dividerColor="accent"
+              flex
+              [type]="requireEmailUsername ? 'email' : 'text'"
+              required minlength="5"
+              placeholder="{{usernameFieldLabel}}"></md-input>
+
+    <md-input [(ngModel)]="password" name="password" #fPassword="ngModel"
+              class="tang-password tang-input"
+              dividerColor="accent"
+              flex
+              [type]="'password'"
+              required minlength="8"
+              placeholder="{{passwordFieldLabel}}"></md-input>
+
+    <button md-raised-button
+            [disabled]="loginForm.invalid"
+            color="accent" class="tang-login tang-button" (click)="doLoginAction($event)">
+      <span>
+        <i class="material-icons tang-button-icon">lock</i><i class="tang-button-text">{{loginButtonLabel}}</i>
+      </span>
+    </button>
+  </form>
+  <button md-raised-button color="accent"
+          class="tang-signup tang-button"
+          [disabled]="loginForm.invalid || isSigningUp(signInState)"
+          (click)="doSignupAction()">
+      <span>
+        <i class="material-icons tang-button-icon">lock</i><i class="tang-button-text">{{signupButtonLabel}}</i>
+      </span>
+  </button>
+
+  <div>{{errorMsg}}</div>
+</div>
+
+
