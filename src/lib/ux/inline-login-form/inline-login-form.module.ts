@@ -11,13 +11,12 @@ import {MdInputModule} from '@angular/material/input/input'
 
 import {InlineLoginFormContainer} from './inline-login-form.container'
 import {InlineLoginFormComponent} from './inline-login-form.component'
-import {InlineProfileComponent} from '../inline-profile/inline-profile.component'
+
 
 @NgModule({
   declarations: [
     InlineLoginFormContainer,
-    InlineLoginFormComponent,
-    InlineProfileComponent,
+    InlineLoginFormComponent
   ],
   imports: [
     CommonModule,
@@ -28,10 +27,9 @@ import {InlineProfileComponent} from '../inline-profile/inline-profile.component
     MdInputModule
   ],
   exports: [
-    InlineLoginFormContainer,
-    InlineProfileComponent
+    InlineLoginFormContainer
   ]
 })
-export class SimpleTopNavLoginModule {
+export class InlineLoginFormModule {
 
 }

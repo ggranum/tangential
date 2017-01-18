@@ -10,7 +10,7 @@ import {MdInputModule} from '@angular/material/input/input'
 
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core'
 
-import {SignInStates, SignInState} from '@tangential/authorization-service'
+import {SignInState} from '@tangential/authorization-service'
 import {InlineProfileComponent} from "./inline-profile.component";
 import {Observable} from "rxjs";
 import {AuthUserIF} from "@tangential/media-types";
@@ -36,7 +36,7 @@ export class InlineProfileContainer {
 
 
   isSignedIn(signInState: SignInState) {
-    return signInState.state == SignInStates.signedIn
+    return signInState == SignInState.signedIn
   }
 
   doSignOut() { }

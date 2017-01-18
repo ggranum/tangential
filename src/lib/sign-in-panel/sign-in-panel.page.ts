@@ -9,8 +9,7 @@ import {
   ActivatedRoute
 } from "@angular/router";
 import {
-  SignInState,
-  SignInStates
+  SignInState
 } from "@tangential/authorization-service";
 import {Observable} from "rxjs";
 import {AuthUserIF} from "@tangential/media-types";
@@ -42,7 +41,7 @@ export class SignInPanelPage {
     });
 
     let sub = this.signInState$.subscribe((signInState: SignInState) => {
-        if (signInState.state == SignInStates.signedIn) {
+        if (signInState == SignInState.signedIn) {
           if (sub) {
             sub.unsubscribe()
           }

@@ -8,7 +8,6 @@ import {AuthUserIF} from "@tangential/media-types";
   selector: 'tang-inline-login-form',
   template: `
 <tang-inline-login-form-component [signInState]="signInState$ | async" [errorMessage]="errorMessage | async"></tang-inline-login-form-component>
-<tang-inline-profile-component [signInState]="signInState$ | async" [user]="user$ | async"></tang-inline-profile-component>
 `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })

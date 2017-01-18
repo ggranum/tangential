@@ -1,0 +1,36 @@
+{
+  "name": "@tangential/inline-profile",
+  "version": "0.0.1-beta.0",
+  "description": "An inline profile widget for navigation bars",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ggranum/tangential.git"
+  },
+  "keywords": [
+    "angular",
+    "angular2",
+    "components",
+    "authentication",
+    "authorization",
+    "auth",
+    "firebase",
+    "angularFire"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ggranum/tangential/issues"
+  },
+  "homepage": "https://github.com/ggranum/tangential#readme",
+  "peerDependencies": {
+    "@angular/core": "~2.2.0",
+    "@angular/common": "~2.2.0",
+    "@angular/forms": "~2.2.0",
+    "@angular/material": "2.0.0-alpha.9-3",
+    "@angular/compiler": "~2.2.0",
+    "@tangential/authorization-service": "~0.0.1-beta.0",
+    "firebase": "3.6.1",
+    "rxjs": "5.0.0-beta.12"
+  }
+}

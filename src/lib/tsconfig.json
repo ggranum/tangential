@@ -1,0 +1,67 @@
+{
+"angularCompilerOptions": {
+    "genDir": "../dist",
+    "skipTemplateCodegen": true,
+    "debug": true
+  },
+  "compilerOptions": {
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["es6", "es2015", "dom"],
+    "mapRoot": "",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "outDir": "../../dist/@tangential",
+    "rootDir": ".",
+    "sourceMap": true,
+    "target": "es5",
+    "inlineSources": true,
+    "stripInternal": true,
+    "baseUrl": "",
+    "skipLibCheck": true,
+    "typeRoots": [
+      "../../node_modules/@types"
+    ],
+    "types": [
+      "jasmine"
+    ],
+    "paths": {
+      "@tangential/common": [
+        "./util/common"
+      ],
+      "@tangential/firebase": [
+        "./util/firebase"
+      ],
+      "@tangential/media-types": [
+        "./media-types"
+      ],
+      "@tangential/authorization-service": [
+        "./authorization-service"
+      ],
+      "@tangential/admin-ui": [
+        "./admin-ui"
+      ],
+      "@tangential/email-password-top-nav-login": [
+        "./email-password-top-nav-login"
+      ],
+      "@tangential/sign-in-panel": [
+        "./sign-in-panel"
+      ],
+      "@tangential/asciidoctor-panel": [
+        "./asciidoctor-panel"
+      ],
+      "@tangential/inline-login-form": [
+        "./ux/inline-login-form"
+      ],
+      "@tangential/inline-profile": [
+        "./ux/inline-profile"
+      ],
+      "@tangential/drawer": [
+        "./drawer"
+      ]
+    }
+  }
+}

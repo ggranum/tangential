@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core'
-import {SignInStates, SignInState} from '@tangential/authorization-service';
+import {SignInState} from '@tangential/authorization-service';
 
 
 @Component({
@@ -10,9 +10,7 @@ import {SignInStates, SignInState} from '@tangential/authorization-service';
 })
 export class InlineLoginFormComponent {
 
-  @Input() signInState: SignInState = {
-    state: SignInStates.unknown
-  }
+  @Input() signInState: SignInState
   @Input() errorMessage: string
 
   username: string
@@ -27,15 +25,15 @@ export class InlineLoginFormComponent {
   }
 
   isSignedOut(signInState: SignInState) {
-    return signInState.state == SignInStates.signedOut
+    return signInState == SignInState.signedOut
   }
 
   isSigningUp(signInState: SignInState) {
-    return signInState.state == SignInStates.signingUp
+    return signInState == SignInState.signingUp
   }
 
   isUnknownState(signInState: SignInState) {
-    return signInState.state == SignInStates.unknown
+    return signInState == SignInState.unknown
   }
 
   doLoginAction(event: Event) {

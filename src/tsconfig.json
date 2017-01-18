@@ -50,7 +50,7 @@
         "./lib/drawer"
       ],
       "@tangential/inline-profile": [
-        "./ux/inline-profile"
+        "./lib/ux/inline-profile"
       ]
     }
   }
