@@ -13,8 +13,4 @@ export class FirebasePermissionService extends FirebaseService<AuthPermission> i
     })
 
   }
-
-
-
-
 }

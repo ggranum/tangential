@@ -12,6 +12,6 @@ export abstract class PermissionService implements TgServiceIF<AuthPermission> {
   abstract create(entity: AuthPermission): Promise<AuthPermission>
   abstract value(entityKey: string): Promise<AuthPermission>
   abstract update(current: AuthPermission, previous: AuthPermission): Promise<AuthPermission>
-  abstract remove(entityKey: string): Promise<void>
+  abstract remove(entityKey: string): Promise<string>
   abstract destroy(): void
 }

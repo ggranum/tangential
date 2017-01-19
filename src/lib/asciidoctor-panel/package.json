@@ -33,7 +33,7 @@
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
-    "@angular/core": "2.2.1",
+    "@angular/core": "4.0.0-beta.4",
     "asciidoctorjs-web-repack": "^1.5.5-2.4"
   },
   "main": "./index.js",

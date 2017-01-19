@@ -5,7 +5,7 @@ import {
 import {CommonModule} from "@angular/common";
 import {AuthUser, AuthRole, AuthPermission} from "@tangential/media-types";
 import {OMap} from "@tangential/common";
-import {FirebaseProvider} from "@tangential/firebase";
+import {FirebaseProvider, FirebaseConfig} from "@tangential/firebase";
 import {
   AuthorizationServiceModule,
   FirebaseUserService,
@@ -21,6 +21,9 @@ import {AdminUiModule} from "@tangential/admin-ui";
 // see the docs regarding preparing Firebase.
 import {firebaseConfig} from "../../../config/authorization-service/firebase-config.local";
 import {defaultUsers} from '../../../config/authorization-service/basic-defaults/users.local'
+
+import { SharedModule, DataTableModule} from "primeng/primeng";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -96,16 +99,12 @@ export class AuthorizationServiceDemo implements OnChanges {
       //     console.log('AuthorizationServiceDemo', 'Login Failed', reason)
       //   })
       // }
-
     }
   }
 }
 
-import {
-  SharedModule,
-  DataTableModule
-} from 'primeng/primeng';
-import {Observable} from "rxjs";
+
+export const firebaseProvider = () => new FirebaseProvider(firebaseConfig);
 
 @NgModule({
   declarations: [
@@ -120,7 +119,8 @@ import {Observable} from "rxjs";
     DataTableModule
   ],
   providers: [
-    {provide: FirebaseProvider, useValue: new FirebaseProvider(firebaseConfig)},
+    {provide: FirebaseConfig, useValue: firebaseConfig},
+    {provide: FirebaseProvider, useClass: FirebaseProvider},
     {provide: PermissionService, useClass: FirebasePermissionService},
     {provide: RoleService, useClass: FirebaseRoleService},
     {provide: UserService, useClass: FirebaseUserService},

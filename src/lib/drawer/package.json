@@ -30,8 +30,8 @@
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
-    "@angular/core": "2.2.1",
-    "@angular/common": "2.2.1"
+    "@angular/core": "4.0.0-beta.4",
+    "@angular/common": "4.0.0-beta.4"
   },
   "main": "./index.js",
   "typings": "./index.d.ts"

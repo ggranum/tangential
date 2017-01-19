@@ -10,7 +10,7 @@ export abstract class RoleService implements  TgServiceIF<AuthRole> {
   abstract create(entity: AuthRole): Promise<AuthRole>
   abstract value(entityKey: string): Promise<AuthRole>
   abstract update(current: AuthRole, previous: AuthRole): Promise<AuthRole>
-  abstract remove(entityKey: string): Promise<void>
+  abstract remove(entityKey: string): Promise<string>
   abstract destroy(): void
 
   abstract setRolePermissions(rolePermissions: OneToManyReferenceMap): Promise<void>

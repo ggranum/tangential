@@ -172,7 +172,7 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
     return this.$userGrantedPermissionsRef.child(user.$key).value$.flatMap((obj: ObjMap<boolean>) => {
       //noinspection JSMismatchedCollectionQueryUpdate
       let userPerms: AuthPermission[] = []
-      let promises: Promise<AuthPermission>[] = []
+      let promises: Promise<void>[] = []
       Object.keys(obj || {}).forEach(key => {
         promises.push(this.permissionService.value(key).then((perm: AuthPermission) => {
           if (perm) {
@@ -208,7 +208,7 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
     return this.$userRolesMappingRef.child(user.$key).value$.flatMap((obj: ObjMap<boolean>) => {
       //noinspection JSMismatchedCollectionQueryUpdate
       let userRoles: AuthRole[] = []
-      let promises: Promise<AuthRole>[] = []
+      let promises: Promise<void>[] = []
       Object.keys(obj || {}).forEach(key => {
         promises.push(this.roleService.value(key).then((role: AuthRole) => {
           if (role) {
@@ -226,7 +226,7 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
     return this.$userGrantedPermissionsRef.child(user.$key).value$.flatMap((obj: ObjMap<boolean>) => {
       //noinspection JSMismatchedCollectionQueryUpdate
       let grantedPermissions: AuthPermission[] = []
-      let promises: Promise<AuthPermission>[] = []
+      let promises: Promise<void>[] = []
       Object.keys(obj || {}).forEach(key => {
         promises.push(this.permissionService.value(key).then((permission: AuthPermission) => {
           if (permission) {
@@ -244,7 +244,7 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
     return this.$userEffectivePermissionsRef.child(user.$key).value$.flatMap((obj: ObjMap<boolean>) => {
       //noinspection JSMismatchedCollectionQueryUpdate
       let effectivePermissions: AuthPermission[] = []
-      let promises: Promise<AuthPermission>[] = []
+      let promises: Promise<void>[] = []
       Object.keys(obj || {}).forEach(key => {
         promises.push(this.permissionService.value(key).then((permission: AuthPermission) => {
           if (permission) {
@@ -262,7 +262,7 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
     return this.$userRolesMappingRef.value()
   }
 
-  removeUserRoles(...forUserKeys: string[]): Promise<void> {
+  removeUserRoles(...forUserKeys: string[]): Promise<string[]> {
     let promises = forUserKeys.map((key) => this.$userRolesMappingRef.child(key).remove())
     return Promise.all(promises)
   }
