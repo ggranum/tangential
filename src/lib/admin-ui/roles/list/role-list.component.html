@@ -1,12 +1,12 @@
 <div flex layout="column" >
   <md-list *ngIf="roles" flex layout="column" layout-align="start">
-    <md-list-item *ngFor="let role of roles.valuesAry()" class="tang-role" flex layout="column" layout-align="start">
-      <tang-role flex layout="row" layout-align="center"
+    <md-list-item *ngFor="let role of roles.valuesAry()" class="tg-role" flex layout="column" layout-align="start">
+      <tg-role flex layout="row" layout-align="center"
                [roleKey]="role.$key"
                [permissions]="permissions"
                (change)="onChange($event)"
                (removeRole)="onRemoveRole($event)"
-      ></tang-role>
+      ></tg-role>
     </md-list-item>
   </md-list>
 

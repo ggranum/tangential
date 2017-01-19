@@ -12,7 +12,7 @@ import {AuthUserIF} from "@tangential/media-types";
 import {SignInState} from "@tangential/authorization-service";
 
 @Component({
-  selector: 'tang-inline-profile-component',
+  selector: 'tg-inline-profile-component',
   templateUrl: 'inline-profile.component.html',
   styleUrls: ['./inline-profile.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

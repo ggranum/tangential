@@ -2,17 +2,17 @@ import {Component, ChangeDetectionStrategy, ViewEncapsulation, OnInit} from "@an
 import {Params, ActivatedRoute} from "@angular/router";
 
 @Component({
-  selector: 'tang-admin-page',
+  selector: 'tg-admin-page',
   template: `<div class='admin-page-content' layout="row" layout-align="center">
   <md-tab-group flex color="primary" [selectedIndex]="1">
     <md-tab label="Users">
-      <tang-user-list></tang-user-list>
+      <tg-user-list></tg-user-list>
     </md-tab>
     <md-tab label="Roles">
-      <tang-role-list></tang-role-list>
+      <tg-role-list></tg-role-list>
     </md-tab>
     <md-tab label="Permissions">
-      <tang-permission-list></tang-permission-list>
+      <tg-permission-list></tg-permission-list>
     </md-tab>
   </md-tab-group>
 </div>`,

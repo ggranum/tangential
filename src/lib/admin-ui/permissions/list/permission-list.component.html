@@ -1,12 +1,12 @@
 <div flex layout="column">
   <md-list *ngIf="permissions"  flex layout="column" layout-align="start">
-    <md-list-item *ngFor="let permission of permissions.valuesAry()" class="tang-permission-list-item"
+    <md-list-item *ngFor="let permission of permissions.valuesAry()" class="tg-permission-list-item"
                   flex layout="column" layout-align="start">
-      <tang-permission flex layout="row"
+      <tg-permission flex layout="row"
                      [permission]="permission"
                      (change)="onChange($event)"
                      (removePermission)="onRemovePermission($event)"
-      ></tang-permission>
+      ></tg-permission>
     </md-list-item>
   </md-list>
 

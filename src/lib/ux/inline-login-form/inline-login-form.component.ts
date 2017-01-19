@@ -3,7 +3,7 @@ import {SignInState} from '@tangential/authorization-service';
 
 
 @Component({
-  selector: 'tang-inline-login-form-component',
+  selector: 'tg-inline-login-form-component',
   templateUrl: 'inline-login-form.component.html',
   styleUrls: ['inline-login-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

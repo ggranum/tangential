@@ -2,24 +2,24 @@
   <md-icon (click)="showAccountFlyout = !showAccountFlyout; $event.stopPropagation()">account_circle</md-icon>
 
   <div *ngIf="showAccountFlyout"
-       class="tang-profile-flyout"
+       class="tg-profile-flyout"
        (window:click)="dismiss($event)"
        aria-label="Account Information" aria-hidden="false">
-    <div class="tang-profile-user-card" layout="row" layout-align="space-between center">
-      <div *ngIf="user.photoUrl" class="tang-profile-user-image" style="background-image: url({{user.photoUrl}});"
+    <div class="tg-profile-user-card" layout="row" layout-align="space-between center">
+      <div *ngIf="user.photoUrl" class="tg-profile-user-image" style="background-image: url({{user.photoUrl}});"
            title="Profile Photo"></div>
       <div flex
-           class="tang-profile-user-info">
-        <div class="tang-user-given-name">{{user.displayName}}</div>
-        <div class="tang-user-email">{{user.email}}</div>
+           class="tg-profile-user-info">
+        <div class="tg-user-given-name">{{user.displayName}}</div>
+        <div class="tg-user-email">{{user.email}}</div>
       </div>
     </div>
-    <div class="tang-profile-flyout-footer" layout="row" layout-align="end center">
+    <div class="tg-profile-flyout-footer" layout="row" layout-align="end center">
       <div layout="row" layout-align="end center">
-        <button md-raised-button color="accent" class="tang-logout tang-button" (click)="fireSignOutEvent(); $event.stopPropagation()">
+        <button md-raised-button color="accent" class="tg-logout tg-button" (click)="fireSignOutEvent(); $event.stopPropagation()">
           <span>
-            <i class="material-icons tang-button-icon">lock</i>
-            <i class="tang-button-text">{{logoutButtonLabel}}</i>
+            <i class="material-icons tg-button-icon">lock</i>
+            <i class="tg-button-text">{{logoutButtonLabel}}</i>
           </span>
         </button>
       </div>

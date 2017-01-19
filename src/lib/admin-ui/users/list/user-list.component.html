@@ -1,13 +1,13 @@
 <div flex layout="column" >
   <md-list *ngIf="allUsers" flex layout="column" layout-align="start">
-    <md-list-item *ngFor="let user of allUsers.valuesAry()" class="tang-user" flex layout="column" layout-align="start">
-      <tang-user flex layout="row" layout-align="center"
+    <md-list-item *ngFor="let user of allUsers.valuesAry()" class="tg-user" flex layout="column" layout-align="start">
+      <tg-user flex layout="row" layout-align="center"
                [user]="user"
                [allRoles]="allRoles"
                [allPermissions]="allPermissions"
                (change)="onChange($event)"
                (removeUser)="onRemoveUser($event)"
-      ></tang-user>
+      ></tg-user>
     </md-list-item>
   </md-list>
 

@@ -1,50 +1,50 @@
 
-tang-user-component {
+tg-user-component {
 
-  .tang-input {
+  .tg-input {
     margin-left: 2em;
   }
 
-  .tang-list-item-select {
+  .tg-list-item-select {
     padding-left: 2em;
   }
 
-  .tang-list-item-action-button-container {
+  .tg-list-item-action-button-container {
     padding-right: 2em;
   }
 
-  .tang-user-roles-wrapper, .tang-user-permissions-wrapper {
+  .tg-user-roles-wrapper, .tg-user-permissions-wrapper {
     margin-left: 4em;
     margin-bottom: 4em;
-    .tang-user-role, .tang-user-permission {
+    .tg-user-role, .tg-user-permission {
       margin-left: 2em;
     }
   }
 
-  .tang-sub-heading {
+  .tg-sub-heading {
     font-size: larger;
   }
 
-  .tang-explicitly-granted {
+  .tg-explicitly-granted {
     color: green;
   }
 
-  .tang-explicitly-revoked {
+  .tg-explicitly-revoked {
     color: red;
   }
 
-  .tang-drawer-toggle {
+  .tg-drawer-toggle {
     border-top: 1px solid black;
   }
 
   .toggle-shape-container {
   }
 
-  .tang-toggle-shape {
+  .tg-toggle-shape {
     height: 2em;
     width: 4em;
   }
-  .tang-toggle-shape {
+  .tg-toggle-shape {
     path {
       stroke: #AAA;
       fill: #DDD;

@@ -18,9 +18,9 @@ import {OMap, ObjMapUtil} from "@tangential/common";
  * View for a single user within a list of users.
  */
 @Component({
-  selector: 'tang-user',
+  selector: 'tg-user',
   template: ` 
- <tang-user-component
+ <tg-user-component
                flex layout="row" layout-align="start"
                [user]="user"
                [userRoles]="userRoles | async"
@@ -34,7 +34,7 @@ import {OMap, ObjMapUtil} from "@tangential/common";
                (removeUser)="removeUser.emit($event)"
                (focus)="focus.emit($event)"
                (blur)="blur.emit($event)"
-      ></tang-user-component>
+      ></tg-user-component>
 `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None

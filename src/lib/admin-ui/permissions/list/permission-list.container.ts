@@ -5,14 +5,14 @@ import {AuthPermission} from "@tangential/media-types";
 
 
 @Component({
-  selector: 'tang-permission-list',
+  selector: 'tg-permission-list',
   template: ` 
- <tang-permission-list-component 
+ <tg-permission-list-component 
  [permissions]="permissions$ | async"
  (addPermission)="onAddPermission($event)"
  (permissionChange)="onPermissionChange($event)"
  (removePermission)="onRemovePermission($event)"
- ></tang-permission-list-component>
+ ></tg-permission-list-component>
 `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })

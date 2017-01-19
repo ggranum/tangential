@@ -1,15 +1,15 @@
 <div class="authorization-service-demo" flex layout="column">
   <section layout="row" layout-align="end">
-    <tang-inline-profile-component
+    <tg-inline-profile-component
       [user]="visitor"
       [signInState]="signInState"
       (signOut)="onSignOut()"
-    ></tang-inline-profile-component>
-    <tang-inline-login-form-component
+    ></tg-inline-profile-component>
+    <tg-inline-login-form-component
       [signInState]="signInState"
       (signIn)="onSignIn($event)"
       (signUp)="onSignUp($event)"
-    ></tang-inline-login-form-component>
+    ></tg-inline-login-form-component>
   </section>
 
   <section *ngIf="visitor && visitorRoles && visitorGrantedPermissions && visitorEffectivePermissions " layout="row"

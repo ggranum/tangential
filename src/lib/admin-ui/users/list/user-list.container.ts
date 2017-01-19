@@ -5,15 +5,15 @@ import {AuthUser, AuthRole, AuthPermission} from "@tangential/media-types";
 
 
 @Component({
-  selector: 'tang-user-list',
-  template: `<tang-user-list-component
+  selector: 'tg-user-list',
+  template: `<tg-user-list-component
   [allUsers]="users$ | async"
   [allRoles]="roles$ | async"
   [allPermissions]="permissions$ | async"
   (addUser)="onAddUser($event)"
   (userChange)="onUserChange($event)"
   (removeUser)="onRemoveUser($event)"
-></tang-user-list-component>
+></tg-user-list-component>
 `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })

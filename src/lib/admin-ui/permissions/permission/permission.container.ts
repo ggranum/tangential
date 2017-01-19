@@ -4,15 +4,15 @@ import {AuthPermission} from "@tangential/media-types";
 
 
 @Component({
-  selector: 'tang-permission',
+  selector: 'tg-permission',
   template: ` 
- <tang-permission-component flex layout="row" layout-align="start"
+ <tg-permission-component flex layout="row" layout-align="start"
                [permission]="permission"
                (change)="change.emit($event)"
                (removePermission)="removePermission.emit($event)"
                (focus)="focus.emit($event)"
                (blur)="blur.emit($event)"
-      ></tang-permission-component>
+      ></tg-permission-component>
 `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })

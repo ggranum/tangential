@@ -4,7 +4,7 @@ import {AuthPermission} from "@tangential/media-types";
 
 
 @Component({
-  selector: 'tang-permission-component',
+  selector: 'tg-permission-component',
   templateUrl: 'permission.component.html',
   styleUrls: ['permission.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

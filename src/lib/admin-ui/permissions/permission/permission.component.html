@@ -1,11 +1,11 @@
-<div class="tang-permission-form-wrapper" flex layout="column" layout-align="start" >
+<div class="tg-permission-form-wrapper" flex layout="column" layout-align="start" >
   <form *ngIf="permission != null" (ngSubmit)="onSubmit($event)" #permissionForm="ngForm"
         flex layout="row"
         layout-align="space-between">
 
-    <div class="tang-permission-inputs-wrapper" layout="row" flex="80" layout-align="space-between start">
+    <div class="tg-permission-inputs-wrapper" layout="row" flex="80" layout-align="space-between start">
       <md-input [(ngModel)]="permission.$key" name="name" #fName="ngModel"
-                class="tang-input"
+                class="tg-input"
                 dividerColor="accent"
                 flex="40"
                 [type]="'text'"
@@ -17,7 +17,7 @@
                 (blur)="onBlur($event)"
       ></md-input>
       <md-input [(ngModel)]="permission.description" name="description" #fDescription="ngModel"
-                class="tang-description tang-input"
+                class="tg-description tg-input"
                 dividerColor="accent"
                 flex="60"
                 [type]="'text'"
@@ -27,7 +27,7 @@
                 (blur)="onBlur($event)"
                 placeholder="Description"></md-input>
     </div>
-    <div class="tang-delete-button" flex layout="row" layout-align="end center">
+    <div class="tg-delete-button" flex layout="row" layout-align="end center">
       <button md-mini-fab
               type="button"
               aria-label="Delete Permission"

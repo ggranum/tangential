@@ -44,7 +44,7 @@ And reference it in your component:
 
 ```html
 <md-card>
-  <tang-asciidoctor-panel style="white-space:normal;overflow-wrap: normal;overflow: auto" [content]="asciidoctorContent"></tang-asciidoctor-panel>
+  <tg-asciidoctor-panel style="white-space:normal;overflow-wrap: normal;overflow: auto" [content]="asciidoctorContent"></tg-asciidoctor-panel>
 </md-card>
 ```
 

@@ -10,13 +10,13 @@ import {ObjMap} from "@tangential/common";
 
 
 @Component({
-  selector: 'tang-user-permission-editor',
+  selector: 'tg-user-permission-editor',
   template: `
 <button  md-raised-button
   *ngIf="permission"
  color="{{getColor()}}"
 (click)="doChange($event)" 
-[class.tang-explicitly-granted]="isExplicitlyGranted()"
+[class.tg-explicitly-granted]="isExplicitlyGranted()"
 >{{permission.$key}}</button>
 `,
   styleUrls: ['user.component.scss'],

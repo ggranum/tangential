@@ -5,15 +5,15 @@ import {AuthRole, AuthPermission} from "@tangential/media-types";
 
 
 @Component({
-  selector: 'tang-role-list',
+  selector: 'tg-role-list',
   template: ` 
- <tang-role-list-component 
+ <tg-role-list-component 
  [roles]="roles$ | async"
  [permissions]="permissions$ | async"
  (addRole)="onAddRole($event)"
  (roleChange)="onRoleChange($event)"
  (removeRole)="onRemoveRole($event)"
- ></tang-role-list-component>
+ ></tg-role-list-component>
 `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -13,7 +13,7 @@ import 'asciidoctorjs-web-repack/asciidoctor-all.min'
 
 
 @Component({
-  selector: 'tang-asciidoctor-panel',
+  selector: 'tg-asciidoctor-panel',
   templateUrl: 'asciidoctor-panel.html',
   styleUrls: ['asciidoctor-panel.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,7 +53,7 @@ class AsciidoctorPanelRenderer {
   private _contentHtml: string;
 
   constructor(private _elementRef: ElementRef) {
-    this._viewPanelEl = _elementRef.nativeElement.querySelector('.tang-asciidoctor-body');
+    this._viewPanelEl = _elementRef.nativeElement.querySelector('.tg-asciidoctor-body');
   }
 
   updateContent(content: string) {

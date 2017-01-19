@@ -1,24 +1,24 @@
-.tang-input {
+.tg-input {
   margin-right: 1em;
 }
 
-.tang-button {
+.tg-button {
   margin-right: 1em;
   vertical-align: middle;
   width: 8em;
 
-  .tang-button-icon {
+  .tg-button-icon {
     font-size: small;
   }
 
-  .tang-button-text {
+  .tg-button-text {
     padding-left: .2em;
   }
 }
 
 // ------
 
-.tang-profile-flyout-footer {
+.tg-profile-flyout-footer {
   background: #f5f5f5;
   border-top: 1px solid #ccc;
   border-color: rgba(0, 0, 0, .25);
@@ -26,16 +26,16 @@
   width: 100%;
 }
 
-.tang-profile-flyout-footer > div {
+.tg-profile-flyout-footer > div {
   display: table-cell;
   text-align: right
 }
 
-.tang-profile-flyout-footer > div:first-child {
+.tg-profile-flyout-footer > div:first-child {
   text-align: left
 }
 
-.tang-profile-flyout {
+.tg-profile-flyout {
   z-index: 20;
   outline: none;
   background: #fff;
@@ -52,11 +52,11 @@
   border-radius: 2px;
 }
 
-.tang-profile-user-card {
+.tg-profile-user-card {
   margin: 20px
 }
 
-.tang-profile-user-image {
+.tg-profile-user-image {
   background-size: 96px 96px;
   border: none;
   vertical-align: top;
@@ -64,35 +64,35 @@
   width: 96px
 }
 
-.tang-user-given-name {
+.tg-user-given-name {
   font-weight: bold;
   margin: -4px 0 1px 0
 }
 
-.tang-user-email {
+.tg-user-email {
   color: #666
 }
 
-.tang-profile-account-link {
+.tg-profile-account-link {
   color: #ccc;
   margin: 6px 0
 }
 
-.tang-profile-account-link a {
+.tg-profile-account-link a {
   margin: 0 10px
 }
 
-.tang-profile-account-link a:first-child {
+.tg-profile-account-link a:first-child {
   margin-left: 0
 }
 
-.tang-profile-account-link a:last-child {
+.tg-profile-account-link a:last-child {
   margin-right: 0
 }
 
 //---------------------------------------------------------
 
-.tang-profile-sign-out-link {
+.tg-profile-sign-out-link {
   display: inline-block;
   line-height: 28px;
   padding: 0 12px;
@@ -105,16 +105,16 @@
   margin: 0 20px;
 }
 
-.tang-profile-account-link a {
+.tg-profile-account-link a {
   color: #36c;
   text-decoration: none
 }
 
-.tang-profile-account-link a:active, .tang-profile-account-link a:hover {
+.tg-profile-account-link a:active, .tg-profile-account-link a:hover {
   text-decoration: underline
 }
 
-.tang-profile-user-image {
+.tg-profile-user-image {
   background-size: 96px 96px;
   border: none;
   vertical-align: top;

@@ -4,7 +4,7 @@ import {OMap} from "@tangential/common";
 import {AuthUserIF, AuthUser, AuthRole, AuthPermission} from "@tangential/media-types";
 
 @Component({
-  selector: 'tang-user-component',
+  selector: 'tg-user-component',
   templateUrl: 'user.component.html',
   styleUrls: ['user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

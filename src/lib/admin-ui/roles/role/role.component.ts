@@ -5,7 +5,7 @@ import {OMap} from "@tangential/common";
 
 
 @Component({
-  selector: 'tang-role-component',
+  selector: 'tg-role-component',
   templateUrl: 'role.component.html',
   styleUrls: ['role.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

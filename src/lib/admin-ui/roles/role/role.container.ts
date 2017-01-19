@@ -5,9 +5,9 @@ import {OMap} from "@tangential/common";
 
 
 @Component({
-  selector: 'tang-role',
+  selector: 'tg-role',
   template: ` 
- <tang-role-component flex layout="row" layout-align="start"
+ <tg-role-component flex layout="row" layout-align="start"
                [role]="role"
                [permissions]="permissions"
                (change)="change.emit($event)"
@@ -16,7 +16,7 @@ import {OMap} from "@tangential/common";
                (removeRole)="removeUser.emit($event)"
                (focus)="focus.emit($event)"
                (blur)="blur.emit($event)"
-      ></tang-role-component>
+      ></tg-role-component>
 `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })

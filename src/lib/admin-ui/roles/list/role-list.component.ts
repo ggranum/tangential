@@ -4,7 +4,7 @@ import {AuthRole, AuthPermission} from "@tangential/media-types";
 
 
 @Component({
-  selector: 'tang-role-list-component',
+  selector: 'tg-role-list-component',
   templateUrl: 'role-list.component.html',
   styleUrls: ['role-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
