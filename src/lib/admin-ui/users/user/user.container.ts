@@ -65,7 +65,7 @@ export class UserListItemContainer implements OnInit, OnChanges {
 
   ngOnChanges(changes: {user: SimpleChange}): void {
     if (changes.user) {
-      this.userRoles = this.userService.getRolesForUser(this.user).map((roles) => OMap.fromKeyedEntityArray(roles))
+      this.userRoles = this.userService.getRolesForUser$(this.user).map((roles) => OMap.fromKeyedEntityArray(roles))
       this.userGrantedPermissions = this.userService.getPermissionsForUser(this.user).map((permissions) => OMap.fromKeyedEntityArray(permissions))
       this.userRolePermissions = this.userRoles.mergeMap((userRoles) => {
         return Observable.from(userRoles.valuesAry()).flatMap((userRole: AuthRole) => {

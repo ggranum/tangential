@@ -1,7 +1,7 @@
 import {AuthUser, AuthPermission, AuthRole} from "@tangential/media-types";
 import {Observable, Subscription} from "rxjs";
 import {Injectable} from "@angular/core";
-import {ObjMap, OneToManyReferenceMap, ObjMapUtil, MapUtil} from "@tangential/common";
+import {ObjMap, OneToManyReferenceMap, ObjMapUtil} from "@tangential/common";
 import {FirebaseService, ObservableReference, FirebaseProvider} from "@tangential/firebase";
 //noinspection TypeScriptPreferShortImport
 import {PermissionService} from "../permission/permission-service";
@@ -46,8 +46,8 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
   setUserRolesAndPermissions(usersHavePermissions: { [userKey: string]: { [permissionKey: string]: boolean } },
                              usersHaveRoles: { [userKey: string]: { [roleKey: string]: boolean } },
                              rolesHavePermissions: { [roleKey: string]: { [permissionKey: string]: boolean } }): Promise<void> {
-    let users = {}
-    Object.keys(usersHaveRoles).concat(Object.keys(usersHavePermissions)).forEach((key) => {
+    let users:any = {}
+    Object.keys(usersHaveRoles).concat(Object.keys(usersHavePermissions)).forEach((key:string) => {
       users[key] = true
     })
     let userRolePermissions: { [userKey: string]: { [permissionKey: string]: boolean } } = {}
@@ -126,17 +126,13 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
     }))
   }
 
-  _updateEffectivePermissions(userKey: string) {
-    this.getRolePermissionsForUser(userKey)
-  }
-
-
   getRolePermissionsForUser(userKey: string): Promise<ObjMap<boolean>> {
     return this.$userRolesMappingRef.child(userKey).value().then((roleKeys: ObjMap<boolean>) => {
       let promises = Object.keys(roleKeys || {}).map((roleKey) => {
         this.roleService.getPermissionsForRole(roleKey).then((perms: AuthPermission[]) => {
         })
       })
+      return Promise.all(promises)
     })
   }
 
@@ -208,20 +204,56 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
     })
   }
 
-  getRolesForUser(user: AuthUser): Observable<AuthRole[]> {
+  getRolesForUser$(user: AuthUser): Observable<AuthRole[]> {
     return this.$userRolesMappingRef.child(user.$key).value$.flatMap((obj: ObjMap<boolean>) => {
       //noinspection JSMismatchedCollectionQueryUpdate
-      let userPerms: AuthRole[] = []
+      let userRoles: AuthRole[] = []
       let promises: Promise<AuthRole>[] = []
       Object.keys(obj || {}).forEach(key => {
-        promises.push(this.roleService.value(key).then((perm: AuthRole) => {
-          if (perm) {
-            userPerms.push(perm)
+        promises.push(this.roleService.value(key).then((role: AuthRole) => {
+          if (role) {
+            userRoles.push(role)
           }
         }))
       })
       return Observable.from(Promise.all(promises).then(() => {
-        return userPerms
+        return userRoles
+      }))
+    })
+  }
+
+  getGrantedPermissionsForUser$(user: AuthUser): Observable<AuthPermission[]> {
+    return this.$userGrantedPermissionsRef.child(user.$key).value$.flatMap((obj: ObjMap<boolean>) => {
+      //noinspection JSMismatchedCollectionQueryUpdate
+      let grantedPermissions: AuthPermission[] = []
+      let promises: Promise<AuthPermission>[] = []
+      Object.keys(obj || {}).forEach(key => {
+        promises.push(this.permissionService.value(key).then((permission: AuthPermission) => {
+          if (permission) {
+            grantedPermissions.push(permission)
+          }
+        }))
+      })
+      return Observable.from(Promise.all(promises).then(() => {
+        return grantedPermissions
+      }))
+    })
+  }
+
+  getEffectivePermissionsForUser$(user: AuthUser): Observable<AuthPermission[]> {
+    return this.$userEffectivePermissionsRef.child(user.$key).value$.flatMap((obj: ObjMap<boolean>) => {
+      //noinspection JSMismatchedCollectionQueryUpdate
+      let effectivePermissions: AuthPermission[] = []
+      let promises: Promise<AuthPermission>[] = []
+      Object.keys(obj || {}).forEach(key => {
+        promises.push(this.permissionService.value(key).then((permission: AuthPermission) => {
+          if (permission) {
+            effectivePermissions.push(permission)
+          }
+        }))
+      })
+      return Observable.from(Promise.all(promises).then(() => {
+        return effectivePermissions
       }))
     })
   }

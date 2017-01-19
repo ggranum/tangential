@@ -387,7 +387,7 @@ describe('Auth-services.user.state', () => {
 
       let count = 0
       let start = () => {
-        userService.getRolesForUser(user).subscribe((roles: AuthRole[]) => {
+        userService.getRolesForUser$(user).subscribe((roles: AuthRole[]) => {
           let map = ObjMapUtil.fromKeyedEntityArray(roles)
           if (count === 0) {
             expect(roles.length).toBe(3)

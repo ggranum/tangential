@@ -21,7 +21,9 @@ export abstract class UserService implements TgServiceIF<AuthUser> {
 
   abstract grantRole(user: AuthUser, role: any): Promise<{user: AuthUser, role: AuthRole}>
   abstract revokeRole(user: AuthUser, role: any): Promise<{user: AuthUser, role: AuthRole}>
-  abstract getRolesForUser(user: AuthUser): Observable<AuthRole[]>
+  abstract getRolesForUser$(user: AuthUser): Observable<AuthRole[]>
+  abstract getGrantedPermissionsForUser$(user: AuthUser): Observable<AuthPermission[]>
+  abstract getEffectivePermissionsForUser$(user: AuthUser): Observable<AuthPermission[]>
   abstract getUserRoles(): Promise<OneToManyReferenceMap>
   abstract removeUserRoles(...forUserKeys:string[]): Promise<void>
 }

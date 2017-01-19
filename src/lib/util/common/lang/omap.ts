@@ -62,7 +62,7 @@ export class OMap<K, V> implements Map<K, V>{
   }
 
   private _rebuildValuesArray() {
-    let values
+    let values:any[]
 
     if (this._modified) {
       values = []
@@ -110,7 +110,7 @@ export class OMap<K, V> implements Map<K, V>{
     let map = new OMap<string, T>()
     if(keyedEntities){
       for (let i = 0; i < keyedEntities.length; i++) {
-        let entity = keyedEntities[i]
+        let entity:any = keyedEntities[i]
         map.set(entity[keyField], entity )
       }
     }

@@ -1,14 +1,21 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, ViewEncapsulation, Input} from '@angular/core';
 
+
+const NAV_ITEMS = [
+  {name: 'Button', route: 'button'},
+  {name: 'Inline Profile', route: 'inline-profile'},
+  {name: 'Asciidoctor-panel', route: 'asciidoctor-panel'},
+  {name: 'Authorization-service', route: 'authorization-service'},
+  {name: 'Admin Panel Demo', route: 'admin-demo'},
+];
 
 @Component({
   selector: 'home',
-  template: `
-    <p>Why yes, this is bootstrapped from the development demos for Angular Material 2!</p>
-    <p>Open the sidenav to select a demo. </p>
-  `
+  templateUrl: 'demo-home.html'
 })
-export class Home {}
+export class Home {
+  navItems:any[] = NAV_ITEMS
+}
 
 @Component({
   selector: 'demo-app',
@@ -18,11 +25,5 @@ export class Home {}
   encapsulation: ViewEncapsulation.None,
 })
 export class DemoApp {
-  navItems = [
-    {name: 'Button', route: 'button'},
-    {name: 'Inline Profile', route: 'inline-profile'},
-    {name: 'Asciidoctor-panel', route: 'asciidoctor-panel'},
-    {name: 'Authorization-service', route: 'authorization-service'},
-    {name: 'Admin Panel Demo', route: 'admin-demo'},
-  ];
+  navItems = NAV_ITEMS
 }

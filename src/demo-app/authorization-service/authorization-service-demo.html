@@ -52,15 +52,18 @@
         <span>{{role.$key}}</span>
       </div>
     </div>
-    <div *ngIf="visitorEffectivePermissions" class="info-row group" layout="column" layout-align="start start">
-      <span class="list-row-label">Permissions:</span>
-      <div class="list-row" layout="row" layout-align="start start"
-           *ngFor="let permission of visitorEffectivePermissions.valuesAry()">
-        <span>Permission id:</span>
-        <span>{{permission.$key}}</span>
-      </div>
-    </div>
-
   </section>
+  <section *ngIf="visitor && visitorEffectivePermissions" layout="column" layout-align="start start">
+    <p-dataTable  [value]="visitorEffectivePermissions">
+      <p-column field="$key" header="Key"></p-column>
+      <p-column field="description" header="Description"></p-column>
+      <p-column field="createdMils" header="Created"></p-column>
+    </p-dataTable>
+  </section>
+
+  <section *ngIf="!visitor" layout="column" layout-align="start start">
+    <h3>No visitor present: {{visitor == null}}</h3>
+  </section>
+
 
 </div>
