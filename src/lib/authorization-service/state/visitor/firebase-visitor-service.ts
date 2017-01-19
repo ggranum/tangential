@@ -1,6 +1,6 @@
 import {Injectable, EventEmitter} from '@angular/core'
-import {Observable} from 'rxjs'
-import {EmailPasswordCredentials, AuthUser, AuthUserIF} from "@tangential/media-types";
+import {Observable, Subscriber} from 'rxjs'
+import {EmailPasswordCredentials, AuthUser, AuthUserIF, AuthRole, AuthPermission} from "@tangential/media-types";
 import {FirebaseProvider} from "@tangential/firebase";
 //noinspection TypeScriptPreferShortImport
 import {VisitorService} from "./visitor-service";
@@ -105,7 +105,7 @@ export class FirebaseVisitorService implements VisitorService {
 
   signOut(): Promise<void> {
     this._setSignInState(SignInState.signingOut)
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       this._auth.signOut().then(() => {
         this._setSignInState(SignInState.signedOut)
         resolve()
@@ -117,11 +117,11 @@ export class FirebaseVisitorService implements VisitorService {
   }
 
   signOnObserver(): Observable<AuthUser> {
-    return Observable.create((subscriber) => {
-      this._auth.onAuthStateChanged((event) => {
+    return Observable.create((subscriber:Subscriber<any>) => {
+      this._auth.onAuthStateChanged((event:any) => {
         subscriber.next(event)
       })
-    }).map((fbAuthState) => {
+    }).map((fbAuthState:any) => {
       let visitor: AuthUser = null
       if (fbAuthState) {
         visitor = new AuthUser(this.userFromFirebaseResponse(fbAuthState))
@@ -136,7 +136,7 @@ export class FirebaseVisitorService implements VisitorService {
   }
 
   deleteAccount(): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       let _authUser = this._auth.currentUser
       if (_authUser) {
         this._userService.remove(_authUser.uid).then(() => {
@@ -155,6 +155,22 @@ export class FirebaseVisitorService implements VisitorService {
 
   signInState(): SignInState {
     return this._signInStateValue
+  }
+
+
+  getEffectivePermissions$():Observable<AuthPermission[]> {
+    console.log('FirebaseVisitorService', 'getEffectivePermissions$')
+    return this._userService.getEffectivePermissionsForUser$(this._currentVisitor).do((perms)=>{
+      console.log('FirebaseVisitorService', 'Received effective permissions')
+    })
+  }
+
+  getGrantedPermissions$():Observable<AuthPermission[]> {
+    return this._userService.getGrantedPermissionsForUser$(this._currentVisitor)
+  }
+
+  getRoles$():Observable<AuthRole[]> {
+    return this._userService.getRolesForUser$(this._currentVisitor)
   }
 
   private userFromFirebaseResponse(fbResponse: any): AuthUserIF {

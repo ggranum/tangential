@@ -1,7 +1,7 @@
 {
   "project": {
-    "version": "1.0.0-beta.19-3",
-    "name": "tangential-demo"
+    "version": "1.0.0-beta.25.5",
+    "name": "tangential"
   },
   "apps": [
     {
@@ -20,7 +20,9 @@
       "styles": [
         "demo-app/theme.scss",
         "demo-app/angular-material.layouts.min.css",
-        "demo-app/vendor/material-icons.css"
+        "demo-app/vendor/material-icons.css",
+        "../node_modules/primeng/resources/themes/omega/theme.css",
+        "../node_modules/primeng/resources/primeng.min.css"
       ],
       "scripts": [],
       "environments": {

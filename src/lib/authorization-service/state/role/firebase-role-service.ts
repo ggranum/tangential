@@ -34,7 +34,7 @@ export class FirebaseRoleService extends FirebaseService<AuthRole> implements Ro
   }
 
   setRolePermissions(entities: OneToManyReferenceMap): Promise<void> {
-    return this.$mappingRef.set(entities)
+    return this.$mappingRef.set(entities).then(()=>null)
   }
 
   engagePermissionsSynchronization() {
@@ -92,7 +92,7 @@ export class FirebaseRoleService extends FirebaseService<AuthRole> implements Ro
     return this.$mappingRef.child(key).value$.flatMap((obj: ObjMap<boolean>) => {
       //noinspection JSMismatchedCollectionQueryUpdate
       let rolePerms: AuthPermission[] = []
-      let promises: Promise<AuthPermission>[] = []
+      let promises: Promise<void>[] = []
       Object.keys(obj || {}).forEach(key => {
         promises.push(this.permissionService.value(key).then((perm: AuthPermission) => {
           if (perm) {

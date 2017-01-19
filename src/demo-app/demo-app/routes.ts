@@ -3,7 +3,7 @@ import {Home} from './demo-app';
 import {ButtonDemo} from '../button/button-demo';
 import {AsciiDoctorPanelDemo} from '../asciidoctor-panel/asciidoctor-panel-demo';
 import {InlineProfileDemo} from "../ux/inline-profile-demo";
-import {AuthorizationServiceDemo} from "../authorization-service/authorization-service-demo";
+import {AuthorizationServiceDemoContainer} from "../authorization-service/authorization-service-demo";
 import {AdminPage, PermissionListContainer, RoleListContainer} from "@tangential/admin-ui";
 
 export const DEMO_APP_ROUTES: Routes = [
@@ -13,6 +13,6 @@ export const DEMO_APP_ROUTES: Routes = [
   {path: 'permissions-demo', component: PermissionListContainer},
   {path: 'roles-demo', component: RoleListContainer},
   {path: 'asciidoctor-panel', component: AsciiDoctorPanelDemo},
-  {path: 'authorization-service', component: AuthorizationServiceDemo},
+  {path: 'authorization-service', component: AuthorizationServiceDemoContainer},
   {path: 'inline-profile', component: InlineProfileDemo}
 ];

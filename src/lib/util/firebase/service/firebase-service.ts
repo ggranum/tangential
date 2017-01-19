@@ -24,7 +24,7 @@ export abstract class FirebaseService<T extends Keyed & ToJson> implements TgSer
     Object.keys(mapped).map((key:string) =>{
         mapped[key] = mapped[key].toJson(false)
     })
-    return this.$ref.set(mapped)
+    return this.$ref.set(mapped).then((value) => null)
   }
 
   destroy(): void {

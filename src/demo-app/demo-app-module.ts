@@ -15,6 +15,8 @@ import {InlineLoginFormModule} from "@tangential/inline-login-form"
 import {RvAsciidoctorPanelModule} from "@tangential/asciidoctor-panel"
 
 
+
+
 import {AsciiDoctorPanelDemo} from "./asciidoctor-panel/asciidoctor-panel-demo"
 import {InlineProfileDemo} from "./ux/inline-profile-demo"
 
@@ -29,7 +31,7 @@ import {InlineProfileDemo} from "./ux/inline-profile-demo"
     RouterModule.forRoot(DEMO_APP_ROUTES),
     MaterialModule.forRoot(),
     RvAsciidoctorPanelModule.forRoot(),
-    AuthorizationServiceDemoModule,
+    AuthorizationServiceDemoModule
   ],
   declarations: [
     ButtonDemo,

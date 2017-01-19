@@ -1,5 +1,5 @@
 import {Observable} from "rxjs";
-import {AuthUserIF, AuthUser, EmailPasswordCredentials} from "@tangential/media-types";
+import {AuthUserIF, AuthUser, EmailPasswordCredentials, AuthPermission, AuthRole} from "@tangential/media-types";
 import {Injectable} from "@angular/core";
 import {SignInState} from "@tangential/authorization-service";
 
@@ -26,4 +26,8 @@ export abstract class VisitorService {
   abstract signInState$(): Observable<SignInState>
   abstract signInState(): SignInState
   abstract deleteAccount(): Promise<void>
+
+  abstract getEffectivePermissions$():Observable<AuthPermission[]>
+  abstract getGrantedPermissions$():Observable<AuthPermission[]>
+  abstract getRoles$():Observable<AuthRole[]>
 }
