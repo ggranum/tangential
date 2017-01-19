@@ -19,7 +19,7 @@
 
     <button md-raised-button
             [disabled]="loginForm.invalid"
-            color="accent" class="tang-login tang-button" (click)="doLoginAction($event)">
+            color="accent" class="tang-login tang-button" (click)="$event.stopPropagation();$event.preventDefault();fireLoginAction()">
       <span>
         <i class="material-icons tang-button-icon">lock</i><i class="tang-button-text">{{loginButtonLabel}}</i>
       </span>
@@ -28,7 +28,7 @@
   <button md-raised-button color="accent"
           class="tang-signup tang-button"
           [disabled]="loginForm.invalid || isSigningUp(signInState)"
-          (click)="doSignupAction()">
+          (click)="$event.stopPropagation();$event.preventDefault();fireSignupAction()">
       <span>
         <i class="material-icons tang-button-icon">lock</i><i class="tang-button-text">{{signupButtonLabel}}</i>
       </span>

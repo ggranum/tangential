@@ -1,63 +1,36 @@
-<div class="authorization-service-demo" flex>
-  <section *ngIf="visitor" layout="column" layout-align="start start">
-    <div class="info-row" layout="row" layout-align="start start">
-      <span>User Id:</span>
-      <span>{{visitor.$key}}</span>
-    </div>
-    <div class="info-row" layout="row" layout-align="start start">
-      <span>Display Name: </span>
-      <span>{{visitor.displayName}}</span>
-    </div>
-    <div class="info-row" layout="row" layout-align="start start">
-      <span>Email:</span>
-      <span>{{visitor.email}}</span>
-    </div>
-    <div class="info-row" layout="row" layout-align="start start">
-      <span>Account Created:</span>
-      <span>{{visitor.createdMils | date}}</span>
-    </div>
-    <div class="info-row" layout="row" layout-align="start start">
-      <span>Enabled:</span>
-      <span>{{!visitor.disabled}}</span>
-    </div>
-    <div class="info-row" layout="row" layout-align="start start">
-      <span>Email verified:</span>
-      <span>{{!!visitor.emailVerified}}</span>
-    </div>
-    <div class="info-row" layout="row" layout-align="start start">
-      <span>Last signed in:</span>
-      <span>{{visitor.lastSignInMils}}</span>
-    </div>
-    <div class="info-row" layout="row" layout-align="start start">
-      <span>Last signed in from:</span>
-      <span>{{visitor.lastSignInIp}}</span>
-    </div>
-    <div class="info-row" layout="row" layout-align="start start">
-      <span>Is anonymous:</span>
-      <span>{{!!visitor.isAnonymous}}</span>
-    </div>
-    <div *ngIf="visitorRoles" class="info-row group" layout="column" layout-align="start start">
-      <span class="list-row-label">Roles:</span>
-      <div class="list-row" layout="row" layout-align="start start"
-           *ngFor="let role of visitorRoles.valuesAry()">
-        <span>Role id:</span>
-        <span>{{role.$key}}</span>
-      </div>
-    </div>
-    <div *ngIf="visitorGrantedPermissions" class="info-row group" layout="column" layout-align="start start">
-      <span class="list-row-label">Granted Permissions:</span>
-      <div class="list-row" layout="row" layout-align="start start"
-           *ngFor="let role of visitorGrantedPermissions.valuesAry()">
-        <span>Permission id:</span>
-        <span>{{role.$key}}</span>
-      </div>
-    </div>
+<div class="authorization-service-demo" flex layout="column">
+  <section layout="row" layout-align="end">
+    <tang-inline-profile-component
+      [user]="visitor"
+      [signInState]="signInState"
+      (signOut)="onSignOut()"
+    ></tang-inline-profile-component>
+    <tang-inline-login-form-component
+      [signInState]="signInState"
+      (signIn)="onSignIn($event)"
+      (signUp)="onSignUp($event)"
+    ></tang-inline-login-form-component>
   </section>
-  <section *ngIf="visitor && visitorEffectivePermissions" layout="column" layout-align="start start">
-    <p-dataTable  [value]="visitorEffectivePermissions">
+
+  <section *ngIf="visitor && visitorRoles && visitorGrantedPermissions && visitorEffectivePermissions " layout="row"
+           layout-align="center space-between" flex>
+    <p-dataTable [value]="visitorTableValues">
+      <p-column *ngFor="let col of visitorTableColumns" [field]="col.field" [header]="col.header"></p-column>
+    </p-dataTable>
+    <p-dataTable [value]="visitorRoles">
+      <header>Roles</header>
       <p-column field="$key" header="Key"></p-column>
       <p-column field="description" header="Description"></p-column>
-      <p-column field="createdMils" header="Created"></p-column>
+    </p-dataTable>
+    <p-dataTable [value]="visitorGrantedPermissions">
+      <header>Granted Permissions</header>
+      <p-column field="$key" header="Key"></p-column>
+      <p-column field="description" header="Description"></p-column>
+    </p-dataTable>
+    <p-dataTable [value]="visitorEffectivePermissions">
+      <header>Effective Permissions</header>
+      <p-column field="$key" header="Key"></p-column>
+      <p-column field="description" header="Description"></p-column>
     </p-dataTable>
   </section>
 

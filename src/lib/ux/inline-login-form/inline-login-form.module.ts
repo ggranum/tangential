@@ -9,25 +9,22 @@ import {MdIconModule} from '@angular/material/icon/icon'
 import {MdInputModule} from '@angular/material/input/input'
 
 
-import {InlineLoginFormContainer} from './inline-login-form.container'
 import {InlineLoginFormComponent} from './inline-login-form.component'
 
 
 @NgModule({
   declarations: [
-    InlineLoginFormContainer,
     InlineLoginFormComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     MdButtonModule,
-
     MdIconModule,
     MdInputModule
   ],
   exports: [
-    InlineLoginFormContainer
+    InlineLoginFormComponent
   ]
 })
 export class InlineLoginFormModule {

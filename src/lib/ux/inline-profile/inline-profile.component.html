@@ -16,7 +16,7 @@
     </div>
     <div class="tang-profile-flyout-footer" layout="row" layout-align="end center">
       <div layout="row" layout-align="end center">
-        <button md-raised-button color="accent" class="tang-logout tang-button" (click)="signOut(); $event.stopPropagation()">
+        <button md-raised-button color="accent" class="tang-logout tang-button" (click)="fireSignOutEvent(); $event.stopPropagation()">
           <span>
             <i class="material-icons tang-button-icon">lock</i>
             <i class="tang-button-text">{{logoutButtonLabel}}</i>

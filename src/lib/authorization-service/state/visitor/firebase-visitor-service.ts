@@ -22,8 +22,11 @@ export class FirebaseVisitorService implements VisitorService {
   }
 
   _setSignInState(newState: SignInState) {
+    console.log('FirebaseVisitorService', '_setSignInState', newState)
     if (this._signInStateValue !== newState) {
       this._signInStateValue = newState
+      console.log('FirebaseVisitorService', '_setSignInState2', this._signInStateValue)
+
       this._signInState$.emit(this._signInStateValue)
     }
   }
@@ -159,7 +162,6 @@ export class FirebaseVisitorService implements VisitorService {
 
 
   getEffectivePermissions$():Observable<AuthPermission[]> {
-    console.log('FirebaseVisitorService', 'getEffectivePermissions$')
     return this._userService.getEffectivePermissionsForUser$(this._currentVisitor).do((perms)=>{
       console.log('FirebaseVisitorService', 'Received effective permissions')
     })
