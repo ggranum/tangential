@@ -3,26 +3,21 @@ import {NgModule} from '@angular/core'
 import {CommonModule} from '@angular/common'
 import {FormsModule} from '@angular/forms'
 
-//noinspection TypeScriptPreferShortImport
-import {RoleListContainer} from './roles/list/role-list.container'
-import {RoleListComponent} from './roles/list/role-list.component'
+
 import {RoleComponent} from './roles/role/role.component'
-import {RoleContainer} from './roles/role/role.container'
 
 //noinspection TypeScriptPreferShortImport
-import {PermissionListContainer} from './permissions/list/permission-list.container'
-import {PermissionListComponent} from './permissions/list/permission-list.component'
+import {PermissionManagerComponent} from './permissions/permission/permission-manager.component'
+import {RoleManagerComponent} from './roles/role/role-manager.component'
 import {PermissionComponent} from './permissions/permission/permission.component'
 
-import {UserListContainer} from './users/list/user-list.container'
-import {UserListComponent} from './users/list/user-list.component'
 
 //noinspection TypeScriptPreferShortImport
-import {UserListItemDemo} from './users/user/user.demo'
-import {UserListItemContainer} from "./users/user/user.container";
-import {UserListItemComponent} from "./users/user/user.component";
+import {UserListItemDemo} from "./users/user/user.demo";
+import {UserComponent} from "./users/user/user.component";
 import {RoleAvatarComponent} from "./users/user/role-avatar.component";
 import {UserPermissionEditorComponent} from "./users/user/user-permission-editor.component";
+import {UserManagerComponent} from "./users/user/user-manager.component";
 
 import {MdButtonModule} from '@angular/material/button'
 import {MdButtonToggleModule} from '@angular/material/button-toggle'
@@ -31,31 +26,27 @@ import {MdInputModule} from '@angular/material/input'
 import {MdToolbarModule} from '@angular/material/toolbar'
 import {MdMenuModule} from '@angular/material/menu'
 import {MdListModule} from '@angular/material/list'
+import {MdGridListModule} from '@angular/material/grid-list'
 import {MdCheckboxModule} from '@angular/material/checkbox'
 import {MdTabsModule} from '@angular/material/tabs'
 
+import {DataListModule} from "@tangential/data-list";
 import {DrawerModule} from "@tangential/drawer";
 import {AdminPage} from "./admin.page";
-import {PermissionContainer} from "./permissions/permission/permission.container";
+
 
 @NgModule({
   declarations: [
     AdminPage,
-    UserListContainer,
-    UserListComponent,
-    UserListItemContainer,
-    UserListItemComponent,
     RoleAvatarComponent,
     UserPermissionEditorComponent,
     UserListItemDemo,
-    RoleListContainer,
-    RoleListComponent,
-    RoleContainer,
-    RoleComponent,
-    PermissionListContainer,
-    PermissionListComponent,
     PermissionComponent,
-    PermissionContainer
+    RoleComponent,
+    UserComponent,
+    PermissionManagerComponent,
+    RoleManagerComponent,
+    UserManagerComponent,
   ],
   imports: [
     CommonModule,
@@ -64,19 +55,22 @@ import {PermissionContainer} from "./permissions/permission/permission.container
     MdIconModule,
     MdInputModule,
     MdListModule,
+    MdGridListModule,
     MdMenuModule,
     MdToolbarModule,
     MdCheckboxModule,
     MdButtonToggleModule,
     MdTabsModule,
+    DataListModule,
     DrawerModule
   ],
   exports: [
     AdminPage,
-    UserListItemContainer,
-    UserListContainer,
-    RoleListContainer,
-    PermissionListContainer,
+    RoleComponent,
+    UserComponent,
+    PermissionManagerComponent,
+    RoleManagerComponent,
+    UserManagerComponent,
   ]
 })
 export class AdminUiModule {

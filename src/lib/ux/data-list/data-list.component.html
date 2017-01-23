@@ -1,0 +1,48 @@
+<div flex layout="column" class="tg-data-list"
+     (window:keyup)="($event.ctrlKey && $event.key == '+') ? (fireAddItemAction() && $event.stopPropagation() && $event.preventDefault() ): null;">
+  <md-list *ngIf="items" flex layout="column" layout-align="start">
+    <md-list-item class="tg-list-item" flex layout="column" layout-align="start">
+      <md-checkbox
+        [checked]="selectionCount == items.length"
+        [indeterminate]="selectionCount > 0 && selectionCount < items.length"
+        [align]="align"
+        [disabled]="disabled"
+        (change)="onSelectAllCheckAction(!$event.checked)"
+      ></md-checkbox>
+      <div class="tg-multi-select-actions" layout="row" layout-align="start" flex>
+        <button md-raised-button
+                [disabled]="selectionCount === 0"
+                (click)="fireRemoveSelectedAction()">
+          <md-icon>delete</md-icon>
+          Delete Selected
+        </button>
+      </div>
+      <div layout="row" layout-align="end" flex>
+        <button md-mini-fab (click)="fireAddItemAction()">
+          <md-icon>add</md-icon>
+        </button>
+      </div>
+    </md-list-item>
+    <md-divider></md-divider>
+    <div *ngFor="let rowItem of items" class="tg-list-item-row" flex layout="column">
+      <div class="tg-list-item" layout="row" flex layout-align="start start">
+        <div *ngIf="expander && expander.template">
+          <md-icon (click)="toggleExpanded(rowItem[keyField])">{{isExpanded(rowItem[keyField]) ? 'expand_less' :
+            'expand_more'}}
+          </md-icon>
+        </div>
+        <md-checkbox
+          [checked]="isSelected(rowItem[keyField])"
+          [indeterminate]="indeterminate"
+          [align]="align"
+          [disabled]="disabled"
+          (change)="$event.checked ? selectItem(rowItem[keyField]) : deselectItem(rowItem[keyField])"
+        ></md-checkbox>
+        <template [ngTemplateOutlet]="rowTemplate" [ngOutletContext]="{ $implicit: rowItem }"></template>
+      </div>
+      <div *ngIf="expander && expander.template && isExpanded(rowItem[keyField])" class="tg-data-list-expander-wrapper" layout="row" layout-align="start">
+        <template [ngTemplateOutlet]="expander.template" [ngOutletContext]="{ $implicit: rowItem }"></template>
+      </div>
+    </div>
+  </md-list>
+</div>

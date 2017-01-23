@@ -1,24 +1,24 @@
 import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnChanges, SimpleChange} from "@angular/core";
 import {Observable} from "rxjs";
 import {AuthPermission, AuthRole} from "@tangential/media-types";
-import {OMap} from "@tangential/common";
 
 
 @Component({
-  selector: 'tg-role-component',
+  selector: 'tg-role',
   templateUrl: 'role.component.html',
   styleUrls: ['role.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoleComponent implements OnChanges {
 
+
   @Input() role: AuthRole
-  @Input() rolePermissions: OMap<string, AuthPermission> = new OMap<string, AuthPermission>()
-  @Input() permissions: OMap<string, AuthPermission> = new OMap<string, AuthPermission>()
+  @Input() allPermissions: AuthPermission[]
+  @Input() rolePermissions: AuthPermission[]
   @Input() collapsed: boolean = true
 
   @Output() change: Observable<{current: AuthRole, previous: AuthRole}>
-  @Output() removeRole: EventEmitter<AuthRole> = new EventEmitter<AuthRole>(false)
+  @Output() remove: EventEmitter<AuthRole> = new EventEmitter<AuthRole>(false)
 
   private _focusDebouncer: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
@@ -30,7 +30,7 @@ export class RoleComponent implements OnChanges {
   @Output() blur: Observable<Event>
 
 
-  submitted = false;
+  submitted:boolean = false;
   private _changed: boolean
   private _previous: AuthRole
 
@@ -64,47 +64,38 @@ export class RoleComponent implements OnChanges {
         this._changed = false
         return change
       })
-
-
   }
 
   ngOnChanges(changes: {role: SimpleChange, permissions: SimpleChange}) {
     if (changes.role) {
       this._previous = new AuthRole(this.role)
       this._changed = false
-      if (this.role.$key.endsWith("2")) {
-        debugger
-      }
-    }
-    if (this.role && this.role.$key == "Administrator" && changes.permissions && changes.permissions.currentValue) {
-      // debugger
     }
   }
 
-  doRemoveRole() {
-    console.log('RoleComponent', 'doRemoveRole')
-    this.removeRole.emit(this.role)
+  fireRemove() {
+    this.remove.emit(this.role)
   }
 
-  onChange(event: Event) {
-    event.stopPropagation()
+  onChange() {
     this._changed = true
   }
 
-  onBlur(event: Event) {
-    event.stopPropagation()
+  onBlur() {
     this._focusDebouncer.emit(false)
   }
 
-  onFocus(event: Event) {
-    event.stopPropagation()
+  onFocus() {
     this._focusDebouncer.emit(true)
 
   }
 
   onSubmit() {
-    console.log("RoleComponent", "onSubmit")
     this.submitted = true;
+  }
+
+  hasPermission(perm:AuthPermission){
+    return this.rolePermissions.some(rolePerm => rolePerm.$key == perm.$key)
   }
 
   doTogglePermission(permission: AuthPermission) {
@@ -112,13 +103,10 @@ export class RoleComponent implements OnChanges {
       permission: permission,
       role: this.role
     }
-    if (this.rolePermissions.has(permission.$key)) {
-      console.log('RoleComponent', 'doTogglePermission-remove')
+    if (this.rolePermissions.some(entry => entry.$key == permission.$key)) {
       this.removeRolePermission.emit(rolePermission)
     } else {
-      console.log('RoleComponent', 'doTogglePermission-add')
       this.addRolePermission.emit(rolePermission)
     }
   }
-
 }

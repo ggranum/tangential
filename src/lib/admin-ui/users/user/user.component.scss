@@ -1,5 +1,10 @@
 
-tg-user-component {
+/deep/ .tg-user-user, .tg-user-permission {
+  text-align: left;
+}
+
+
+tg-user {
 
   .tg-input {
     margin-left: 2em;

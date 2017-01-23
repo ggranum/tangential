@@ -20,7 +20,7 @@ export class ObservableReference<T, C> {
   private _childMoved: {$: Observable<C>, cb: (a: firebase.database.DataSnapshot) => void}
   private $ref: firebase.database.Reference
 
-  private _children:Map<string, ObservableReference<any, any>>
+  private _children: Map<string, ObservableReference<any, any>>
 
   constructor(public path: string,
               public fbApp: firebase.database.Database,
@@ -91,7 +91,7 @@ export class ObservableReference<T, C> {
     return this._childRemoved.$
   }
 
-  get childChanged$(): Observable<C | {key:string, value:C}> {
+  get childChanged$(): Observable<C | {key: string, value: C}> {
     if (!this._childChanged) {
       this._childChanged = {$: null, cb: null}
       this._childChanged.$ = Observable.create((subscriber: Subscriber<KeyValueEvent<C>>) => {
@@ -104,7 +104,7 @@ export class ObservableReference<T, C> {
     return this._childChanged.$
   }
 
-  get childMoved$(): Observable<C | {key:string, value:C}> {
+  get childMoved$(): Observable<C | {key: string, value: C}> {
     if (!this._childMoved) {
       this._childMoved = {$: null, cb: null}
       this._childMoved.$ = Observable.create((subscriber: Subscriber<KeyValueEvent<C>>) => {
@@ -131,7 +131,7 @@ export class ObservableReference<T, C> {
   child<C>(childPath: string, transform?: (json: any, key: string) => C): ObservableReference<C, any> {
     let path = this.path + '/' + childPath
     let child = this._children.get(path)
-    if(!child){
+    if (!child) {
       child = new ObservableReference(path, this.fbApp, transform)
       this._children.set(path, child)
     }
@@ -193,7 +193,7 @@ export class ObservableReference<T, C> {
 
   destroy() {
     this.off()
-    this._children.forEach((child)=>{
+    this._children.forEach((child) => {
       child.destroy()
     })
   }

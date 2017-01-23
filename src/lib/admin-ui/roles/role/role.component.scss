@@ -14,8 +14,11 @@
 }
 
 
+/deep/ .tg-role-role, .tg-role-permission {
+  text-align: left;
+}
 
-tg-role-component {
+tg-role {
 
   .tg-input {
     margin-left: 2em;
@@ -29,13 +32,7 @@ tg-role-component {
     padding-right: 2em;
   }
 
-  .tg-role-permissions-wrapper {
-    margin-left: 4em;
-    margin-bottom: 4em;
-    .tg-role-role, .tg-role-permission {
-      margin-left: 2em;
-    }
-  }
+
 
   .tg-sub-heading {
     font-size: larger;

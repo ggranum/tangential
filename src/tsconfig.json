@@ -43,14 +43,17 @@
       "@tangential/asciidoctor-panel": [
         "./lib/asciidoctor-panel"
       ],
+      "@tangential/data-list": [
+        "./lib/ux/data-list"
+      ],
       "@tangential/inline-login-form": [
         "./lib/ux/inline-login-form"
       ],
-      "@tangential/drawer": [
-        "./lib/drawer"
-      ],
       "@tangential/inline-profile": [
         "./lib/ux/inline-profile"
+      ],
+      "@tangential/drawer": [
+        "./lib/drawer"
       ]
     }
   }

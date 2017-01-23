@@ -37,7 +37,7 @@ export class AuthUser implements AuthUserIF, Keyed, ToJson {
   lastSignInIp?: string
   photoURL?: string
 
-  constructor(config: AuthUserIF) {
+  constructor(config: AuthUserIF | any) {
     config = config || {}
 
     this.$key = config.$key || config['uid']

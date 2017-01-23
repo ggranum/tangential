@@ -34,7 +34,7 @@ export class InlineProfileComponent {
     return signInState == SignInState.signedIn
   }
 
-  dismiss($event){
+  dismiss($event:any){
     this.showAccountFlyout = false
   }
 

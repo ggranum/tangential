@@ -4,7 +4,7 @@ import {AuthPermission} from "@tangential/media-types";
 
 
 @Component({
-  selector: 'tg-permission-component',
+  selector: 'tg-permission',
   templateUrl: 'permission.component.html',
   styleUrls: ['permission.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -14,7 +14,7 @@ export class PermissionComponent implements OnChanges {
   @Input() permission: AuthPermission
 
   @Output() change: Observable<{current: AuthPermission, previous: AuthPermission}>;
-  @Output() removePermission: EventEmitter<AuthPermission> = new EventEmitter<AuthPermission>(false)
+  @Output() remove: EventEmitter<AuthPermission> = new EventEmitter<AuthPermission>(false)
 
   private _focusDebouncer: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
@@ -59,8 +59,8 @@ export class PermissionComponent implements OnChanges {
     }
   }
 
-  doRemovePermission() {
-    this.removePermission.emit(this.permission)
+  fireRemove() {
+    this.remove.emit(this.permission)
   }
 
   onChange(event: Event) {

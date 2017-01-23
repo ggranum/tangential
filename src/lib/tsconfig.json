@@ -13,7 +13,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "outDir": "../../dist/@tangential",
     "rootDir": ".",
     "sourceMap": true,
@@ -55,6 +55,9 @@
       ],
       "@tangential/inline-login-form": [
         "./ux/inline-login-form"
+      ],
+      "@tangential/data-list": [
+        "./ux/data-list"
       ],
       "@tangential/inline-profile": [
         "./ux/inline-profile"

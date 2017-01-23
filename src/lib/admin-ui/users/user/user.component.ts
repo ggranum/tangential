@@ -4,18 +4,18 @@ import {OMap} from "@tangential/common";
 import {AuthUserIF, AuthUser, AuthRole, AuthPermission} from "@tangential/media-types";
 
 @Component({
-  selector: 'tg-user-component',
+  selector: 'tg-user',
   templateUrl: 'user.component.html',
   styleUrls: ['user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class UserListItemComponent {
+export class UserComponent {
 
   @Input() user: AuthUser
-  @Input() userRoles: OMap<string, AuthRole>
-  @Input() userGrantedPermissions: OMap<string, AuthPermission>
-  @Input() userRolePermissions: OMap<string, AuthPermission>
+  @Input() userRoles: AuthRole[] = []
+  @Input() userGrantedPermissions: AuthPermission[] = []
+  @Input() userRolePermissions: AuthPermission[] = []
 
   @Input() showSelector: boolean = true
   @Input() selected: boolean = false
@@ -65,7 +65,7 @@ export class UserListItemComponent {
     }
   }
 
-  doRemoveUser() {
+  fireRemoveUser() {
     this.removeUser.emit(this.user)
   }
 
@@ -79,7 +79,7 @@ export class UserListItemComponent {
 
   doTogglePermission(permission: AuthPermission) {
     let event = {user:this.user, permission:permission};
-    if(this.userGrantedPermissions.has(permission.$key)){
+    if(this.userGrantedPermissions.some((item) => item.$key == permission.$key)){
       this.removeUserPermission.emit(event)
     } else {
       this.addUserPermission.emit(event)
@@ -92,18 +92,15 @@ export class UserListItemComponent {
   }
 
 
-  onChange(event: Event) {
-    event.stopPropagation()
+  onChange() {
     this._changed = true
   }
 
-  onBlur(event: Event) {
-    event.stopPropagation()
+  onBlur() {
     this._focusDebouncer.emit(false)
   }
 
-  onFocus(event: Event) {
-    event.stopPropagation()
+  onFocus() {
     this._focusDebouncer.emit(true)
 
   }
