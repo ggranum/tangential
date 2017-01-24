@@ -6,11 +6,11 @@ import {
 import {AuthInfo} from "./sign-in-panel.component";
 
 @Component({
-  selector: 'tang-sign-in-panel-demo',
+  selector: 'tg-sign-in-panel-demo',
   template: `<h1>Login Panel Demo</h1>
 <h3>Open your browsers debug console to view log messages related to various actions.</h3>
 <div class='demo-content' layout="row" layout-align="center start">
-  <tang-sign-in-panel-component 
+  <tg-sign-in-panel-component 
     [preventSubmit]="true"
     [username]="'bob@example.com'"
     [displayMode]="signIn"
@@ -20,7 +20,7 @@ import {AuthInfo} from "./sign-in-panel.component";
     (signForgotPassword)="onForgotPassword($event)"
     >
     
-</tang-sign-in-panel-component>
+</tg-sign-in-panel-component>
 </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None

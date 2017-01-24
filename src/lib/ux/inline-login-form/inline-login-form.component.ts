@@ -1,9 +1,9 @@
-import {Component, ChangeDetectionStrategy, Input} from '@angular/core'
+import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter} from '@angular/core'
 import {SignInState} from '@tangential/authorization-service';
 
 
 @Component({
-  selector: 'tang-inline-login-form-component',
+  selector: 'tg-inline-login-form-component',
   templateUrl: 'inline-login-form.component.html',
   styleUrls: ['inline-login-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -12,6 +12,9 @@ export class InlineLoginFormComponent {
 
   @Input() signInState: SignInState
   @Input() errorMessage: string
+
+  @Output() signUp:EventEmitter<{email:string, password:string}> = new EventEmitter(false)
+  @Output() signIn:EventEmitter<{email:string, password:string}> = new EventEmitter(false)
 
   username: string
   password: string
@@ -36,14 +39,12 @@ export class InlineLoginFormComponent {
     return signInState == SignInState.unknown
   }
 
-  doLoginAction(event: Event) {
-    event.preventDefault()
-    event.stopPropagation()
-    // this._store.dispatch(VisitorActions.signIn.invoke.action({email: this.username, password: this.password}))
+  fireLoginAction() {
+    this.signIn.emit({email: this.username, password:this.password})
   }
 
-  doSignupAction() {
-    // this._store.dispatch(VisitorActions.signUp.invoke.action({email: this.username, password: this.password}))
+  fireSignupAction() {
+    this.signUp.emit({email: this.username, password:this.password})
   }
 
   onSubmit(event: Event) {

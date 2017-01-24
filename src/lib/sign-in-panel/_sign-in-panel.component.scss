@@ -1,12 +1,12 @@
 @import '~@angular/material/core/theming/palette';
 @import '~@angular/material/core/theming/theming';
 
-@mixin tang-apply-theme-sign-in-panel($theme) {
+@mixin tg-apply-theme-sign-in-panel($theme) {
 
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
-  tang-sign-in-panel-component {
+  tg-sign-in-panel-component {
     .drop-shadow {
       border-radius: inherit;
       box-shadow: 0 2em 4em 0 rgba(0, 0, 0, 0.19);
@@ -73,7 +73,7 @@
 
   /* Demo Styles. @todo ggranum: Separate the demo content so it's not included in users' production builds. */
 
-  .sign-in-page-content, tang-sign-in-panel-demo .demo-content {
+  .sign-in-page-content, tg-sign-in-panel-demo .demo-content {
     font-family: RobotoDraft, 'Helvetica Neue', Helvetica, Arial, serif;
     font-size: 14px;
     margin: 0;

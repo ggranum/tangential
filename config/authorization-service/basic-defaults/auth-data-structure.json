@@ -32,7 +32,6 @@
     },
     "ADD USER": {
       "createdMils": 1481726286361,
-      "trustLevel": 0,
       "description": "",
       "orderIndex": 4
     },
@@ -54,7 +53,7 @@
     "REVOKE ROLE": {
       "createdMils": 1481726286361,
       "description": "",
-      "orderIndex": 15
+      "orderIndex": 16
     },
     "GRANT PERMISSION": {
       "createdMils": 1481726286361,
@@ -74,7 +73,7 @@
     "REGISTER OWN ACCOUNT": {
       "createdMils": 1481726286361,
       "description": "",
-      "orderIndex": 15
+      "orderIndex": 17
     }
   },
   "role_permissions": {
@@ -113,7 +112,6 @@
     },
     "Anonymous": {
       "createdMils": 1481726286361,
-      "trustLevel": 0,
       "description": "Default anonymous role. Frequently has the right to create their own account."
     },
     "Registered Visitor": {

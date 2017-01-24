@@ -1,12 +1,12 @@
 @import '~@angular/material/core/theming/palette';
 @import '~@angular/material/core/theming/theming';
 
-@mixin tang-apply-theme-drawer($theme) {
+@mixin tg-apply-theme-drawer($theme) {
 
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
-  tang-drawer {
+  tg-drawer {
     .demo-content {
       font-family: RobotoDraft, 'Helvetica Neue', Helvetica, Arial, serif;
       font-size: 14px;

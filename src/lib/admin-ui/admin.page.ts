@@ -1,18 +1,23 @@
-import {Component, ChangeDetectionStrategy, ViewEncapsulation, OnInit} from "@angular/core";
-import {Params, ActivatedRoute} from "@angular/router";
+import {
+  Component, ChangeDetectionStrategy, ViewEncapsulation, OnInit, QueryList, ContentChildren, ViewChild, ViewChildren
+} from "@angular/core";
+import {ActivatedRoute} from "@angular/router";
+import {UserService, RoleService} from "@tangential/authorization-service";
+import {AuthUser, AuthRole} from "@tangential/media-types";
+import {Observable} from "rxjs";
 
 @Component({
-  selector: 'tang-admin-page',
+  selector: 'tg-admin-page',
   template: `<div class='admin-page-content' layout="row" layout-align="center">
-  <md-tab-group flex color="primary" [selectedIndex]="1">
+  <md-tab-group flex color="primary" [(selectedIndex)]="selectedTabIndex">
     <md-tab label="Users">
-      <tang-user-list></tang-user-list>
+      <tg-user-manager *ngIf="selectedTabIndex==0" ></tg-user-manager>
     </md-tab>
     <md-tab label="Roles">
-      <tang-role-list></tang-role-list>
+      <tg-role-manager *ngIf="selectedTabIndex==1"></tg-role-manager>
     </md-tab>
     <md-tab label="Permissions">
-      <tang-permission-list></tang-permission-list>
+      <tg-permission-manager *ngIf="selectedTabIndex==2"></tg-permission-manager>
     </md-tab>
   </md-tab-group>
 </div>`,
@@ -22,13 +27,28 @@ import {Params, ActivatedRoute} from "@angular/router";
 export class AdminPage implements OnInit {
 
 
-  constructor(private route: ActivatedRoute) { }
+  selectedTabIndex: number = 0
+  tabLabels = [
+    'Users',
+    'Roles',
+    'Permissions',
+    'Test'
+  ]
+
+
+  constructor(private route: ActivatedRoute) {
+
+  }
 
   ngOnInit() {
-    this.route.params.forEach((params: Params) => {
-    });
+    let tab = this.route.snapshot.params['tab']
+    if (tab) {
+      this.selectedTabIndex = this.tabLabels.indexOf(tab)
+      if (this.selectedTabIndex == -1) {
+        this.selectedTabIndex = 0
+      }
 
-
+    }
   }
 
 }

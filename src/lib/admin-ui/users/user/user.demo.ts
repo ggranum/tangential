@@ -6,10 +6,10 @@ import {
 import {AuthUser, AuthRole, AuthPermission} from "@tangential/media-types";
 
 @Component({
-  selector: 'tang-user-item-demo',
+  selector: 'tg-user-item-demo',
   template: `<h1>User Item Demo</h1>
 <div class='demo-content' layout="row" layout-align="center">
-  <tang-user-component  
+  <tg-user  
     flex
     [user]="user"
     [userRoles]="roles"
@@ -23,7 +23,7 @@ import {AuthUser, AuthRole, AuthPermission} from "@tangential/media-types";
     (removeUserPermission)="onRemoveUserPermission($event)"
   >
     
-</tang-user-component>
+</tg-user>
 </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None

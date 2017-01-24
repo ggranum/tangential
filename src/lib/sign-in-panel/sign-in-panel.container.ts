@@ -10,8 +10,8 @@ import {AuthUserIF} from "@tangential/media-types";
 
 
 @Component({
-  selector: 'tang-sign-in-panel',
-  template: `<tang-sign-in-panel-component
+  selector: 'tg-sign-in-panel',
+  template: `<tg-sign-in-panel-component
   [username]="username"
   (signIn)="onSignIn($event)"
   (signUp)="onSignUp($event)"
@@ -22,7 +22,7 @@ import {AuthUserIF} from "@tangential/media-types";
   [requireEmailUsername]="true"
 >
 
-</tang-sign-in-panel-component>`,
+</tg-sign-in-panel-component>`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -15,10 +15,10 @@ import {Observable} from "rxjs";
 import {AuthUserIF} from "@tangential/media-types";
 
 @Component({
-  selector: 'tang-sign-in-panel-page',
+  selector: 'tg-sign-in-panel-page',
   template: `
 <div class='sign-in-page-content' layout="row" layout-align="center start">
-  <tang-sign-in-panel ></tang-sign-in-panel>
+  <tg-sign-in-panel ></tg-sign-in-panel>
 </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None

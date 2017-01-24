@@ -10,7 +10,7 @@ import {AuthRole} from "@tangential/media-types";
 
 
 @Component({
-  selector: 'tang-role-avatar',
+  selector: 'tg-role-avatar',
   template: `
 <div>
 <md-button-toggle  [checked]="active" (change)="doChange($event)">{{role.$key}}</md-button-toggle>

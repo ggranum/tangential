@@ -126,7 +126,7 @@ ResourceState[SignInAction.forgotPassword] = FORGOT_PASSWORD_RSRC
 
 
 @Component({
-  selector: 'tang-sign-in-panel-component',
+  selector: 'tg-sign-in-panel-component',
   templateUrl: 'sign-in-panel.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

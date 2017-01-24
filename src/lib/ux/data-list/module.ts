@@ -7,26 +7,30 @@ import {FormsModule} from '@angular/forms'
 import {MdButtonModule} from '@angular/material/button/button'
 import {MdIconModule} from '@angular/material/icon/icon'
 import {MdInputModule} from '@angular/material/input/input'
+import {MdListModule} from '@angular/material/list'
+import {MdCheckboxModule} from '@angular/material/checkbox'
 
-
-import {InlineLoginFormComponent} from './inline-login-form.component'
+import {DataListComponent, DataListExpander} from './data-list.component'
 
 
 @NgModule({
   declarations: [
-    InlineLoginFormComponent
+    DataListComponent,
+    DataListExpander
   ],
   imports: [
     CommonModule,
-    FormsModule,
     MdButtonModule,
     MdIconModule,
-    MdInputModule
+    MdInputModule,
+    MdListModule,
+    MdCheckboxModule
   ],
   exports: [
-    InlineLoginFormComponent
+    DataListComponent,
+    DataListExpander,
   ]
 })
-export class InlineLoginFormModule {
+export class DataListModule {
 
 }

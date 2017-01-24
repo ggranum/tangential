@@ -3,14 +3,19 @@ import {Observable} from "rxjs";
 
 //noinspection TypeScriptPreferShortImport
 import {ObservableObjMapReference} from "../observable-objmap-reference";
-import {EventEmitter} from "@angular/core";
+import {EventEmitter, NgZone} from "@angular/core";
 
 export abstract class FirebaseService<T extends Keyed & ToJson> implements TgServiceIF<T> {
 
   public readonly $ref: ObservableObjMapReference<T>
   public readonly valueRemoved$:EventEmitter<string>
-  constructor(public readonly path:string, public readonly fbApp: firebase.database.Database, private readonly transform?: (json: any, key: string) => T) {
-    this.$ref = new ObservableObjMapReference<T>(path, fbApp, transform)
+
+  constructor(public readonly path:string,
+              public readonly fbApp: firebase.database.Database,
+              private readonly transform?: (json: any, key: string) => T,
+              private readonly zone?:NgZone
+  ) {
+    this.$ref = new ObservableObjMapReference<T>(path, fbApp, transform, zone)
     this.valueRemoved$ = new EventEmitter<string>(true)
   }
 
@@ -37,6 +42,11 @@ export abstract class FirebaseService<T extends Keyed & ToJson> implements TgSer
 
   values(): Observable<T[]> {
     return this.$ref.value$.map((values: ObjMap<T>) => {
+      if(this.zone){
+        this.zone.run(()=>{
+
+        })
+      }
       return ObjMapUtil.toArray(values)
     })
   }
