@@ -1,3 +1,15 @@
+<a name="0.0.1-beta.3"></a>
+## [0.0.1-beta.3](https://github.com/ggranum/tangential/compare/v0.0.1-beta.2...v0.0.1-beta.3) (2017-01-24)
+
+Beta 2 failed to publish @tangential/data-list. This release is exclusively to fix that issue. 
+
+### Bug Fixes
+
+* **build:** duplicate npm require. ([3b93c3f](https://github.com/ggranum/tangential/commit/3b93c3f))
+* **build:** not publishing data-list ([3b94442](https://github.com/ggranum/tangential/commit/3b94442))
+
+
+
 <a name="0.0.1-beta.2"></a>
 ## [0.0.1-beta.2](https://github.com/ggranum/tangential/compare/v0.0.1-beta.1...v0.0.1-beta.2) (2017-01-24)
 
