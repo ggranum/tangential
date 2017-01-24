@@ -1,5 +1,5 @@
 import {AuthUser, AuthPermission, AuthRole} from "@tangential/media-types";
-import {Observable, Subscription} from "rxjs";
+import {Observable, Subscription, BehaviorSubject} from "rxjs";
 import {Injectable, NgZone} from "@angular/core";
 import {ObjMap, OneToManyReferenceMap, ObjMapUtil} from "@tangential/common";
 import {FirebaseService, ObservableReference, FirebaseProvider} from "@tangential/firebase";
@@ -19,21 +19,21 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
   private $userEffectivePermissionsRef: ObservableReference<{[key: string]: {[key: string]: boolean}}, ObjMap<boolean>>
   private $userRolesMappingRef: ObservableReference<{[key: string]: {[key: string]: boolean}}, ObjMap<boolean>>
 
-  private permissionService: FirebasePermissionService
-  private roleService: FirebaseRoleService
+  private _permissionService: FirebasePermissionService
+  private _roleService: FirebaseRoleService
   private _subscriptions: Subscription[]
 
-  constructor(private fb: FirebaseProvider, permService: PermissionService, roleService: RoleService, private _zone:NgZone) {
+  constructor(private fb: FirebaseProvider, permService: PermissionService, roleService: RoleService, private _zone: NgZone) {
     super('/auth/users', fb.app.database(), (json: any, key: string) => {
       return json ? new AuthUser(Object.assign({}, json, {$key: key})) : null
     }, _zone)
     this._subscriptions = []
-    this.permissionService = <FirebasePermissionService>permService
-    this.roleService = <FirebaseRoleService>roleService
+    this._permissionService = <FirebasePermissionService>permService
+    this._roleService = <FirebaseRoleService>roleService
     let db = fb.app.database()
-    this.$userGrantedPermissionsRef = new ObservableReference<{[userKey: string]: {[permissionKey: string]: boolean}}, ObjMap<boolean>>("/auth/user_granted_permissions", db, null, null , _zone)
-    this.$userEffectivePermissionsRef = new ObservableReference<{[userKey: string]: {[permissionKey: string]: boolean}}, ObjMap<boolean>>("/auth/user_effective_permissions", db, null, null , _zone)
-    this.$userRolesMappingRef = new ObservableReference<{[userKey: string]: {[roleKey: string]: boolean}}, ObjMap<boolean>>("/auth/user_roles", db, null, null , _zone)
+    this.$userGrantedPermissionsRef = new ObservableReference<{[userKey: string]: {[permissionKey: string]: boolean}}, ObjMap<boolean>>("/auth/user_granted_permissions", db, null, null, _zone)
+    this.$userEffectivePermissionsRef = new ObservableReference<{[userKey: string]: {[permissionKey: string]: boolean}}, ObjMap<boolean>>("/auth/user_effective_permissions", db, null, null, _zone)
+    this.$userRolesMappingRef = new ObservableReference<{[userKey: string]: {[roleKey: string]: boolean}}, ObjMap<boolean>>("/auth/user_roles", db, null, null, _zone)
     this.engagePermissionsSynchronization()
   }
 
@@ -63,9 +63,8 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
     return this.$userRolesMappingRef.set(usersHaveRoles).then(() => {
       return this.$userGrantedPermissionsRef.set(usersHavePermissions).then(() => {
         return this.$userEffectivePermissionsRef.set(effectivePerms).then(() => {
-          console.log('FirebaseUserService', 'set effective permission succeeded', effectivePerms)
         }).catch((reason) => {
-          console.log('FirebaseUserService', 'set effective permission failed', reason)
+          console.error('FirebaseUserService', 'set effective permission failed', reason)
           throw reason
         })
 
@@ -86,7 +85,7 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
   engagePermissionsSynchronization() {
 
     this._subscriptions.push(
-      this.permissionService.valueRemoved$
+      this._permissionService.valueRemoved$
         .subscribe((permKey: string) => {
           this.$userGrantedPermissionsRef.value().then((userToPermission): any => {
             if (userToPermission) {
@@ -96,7 +95,7 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
               usersWithRemovedPerm.forEach((ruleKey: string) => {
                 //noinspection JSIgnoredPromiseFromCall
                 this._revokePermission(ruleKey, permKey).catch((reason) => {
-                  console.log('FirebaseUserService', 'Revoke permission failed.', reason)
+                  console.error('FirebaseUserService', 'Revoke permission failed.', reason)
                   throw reason
                 })
               })
@@ -106,16 +105,16 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
           })
         }))
 
-    this._subscriptions.push(this.roleService.valueRemoved$.subscribe((roleKey: string) => {
-      this.$userRolesMappingRef.value().then((ruleToRoles): any => {
-        if (ruleToRoles) {
-          let rulesWithRemovedPerm = Object.keys(ruleToRoles).filter((key) => {
-            return !!ruleToRoles[key][roleKey]
+    this._subscriptions.push(this._roleService.valueRemoved$.subscribe((roleKey: string) => {
+      this.$userRolesMappingRef.value().then((userToRoles): any => {
+        if (userToRoles) {
+          let usersWithRemovedRole = Object.keys(userToRoles).filter((key) => {
+            return !!userToRoles[key][roleKey]
           })
-          rulesWithRemovedPerm.forEach((ruleKey: string) => {
+          usersWithRemovedRole.forEach((ruleKey: string) => {
             //noinspection JSIgnoredPromiseFromCall
             this._revokeRole(ruleKey, roleKey).catch((reason) => {
-              console.log('FirebaseUserService', 'Revoke role failed.', reason)
+              console.error('FirebaseUserService', 'Revoke role failed.', reason)
               throw reason
             })
           })
@@ -126,81 +125,100 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
     }))
   }
 
-  getRolePermissionsForUser(userKey: string): Promise<ObjMap<boolean>> {
-    return this.$userRolesMappingRef.child(userKey).value().then((roleKeys: ObjMap<boolean>) => {
-      let promises = Object.keys(roleKeys || {}).map((roleKey) => {
-        this.roleService.getPermissionsForRole(roleKey).then((perms: AuthPermission[]) => {
+  getRolePermissionsForUser(userKey: string): Promise<ObjMap<AuthPermission>> {
+    return new Promise((accept, reject) => {
+      this.$userRolesMappingRef.child(userKey).value().then((roleKeys: ObjMap<boolean>) => {
+        let userRolePermissions: ObjMap<AuthPermission> = {}
+        let promises = Object.keys(roleKeys || {}).map((roleKey) => {
+          return this._roleService.getPermissionsForRole(roleKey).then((rolePermissions) => {
+            ObjMapUtil.addAll(userRolePermissions, ObjMapUtil.fromKeyedEntityArray(rolePermissions))
+          })
+        })
+        Promise.all(promises).then(() => {
+          accept(userRolePermissions)
         })
       })
-      return Promise.all(promises)
+    })
+  }
+
+  getRolePermissionsForUser$(user: AuthUser): Observable<ObjMap<AuthPermission>> {
+    return this.$userRolesMappingRef.child(user.$key).value$.flatMap((roleKeys: ObjMap<boolean>) => {
+      let userPermissions: ObjMap<AuthPermission> = {}
+      let promises = Object.keys(roleKeys || {}).map((roleKey) => {
+        return this._roleService.getPermissionsForRole(roleKey).then((rolePermissions) => {
+          ObjMapUtil.addAll(userPermissions, ObjMapUtil.fromKeyedEntityArray(rolePermissions))
+        })
+      })
+      return Observable.from(Promise.all(promises)).map(() => userPermissions)
+    })
+  }
+
+
+  grantEffectivePermission(user: AuthUser, permission: AuthPermission): Promise<{user: AuthUser, permission: AuthPermission}> {
+    return this.$userEffectivePermissionsRef.child(user.$key).child(permission.$key).set(true).then(() => {
+      return {user: user, permission: permission}
+    })
+  }
+
+  revokeEffectivePermission(user: AuthUser, permission: AuthPermission): Promise<{user: AuthUser, permission: AuthPermission}> {
+    return this.$userEffectivePermissionsRef.child(user.$key).child(permission.$key).remove().then(() => {
+      return {user: user, permission: permission}
     })
   }
 
   grantPermission(user: AuthUser, permission: AuthPermission): Promise<{user: AuthUser, permission: AuthPermission}> {
-    console.log('FirebaseUserService', 'granting permission:', permission.$key)
     return this.$userGrantedPermissionsRef.child(user.$key).child(permission.$key).set(true).then(() => {
-      return {user: user, permission: permission}
+      return this.grantEffectivePermission(user, permission)
     }).catch((reason) => {
-      console.log('FirebaseUserService', 'grant permission failed', reason)
+      console.error('FirebaseUserService', 'grant permission failed', reason)
       throw reason
     })
-
   }
 
   revokePermission(user: AuthUser, permission: AuthPermission): Promise<{user: AuthUser, permission: AuthPermission}> {
-    console.log('FirebaseUserService', 'revoking permission', 'success', permission.$key)
-    return this.$userGrantedPermissionsRef.child(user.$key).child(permission.$key).remove().then(() => {
+    return this._revokePermission(user.$key, permission.$key).then(() => {
       return {user: user, permission: permission}
-    }).catch((reason) => {
-      console.log('FirebaseUserService', 'revoke failed', reason)
-      throw reason
     })
   }
 
   private _revokePermission(userKey: string, permissionKey: string): Promise<{userKey: string, permissionKey: string}> {
-    console.log('FirebaseUserService', 'revoking permission', permissionKey)
     return this.$userGrantedPermissionsRef.child(userKey).child(permissionKey).remove().then(() => {
-      return {userKey: userKey, permissionKey: permissionKey}
+      return this.updateEffectivePermissionsForUser(userKey).then(() => {
+        return {userKey, permissionKey}
+      })
     }).catch((reason) => {
-      console.log('FirebaseUserService', '_revoke permission failed', reason)
+      console.error('FirebaseUserService', 'revoke failed', reason)
       throw reason
     })
   }
 
-
-  getPermissionsForUser(user: AuthUser): Observable<AuthPermission[]> {
-    return this.$userGrantedPermissionsRef.child(user.$key).value$.flatMap((obj: ObjMap<boolean>) => {
-      //noinspection JSMismatchedCollectionQueryUpdate
-      let userPerms: AuthPermission[] = []
-      let promises: Promise<void>[] = []
-      Object.keys(obj || {}).forEach(key => {
-        promises.push(this.permissionService.value(key).then((perm: AuthPermission) => {
-          if (perm) {
-            userPerms.push(perm)
-          }
-        }))
-      })
-      return Observable.from(Promise.all(promises).then(() => {
-        return userPerms
-      }))
+  updateEffectivePermissionsForUser(userKey: string): Promise<void> {
+    return this.calculateEffectivePermissionsForUser(userKey).then((effectivePermissions) => {
+      return this.$userEffectivePermissionsRef.child(userKey).set(ObjMapUtil.toTruthMap(effectivePermissions))
+    }).catch(reason => {
+      console.error('FirebaseUserService', 'updateEffectivePermissionsForUser failed', reason)
     })
   }
 
   grantRole(user: AuthUser, role: AuthRole): Promise<{user: AuthUser, role: AuthRole}> {
     return this.$userRolesMappingRef.child(user.$key).child(role.$key).set(true).then(() => {
-      return {user: user, role: role}
+      return this.updateEffectivePermissionsForUser(user.$key).then((v) => {
+        return {user: user, role: role}
+      })
     })
   }
 
   revokeRole(user: AuthUser, role: AuthRole): Promise<{user: AuthUser, role: AuthRole}> {
-    return this.$userRolesMappingRef.child(user.$key).child(role.$key).remove().then(() => {
+    return this._revokeRole(user.$key, role.$key).then(() => {
       return {user: user, role: role}
     })
   }
 
   private _revokeRole(userKey: string, roleKey: string): Promise<{userKey: string, roleKey: string}> {
     return this.$userRolesMappingRef.child(userKey).child(roleKey).remove().then(() => {
-      return {userKey: userKey, roleKey: roleKey}
+      return this.updateEffectivePermissionsForUser(userKey).then(() => {
+        return {userKey: userKey, roleKey: roleKey}
+      })
     })
   }
 
@@ -210,7 +228,7 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
       let userRoles: AuthRole[] = []
       let promises: Promise<void>[] = []
       Object.keys(obj || {}).forEach(key => {
-        promises.push(this.roleService.value(key).then((role: AuthRole) => {
+        promises.push(this._roleService.value(key).then((role: AuthRole) => {
           if (role) {
             userRoles.push(role)
           }
@@ -223,21 +241,33 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
   }
 
   getGrantedPermissionsForUser$(user: AuthUser): Observable<AuthPermission[]> {
-    return this.$userGrantedPermissionsRef.child(user.$key).value$.flatMap((obj: ObjMap<boolean>) => {
+    return Observable.from(this.getGrantedPermissionsForUser(user.$key))
+  }
+
+  getGrantedPermissionsForUser(userKey: string): Promise<AuthPermission[]> {
+    return this.$userGrantedPermissionsRef.child(userKey).value().then((obj: ObjMap<boolean>) => {
       //noinspection JSMismatchedCollectionQueryUpdate
       let grantedPermissions: AuthPermission[] = []
       let promises: Promise<void>[] = []
       Object.keys(obj || {}).forEach(key => {
-        promises.push(this.permissionService.value(key).then((permission: AuthPermission) => {
+        promises.push(this._permissionService.value(key).then((permission: AuthPermission) => {
           if (permission) {
             grantedPermissions.push(permission)
           }
         }))
       })
-      return Observable.from(Promise.all(promises).then(() => {
+      return Promise.all(promises).then(() => {
         return grantedPermissions
-      }))
+      })
     })
+  }
+
+  calculateEffectivePermissionsForUser(userKey: string): Promise<ObjMap<AuthPermission>> {
+    return this.getRolePermissionsForUser(userKey).then((effectivePermissions: ObjMap<AuthPermission>) => {
+      return this.getGrantedPermissionsForUser(userKey).then((grantedPermissions) => {
+        return ObjMapUtil.addAll(effectivePermissions, ObjMapUtil.fromKeyedEntityArray(grantedPermissions))
+      })
+    }).catch(reason => console.error('FirebaseUserService', 'calculateEffectivePermissionsForUser failed', reason))
   }
 
   getEffectivePermissionsForUser$(user: AuthUser): Observable<AuthPermission[]> {
@@ -250,7 +280,7 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
         let effectivePermissions: AuthPermission[] = []
         let promises: Promise<void>[] = []
         Object.keys(obj || {}).forEach(key => {
-          promises.push(this.permissionService.value(key).then((permission: AuthPermission) => {
+          promises.push(this._permissionService.value(key).then((permission: AuthPermission) => {
             if (permission) {
               effectivePermissions.push(permission)
             }

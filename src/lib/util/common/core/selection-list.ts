@@ -1,9 +1,7 @@
 
 export class SelectionEntry<T> {
 
-  constructor(public value: T, public selected: boolean = false) {
-    this.selected = selected;
-    this.value = value;
+  constructor(public value: T, public selected: boolean = false, public disabled:boolean = false) {
   }
 }
 
@@ -30,6 +28,16 @@ export class SelectionList<T> {
       let index: number = map[value[this.keyField]]
       if (index || index === 0) {
         this.entries[index].selected = true
+      }
+    })
+  }
+
+  disable(values: T[]) {
+    let map = this.asIndexMap()
+    values.forEach((value: T) => {
+      let index: number = map[value[this.keyField]]
+      if (index || index === 0) {
+        this.entries[index].disabled = true
       }
     })
   }

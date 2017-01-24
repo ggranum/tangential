@@ -50,4 +50,20 @@ export class ObjMapUtil {
       }
     })
   }
+
+  /**
+   * Remove the child fields from the provided map.
+   * @param map
+   * @param fields {string[]}
+   * @returns {ObjMap<V>}
+   */
+  static deleteValueFields<V>(map: ObjMap<V>, fields: string[] = ['$key']): ObjMap<V> {
+    map = map || {}
+    fields.forEach((fieldKey) => {
+      Object.keys(map).forEach((key) => {
+        delete map[key][fieldKey]
+      })
+    })
+    return map
+  }
 }

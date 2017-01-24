@@ -1,8 +1,8 @@
-import {Component, ChangeDetectionStrategy, OnInit, ViewEncapsulation} from "@angular/core";
+import {Component, ChangeDetectionStrategy, OnInit, ViewEncapsulation, NgZone} from "@angular/core";
 import {AuthUser, AuthPermission, AuthRole} from "@tangential/media-types";
-import {Observable} from "rxjs";
+import {Observable, BehaviorSubject} from "rxjs";
 import {UserService, PermissionService, RoleService} from "@tangential/authorization-service";
-import {generatePushID, SelectionEntry, SelectionList} from "@tangential/common";
+import {generatePushID, SelectionEntry, SelectionList, ObjMap, ObjMapUtil} from "@tangential/common";
 
 
 @Component({
@@ -30,7 +30,7 @@ import {generatePushID, SelectionEntry, SelectionList} from "@tangential/common"
                         [rowspan]="1">
             <div flex class="tg-user-role">
               <md-checkbox [checked]="roleEntry.selected"
-                           (change)="roleEntry.selected ?revokeRole(rowItem, roleEntry.value) : grantRole(rowItem, roleEntry.value)">
+                           (change)="$event.checked ? grantRole(rowItem, roleEntry.value) : revokeRole(rowItem, roleEntry.value) ">
                 <span flex="50">{{roleEntry.value.$key}}</span>
               </md-checkbox>
             </div>
@@ -39,12 +39,13 @@ import {generatePushID, SelectionEntry, SelectionList} from "@tangential/common"
         <hr/>
         <div align="center"><h3>Permissions</h3></div>
         <md-grid-list cols="4" rowHeight="3em">
-          <md-grid-tile *ngFor="let permEntry of permissionsByUser[rowItem.$key] | async"
+          <md-grid-tile *ngFor="let permEntry of grantedPermissionsByUser[rowItem.$key] | async"
                         [colspan]="1"
                         [rowspan]="1">
             <div flex class="tg-user-permission" flex>
               <md-checkbox [checked]="permEntry.selected"
-                           (change)="permEntry.selected ?revokePermission(rowItem, permEntry.value) : grantPermission(rowItem, permEntry.value)">
+                            [disabled]="permEntry.disabled"
+                           (change)="$event.checked ? grantPermission(rowItem, permEntry.value) : revokePermission(rowItem, permEntry.value)">
                 <span flex="50">{{permEntry.value.$key}}</span>
               </md-checkbox>
             </div>
@@ -62,14 +63,14 @@ export class UserManagerComponent implements OnInit {
 
 
   allUsers$: Observable<AuthUser[]>
-  permissionsByUser: {[userKey: string]: Observable<SelectionEntry<AuthPermission>[]>} = {}
+  grantedPermissionsByUser: {[userKey: string]: Observable<SelectionEntry<AuthPermission>[]>} = {}
   rolesByUser: {[userKey: string]: Observable<SelectionEntry<AuthRole>[]>} = {}
 
   watchMe: number = 0
   _newIndex: number = 0
 
   constructor(private _userService: UserService, private _permissionService: PermissionService,
-              private _roleService: RoleService) {
+              private _roleService: RoleService, private _zone:NgZone) {
   }
 
   ngOnInit() {
@@ -85,12 +86,19 @@ export class UserManagerComponent implements OnInit {
                 this._newIndex = Math.max(this._newIndex, 0)
               }
             }
-            this.permissionsByUser[user.$key] = this._userService.getPermissionsForUser(user).map((userPermissions) => {
-              let list = new SelectionList<AuthPermission>(allPermissions)
-              list.select(userPermissions)
-              this.watchMe++
-              return list.entries
-            })
+            let grantedSubject = new BehaviorSubject([])
+            this.grantedPermissionsByUser[user.$key] = grantedSubject.asObservable()
+            this._userService.getRolePermissionsForUser$(user).flatMap((userRolePermissionsMap:ObjMap<AuthPermission>) => {
+              return this._userService.getGrantedPermissionsForUser$(user).map((userGrantedPermissions) => {
+                let list = new SelectionList<AuthPermission>(allPermissions)
+                list.select(userGrantedPermissions)
+                let userRolePermissions = ObjMapUtil.toKeyedEntityArray(userRolePermissionsMap)
+                list.select(userRolePermissions)
+                list.disable(userRolePermissions)
+                this.watchMe++
+                grantedSubject.next(list.entries)
+              })
+            }).subscribe((v)=>{ })
 
             this.rolesByUser[user.$key] = this._userService.getRolesForUser$(user).map((userRoles) => {
               let list = new SelectionList<AuthRole>(allRoles)
@@ -108,25 +116,26 @@ export class UserManagerComponent implements OnInit {
 
   grantPermission(user: AuthUser, permission: AuthPermission) {
     this._userService.grantPermission(user, permission).catch((reason) => {
-      console.log('UserManagerComponent', 'could not grant permission', reason)
+      console.error('UserManagerComponent', 'could not grant permission', reason)
     })
   }
 
   revokePermission(user: AuthUser, permission: AuthPermission) {
+    console.log('UserManagerComponent', 'revokePermission')
     this._userService.revokePermission(user, permission).catch((reason) => {
-      console.log('UserManagerComponent', 'could not revoke permission', reason)
+      console.error('UserManagerComponent', 'could not revoke permission', reason)
     })
   }
 
   grantRole(user: AuthUser, role: AuthRole) {
     this._userService.grantRole(user, role).catch((reason) => {
-      console.log('UserManagerComponent', 'could not grant role', reason)
+      console.error('UserManagerComponent', 'could not grant role', reason)
     })
   }
 
   revokeRole(user: AuthUser, role: AuthRole) {
     this._userService.revokeRole(user, role).catch((reason) => {
-      console.log('UserManagerComponent', 'could not revoke role', reason)
+      console.error('UserManagerComponent', 'could not revoke role', reason)
     })
   }
 
@@ -160,7 +169,6 @@ export class UserManagerComponent implements OnInit {
 
 
   onItemChange(user: AuthUser) {
-    console.log('AdminPage', 'onUserChange', user)
     this._userService.update(user, user).catch((reason) => {
       console.error('UserManagerComponent', 'error updating user', reason)
       throw new Error(reason)

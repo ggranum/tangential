@@ -22,11 +22,8 @@ export class FirebaseVisitorService implements VisitorService {
   }
 
   _setSignInState(newState: SignInState) {
-    console.log('FirebaseVisitorService', '_setSignInState', newState)
     if (this._signInStateValue !== newState) {
       this._signInStateValue = newState
-      console.log('FirebaseVisitorService', '_setSignInState2', this._signInStateValue)
-
       this._signInState$.emit(this._signInStateValue)
     }
   }

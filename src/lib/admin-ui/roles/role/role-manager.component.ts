@@ -76,13 +76,13 @@ export class RoleManagerComponent implements OnInit {
 
   grantPermission(role: AuthRole, permission: AuthPermission) {
     this._roleService.grantPermission(role, permission).catch((reason) => {
-      console.log('RoleManagerComponent', 'could not grant permission', reason)
+      console.error('RoleManagerComponent', 'could not grant permission', reason)
     })
   }
 
   revokePermission(role: AuthRole, permission: AuthPermission) {
     this._roleService.revokePermission(role, permission).catch((reason) => {
-      console.log('RoleManagerComponent', 'could not revoke permission', reason)
+      console.error('RoleManagerComponent', 'could not revoke permission', reason)
     })
   }
 
@@ -113,7 +113,6 @@ export class RoleManagerComponent implements OnInit {
   }
 
   onItemChange(role: AuthRole) {
-    console.log('AdminPage', 'onRoleChange', role)
     this._roleService.update(role, role).catch((reason) => {
       console.error('RoleManagerComponent', 'error updating role', reason)
       throw new Error(reason)
