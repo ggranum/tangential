@@ -64,14 +64,14 @@ const filePaths = {
 
 
 class RemoteProjectInitializer {
-  static initAuthUsers(): Promise<void> {
+  static initAuthUsers(): Promise<{}> {
     let promises: Promise<void>[] = []
     let admin = initializeFirebaseApp()
     let auth:admin.auth.Auth = firebaseAdmin.auth()
     let users = jsonFile.readFileSync(filePaths.authUsersLocal)
     users.forEach((user: any) => {
       if (user.uid) {
-        let promise: Promise<void> = new Promise((resolve, reject) => {
+        let promise: Promise<void> = new Promise<void>((resolve, reject) => {
           auth.getUser(user.uid).then(() => {
             auth.updateUser(user.uid, user).then(() => resolve()).catch((e:any) => {
               console.log('Error updating user: ', e)
@@ -99,7 +99,7 @@ class RemoteProjectInitializer {
     let db:admin.database.Database = dbX
 
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       let ref = db.ref("/auth");
       ref.once("value", (snapshot: any) => {
         if(snapshot.exists()){
@@ -145,7 +145,7 @@ class ProjectInitializer {
   }
 
   static initAuthUsersConfig(): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (fs.existsSync(filePaths.authUsersLocal)) {
         console.log(`==== Skipping: Found existing firebase users at ${filePaths.authUsersLocal} ====`)
         resolve()
@@ -188,7 +188,7 @@ class ProjectInitializer {
 
 
   static initFirebaseConfig(projectName: string): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (fs.existsSync(filePaths.firebaseConfig)) {
         console.log(`==== Skipping: Found existing firebase Configuration at ${filePaths.firebaseConfig} ====`)
         resolve()
