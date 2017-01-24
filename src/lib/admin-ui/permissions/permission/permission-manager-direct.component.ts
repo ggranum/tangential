@@ -7,101 +7,54 @@ import {ObjMapUtil, ObjMap} from "@tangential/common";
 
 @Component({
   selector: 'tg-permission-manager-direct',
-  template: `<tg-data-list [items]="allPermissions$ | async"
-              (addItemAction)="onAddItemAction()"
-              (removeSelectedAction)="onRemoveSelectedAction($event)">
-  <template let-rowItem>
-    <tg-permission flex layout="row"
-                   [permission]="rowItem"
-                   (change)="onItemChange(rowItem)"
-                   (remove)="onRemove(rowItem.$key)"></tg-permission>
-  </template>
-
-</tg-data-list>`,
+  template: `
+<div *ngFor="let perm of allPermissions$ | async">
+{{perm.$key}}: {{perm.description}}
+</div>
+`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
 export class PermissionManagerDirectComponent implements OnInit {
 
-  allPermissions: AuthPermission[] = []
-
-  allPermissions$:Observable<AuthPermission[]>
-
-  maxPermIndex: number = 0
+  allPermissions$: Observable<AuthPermission[]>
+  subject: BehaviorSubject<AuthPermission[]>
   private root: firebase.database.Database;
 
   constructor(private _permissionService: PermissionService, private _fire: FirebaseProvider) {
     this.root = _fire.app.database()
+    this.subject = new BehaviorSubject([])
+    this.allPermissions$ = this.subject.asObservable()
   }
 
   ngOnInit() {
-    let permissions:AuthPermission[] = []
-    let subject = new BehaviorSubject([])
-    this.allPermissions$ = subject.asObservable()
-
+    let permissions: AuthPermission[] = []
     this.root.ref('/auth/permissions').on('value', (snap) => {
+      // it seems like any update made within the scope of this listener is ignored.
       let permissionsMap: ObjMap<AuthPermission> = snap.val()
-      permissions = ObjMapUtil.toKeyedEntityArray(permissionsMap )
-      permissions.sort((a, b) => {
-        return a.orderIndex - b.orderIndex
-      })
-      this.maxPermIndex = permissions.length === 0 ? 0 : permissions[permissions.length - 1].orderIndex
-      this.allPermissions = permissions
-
+      permissions = this.toKeyedEntityArray(permissionsMap)
       console.log('PermissionManagerDirectComponent', 'Permissions updated')
-      subject.next(permissions)
-
+      this.subject.next(permissions)
     })
 
     // without this interval there are no updates. Even though it does nothing.
-    window.setInterval(()=>{
-      /* Removing the log line does not have any effect. It's useful for seeing the order of changes/updates. */
+    window.setInterval(() => {
+      /* Removing the log line does not have any effect, it's just here for convenience. */
       console.log('PermissionManagerDirectComponent', 'heartbeat')
     }, 3000)
   }
 
+  toKeyedEntityArray<V>(map: ObjMap<V>, keyField: string = "$key"): V[] {
+    return Object.keys(map).map((key) => {
+      let keyObj = {}
+      keyObj[keyField] = key
+      return Object.assign({}, map[key], keyObj)
+    })
+  }
 
-  ngOnChanges(changes:any){
+  ngOnChanges(changes: any) {
     console.log('PermissionManagerDirectComponent', 'ngOnChanges', Object.keys(changes))
   }
 
-
-  onAddItemAction() {
-    let permission = new AuthPermission({
-      $key: 'New Permission ' + (this.maxPermIndex + 1),
-      orderIndex: (this.maxPermIndex + 1)
-    })
-    this._permissionService.create(permission).catch((reason) => {
-      console.error('PermissionManagerComponent', 'error adding permission', reason)
-      throw new Error(reason)
-    })
-  }
-
-  onRemove(key: string) {
-    console.log('PermissionManagerComponent', 'onRemove', key)
-    this._permissionService.remove(key).catch((reason) => {
-      console.error('PermissionManagerComponent', 'error removing permission', reason)
-      throw new Error(reason)
-    })
-  }
-
-  onRemoveSelectedAction(keys: string[]) {
-    keys.forEach((key) => {
-      this._permissionService.remove(key).catch((reason) => {
-        console.error('PermissionManagerComponent', 'error removing permission', reason)
-        throw new Error(reason)
-      })
-    })
-  }
-
-
-  onItemChange(permission: AuthPermission) {
-    console.log('AdminPage', 'onPermissionChange', permission)
-    this._permissionService.update(permission, permission).catch((reason) => {
-      console.error('PermissionManagerComponent', 'error updating permission', reason)
-      throw new Error(reason)
-    })
-
-  }
 
 }
