@@ -17,7 +17,7 @@ import {
 } from "@tangential/authorization-service";
 
 
-import {FirebaseProvider, FirebaseConfig} from "@tangential/firebase";
+import {FirebaseProvider, FirebaseConfig} from "@tangential/firebase-util";
 import {TestConfiguration} from "../test-config.spec";
 import {firebaseConfig} from "../../config/firebase-config.local";
 

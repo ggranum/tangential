@@ -3,7 +3,7 @@ import {Observable, BehaviorSubject} from "rxjs";
 import {Injectable, NgZone} from "@angular/core";
 import {ObjMap, OneToManyReferenceMap} from "@tangential/common";
 
-import {FirebaseService, ObservableReference, FirebaseProvider} from "@tangential/firebase";
+import {FirebaseService, ObservableReference, FirebaseProvider} from "@tangential/firebase-util";
 
 import {RoleService} from "./role-service";
 //noinspection TypeScriptPreferShortImport

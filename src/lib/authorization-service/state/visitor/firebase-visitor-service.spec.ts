@@ -16,7 +16,7 @@ import {
 import {AuthUser, AuthRole, AuthPermission} from "@tangential/media-types";
 import {generatePushID} from "@tangential/common";
 
-import {FirebaseProvider, FirebaseConfig} from "@tangential/firebase";
+import {FirebaseProvider, FirebaseConfig} from "@tangential/firebase-util";
 import {TestConfiguration} from "../test-config.spec";
 import {firebaseConfig} from "../../config/firebase-config.local";
 import {cleanupPermissions} from "../test-setup.spec";

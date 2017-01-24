@@ -22,7 +22,7 @@
       "@tangential/common": [
         "./lib/util/common"
       ],
-      "@tangential/firebase": [
+      "@tangential/firebase-util": [
         "./lib/util/firebase"
       ],
       "@tangential/media-types": [

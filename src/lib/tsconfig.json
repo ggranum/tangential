@@ -32,7 +32,7 @@
       "@tangential/common": [
         "./util/common"
       ],
-      "@tangential/firebase": [
+      "@tangential/firebase-util": [
         "./util/firebase"
       ],
       "@tangential/media-types": [

@@ -1,7 +1,7 @@
 import {Injectable, EventEmitter} from '@angular/core'
 import {Observable, Subscriber} from 'rxjs'
 import {EmailPasswordCredentials, AuthUser, AuthUserIF, AuthRole, AuthPermission} from "@tangential/media-types";
-import {FirebaseProvider} from "@tangential/firebase";
+import {FirebaseProvider} from "@tangential/firebase-util"
 //noinspection TypeScriptPreferShortImport
 import {VisitorService} from "./visitor-service";
 import {UserService} from "../user/user-service";

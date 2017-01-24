@@ -2,7 +2,7 @@ import {AuthUser, AuthPermission, AuthRole} from "@tangential/media-types";
 import {Observable, Subscription, BehaviorSubject} from "rxjs";
 import {Injectable, NgZone} from "@angular/core";
 import {ObjMap, OneToManyReferenceMap, ObjMapUtil} from "@tangential/common";
-import {FirebaseService, ObservableReference, FirebaseProvider} from "@tangential/firebase";
+import {FirebaseService, ObservableReference, FirebaseProvider} from "@tangential/firebase-util";
 //noinspection TypeScriptPreferShortImport
 import {PermissionService} from "../permission/permission-service";
 import {RoleService} from "../role/role-service";

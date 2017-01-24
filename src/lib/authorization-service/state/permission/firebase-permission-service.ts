@@ -1,6 +1,6 @@
 import {AuthPermission} from "@tangential/media-types";
 import {Injectable, NgZone} from "@angular/core";
-import {FirebaseService, FirebaseProvider} from "@tangential/firebase";
+import {FirebaseService, FirebaseProvider} from "@tangential/firebase-util";
 import {PermissionService} from "./permission-service";
 
 
