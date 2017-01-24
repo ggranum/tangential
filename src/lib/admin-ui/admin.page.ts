@@ -19,6 +19,9 @@ import {Observable} from "rxjs";
     <md-tab label="Permissions">
       <tg-permission-manager *ngIf="selectedTabIndex==2"></tg-permission-manager>
     </md-tab>
+    <md-tab label="Test">
+      <tg-permission-manager-direct *ngIf="selectedTabIndex==3"></tg-permission-manager-direct>
+    </md-tab>
   </md-tab-group>
 </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,7 +34,8 @@ export class AdminPage implements OnInit {
   tabLabels = [
     'Users',
     'Roles',
-    'Permissions'
+    'Permissions',
+    'Test'
   ]
 
 

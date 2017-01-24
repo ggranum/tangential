@@ -11,6 +11,11 @@ import {ObjMapUtil} from "@tangential/common";
 export class DataListExpander {
   @ContentChild(TemplateRef) template: TemplateRef<any>;
 
+
+  ngOnChanges(changes: any) {
+    console.log('DataListExpander', 'ngOnChanges', Object.keys(changes))
+  }
+
 }
 
 @Component({
@@ -20,8 +25,6 @@ export class DataListExpander {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataListComponent implements OnChanges {
-
-  @Input() changeWatch:any
 
   @Input() items: any[] = []
   @Input() keyField: string = '$key'
@@ -49,6 +52,7 @@ export class DataListComponent implements OnChanges {
 
 
   ngOnChanges(changes: {items: SimpleChange}) {
+    console.log('DataListComponent', 'ngOnChanges', Object.keys(changes))
     if (changes.items) {
       this.updateSelections()
     }

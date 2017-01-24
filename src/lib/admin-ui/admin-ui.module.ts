@@ -33,6 +33,7 @@ import {MdTabsModule} from '@angular/material/tabs'
 import {DataListModule} from "@tangential/data-list";
 import {DrawerModule} from "@tangential/drawer";
 import {AdminPage} from "./admin.page";
+import {PermissionManagerDirectComponent} from "./permissions/permission/permission-manager-direct.component";
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import {AdminPage} from "./admin.page";
     PermissionComponent,
     RoleComponent,
     UserComponent,
+    PermissionManagerDirectComponent,
     PermissionManagerComponent,
     RoleManagerComponent,
     UserManagerComponent,
@@ -68,6 +70,7 @@ import {AdminPage} from "./admin.page";
     AdminPage,
     RoleComponent,
     UserComponent,
+    PermissionManagerDirectComponent,
     PermissionManagerComponent,
     RoleManagerComponent,
     UserManagerComponent,
