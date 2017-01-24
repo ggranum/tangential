@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnInit, ViewEncapsulation} from "@angular/core";
+import {Component, ChangeDetectionStrategy, OnInit, ViewEncapsulation, NgZone} from "@angular/core";
 import {AuthPermission} from "@tangential/media-types";
 import {Observable, BehaviorSubject} from "rxjs";
 import {PermissionService} from "@tangential/authorization-service";
@@ -21,7 +21,7 @@ export class PermissionManagerDirectComponent implements OnInit {
   subject: BehaviorSubject<AuthPermission[]>
   private root: firebase.database.Database;
 
-  constructor(private _permissionService: PermissionService, private _fire: FirebaseProvider) {
+  constructor(private _permissionService: PermissionService, private _fire: FirebaseProvider, private _ngZone: NgZone) {
     this.root = _fire.app.database()
     this.subject = new BehaviorSubject([])
     this.allPermissions$ = this.subject.asObservable()
@@ -34,14 +34,13 @@ export class PermissionManagerDirectComponent implements OnInit {
       let permissionsMap: ObjMap<AuthPermission> = snap.val()
       permissions = this.toKeyedEntityArray(permissionsMap)
       console.log('PermissionManagerDirectComponent', 'Permissions updated')
-      this.subject.next(permissions)
+
+      this._ngZone.run(() =>{
+        this.subject.next(permissions)
+      })
     })
 
-    // without this interval there are no updates. Even though it does nothing.
-    window.setInterval(() => {
-      /* Removing the log line does not have any effect, it's just here for convenience. */
-      console.log('PermissionManagerDirectComponent', 'heartbeat')
-    }, 3000)
+
   }
 
   toKeyedEntityArray<V>(map: ObjMap<V>, keyField: string = "$key"): V[] {

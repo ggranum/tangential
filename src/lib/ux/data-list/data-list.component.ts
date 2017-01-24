@@ -11,11 +11,6 @@ import {ObjMapUtil} from "@tangential/common";
 export class DataListExpander {
   @ContentChild(TemplateRef) template: TemplateRef<any>;
 
-
-  ngOnChanges(changes: any) {
-    console.log('DataListExpander', 'ngOnChanges', Object.keys(changes))
-  }
-
 }
 
 @Component({
@@ -27,6 +22,7 @@ export class DataListExpander {
 export class DataListComponent implements OnChanges {
 
   @Input() items: any[] = []
+  @Input() watchField: any[] = []
   @Input() keyField: string = '$key'
 
   @Output() addItemAction: EventEmitter<void> = new EventEmitter<void>(false)
@@ -52,7 +48,6 @@ export class DataListComponent implements OnChanges {
 
 
   ngOnChanges(changes: {items: SimpleChange}) {
-    console.log('DataListComponent', 'ngOnChanges', Object.keys(changes))
     if (changes.items) {
       this.updateSelections()
     }
@@ -75,7 +70,6 @@ export class DataListComponent implements OnChanges {
   }
 
   toggleExpanded(itemKey: string) {
-    console.log('DataListComponent', 'toggleExpanded', itemKey)
     this.expansionCount += this.toggle(itemKey, this._expansions, this.expansionChange)
   }
 

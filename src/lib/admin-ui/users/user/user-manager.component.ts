@@ -9,7 +9,9 @@ import {generatePushID, SelectionEntry, SelectionList} from "@tangential/common"
   selector: 'tg-user-manager',
   template: `<tg-data-list [items]="allUsers$ | async"
               (addItemAction)="onAddItemAction()"
-              (removeSelectedAction)="onRemoveSelectedAction($event)">
+              (removeSelectedAction)="onRemoveSelectedAction($event)"
+              [watchField]="watchMe"
+              >
 
   <template let-rowItem>
     <tg-user flex layout="row"
@@ -63,6 +65,7 @@ export class UserManagerComponent implements OnInit {
   permissionsByUser: {[userKey: string]: Observable<SelectionEntry<AuthPermission>[]>} = {}
   rolesByUser: {[userKey: string]: Observable<SelectionEntry<AuthRole>[]>} = {}
 
+  watchMe: number = 0
   _newIndex: number = 0
 
   constructor(private _userService: UserService, private _permissionService: PermissionService,
@@ -70,14 +73,9 @@ export class UserManagerComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('UserManagerComponent', 'ngOnInit')
-
     this.allUsers$ = this._userService.values().flatMap((users: AuthUser[]) => {
-
-
       return this._permissionService.values().flatMap((allPermissions) => {
         return this._roleService.values().map((allRoles) => {
-          console.log('AdminPage', 'Users updated')
           users.forEach((user) => {
             if (user.$key.startsWith('New User')) {
               try {
@@ -90,14 +88,14 @@ export class UserManagerComponent implements OnInit {
             this.permissionsByUser[user.$key] = this._userService.getPermissionsForUser(user).map((userPermissions) => {
               let list = new SelectionList<AuthPermission>(allPermissions)
               list.select(userPermissions)
-              console.log('UserManagementComponent', 'permissionsByUser', user.$key, userPermissions)
+              this.watchMe++
               return list.entries
             })
 
             this.rolesByUser[user.$key] = this._userService.getRolesForUser$(user).map((userRoles) => {
               let list = new SelectionList<AuthRole>(allRoles)
               list.select(userRoles)
-              console.log('UserManagementComponent', 'rolesByUser', user.$key, userRoles)
+              this.watchMe++
               return list.entries
             })
           })

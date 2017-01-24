@@ -1,6 +1,6 @@
 import {AuthRole, AuthPermission} from "@tangential/media-types";
 import {Observable, BehaviorSubject} from "rxjs";
-import {Injectable} from "@angular/core";
+import {Injectable, NgZone} from "@angular/core";
 import {ObjMap, OneToManyReferenceMap} from "@tangential/common";
 
 import {FirebaseService, ObservableReference, FirebaseProvider} from "@tangential/firebase";
@@ -18,13 +18,13 @@ export class FirebaseRoleService extends FirebaseService<AuthRole> implements Ro
 
   private permissionService: FirebasePermissionService
 
-  constructor(private fb: FirebaseProvider, private permService: PermissionService) {
+  constructor(private fb: FirebaseProvider, private permService: PermissionService, private _zone:NgZone) {
     super('/auth/roles', fb.app.database(), (json: any, key: string) => {
       return json ? new AuthRole(Object.assign({}, json, {$key: key})) : null
-    })
+    }, _zone)
     this.permissionService = <FirebasePermissionService>permService
     let db = fb.app.database()
-    this.$mappingRef = new ObservableReference<OneToManyReferenceMap, ObjMap<boolean>>("/auth/role_permissions", db)
+    this.$mappingRef = new ObservableReference<OneToManyReferenceMap, ObjMap<boolean>>("/auth/role_permissions", db, null, null, _zone)
     this.engagePermissionsSynchronization()
   }
 
@@ -89,7 +89,8 @@ export class FirebaseRoleService extends FirebaseService<AuthRole> implements Ro
     } else {
       key = role
     }
-    return this.$mappingRef.child(key).value$.flatMap((obj: ObjMap<boolean>) => {
+    let subject = new BehaviorSubject([])
+    this.$mappingRef.child(key).value$.flatMap((obj: ObjMap<boolean>) => {
       //noinspection JSMismatchedCollectionQueryUpdate
       let rolePerms: AuthPermission[] = []
       let promises: Promise<void>[] = []
@@ -103,7 +104,10 @@ export class FirebaseRoleService extends FirebaseService<AuthRole> implements Ro
       return Observable.from(Promise.all(promises).then(() => {
         return rolePerms
       }))
+    }).subscribe((perms:AuthPermission[])=>{
+      this._zone.run(() => subject.next(perms))
     })
+    return subject.asObservable()
   }
 
 

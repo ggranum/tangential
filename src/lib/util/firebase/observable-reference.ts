@@ -1,5 +1,5 @@
 import {Observable, Subscriber} from "rxjs";
-import {EventEmitter} from "@angular/core";
+import {EventEmitter, NgZone} from "@angular/core";
 
 export interface KeyValueEvent<C> {
   value: C
@@ -12,7 +12,9 @@ export interface KeyValueEvent<C> {
  */
 export class ObservableReference<T, C> {
   private static readonly _noopTransform = (json: any, key: string) => json;
-  private static readonly _keyValueTransform = (json: any, key: string) => { return {key: key, value:json}; };
+  private static readonly _keyValueTransform = (json: any, key: string) => {
+    return {key: key, value: json};
+  };
   private _value: {$: Observable<T>, cb: (a: firebase.database.DataSnapshot) => void}
   private _childAdded: {$$: Observable<C>, $: Observable<C>, cb: (a: firebase.database.DataSnapshot) => void}
   private _childRemoved: {$: Observable<C>, cb: (a: firebase.database.DataSnapshot) => void}
@@ -25,11 +27,17 @@ export class ObservableReference<T, C> {
   constructor(public path: string,
               public fbApp: firebase.database.Database,
               private transform?: (json: any, key: string) => T,
-              private childTransform?: (json: any, key: string) => C|any) {
+              private childTransform?: (json: any, key: string) => C|any,
+              private _zone?:NgZone
+  ) {
     this.$ref = fbApp.ref(path)
     this.transform = this.transform || ObservableReference._noopTransform
     this.childTransform = this.childTransform || ObservableReference._keyValueTransform
     this._children = new Map()
+  }
+
+  set zone(zone: NgZone) {
+    this._zone = zone
   }
 
   _errorCallback(e) {
@@ -45,19 +53,31 @@ export class ObservableReference<T, C> {
     }
   }
 
+  zoned(fn: any) {
+    let cb = fn
+    if (this._zone) {
+      cb = () => {
+        this._zone.run(fn)
+      }
+    }
+    return cb()
+  }
+
   get value$(): Observable<T> {
     if (!this._value) {
       this._value = {$: null, cb: null}
       this._value.$ = Observable.create((subscriber: Subscriber<T>) => {
         this._value.cb = (snap: firebase.database.DataSnapshot) => {
-          try {
-            subscriber.next(this._fromSnapshot(snap))
-          } catch (e) {
-            console.error('ObservableReference', 'callback error', this.path, e.message, e.stack)
-            if(snap && snap.val() == null){
-              console.error("ObservableReference", 'snapshot value is null. Hope that helps.' )
+          this.zoned(() => {
+            try {
+              subscriber.next(this._fromSnapshot(snap))
+            } catch (e) {
+              console.error('ObservableReference', 'callback error', this.path, e.message, e.stack)
+              if (snap && snap.val() == null) {
+                console.error("ObservableReference", 'snapshot value is null. Hope that helps.')
+              }
             }
-          }
+          })
         }
         this.$ref.on('value', this._value.cb, this._errorCallback)
       })
@@ -132,7 +152,7 @@ export class ObservableReference<T, C> {
     let path = this.path + '/' + childPath
     let child = this._children.get(path)
     if (!child) {
-      child = new ObservableReference(path, this.fbApp, transform)
+      child = new ObservableReference(path, this.fbApp, transform, null, this._zone )
       this._children.set(path, child)
     }
     return child

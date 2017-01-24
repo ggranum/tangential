@@ -1,6 +1,6 @@
 import {AuthUser, AuthPermission, AuthRole} from "@tangential/media-types";
 import {Observable, Subscription} from "rxjs";
-import {Injectable} from "@angular/core";
+import {Injectable, NgZone} from "@angular/core";
 import {ObjMap, OneToManyReferenceMap, ObjMapUtil} from "@tangential/common";
 import {FirebaseService, ObservableReference, FirebaseProvider} from "@tangential/firebase";
 //noinspection TypeScriptPreferShortImport
@@ -23,17 +23,17 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
   private roleService: FirebaseRoleService
   private _subscriptions: Subscription[]
 
-  constructor(private fb: FirebaseProvider, permService: PermissionService, roleService: RoleService) {
+  constructor(private fb: FirebaseProvider, permService: PermissionService, roleService: RoleService, private _zone:NgZone) {
     super('/auth/users', fb.app.database(), (json: any, key: string) => {
       return json ? new AuthUser(Object.assign({}, json, {$key: key})) : null
-    })
+    }, _zone)
     this._subscriptions = []
     this.permissionService = <FirebasePermissionService>permService
     this.roleService = <FirebaseRoleService>roleService
     let db = fb.app.database()
-    this.$userGrantedPermissionsRef = new ObservableReference<{[userKey: string]: {[permissionKey: string]: boolean}}, ObjMap<boolean>>("/auth/user_granted_permissions", db)
-    this.$userEffectivePermissionsRef = new ObservableReference<{[userKey: string]: {[permissionKey: string]: boolean}}, ObjMap<boolean>>("/auth/user_effective_permissions", db)
-    this.$userRolesMappingRef = new ObservableReference<{[userKey: string]: {[roleKey: string]: boolean}}, ObjMap<boolean>>("/auth/user_roles", db)
+    this.$userGrantedPermissionsRef = new ObservableReference<{[userKey: string]: {[permissionKey: string]: boolean}}, ObjMap<boolean>>("/auth/user_granted_permissions", db, null, null , _zone)
+    this.$userEffectivePermissionsRef = new ObservableReference<{[userKey: string]: {[permissionKey: string]: boolean}}, ObjMap<boolean>>("/auth/user_effective_permissions", db, null, null , _zone)
+    this.$userRolesMappingRef = new ObservableReference<{[userKey: string]: {[roleKey: string]: boolean}}, ObjMap<boolean>>("/auth/user_roles", db, null, null , _zone)
     this.engagePermissionsSynchronization()
   }
 

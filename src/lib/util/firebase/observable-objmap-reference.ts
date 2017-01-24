@@ -1,10 +1,15 @@
 import {ObjMap} from "@tangential/common";
 //noinspection TypeScriptPreferShortImport
 import {ObservableReference} from "./observable-reference";
+import {NgZone} from "@angular/core";
 
 export class ObservableObjMapReference<T> extends ObservableReference<ObjMap<T>, T> {
 
-  constructor(path: string, fbApp: firebase.database.Database, childTransform?: (json: any, key: string) => T) {
+  constructor(path: string,
+              fbApp: firebase.database.Database,
+              childTransform?: (json: any, key: string) => T,
+              _zone?:NgZone
+  ) {
     super(path,
       fbApp,
       (anyMap: ObjMap<any>, key: string) => {
@@ -20,7 +25,9 @@ export class ObservableObjMapReference<T> extends ObservableReference<ObjMap<T>,
           }
           return tMap
       },
-      childTransform)
+      childTransform,
+      _zone
+    )
   }
 
 

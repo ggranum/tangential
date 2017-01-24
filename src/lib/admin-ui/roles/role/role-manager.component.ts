@@ -1,16 +1,17 @@
-import {Component, ChangeDetectionStrategy, OnInit, ViewEncapsulation, Input} from "@angular/core";
+import {Component, ChangeDetectionStrategy, OnInit, ViewEncapsulation, Input, NgZone} from "@angular/core";
 import {AuthRole, AuthPermission} from "@tangential/media-types";
-import {Observable, BehaviorSubject} from "rxjs";
+import {Observable} from "rxjs";
 import {RoleService, PermissionService} from "@tangential/authorization-service";
 import {SelectionEntry, SelectionList} from "@tangential/common";
-
 
 
 @Component({
   selector: 'tg-role-manager',
   template: `<tg-data-list [items]="allRoles$ | async"
               (addItemAction)="onAddItemAction()"
-              (removeSelectedAction)="onRemoveSelectedAction($event)">
+              (removeSelectedAction)="onRemoveSelectedAction($event)"
+              [watchField]="watchMe"
+              >
 
   <template let-rowItem>
     <tg-role flex layout="row"
@@ -41,7 +42,7 @@ import {SelectionEntry, SelectionList} from "@tangential/common";
 export class RoleManagerComponent implements OnInit {
 
   allRoles$: Observable<AuthRole[]> = null
-
+  watchMe: number = 0
   permissionsByRole: {[roleKey: string]: Observable<SelectionEntry<AuthPermission>[]>} = {}
 
   _newIndex: number = 0
@@ -64,11 +65,10 @@ export class RoleManagerComponent implements OnInit {
           this.permissionsByRole[role.$key] = this._roleService.getPermissionsForRole$(role).map((rolePermissions) => {
             let list = new SelectionList<AuthPermission>(allPermissions)
             list.select(rolePermissions)
-            console.log('RoleManagerComponent', 'permissionsByRole', role.$key, rolePermissions)
+            this.watchMe++
             return list.entries
           })
         })
-        console.log('RoleManagerComponent', 'permissions')
         return roles
       })
     })
