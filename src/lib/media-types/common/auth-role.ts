@@ -45,6 +45,6 @@ export class AuthRole implements AuthRoleIF {
   }
 
   static guard(value: AuthRole | string ): value is AuthRole {
-    return (<AuthRole>value).$key !== undefined;
+    return !(typeof value == 'string') && (<AuthRole>value).$key !== undefined;
   }
 }

@@ -34,7 +34,6 @@ export class PermissionManagerComponent implements OnInit {
     console.log('PermissionManagerComponent', 'ngOnInit')
 
     this.allPermissions$ = this._permissionService.values().map((permissions: AuthPermission[]) => {
-      console.log('AdminPage', 'Permissions updated')
       permissions.sort((a, b) => {
         return a.orderIndex - b.orderIndex
       })
@@ -55,7 +54,6 @@ export class PermissionManagerComponent implements OnInit {
   }
 
   onRemove(key: string) {
-    console.log('PermissionManagerComponent', 'onRemove', key)
     this._permissionService.remove(key).catch((reason)=>{
       console.error('PermissionManagerComponent', 'error removing permission', reason)
       throw new Error(reason)
@@ -73,7 +71,6 @@ export class PermissionManagerComponent implements OnInit {
 
 
   onItemChange(permission: AuthPermission) {
-    console.log('AdminPage', 'onPermissionChange', permission)
     this._permissionService.update(permission, permission).catch((reason)=>{
       console.error('PermissionManagerComponent', 'error updating permission', reason)
       throw new Error(reason)

@@ -21,7 +21,7 @@ import {TestConfiguration} from "../test-config.spec";
 import {firebaseConfig} from "../../../../../config/authorization-service/firebase-config.local";
 import {cleanupPermissions} from "../test-setup.spec";
 
-fdescribe('Authorization.state.visitor', () => {
+describe('Authorization.state.visitor', () => {
   beforeEach((done) => {
     TestBed.configureTestingModule({
       declarations: [],

@@ -259,7 +259,7 @@ describe('Auth-services.user.state', () => {
 
       let count = 0
       let start = () => {
-        userService.getPermissionsForUser(user).subscribe((permissions: AuthPermission[]) => {
+        userService.getGrantedPermissionsForUser$(user).subscribe((permissions: AuthPermission[]) => {
           let map = ObjMapUtil.fromKeyedEntityArray(permissions)
           if (count === 0) {
             expect(permissions.length).toBe(3)

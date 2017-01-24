@@ -18,7 +18,7 @@ export class FirebaseRoleService extends FirebaseService<AuthRole> implements Ro
 
   private permissionService: FirebasePermissionService
 
-  constructor(private fb: FirebaseProvider, private permService: PermissionService, private _zone:NgZone) {
+  constructor(private fb: FirebaseProvider, private permService: PermissionService, private _zone: NgZone) {
     super('/auth/roles', fb.app.database(), (json: any, key: string) => {
       return json ? new AuthRole(Object.assign({}, json, {$key: key})) : null
     }, _zone)
@@ -34,7 +34,7 @@ export class FirebaseRoleService extends FirebaseService<AuthRole> implements Ro
   }
 
   setRolePermissions(entities: OneToManyReferenceMap): Promise<void> {
-    return this.$mappingRef.set(entities).then(()=>null)
+    return this.$mappingRef.set(entities).then(() => null)
   }
 
   engagePermissionsSynchronization() {
@@ -104,7 +104,7 @@ export class FirebaseRoleService extends FirebaseService<AuthRole> implements Ro
       return Observable.from(Promise.all(promises).then(() => {
         return rolePerms
       }))
-    }).subscribe((perms:AuthPermission[])=>{
+    }).subscribe((perms: AuthPermission[]) => {
       this._zone.run(() => subject.next(perms))
     })
     return subject.asObservable()
@@ -112,7 +112,12 @@ export class FirebaseRoleService extends FirebaseService<AuthRole> implements Ro
 
 
   getPermissionsForRole(role: AuthRole|string): Promise<AuthPermission[]> {
-    return this.getPermissionsForRole$(role).toPromise()
+    return new Promise((accept, reject) => {
+      this.getPermissionsForRole$(role).skip(1).take(1).subscribe((v) => {
+        accept(v)
+      })
+    })
+
   }
 
 
