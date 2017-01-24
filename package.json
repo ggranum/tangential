@@ -92,7 +92,6 @@
     "gulp-shell": "0.5.2",
     "gulp-sourcemaps": "1.6.0",
     "gulp-typescript": "2.13.6",
-    "hammerjs": "2.0.8",
     "jasmine-core": "2.4.1",
     "jasmine-spec-reporter": "2.5.0",
     "json": "9.0.4",
