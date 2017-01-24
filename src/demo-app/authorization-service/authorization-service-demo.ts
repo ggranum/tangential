@@ -19,7 +19,7 @@ import {
 import {AdminUiModule} from "@tangential/admin-ui";
 // if the firebase-config.local file doesn't exist then you still need to run 'gulp firebase:init-project
 // see the docs regarding preparing Firebase.
-import {firebaseConfig} from "../../../config/authorization-service/firebase-config.local";
+import {firebaseConfig} from "../../lib/authorization-service/config/firebase-config.local";
 
 import {SharedModule, DataTableModule} from "primeng/primeng";
 import {Observable} from "rxjs";

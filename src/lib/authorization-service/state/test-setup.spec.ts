@@ -3,7 +3,7 @@ import {RoleService} from "./role/role-service";
 import {PermissionService} from "./permission/permission-service";
 import {UserService} from "./user/user-service";
 
-export const cleanupPermissions = function (permissionService: PermissionService): Promise<void> {
+export const cleanupPermissions = function (permissionService: PermissionService): Promise<AuthPermission[]> {
   return permissionService.valuesOnce().then((permissions: AuthPermission[]) => {
     let promises = []
     permissions.forEach((permission) => {

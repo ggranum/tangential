@@ -111,11 +111,11 @@ So that's your firebase project fiels configuration done! You should now have a 
   * Configures your default firebase project by name.
 - [x] ${projectRoot}/firebase.service-account-key.local.json
   * For access via the Firebase Admin API
-- [x] ${projectRoot}/config/authorization-service/firebase-config.local.ts
+- [x] ${projectRoot}/src/lib/authorization-service/config/firebase-config.local.ts
   * Holds your Firebase API key and connection information in a convenient, importable, TypeScript constant.  
-- [x] ${projectRoot}/config/authorization-service/basic-defaults/users.local.json
+- [x] ${projectRoot}/src/lib/authorization-service/config/users.local.json
   * Users configured as JSON, for consumption by bash scripts
-- [X] ${projectRoot}/config/authorization-service/basic-defaults/users.local.ts
+- [X] ${projectRoot}/src/lib/authorization-service/config/users.local.ts
   * Users configured as an importable TypeScript constant, for consumption by code.
   
   

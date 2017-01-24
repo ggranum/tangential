@@ -51,13 +51,14 @@ import {ReadLine} from "readline";
 const PASSWORD_LENGTH = 12
 const JSON_FILE_WRITE_CONFIG = {spaces: 2}
 const DEFAULTS_PATH = join(PROJECT_ROOT, 'config/authorization-service/basic-defaults/')
+const AUTH_CONFIG_PATH = join(PROJECT_ROOT, 'src/lib/authorization-service/config/')
 const filePaths = {
   authData: join(DEFAULTS_PATH, 'auth-data-structure.json'),
   authUsersPublic: join(DEFAULTS_PATH, 'users.json'),
-  authUsersLocal: join(DEFAULTS_PATH, 'users.local.json'),
-  authUsersLocalTS: join(DEFAULTS_PATH, 'users.local.ts'),
+  authUsersLocal: join(AUTH_CONFIG_PATH, 'users.local.json'),
+  authUsersLocalTS: join(AUTH_CONFIG_PATH, 'users.local.ts'),
   firebaseRC: join(PROJECT_ROOT, '.firebaserc'),
-  firebaseConfig: join(PROJECT_ROOT, 'config/authorization-service/firebase-config.local.ts'),
+  firebaseConfig: join(AUTH_CONFIG_PATH, 'firebase-config.local.ts'),
   accountKey: join(PROJECT_ROOT, "firebaseAdmin.service-account-key.local.json"),
   usersToDelete: join(PROJECT_ROOT, 'firebaseAdmin.users-to-delete.local.json')
 }

@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {EmailPasswordCredentials} from "@tangential/media-types";
 
-import {defaultUsers} from '../../../../config/authorization-service/basic-defaults/users.local'
+import {defaultUsers} from '../config/users.local'
 import {ObjMap} from "@tangential/common";
 
 let userMap: ObjMap<any> = {}

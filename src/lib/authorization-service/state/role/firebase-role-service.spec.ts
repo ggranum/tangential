@@ -16,7 +16,7 @@ import {
 } from "@tangential/authorization-service";
 import {FirebaseProvider, FirebaseConfig} from "@tangential/firebase";
 import {TestConfiguration} from "../test-config.spec";
-import {firebaseConfig} from "../../../../../config/authorization-service/firebase-config.local";
+import {firebaseConfig} from "../../config/firebase-config.local";
 
 
 describe('Auth-services.role.state', () => {
