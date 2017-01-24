@@ -1,3 +1,13 @@
+<a name="0.0.1-beta.4"></a>
+## [0.0.1-beta.4](https://github.com/ggranum/tangential/compare/v0.0.1-beta.3...v0.0.1-beta.4) (2017-01-24)
+
+
+### Bug Fixes
+
+* **firebase-util:** tsconfig path entry must match npm package name ([a77bea6](https://github.com/ggranum/tangential/commit/a77bea6))
+
+
+
 <a name="0.0.1-beta.3"></a>
 ## [0.0.1-beta.3](https://github.com/ggranum/tangential/compare/v0.0.1-beta.2...v0.0.1-beta.3) (2017-01-24)
 
