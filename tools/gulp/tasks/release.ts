@@ -59,7 +59,7 @@ function _execNpmPublish(componentPath: string, label: string): Promise<void> {
     args.push('--tag');
     args.push(label);
   }
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     console.log(`Executing "${command} ${args.join(' ')}"...`);
     let errMsg = ''
     const childProcess = spawn(command, args);
@@ -77,8 +77,8 @@ function _execNpmPublish(componentPath: string, label: string): Promise<void> {
         }
         reject(new Error(`Component ${componentPath} did not publish, status: ${code}.`));
       }
-    });
-  });
+    })
+  })
 }
 
 task(':publish', function(done: (err?: any) => void) {
