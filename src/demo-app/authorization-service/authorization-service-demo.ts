@@ -4,7 +4,6 @@ import {
 } from "@angular/core";
 import {CommonModule, DatePipe} from "@angular/common";
 import {AuthUser, AuthRole, AuthPermission, EmailPasswordCredentials} from "@tangential/media-types";
-import {OMap} from "@tangential/common";
 import {FirebaseProvider, FirebaseConfig} from "@tangential/firebase";
 import {
   AuthorizationServiceModule,

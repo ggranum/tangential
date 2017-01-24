@@ -113,7 +113,13 @@ export class NpmPackageMaker {
     let fullDefinition = Object.assign({}, this.sharedDefinition, module, {
       version: newVersion
     })
-    fullDefinition.keywords = module.keywords.concat(this.sharedDefinition.keywords)
+    let keywords = module.keywords.concat(this.sharedDefinition.keywords)
+    let map = {} // remove duplicates
+    keywords.forEach((item)=>{
+      map[item] = true
+    })
+    keywords = Object.keys(map)
+    fullDefinition.keywords = keywords
     return fullDefinition
   }
 
