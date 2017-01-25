@@ -126,7 +126,7 @@ ResourceState[SignInAction.forgotPassword] = FORGOT_PASSWORD_RSRC
 
 
 @Component({
-  selector: 'tg-sign-in-panel-component',
+  selector: 'tg-sign-in-panel',
   templateUrl: 'sign-in-panel.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -191,9 +191,7 @@ export class SignInPanelComponent {
     this.cycleDisplayMode(this.authInfo.action)
   }
 
-  onForgotPasswordClick(e:Event) {
-    e.preventDefault();
-    e.stopPropagation();
+  onForgotPasswordModeClick() {
     this.setDisplayMode(SignInAction.forgotPassword)
   }
 

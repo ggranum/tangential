@@ -1,5 +1,3 @@
-import {RvError} from "@tangential/common";
-
 export enum SignInState {
   unknown = 1,
   signedOut = 10,

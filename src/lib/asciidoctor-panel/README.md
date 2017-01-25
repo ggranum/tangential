@@ -21,7 +21,7 @@ In your main app (e.g.app.module.ts):
 ```javascript
 
 // import the module
-import {RvAsciidoctorPanelModule} from '@tangential/asciidoctor-panel';
+import {AsciidoctorPanelModule} from '@tangential/asciidoctor-panel';
 
 // and register it as an import: 
 @NgModule({
@@ -30,7 +30,7 @@ import {RvAsciidoctorPanelModule} from '@tangential/asciidoctor-panel';
     ...
   ],
   imports: [
-    RvAsciidoctorPanelModule,
+    AsciidoctorPanelModule,
     ...
   ],
   entryComponents: [AppComponent],

@@ -42,7 +42,7 @@
 
           <div *ngIf="isSignInMode()" class="forgot-password-link">{{rsrc.resetPasswordText}} <a
             href="javascript:void(0);"
-            (click)="onForgotPasswordClick($event)">{{rsrc.resetPasswordLinkText}}</a></div>
+            (click)="$event.stopPropagation(); $event.preventDefault(); onForgotPasswordModeClick()">{{rsrc.resetPasswordLinkText}}</a></div>
 
           <md-checkbox *ngIf="isSignInMode()" [(ngModel)]="authInfo.rememberMe" name="rememberMe" #fRememberMe="ngModel"
                        class="remember-me-field"

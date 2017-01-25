@@ -6,8 +6,6 @@ import {MdButtonModule, MdCheckboxModule, MdIconModule, MdInputModule, MdCardMod
 
 
 //noinspection TypeScriptPreferShortImport
-import {SignInPanelContainer} from './sign-in-panel.container'
-//noinspection TypeScriptPreferShortImport
 import {SignInPanelComponent} from './sign-in-panel.component'
 //noinspection TypeScriptPreferShortImport
 import {SignInPanelDemo} from "./sign-in-panel.demo";
@@ -17,7 +15,6 @@ import {SignInPanelPage} from "./sign-in-panel.page";
   declarations: [
     SignInPanelDemo,
     SignInPanelPage,
-    SignInPanelContainer,
     SignInPanelComponent,
   ],
   imports: [
@@ -30,7 +27,8 @@ import {SignInPanelPage} from "./sign-in-panel.page";
     MdInputModule
   ],
   exports: [
-    SignInPanelContainer
+    SignInPanelComponent,
+    SignInPanelPage
   ]
 })
 export class SignInPanelModule {

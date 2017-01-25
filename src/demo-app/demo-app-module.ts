@@ -9,27 +9,27 @@ import {DEMO_APP_ROUTES} from "./demo-app/routes"
 import {DemoApp, Home} from "./demo-app/demo-app"
 import {ButtonDemo} from "./button/button-demo"
 
-import {AuthorizationServiceDemoModule } from "./authorization-service/authorization-service-demo"
+import {AsciidoctorPanelModule} from "@tangential/asciidoctor-panel"
 import {InlineProfileModule} from "@tangential/inline-profile"
+import {AuthorizationServiceDemoModule } from "./authorization-service/authorization-service-demo"
 import {InlineLoginFormModule} from "@tangential/inline-login-form"
-import {RvAsciidoctorPanelModule} from "@tangential/asciidoctor-panel"
-
-
-import {AsciiDoctorPanelDemo} from "./asciidoctor-panel/asciidoctor-panel-demo"
-import {InlineProfileDemo} from "./ux/inline-profile-demo"
+import {SignInPanelModule} from "@tangential/sign-in-panel";
+import {AsciiDoctorPanelDemo} from "./asciidoctor-panel/asciidoctor-panel-demo";
+import {InlineProfileDemo} from "./ux/inline-profile-demo";
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    ReactiveFormsModule,
-    InlineLoginFormModule,
-    InlineProfileModule,
-    RouterModule.forRoot(DEMO_APP_ROUTES),
     MaterialModule.forRoot(),
-    RvAsciidoctorPanelModule.forRoot(),
-    AuthorizationServiceDemoModule
+    ReactiveFormsModule,
+    RouterModule.forRoot(DEMO_APP_ROUTES),
+    AsciidoctorPanelModule.forRoot(),
+    AuthorizationServiceDemoModule,
+    InlineProfileModule,
+    InlineLoginFormModule,
+    SignInPanelModule,
   ],
   declarations: [
     ButtonDemo,
