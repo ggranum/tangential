@@ -1,3 +1,13 @@
+<a name="0.0.1-beta.5"></a>
+## [0.0.1-beta.5](https://github.com/ggranum/tangential/compare/v0.0.1-beta.4...v0.0.1-beta.5) (2017-01-25)
+
+
+### Features
+
+* **SignInPanel:** add Sign In Panel  to demo-app ([#7](https://github.com/ggranum/tangential/issues/7)) ([a7eca2d](https://github.com/ggranum/tangential/commit/a7eca2d))
+
+
+
 <a name="0.0.1-beta.4"></a>
 ## [0.0.1-beta.4](https://github.com/ggranum/tangential/compare/v0.0.1-beta.3...v0.0.1-beta.4) (2017-01-24)
 
