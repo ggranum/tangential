@@ -135,7 +135,7 @@ export class SignInPanelComponent {
 
   @Input() username: string
   @Input() requireEmailUsername: boolean
-  @Input() displayMode: SignInAction
+  @Input() displayMode: SignInAction = SignInAction.signIn
   @Input() preventSubmit: boolean = false
 
   @Output() authChange: EventEmitter<ChangeEvent<AuthInfo>> = new EventEmitter<ChangeEvent<AuthInfo>>(false)
@@ -145,7 +145,7 @@ export class SignInPanelComponent {
 
   prevAuthInfo: AuthInfo
   authInfo: AuthInfo
-  rsrc: SignInPanelResources
+  rsrc: SignInPanelResources = SIGN_IN_RSRC
 
   constructor() {
     this.authInfo = {

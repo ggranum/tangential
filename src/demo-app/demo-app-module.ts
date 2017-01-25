@@ -25,7 +25,7 @@ import {InlineProfileDemo} from "./ux/inline-profile-demo";
     MaterialModule.forRoot(),
     ReactiveFormsModule,
     RouterModule.forRoot(DEMO_APP_ROUTES),
-    AsciidoctorPanelModule.forRoot(),
+    AsciidoctorPanelModule,
     AuthorizationServiceDemoModule,
     InlineProfileModule,
     InlineLoginFormModule,
