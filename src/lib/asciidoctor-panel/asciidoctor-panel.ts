@@ -19,7 +19,7 @@ import 'asciidoctorjs-web-repack/asciidoctor-all.min'
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation:ViewEncapsulation.None
 })
-export class RvAsciidoctorComponent implements AfterContentInit {
+export class AsciidoctorComponent implements AfterContentInit {
 
   private _content: string = "";
   private _asciidoctorRenderer: AsciidoctorPanelRenderer = null;
@@ -72,13 +72,13 @@ class AsciidoctorPanelRenderer {
 }
 
 @NgModule({
-  exports: [RvAsciidoctorComponent],
-  declarations: [RvAsciidoctorComponent],
+  exports: [AsciidoctorComponent],
+  declarations: [AsciidoctorComponent],
 })
-export class RvAsciidoctorPanelModule {
+export class AsciidoctorPanelModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: RvAsciidoctorPanelModule,
+      ngModule: AsciidoctorPanelModule,
     };
   }
 }

@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter} from '@angular/core'
+import {Injectable, EventEmitter, NgZone} from '@angular/core'
 import {Observable, Subscriber} from 'rxjs'
 import {EmailPasswordCredentials, AuthUser, AuthUserIF, AuthRole, AuthPermission} from "@tangential/media-types";
 import {FirebaseProvider} from "@tangential/firebase-util"
@@ -15,7 +15,7 @@ export class FirebaseVisitorService implements VisitorService {
   private _signInState$: EventEmitter<SignInState>
   private _currentVisitor: AuthUser
 
-  constructor(public fb: FirebaseProvider, private _userService: UserService) {
+  constructor(public fb: FirebaseProvider, private _userService: UserService, private _zone:NgZone) {
     this._auth = fb.app.auth()
     this._signInState$ = new EventEmitter<SignInState>(false)
     this._setSignInState(SignInState.unknown)
@@ -24,7 +24,7 @@ export class FirebaseVisitorService implements VisitorService {
   _setSignInState(newState: SignInState) {
     if (this._signInStateValue !== newState) {
       this._signInStateValue = newState
-      this._signInState$.emit(this._signInStateValue)
+      this._zone.run(() => this._signInState$.emit(this._signInStateValue))
     }
   }
 
@@ -119,7 +119,7 @@ export class FirebaseVisitorService implements VisitorService {
   signOnObserver(): Observable<AuthUser> {
     return Observable.create((subscriber:Subscriber<any>) => {
       this._auth.onAuthStateChanged((event:any) => {
-        subscriber.next(event)
+        this._zone.run(() => subscriber.next(event))
       })
     }).map((fbAuthState:any) => {
       let visitor: AuthUser = null
@@ -159,9 +159,7 @@ export class FirebaseVisitorService implements VisitorService {
 
 
   getEffectivePermissions$():Observable<AuthPermission[]> {
-    return this._userService.getEffectivePermissionsForUser$(this._currentVisitor).do((perms)=>{
-      console.log('FirebaseVisitorService', 'Received effective permissions')
-    })
+    return this._userService.getEffectivePermissionsForUser$(this._currentVisitor)
   }
 
   getGrantedPermissions$():Observable<AuthPermission[]> {

@@ -1,7 +1,4 @@
 import {ObjMap} from "../lang/omap";
-export interface RvError {
-  code: string, message: string, args?: any[]
-}
 
 export class ObjectUtil {
 

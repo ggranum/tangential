@@ -9,7 +9,7 @@ import {
   ActivatedRoute
 } from "@angular/router";
 import {
-  SignInState
+  SignInState, VisitorService
 } from "@tangential/authorization-service";
 import {Observable} from "rxjs";
 import {AuthUserIF} from "@tangential/media-types";
@@ -17,9 +17,9 @@ import {AuthUserIF} from "@tangential/media-types";
 @Component({
   selector: 'tg-sign-in-panel-page',
   template: `
-<div class='sign-in-page-content' layout="row" layout-align="center start">
-  <tg-sign-in-panel ></tg-sign-in-panel>
-</div>`,
+    <div class='sign-in-page-content' layout="row" layout-align="center start">
+      <tg-sign-in-panel ></tg-sign-in-panel>
+    </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
@@ -27,15 +27,15 @@ export class SignInPanelPage {
   private redirectTo: string
 
   signInState$: Observable<SignInState>
-  user$: Observable<AuthUserIF>
+  visitor$: Observable<AuthUserIF>
 
-  constructor(private route: ActivatedRoute, private router: Router) {
-    // this.signInState$ = _store.select((s: AuthStoreState) => safe(() => s.auth.transient.signInState))
-    // this.user$ = _store.select((s: AuthStoreState) => safe(() => s.auth.transient.visitor))
-  }
+  constructor(private route: ActivatedRoute, private router: Router, private _visitorService: VisitorService) {}
 
 
   ngOnInit() {
+    this.signInState$ = this._visitorService.signInState$()
+    this.visitor$ = this._visitorService.signOnObserver()
+
     this.route.params.forEach((params: Params) => {
       this.redirectTo = params['redirect']
     });
@@ -51,7 +51,7 @@ export class SignInPanelPage {
     )
   }
 
-  onSignInSuccess(){
+  onSignInSuccess() {
     this.router.navigate([this.redirectTo || '/'])
   }
 }
