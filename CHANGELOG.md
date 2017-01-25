@@ -1,3 +1,13 @@
+<a name="0.0.1-beta.6"></a>
+## [0.0.1-beta.6](https://github.com/ggranum/tangential/compare/v0.0.1-beta.5...v0.0.1-beta.6) (2017-01-25)
+
+
+### Bug Fixes
+
+* **Asciidoctor-panel:** inconsistent module layout. ([#8](https://github.com/ggranum/tangential/issues/8)) ([d6710ce](https://github.com/ggranum/tangential/commit/d6710ce))
+
+
+
 <a name="0.0.1-beta.5"></a>
 ## [0.0.1-beta.5](https://github.com/ggranum/tangential/compare/v0.0.1-beta.4...v0.0.1-beta.5) (2017-01-25)
 
