@@ -45,6 +45,11 @@
       "description": "",
       "orderIndex": 6
     },
+    "VIEW USERS": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 6
+    },
     "GRANT ROLE": {
       "createdMils": 1481726286361,
       "description": "",
@@ -141,6 +146,7 @@
       "ADD PERMISSION": true,
       "ADD ROLE": true,
       "ADD USER": true,
+      "VIEW USERS": true,
       "GRANT ROLE": true,
       "GRANT PERMISSION": true,
       "MODIFY OWN PROFILE": true,

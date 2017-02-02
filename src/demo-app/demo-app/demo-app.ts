@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation, Input} from '@angular/core';
+import {Component, ViewEncapsulation} from '@angular/core';
 
 
 const NAV_ITEMS = [

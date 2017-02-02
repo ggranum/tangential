@@ -1,6 +1,6 @@
 = Tangential
 
-Live demo available https://tangentialdemo.firebaseapp.com/[here] (soon).
+Live demo available https://tangential-demo.firebaseapp.com/[here].
 
 == About
 
@@ -15,11 +15,11 @@ Visual components are (or will be) consumable without needing to include unneces
 
 This project's build system was adopted from the Material Design team's Material2 project, prior to their merging all their components into a single namespace. Aside from offering a number of useful components, you may find this project to be a useful template to follow if you are attempting to create a component library of your own.
 
-== Getting Started: UsingTangential widgets in your project
+== Getting Started: Using Tangential widgets in your project
 
 If you are interested is using this project as a template for your own component library, check out the DEVELOPER.md readme.
 
-*[Coming soon - see https://github.com/ggranum/revector-demo[Revector Demo] for the time being]* For developing with the components in this library, take a look at the https://github.com/ggranum/tangential-demo[Tangential Demo project] to see how to import, configure and consume Tangential components.
+For developing with the components in this library, take a look at the https://github.com/ggranum/tangential-demo[Tangential Demo project] to see how to import, configure and consume Tangential components.
 
 Each component has it's own readme file, which should (eventually) contain the required install steps specific to that component.
 

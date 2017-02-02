@@ -5,7 +5,7 @@
       ".write": "auth != null"
     },
     "auth": {
-      ".read": "true",
+      ".read": "false",
       ".write": "auth.uid === 'gulp-service-worker'",
       "permissions": {
         ".read": "true",
@@ -16,10 +16,11 @@
         ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' ROLE').exists()"
       },
       "users": {
-        ".read": "auth != null",
+        ".read": "root.child('auth/user_effective_permissions/' + auth.uid + '/VIEW USERS').exists()",
         ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' USER').exists()",
         "$uid": {
-          ".write": "auth.uid == $uid && (!data.exists() || !newData.child('email').exists())"
+          ".read": "auth.uid == $uid",
+          ".write": "auth.uid == $uid && (!data.exists() || !newData.exists() || newData.child('email').val() == data.child('email').val())"
         }
       },
       "user_granted_permissions": {
@@ -27,25 +28,24 @@
         ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE')  + ' PERMISSION').exists()"
       },
       "user_effective_permissions": {
-        ".read": "true",
-        ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' PERMISSION').exists()"
+        ".read": "root.child('auth/user_effective_permissions/' + auth.uid + '/VIEW USERS').exists()",
+        ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' PERMISSION').exists()",
+        "$uid": {
+          ".read": "auth.uid == $uid"
+        }
       },
       "role_permissions": {
-        ".read": "true",
+        ".read": "auth != null",
         "$uid": {
           ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' PERMISSION').exists()"
         }
       },
       "user_roles": {
-        ".read": "true",
+        ".read": "auth != null",
         "$uid": {
           ".write": "root.child('auth/user_effective_permissions/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' ROLE').exists()"
         }
       }
-    },
-    "items": {
-      ".read": "true",
-      ".write": "auth != null"
     }
   }
 }
