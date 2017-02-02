@@ -3,7 +3,7 @@ import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router}    fro
 import {VisitorService} from "../state/visitor/visitor-service";
 
 /**
- * Don't forget to register this class as a Provider in your module before using it on a route.
+ * Register this class as a Provider in your module before using it on a route.
  */
 @Injectable()
 export class SignedInGuard implements CanActivate {

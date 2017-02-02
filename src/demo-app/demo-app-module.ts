@@ -6,15 +6,14 @@ import {MaterialModule} from "@angular/material"
 
 import {DEMO_APP_ROUTES} from "./demo-app/routes"
 import {DemoApp, Home} from "./demo-app/demo-app"
-import {ButtonDemo} from "./button/button-demo"
 
 import {AsciidoctorPanelModule} from "@tangential/asciidoctor-panel"
 import {InlineProfileModule} from "@tangential/inline-profile"
-import {AuthorizationServiceDemoModule} from "./authorization-service/authorization-service-demo"
+import {AuthorizationServiceDemoModule} from "./demo-pages/authorization-service/authorization-service-demo"
 import {InlineLoginFormModule} from "@tangential/inline-login-form"
 import {SignInPanelModule} from "@tangential/sign-in-panel";
-import {AsciiDoctorPanelDemo} from "./asciidoctor-panel/asciidoctor-panel-demo";
-import {InlineProfileDemo} from "./ux/inline-profile-demo";
+import {AsciiDoctorPanelDemo} from "./demo-pages/asciidoctor-panel/asciidoctor-panel-demo";
+import {InlineProfileDemo} from "./demo-pages/ux/inline-profile-demo";
 import {RouterModule} from "@angular/router";
 import {SignedInGuard, FirebasePermissionService, PermissionService} from "@tangential/authorization-service";
 import {FirebaseProvider, FirebaseConfig} from "@tangential/firebase-util";
@@ -47,7 +46,6 @@ import {SignInPageComponent} from "./pages/sign-in/sign-in-page.component";
     SignInPanelModule,
   ],
   declarations: [
-    ButtonDemo,
     SignInPageComponent,
     AsciiDoctorPanelDemo,
     InlineProfileDemo,

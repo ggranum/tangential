@@ -2,7 +2,6 @@ import {Component, ViewEncapsulation} from '@angular/core';
 
 
 const NAV_ITEMS = [
-  {name: 'Button', route: 'button'},
   {name: 'Asciidoctor-panel', route: 'asciidoctor-panel'},
   {name: 'Authorization-service', route: 'authorization-service'},
   {name: 'Admin Panel Demo', route: 'admin-demo'},
