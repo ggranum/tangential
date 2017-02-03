@@ -5,11 +5,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms"
 import {MaterialModule} from "@angular/material"
 
 import {DEMO_APP_ROUTES} from "./demo-app/routes"
-import {DemoApp, Home} from "./demo-app/demo-app"
+import {DemoApp} from "./demo-app/demo-app"
 
 import {AsciidoctorPanelModule} from "@tangential/asciidoctor-panel"
 import {InlineProfileModule} from "@tangential/inline-profile"
-import {AuthorizationServiceDemoModule} from "./demo-pages/authorization-service/authorization-service-demo"
 import {InlineLoginFormModule} from "@tangential/inline-login-form"
 import {SignInPanelModule} from "@tangential/sign-in-panel";
 import {AsciiDoctorPanelDemo} from "./demo-pages/asciidoctor-panel/asciidoctor-panel-demo";
@@ -28,7 +27,9 @@ import {
 // if the firebase-config.local file doesn't exist then you still need to run 'gulp firebase:init-project
 // see the docs regarding preparing Firebase.
 import {firebaseConfig} from "../lib/authorization-service/config/firebase-config.local";
-import {SignInPageComponent} from "./pages/sign-in/sign-in-page.component";
+import {SignInPageComponent} from "./demo-app/pages/sign-in/sign-in-page.component";
+import {HomeComponent} from "./demo-app/pages/home/home.component";
+import {AuthorizationServiceDemoModule} from "./demo-pages/authorization-service/authorization-service-demo.module";
 
 
 @NgModule({
@@ -50,7 +51,7 @@ import {SignInPageComponent} from "./pages/sign-in/sign-in-page.component";
     AsciiDoctorPanelDemo,
     InlineProfileDemo,
     DemoApp,
-    Home,
+    HomeComponent,
   ],
   providers: [
     {provide: FirebaseConfig, useValue: firebaseConfig},
