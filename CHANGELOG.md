@@ -1,3 +1,13 @@
+<a name="0.0.1-beta.7"></a>
+## [0.0.1-beta.7](https://github.com/ggranum/tangential/compare/v0.0.1-beta.6...v0.0.1-beta.7) (2017-02-03)
+
+
+### Features
+
+* **Auth-Guards:** Add a basic sign-in guard ([3081fd2](https://github.com/ggranum/tangential/commit/3081fd2))
+
+
+
 <a name="0.0.1-beta.6"></a>
 ## [0.0.1-beta.6](https://github.com/ggranum/tangential/compare/v0.0.1-beta.5...v0.0.1-beta.6) (2017-01-25)
 
