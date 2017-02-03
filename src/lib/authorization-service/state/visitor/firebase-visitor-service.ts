@@ -7,8 +7,16 @@ import {VisitorService} from "./visitor-service";
 import {UserService} from "../user/user-service";
 import {SignInState} from "../../sign-in-state";
 
+const SIGNED_IN_STATES = [
+  SignInState.signedIn,
+  SignInState.newAccount,
+  SignInState.signedInAnonymous,
+].sort()
+
 @Injectable()
-export class FirebaseVisitorService implements VisitorService {
+export class FirebaseVisitorService extends VisitorService {
+
+  redirectUrl: string;
 
   private _auth: firebase.auth.Auth
   private _signInStateValue: SignInState
@@ -16,6 +24,8 @@ export class FirebaseVisitorService implements VisitorService {
   private _currentVisitor: AuthUser
 
   constructor(public fb: FirebaseProvider, private _userService: UserService, private _zone:NgZone) {
+    super()
+    console.log('FirebaseVisitorService', 'constructor')
     this._auth = fb.app.auth()
     this._signInState$ = new EventEmitter<SignInState>(false)
     this._setSignInState(SignInState.unknown)
@@ -155,6 +165,10 @@ export class FirebaseVisitorService implements VisitorService {
 
   signInState(): SignInState {
     return this._signInStateValue
+  }
+
+  isVisitorSignedIn():boolean {
+    return SIGNED_IN_STATES.indexOf(this._signInStateValue) > -1
   }
 
 

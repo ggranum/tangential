@@ -45,6 +45,11 @@
       "description": "",
       "orderIndex": 6
     },
+    "VIEW USERS": {
+      "createdMils": 1481726286361,
+      "description": "",
+      "orderIndex": 6
+    },
     "GRANT ROLE": {
       "createdMils": 1481726286361,
       "description": "",
@@ -87,6 +92,7 @@
       "ADD USER": true,
       "MODIFY USER": true,
       "REMOVE USER": true,
+      "VIEW USERS": true,
       "GRANT PERMISSION": true,
       "REVOKE PERMISSION": true,
       "GRANT ROLE": true,
@@ -124,6 +130,7 @@
       "ADD PERMISSION": true,
       "ADD ROLE": true,
       "ADD USER": true,
+      "VIEW USERS": true,
       "GRANT ROLE": true,
       "GRANT PERMISSION": true,
       "MODIFY OWN PROFILE": true,
@@ -141,6 +148,7 @@
       "ADD PERMISSION": true,
       "ADD ROLE": true,
       "ADD USER": true,
+      "VIEW USERS": true,
       "GRANT ROLE": true,
       "GRANT PERMISSION": true,
       "MODIFY OWN PROFILE": true,

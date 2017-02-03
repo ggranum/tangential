@@ -12,14 +12,22 @@
     <button md-button (click)="start.close()">CLOSE</button>
   </md-sidenav>
   <div>
-    <md-toolbar color="primary">
-      <button md-icon-button (click)="start.open()">
-        <md-icon class="md-24" >menu</md-icon>
-      </button>
-      <div class="demo-toolbar">
-        <h1><a [routerLink]="['']">Tangential</a></h1>
+    <md-toolbar color="primary" >
+      <div flex layout="row" layout-align="start">
+        <button md-icon-button (click)="start.open()">
+          <md-icon class="md-24">menu</md-icon>
+        </button>
+        <div class="demo-toolbar">
+          <h1><a [routerLink]="['']">Tangential</a></h1>
+        </div>
       </div>
-
+      <div flex layout="row" layout-align="end">
+        <tg-inline-profile-component
+          [user]="visitor$ | async"
+          [signInState]="signInState$ | async"
+          (signOut)="onSignOut($event)"
+        ></tg-inline-profile-component>
+      </div>
     </md-toolbar>
 
     <div #root="$implicit" dir="ltr" class="demo-content">
