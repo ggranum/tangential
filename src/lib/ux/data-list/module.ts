@@ -5,7 +5,7 @@ import {CommonModule} from '@angular/common'
 
 import {MdButtonModule} from '@angular/material/button/button'
 import {MdIconModule} from '@angular/material/icon/icon'
-import {MdInputModule} from '@angular/material/input/input'
+import {MdInputModule} from "@angular/material/input";
 import {MdListModule} from '@angular/material/list'
 import {MdCheckboxModule} from '@angular/material/checkbox'
 

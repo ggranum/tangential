@@ -14,35 +14,40 @@
         <form (ngSubmit)="onSubmit($event)" (change)="onAuthChange(signInForm)" #signInForm="ngForm"
               flex layout="column"
               layout-align="space-between">
-          <md-input [(ngModel)]="authInfo.username" name="username" #fUsername="ngModel"
-                    class="username-field"
-                    dividerColor="accent"
-                    flex
-                    tabindex="0"
-                    [type]="requireEmailUsername ? 'email' : 'text'"
-                    required minlength="5"
-                    value="{{authInfo.username}}"
-                    placeholder="{{rsrc.usernameInput.placeholder}}"></md-input>
+          <md-input-container flex dividerColor="accent">
 
-          <md-input *ngIf="!isForgotPasswordMode()" [(ngModel)]="authInfo.password" name="password" #fPassword="ngModel"
-                    class="password-field"
-                    dividerColor="accent"
-                    flex
-                    [type]="'password'"
-                    required minlength="8"
-                    placeholder="{{rsrc.passwordInput.placeholder}}"></md-input>
 
-          <md-input *ngIf="isSignUpMode()" [(ngModel)]="authInfo.password2" name="password2" #fPassword2="ngModel"
-                    class="password-field"
-                    dividerColor="accent"
-                    flex
-                    [type]="'password'"
-                    required minlength="8"
-                    placeholder="{{rsrc.password2Input.placeholder}}"></md-input>
+            <input mdInput [(ngModel)]="authInfo.username" name="username" #fUsername="ngModel"
+                   class="username-field"
+                   tabindex="0"
+                   [type]="requireEmailUsername ? 'email' : 'text'"
+                   required minlength="5"
+                   value="{{authInfo.username}}"
+                   placeholder="{{rsrc.usernameInput.placeholder}}">
+
+          </md-input-container>
+
+          <md-input-container flex *ngIf="!isForgotPasswordMode()" dividerColor="accent">
+            <input mdInput [(ngModel)]="authInfo.password" name="password"
+                   #fPassword="ngModel"
+                   class="password-field"
+                   [type]="'password'"
+                   required minlength="8"
+                   placeholder="{{rsrc.passwordInput.placeholder}}"/>
+          </md-input-container>
+          <md-input-container flex *ngIf="isSignUpMode()" dividerColor="accent">
+            <input mdInput [(ngModel)]="authInfo.password2" name="password2"
+                   #fPassword2="ngModel"
+                   class="password-field"
+                   [type]="'password'"
+                   required minlength="8"
+                   placeholder="{{rsrc.password2Input.placeholder}}"/>
+          </md-input-container>
 
           <div *ngIf="isSignInMode()" class="forgot-password-link">{{rsrc.resetPasswordText}} <a
             href="javascript:void(0);"
-            (click)="$event.stopPropagation(); $event.preventDefault(); onForgotPasswordModeClick()">{{rsrc.resetPasswordLinkText}}</a></div>
+            (click)="$event.stopPropagation(); $event.preventDefault(); onForgotPasswordModeClick()">{{rsrc.resetPasswordLinkText}}</a>
+          </div>
 
           <md-checkbox *ngIf="isSignInMode()" [(ngModel)]="authInfo.rememberMe" name="rememberMe" #fRememberMe="ngModel"
                        class="remember-me-field"

@@ -1,21 +1,23 @@
 <div *ngIf="isSignedOut(signInState) || isUnknownState(signInState)" class="tg-nav-login-form" layout="row"
      layout-align="space-between center">
   <form (ngSubmit)="onSubmit($event)" #loginForm="ngForm" flex layout="row" layout-align="space-between center">
-    <md-input [(ngModel)]="username" name="fUsername" #fUsername="ngModel"
+    <md-input-container flex>
+    <input mdInput [(ngModel)]="username" name="fUsername" #fUsername="ngModel"
               class="tg-username tg-input"
               dividerColor="accent"
-              flex
               [type]="requireEmailUsername ? 'email' : 'text'"
               required minlength="5"
-              placeholder="{{usernameFieldLabel}}"></md-input>
+              placeholder="{{usernameFieldLabel}}"/>
+    </md-input-container>
 
-    <md-input [(ngModel)]="password" name="password" #fPassword="ngModel"
+    <md-input-container flex>
+    <input mdInput [(ngModel)]="password" name="password" #fPassword="ngModel"
               class="tg-password tg-input"
               dividerColor="accent"
-              flex
               [type]="'password'"
               required minlength="8"
-              placeholder="{{passwordFieldLabel}}"></md-input>
+              placeholder="{{passwordFieldLabel}}"/>
+    </md-input-container>
 
     <button md-raised-button
             [disabled]="loginForm.invalid"

@@ -152,7 +152,7 @@ export class ObservableReference<T, C> {
     let path = this.path + '/' + childPath
     let child = this._children.get(path)
     if (!child) {
-      child = new ObservableReference(path, this.fbApp, transform, null, this._zone )
+      child = new ObservableReference(path, this.fbApp, transform || this.childTransform, null, this._zone )
       this._children.set(path, child)
     }
     return child

@@ -1,29 +1,33 @@
-<div class="tg-permission-form-wrapper" flex layout="column" layout-align="start" >
+<div class="tg-permission-form-wrapper" flex layout="column" layout-align="start">
   <form *ngIf="permission != null" (ngSubmit)="onSubmit($event)" #permissionForm="ngForm" flex layout="row" layout-align="space-between">
 
     <div class="tg-permission-inputs-wrapper" layout="row" flex="80" layout-align="space-between start">
-      <md-input [(ngModel)]="permission.$key" name="name" #fName="ngModel"
-                class="tg-input"
-                dividerColor="accent"
-                flex="40"
-                [type]="'text'"
-                required minlength="2"
-                value="{{permission.$key}}"
-                placeholder="Name"
-                (change)="onChange($event)"
-                (focus)="onFocus($event)"
-                (blur)="onBlur($event)"
-      ></md-input>
-      <md-input [(ngModel)]="permission.description" name="description" #fDescription="ngModel"
-                class="tg-description tg-input"
-                dividerColor="accent"
-                flex="60"
-                [type]="'text'"
-                value="{{permission.description}}"
-                (change)="onChange($event)"
-                (focus)="onFocus($event)"
-                (blur)="onBlur($event)"
-                placeholder="Description"></md-input>
+      <md-input-container flex="40">
+        <input mdInput [(ngModel)]="permission.$key" name="name" #fName="ngModel"
+               class="tg-input"
+               dividerColor="accent"
+
+               [type]="'text'"
+               required minlength="2"
+               value="{{permission.$key}}"
+               placeholder="Name"
+               (change)="onChange($event)"
+               (focus)="onFocus($event)"
+               (blur)="onBlur($event)"
+        />
+      </md-input-container>
+      <md-input-container flex="60">
+        <input mdInput [(ngModel)]="permission.description" name="description" #fDescription="ngModel"
+               class="tg-description tg-input"
+               dividerColor="accent"
+
+               [type]="'text'"
+               value="{{permission.description}}"
+               (change)="onChange($event)"
+               (focus)="onFocus($event)"
+               (blur)="onBlur($event)"
+               placeholder="Description"/>
+      </md-input-container>
     </div>
     <div class="tg-delete-button" flex layout="row" layout-align="end center">
       <button md-mini-fab
@@ -36,7 +40,7 @@
         <md-icon class="md-24">delete</md-icon>
       </button>
     </div>
-  </form>
+    </form>
 </div>
 
 

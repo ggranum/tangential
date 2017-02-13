@@ -1,8 +1,8 @@
 [
   {
     "uid": "Administrator",
-    "email": "",
-    "password": "administrator@example.com",
+    "email": "administrator@example.com",
+    "password": "",
     "displayName": "Administrator",
     "disabled": false
   },
