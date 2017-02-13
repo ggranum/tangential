@@ -1,3 +1,13 @@
+<a name="0.0.1-beta.8"></a>
+## [0.0.1-beta.8](https://github.com/ggranum/tangential/compare/v0.0.1-beta.7...v0.0.1-beta.8) (2017-02-13)
+
+
+### Features
+
+* **common:** update material design for fixes ([#10](https://github.com/ggranum/tangential/issues/10)) ([ab8d3d5](https://github.com/ggranum/tangential/commit/ab8d3d5))
+
+
+
 <a name="0.0.1-beta.7"></a>
 ## [0.0.1-beta.7](https://github.com/ggranum/tangential/compare/v0.0.1-beta.6...v0.0.1-beta.7) (2017-02-03)
 
