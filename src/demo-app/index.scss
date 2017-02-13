@@ -2,7 +2,7 @@
 
 
 // Include non-theme styles for core.
-@include md-core();
+@include mat-core();
 
 // Define a theme.
 $primary: md-palette($md-indigo);

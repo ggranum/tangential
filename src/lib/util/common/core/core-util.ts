@@ -12,6 +12,17 @@ export class ObjectUtil {
     })
     return cleanObj
   }
+
+  static removeIllegalFirebaseKeys<T>(obj: T): T {
+    let cleanObj: T = <T>{}
+    Object.keys(obj).forEach((key) => {
+      let v = obj[key]
+      if (v !== null && v !== undefined && !key.startsWith('$')) {
+        cleanObj[key] = v
+      }
+    })
+    return cleanObj
+  }
 }
 
 export const cleanFirebaseMap = function<T>(firebaseList: ObjMap<T>, deep?: boolean): ObjMap<T> {

@@ -5,7 +5,7 @@ import {FormsModule} from '@angular/forms'
 
 import {MdButtonModule} from '@angular/material/button/button'
 import {MdIconModule} from '@angular/material/icon/icon'
-import {MdInputModule} from '@angular/material/input/input'
+import {MdInputModule} from '@angular/material/input'
 
 
 import {AuthUserIF} from "@tangential/media-types";

@@ -19,7 +19,7 @@ export class ObservableObjMapReference<T> extends ObservableReference<ObjMap<T>,
               try {
                 tMap[key] = childTransform(anyMap[key], key)
               } catch (e) {
-                console.error('ObservableReference#_fromSnapshot', key, anyMap[key], childTransform)
+                console.error('ObservableReference#_fromSnapshot', key, anyMap[key], childTransform, e)
               }
             })
           }
