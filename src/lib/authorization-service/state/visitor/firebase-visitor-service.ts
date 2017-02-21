@@ -1,5 +1,5 @@
 import {Injectable, EventEmitter, NgZone} from '@angular/core'
-import {Observable, Subscriber} from 'rxjs'
+import {Observable, Subscriber, BehaviorSubject} from 'rxjs'
 import {EmailPasswordCredentials, AuthUser, AuthUserIF, AuthRole, AuthPermission} from "@tangential/media-types";
 import {FirebaseProvider} from "@tangential/firebase-util"
 //noinspection TypeScriptPreferShortImport
@@ -20,21 +20,21 @@ export class FirebaseVisitorService extends VisitorService {
 
   private _auth: firebase.auth.Auth
   private _signInStateValue: SignInState
-  private _signInState$: EventEmitter<SignInState>
+  private _signInStateSubject: BehaviorSubject<SignInState>
   private _currentVisitor: AuthUser
 
   constructor(public fb: FirebaseProvider, private _userService: UserService, private _zone:NgZone) {
     super()
     console.log('FirebaseVisitorService', 'constructor')
     this._auth = fb.app.auth()
-    this._signInState$ = new EventEmitter<SignInState>(false)
+    this._signInStateSubject = new BehaviorSubject(SignInState.unknown)
     this._setSignInState(SignInState.unknown)
   }
 
   _setSignInState(newState: SignInState) {
     if (this._signInStateValue !== newState) {
       this._signInStateValue = newState
-      this._zone.run(() => this._signInState$.emit(this._signInStateValue))
+      this._zone.run(() => this._signInStateSubject.next(this._signInStateValue))
     }
   }
 
@@ -160,7 +160,7 @@ export class FirebaseVisitorService extends VisitorService {
   }
 
   signInState$(): Observable<SignInState> {
-    return this._signInState$
+    return this._signInStateSubject
   }
 
   signInState(): SignInState {

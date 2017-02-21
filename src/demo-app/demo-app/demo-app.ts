@@ -48,6 +48,6 @@ export class DemoApp {
   }
 
   navigateToAdmin() {
-    this._router.navigate(['./admin']);
+    this._router.navigate(['./admin-demo']);
   }
 }
