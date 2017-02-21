@@ -5,33 +5,31 @@
 @include mat-core();
 
 // Define a theme.
-$primary: md-palette($md-indigo);
-$accent:  md-palette($md-pink, A200, A100, A400);
+$primary: mat-palette($mat-indigo);
+$accent:  mat-palette($mat-pink, A200, A100, A400);
 
-$theme: md-light-theme($primary, $accent);
+$theme: mat-light-theme($primary, $accent);
 
 // Include all theme styles for the components.
 @include angular-material-theme($theme);
 
+html {
+  min-height: 100%;
+  height: 100%;
+}
+
 body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+
+  min-height:100%;
+  padding:0;
+  margin:0;
 
   // Helps fonts on OSX looks more consistent with other systems
   // Isn't currently in button styles due to performance concerns
   * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  md-sidenav {
-    min-width: 15%;
-
-    [md-button] {
-      width: 100%;
-      position: relative;
-      bottom: 0;
-      margin: 24px 0;
-    }
   }
 
   .demo-content {
@@ -53,4 +51,21 @@ body {
   h1 {
     font-size: 20px;
   }
+}
+
+
+.tg-debug-blue {
+  border: 1px solid blue;
+}
+
+.tg-debug-green {
+  border: 1px solid green;
+}
+
+.tg-debug-red {
+  border: 1px solid red;
+}
+
+.tg-debug-purple {
+  border: 1px solid purple;
 }

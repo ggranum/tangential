@@ -2,6 +2,7 @@ import {Component, ViewEncapsulation} from '@angular/core';
 import {VisitorService, SignInState} from "@tangential/authorization-service";
 import {Observable} from "rxjs";
 import {AuthUser} from "@tangential/media-types";
+import {Router} from "@angular/router";
 
 
 export const NAV_ITEMS = [
@@ -26,7 +27,7 @@ export class DemoApp {
   navItems = NAV_ITEMS
 
 
-  constructor(private _visitorService: VisitorService) { }
+  constructor(private _router:Router, private _visitorService: VisitorService) { }
 
   ngOnInit(){
     this.signInState$ = this._visitorService.signInState$().map((state) => {
@@ -44,5 +45,9 @@ export class DemoApp {
     this._visitorService.signOut().then(()=>{
       console.log('DemoApp', 'Signed out')
     })
+  }
+
+  navigateToAdmin() {
+    this._router.navigate(['./admin']);
   }
 }

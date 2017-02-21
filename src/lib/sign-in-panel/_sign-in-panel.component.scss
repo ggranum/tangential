@@ -15,8 +15,8 @@
     .sign-in-panel-content {
       height: 31em;
       width: 25em;
-      background-color: md-color($background, card);
-      color: md-color($foreground, text);
+      background-color: mat-color($background, card);
+      color: mat-color($foreground, text);
     }
 
     .sign-in-panel-body {
@@ -24,7 +24,7 @@
     }
 
     .sign-in-panel-header {
-      background: md-color($background, app-bar);
+      background: mat-color($background, app-bar);
       padding: .75em 2em 1.5em 2em;
     }
 
@@ -80,7 +80,7 @@
     padding: 24px;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-touch-callout: none;
-    background-color: md-color($background, background);
+    background-color: mat-color($background, background);
   }
 
 }

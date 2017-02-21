@@ -4,10 +4,11 @@ import {
   Input,
   ViewEncapsulation,
   Output,
-  EventEmitter
+  EventEmitter, OnInit, HostBinding
 } from "@angular/core";
 import {ChangeEvent} from "@tangential/common";
 import {NgForm} from "@angular/forms";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 export enum SignInAction {
   signUp = 10,
@@ -128,10 +129,32 @@ ResourceState[SignInAction.forgotPassword] = FORGOT_PASSWORD_RSRC
 @Component({
   selector: 'tg-sign-in-panel',
   templateUrl: 'sign-in-panel.component.html',
+  styles:[
+`
+  tg-sign-in-panel {
+    min-height: 100%;
+    min-width: 100%;
+  }
+  
+  tg-sign-in-panel .tg-button {
+    margin-top: 2em;
+  }
+  
+  tg-sign-in-panel .tg-remember-me {
+    margin-top: 2em;
+  }
+  
+`
+  ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SignInPanelComponent {
+export class SignInPanelComponent implements OnInit {
+
+
+  @HostBinding('attr.flex') flex;
+  @HostBinding('attr.layout') flexLayout = 'column';
+  @HostBinding('attr.layout-align') flexLayoutAlign = 'start';
 
   @Input() username: string
   @Input() requireEmailUsername: boolean
@@ -147,7 +170,7 @@ export class SignInPanelComponent {
   authInfo: AuthInfo
   rsrc: SignInPanelResources = SIGN_IN_RSRC
 
-  constructor() {
+  constructor(private _route: ActivatedRoute, private _router: Router) {
     this.authInfo = {
       action: null,
       username: '',
@@ -155,6 +178,24 @@ export class SignInPanelComponent {
       password2: '',
       rememberMe: true
     }
+  }
+
+  ngOnInit() {
+    console.log('SignInPanelComponent', 'ngOnInit', this._route)
+    this._route.params.subscribe((params: Params) => {
+      let mode = params['mode']
+      console.log('SignInPanelComponent', 'LKHJKJDHFKDHFKHKDF', mode)
+      if(!mode || mode == 'sign-in'){
+        this.setDisplayMode((SignInAction.signIn))
+      } else if(mode == 'sign-up'){
+        this.setDisplayMode((SignInAction.signUp))
+      } else {
+        this.setDisplayMode(SignInAction.forgotPassword)
+      }
+
+    }, (e) => {
+      console.error('Error creating sign-in-panel component', e)
+    });
   }
 
   ngOnChanges(change: any) {
@@ -237,10 +278,12 @@ export class SignInPanelComponent {
   private cycleDisplayMode(action: SignInAction) {
     switch (action) {
       case SignInAction.signIn:
-        this.setDisplayMode(SignInAction.signUp);
+        this._router.navigate([{mode: 'sign-up'} ])
+        //this.setDisplayMode(SignInAction.signUp);
         break;
       case SignInAction.signUp:
-        this.setDisplayMode(SignInAction.signIn);
+        this._router.navigate([{mode: 'sign-in'} ])
+        //this.setDisplayMode(SignInAction.signIn);
         break;
       case SignInAction.forgotPassword:
         this.setDisplayMode(SignInAction.signIn);
