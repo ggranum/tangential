@@ -1,22 +1,20 @@
-<div class="sign-in-panel-content drop-shadow" flex layout="column">
-  <div class="sign-in-panel-body" flex layout="column">
-    <div class="sign-in-panel-header" flex="auto">
+<div flex class="sign-in-panel-content drop-shadow" layout="row" layout-align="center">
+  <div flex class="sign-in-panel-body" layout="column" layout-align="start">
+    <div class="sign-in-panel-header">
       <h2>{{rsrc.headerText}}</h2>
       <div class="dialog-create-account">{{rsrc.subHeaderText}}
         <a href="javascript:void(0);" (click)="onSubHeaderLinkClick($event)">{{rsrc.subHeaderLinkText}}</a>
       </div>
     </div>
-    <div class="content" flex="80" layout="column" layout-align="start">
+    <div flex="80" class="tg-sign-in-panel-content" layout="column" layout-align="start">
       <h3>{{rsrc.ledeText}}</h3>
-      <div class="dialog-fields"
-           flex="90" layout="column"
+      <div flex="90" class="dialog-fields"
+           layout="column"
            layout-align="space-between">
         <form (ngSubmit)="onSubmit($event)" (change)="onAuthChange(signInForm)" #signInForm="ngForm"
               flex layout="column"
               layout-align="space-between">
           <md-input-container flex dividerColor="accent">
-
-
             <input mdInput [(ngModel)]="authInfo.username" name="username" #fUsername="ngModel"
                    class="username-field"
                    tabindex="0"
@@ -24,9 +22,7 @@
                    required minlength="5"
                    value="{{authInfo.username}}"
                    placeholder="{{rsrc.usernameInput.placeholder}}">
-
           </md-input-container>
-
           <md-input-container flex *ngIf="!isForgotPasswordMode()" dividerColor="accent">
             <input mdInput [(ngModel)]="authInfo.password" name="password"
                    #fPassword="ngModel"
@@ -50,18 +46,18 @@
           </div>
 
           <md-checkbox *ngIf="isSignInMode()" [(ngModel)]="authInfo.rememberMe" name="rememberMe" #fRememberMe="ngModel"
-                       class="remember-me-field"
+                       class="tg-remember-me"
                        [checked]="authInfo.rememberMe"
                        flex>{{rsrc.rememberMe.text}}
           </md-checkbox>
 
-          <button md-raised-button
+          <a md-raised-button
                   class="tg-button"
                   [disabled]="signInForm.invalid"
                   color="accent"
                   (click)="onActionClick($event, signInForm)">
             <span> <i class="tg-button-text">{{rsrc.actionButton.text}}</i></span>
-          </button>
+          </a>
         </form>
       </div>
     </div>

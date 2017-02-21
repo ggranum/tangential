@@ -1,37 +1,35 @@
-<md-sidenav-container class="demo-root" fullscreen>
-  <md-sidenav #start>
-    <md-nav-list>
-      <a *ngFor="let navItem of navItems"
-         md-list-item
-         (click)="start.close()"
-         [routerLink]="[navItem.route]">
-        {{navItem.name}}
-      </a>
-      <hr>
-    </md-nav-list>
-    <button md-button (click)="start.close()">CLOSE</button>
-  </md-sidenav>
-  <div>
-    <md-toolbar color="primary" >
-      <div flex layout="row" layout-align="start">
-        <button md-icon-button (click)="start.open()">
-          <md-icon class="md-24">menu</md-icon>
+<div flex layout="column" layout-align="start">
+  <md-toolbar class="snl-main-toolbar" color="primary" layout="column" layout-align="start">
+    <div flex layout="row" layout-align="start center">
+      <div layout="row" layout-align="start center">
+        <button md-icon-button [md-menu-trigger-for]="menu">
+          <md-icon>menu</md-icon>
         </button>
-        <div class="demo-toolbar">
-          <h1><a [routerLink]="['']">Tangential</a></h1>
-        </div>
+        <md-menu #menu="mdMenu">
+          <button md-menu-item (click)="navigateToAdmin()"> Admin</button>
+          <md-nav-list>
+            <a *ngFor="let navItem of navItems"
+               md-list-item
+               [routerLink]="[navItem.route]">
+              {{navItem.name}}
+            </a>
+          </md-nav-list>
+        </md-menu>
       </div>
-      <div flex layout="row" layout-align="end">
-        <tg-inline-profile-component
-          [user]="visitor$ | async"
-          [signInState]="signInState$ | async"
-          (signOut)="onSignOut($event)"
-        ></tg-inline-profile-component>
+      <div flex="grow" layout="row" class="demo-toolbar" layout-align="start center">
+        <h1><a [routerLink]="['']">Tangential</a></h1>
       </div>
-    </md-toolbar>
-
-    <div #root="$implicit" dir="ltr" class="demo-content">
-      <router-outlet></router-outlet>
     </div>
+    <div flex layout="row" layout-align="end">
+      <tg-inline-profile-component
+        [user]="visitor$ | async"
+        [signInState]="signInState$ | async"
+        (signOut)="onSignOut($event)"
+      ></tg-inline-profile-component>
+    </div>
+  </md-toolbar>
+
+  <div flex class="demo-content tg-debug-blue" layout="row" layout-align="center" >
+    <router-outlet></router-outlet>
   </div>
-</md-sidenav-container>
+</div>
