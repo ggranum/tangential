@@ -25,7 +25,6 @@ export class FirebaseVisitorService extends VisitorService {
 
   constructor(public fb: FirebaseProvider, private _userService: UserService, private _zone:NgZone) {
     super()
-    console.log('FirebaseVisitorService', 'constructor')
     this._auth = fb.app.auth()
     this._signInStateSubject = new BehaviorSubject(SignInState.unknown)
     this._setSignInState(SignInState.unknown)

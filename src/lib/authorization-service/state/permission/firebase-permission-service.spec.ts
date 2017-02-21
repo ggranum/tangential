@@ -19,6 +19,8 @@ import {FirebaseProvider, FirebaseConfig} from "@tangential/firebase-util";
 import {TestConfiguration} from "../test-config.spec";
 import {firebaseConfig} from "../../config/firebase-config.local";
 
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
+
 describe('Auth-services.permission.state', () => {
 
   beforeEach((done) => {
