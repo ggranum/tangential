@@ -21,6 +21,8 @@ import {TestConfiguration} from "../test-config.spec";
 import {firebaseConfig} from "../../config/firebase-config.local";
 import {cleanupPermissions} from "../test-setup.spec";
 
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
+
 describe('Authorization.state.visitor', () => {
   beforeEach((done) => {
     TestBed.configureTestingModule({
