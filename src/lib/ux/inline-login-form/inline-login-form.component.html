@@ -1,7 +1,7 @@
-<div *ngIf="isSignedOut(signInState) || isUnknownState(signInState)" class="tg-nav-login-form" layout="row"
-     layout-align="space-between center">
-  <form (ngSubmit)="onSubmit($event)" #loginForm="ngForm" flex layout="row" layout-align="space-between center">
-    <md-input-container flex>
+<div *ngIf="isSignedOut(signInState) || isUnknownState(signInState)" class="tg-nav-login-form" fxLayout="row"
+     fxLayoutAlign="space-between center">
+  <form (ngSubmit)="onSubmit($event)" #loginForm="ngForm" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <md-input-container fxFlex>
     <input mdInput [(ngModel)]="username" name="fUsername" #fUsername="ngModel"
               class="tg-username tg-input"
               dividerColor="accent"
@@ -10,7 +10,7 @@
               placeholder="{{usernameFieldLabel}}"/>
     </md-input-container>
 
-    <md-input-container flex>
+    <md-input-container fxFlex>
     <input mdInput [(ngModel)]="password" name="password" #fPassword="ngModel"
               class="tg-password tg-input"
               dividerColor="accent"

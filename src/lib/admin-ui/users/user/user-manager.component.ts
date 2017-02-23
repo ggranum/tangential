@@ -14,7 +14,7 @@ import {generatePushID, SelectionEntry, SelectionList, ObjMap, ObjMapUtil} from 
               >
 
   <template let-rowItem>
-    <tg-user flex layout="row"
+    <tg-user fxFlex fxLayout="row"
              [user]="rowItem"
              (change)="onItemChange(rowItem)"
              (remove)="onRemove(rowItem.$key)"></tg-user>
@@ -22,16 +22,16 @@ import {generatePushID, SelectionEntry, SelectionList, ObjMap, ObjMapUtil} from 
 
   <tg-data-list-expander>
     <template let-rowItem>
-      <div layout="column" layout-align="start" flex="80">
+      <div fxLayout="column" fxLayoutAlign="start" fxFlex="80">
         <div align="center"><h3>Roles</h3></div>
-        <md-grid-list cols="4" rowHeight="3em" flex>
+        <md-grid-list cols="4" rowHeight="3em" fxFlex>
           <md-grid-tile *ngFor="let roleEntry of rolesByUser[rowItem.$key] | async"
                         [colspan]="1"
                         [rowspan]="1">
-            <div flex class="tg-user-role">
+            <div fxFlex class="tg-user-role">
               <md-checkbox [checked]="roleEntry.selected"
                            (change)="$event.checked ? grantRole(rowItem, roleEntry.value) : revokeRole(rowItem, roleEntry.value) ">
-                <span flex="50">{{roleEntry.value.$key}}</span>
+                <span fxFlex="50">{{roleEntry.value.$key}}</span>
               </md-checkbox>
             </div>
           </md-grid-tile>
@@ -42,11 +42,11 @@ import {generatePushID, SelectionEntry, SelectionList, ObjMap, ObjMapUtil} from 
           <md-grid-tile *ngFor="let permEntry of grantedPermissionsByUser[rowItem.$key] | async"
                         [colspan]="1"
                         [rowspan]="1">
-            <div flex class="tg-user-permission" flex>
+            <div fxFlex class="tg-user-permission" fxFlex>
               <md-checkbox [checked]="permEntry.selected"
                             [disabled]="permEntry.disabled"
                            (change)="$event.checked ? grantPermission(rowItem, permEntry.value) : revokePermission(rowItem, permEntry.value)">
-                <span flex="50">{{permEntry.value.$key}}</span>
+                <span fxFlex="50">{{permEntry.value.$key}}</span>
               </md-checkbox>
             </div>
           </md-grid-tile>

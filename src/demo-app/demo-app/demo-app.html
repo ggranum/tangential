@@ -1,7 +1,7 @@
-<div flex layout="column" layout-align="start">
-  <md-toolbar class="snl-main-toolbar" color="primary" layout="column" layout-align="start">
-    <div flex layout="row" layout-align="start center">
-      <div layout="row" layout-align="start center">
+<div fxFlex fxLayout="column" fxLayoutAlign="start stretch" >
+  <md-toolbar fxFlex fxLayout="column" fxLayoutAlign="start">
+    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+      <div fxLayout="row" fxLayoutAlign="start center">
         <button md-icon-button [md-menu-trigger-for]="menu">
           <md-icon>menu</md-icon>
         </button>
@@ -16,11 +16,11 @@
           </md-nav-list>
         </md-menu>
       </div>
-      <div flex="grow" layout="row" class="demo-toolbar" layout-align="start center">
+      <div fxFlex="grow" fxLayout="row" class="demo-toolbar" fxLayoutAlign="start center">
         <h1><a [routerLink]="['']">Tangential</a></h1>
       </div>
     </div>
-    <div flex layout="row" layout-align="end">
+    <div fxFlex fxLayout="row" fxLayoutAlign="end">
       <tg-inline-profile-component
         [user]="visitor$ | async"
         [signInState]="signInState$ | async"
@@ -29,7 +29,7 @@
     </div>
   </md-toolbar>
 
-  <div flex class="demo-content tg-debug-blue" layout="row" layout-align="center" >
+  <div fxFlex="90%" class="tg-demo-content" fxLayout="row" fxLayoutAlign="center" >
     <router-outlet></router-outlet>
   </div>
 </div>

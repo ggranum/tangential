@@ -33,6 +33,7 @@ import {MdTabsModule} from '@angular/material/tabs'
 import {DataListModule} from "@tangential/data-list";
 import {DrawerModule} from "@tangential/drawer";
 import {AdminPage} from "./admin.page";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import {AdminPage} from "./admin.page";
     UserManagerComponent,
   ],
   imports: [
+    FlexLayoutModule,
     CommonModule,
     FormsModule,
     MdButtonModule,

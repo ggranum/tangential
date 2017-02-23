@@ -10,6 +10,7 @@ import {MdListModule} from '@angular/material/list'
 import {MdCheckboxModule} from '@angular/material/checkbox'
 
 import {DataListComponent, DataListExpander} from './data-list.component'
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {DataListComponent, DataListExpander} from './data-list.component'
     DataListExpander
   ],
   imports: [
+    FlexLayoutModule,
     CommonModule,
     MdButtonModule,
     MdIconModule,

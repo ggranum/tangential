@@ -30,10 +30,12 @@ import {firebaseConfig} from "../lib/authorization-service/config/firebase-confi
 import {SignInPageComponent} from "./demo-app/pages/sign-in/sign-in-page.component";
 import {HomeComponent} from "./demo-app/pages/home/home.component";
 import {AuthorizationServiceDemoModule} from "./demo-pages/authorization-service/authorization-service-demo.module";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 
 @NgModule({
   imports: [
+    FlexLayoutModule,
     BrowserModule,
     FormsModule,
     HttpModule,

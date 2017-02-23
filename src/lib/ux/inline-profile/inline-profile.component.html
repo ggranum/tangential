@@ -1,21 +1,21 @@
-<div *ngIf="isSignedIn(signInState)" layout="row" layout-align="end center">
+<div *ngIf="isSignedIn(signInState)" fxLayout="row" fxLayoutAlign="end center">
   <md-icon (click)="showAccountFlyout = !showAccountFlyout; $event.stopPropagation()">account_circle</md-icon>
 
   <div *ngIf="showAccountFlyout"
        class="tg-profile-flyout"
        (window:click)="dismiss($event)"
        aria-label="Account Information" aria-hidden="false">
-    <div class="tg-profile-user-card" layout="row" layout-align="space-between center">
+    <div class="tg-profile-user-card" fxLayout="row" fxLayoutAlign="space-between center">
       <div *ngIf="user.photoUrl" class="tg-profile-user-image" style="background-image: url({{user.photoUrl}});"
            title="Profile Photo"></div>
-      <div flex
+      <div fxFlex
            class="tg-profile-user-info">
         <div class="tg-user-given-name">{{user.displayName}}</div>
         <div class="tg-user-email">{{user.email}}</div>
       </div>
     </div>
-    <div class="tg-profile-flyout-footer" layout="row" layout-align="end center">
-      <div layout="row" layout-align="end center">
+    <div class="tg-profile-flyout-footer" fxLayout="row" fxLayoutAlign="end center">
+      <div fxLayout="row" fxLayoutAlign="end center">
         <button md-raised-button color="accent" class="tg-logout tg-button" (click)="fireSignOutEvent(); $event.stopPropagation()">
           <span>
             <i class="material-icons tg-button-icon">lock</i>

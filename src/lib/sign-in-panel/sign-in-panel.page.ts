@@ -17,7 +17,7 @@ import {AuthUserIF} from "@tangential/media-types";
 @Component({
   selector: 'tg-sign-in-panel-page',
   template: `
-    <div class='sign-in-page-content' layout="row" layout-align="center start">
+    <div class='sign-in-page-content' fxLayout="row" fxLayoutAlign="center start">
       <tg-sign-in-panel ></tg-sign-in-panel>
     </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,

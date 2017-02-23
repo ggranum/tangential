@@ -1,5 +1,5 @@
-<div class="authorization-service-demo" flex layout="column">
-  <section layout="row" layout-align="end">
+<div class="authorization-service-demo" fxFlex fxLayout="column">
+  <section fxLayout="row" fxLayoutAlign="end">
     <tg-inline-profile-component
       [user]="visitor"
       [signInState]="signInState"
@@ -12,8 +12,8 @@
     ></tg-inline-login-form-component>
   </section>
 
-  <section *ngIf="visitor && visitorRoles && visitorGrantedPermissions && visitorEffectivePermissions " layout="row"
-           layout-align="center space-between" flex>
+  <section *ngIf="visitor && visitorRoles && visitorGrantedPermissions && visitorEffectivePermissions " fxLayout="row"
+           fxLayoutAlign="center space-between" fxFlex>
     <p-dataTable [value]="visitorTableValues">
       <p-column *ngFor="let col of visitorTableColumns" [field]="col.field" [header]="col.header"></p-column>
     </p-dataTable>
@@ -34,7 +34,7 @@
     </p-dataTable>
   </section>
 
-  <section *ngIf="!visitor" layout="column" layout-align="start start">
+  <section *ngIf="!visitor" fxLayout="column" fxLayoutAlign="start start">
     <h3>No visitor present: {{visitor == null}}</h3>
   </section>
 
