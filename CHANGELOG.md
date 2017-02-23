@@ -1,3 +1,13 @@
+<a name="0.0.1-beta.10"></a>
+## [0.0.1-beta.10](https://github.com/ggranum/tangential/compare/v0.0.1-beta.9...v0.0.1-beta.10) (2017-02-23)
+
+
+### Features
+
+* **all:** replace css angular flex with [@angular](https://github.com/angular)/flex-layout ([#13](https://github.com/ggranum/tangential/issues/13)) ([2de0d1f](https://github.com/ggranum/tangential/commit/2de0d1f))
+
+
+
 <a name="0.0.1-beta.9"></a>
 ## [0.0.1-beta.9](https://github.com/ggranum/tangential/compare/v0.0.1-beta.8...v0.0.1-beta.9) (2017-02-21)
 
