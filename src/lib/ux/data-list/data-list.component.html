@@ -1,7 +1,7 @@
-<div fxFlex fxLayout="column" class="tg-data-list"
+<div flex layout="column" class="tg-data-list"
      (window:keyup)="($event.ctrlKey && $event.key == '+') ? (fireAddItemAction() && $event.stopPropagation() && $event.preventDefault() ): null;">
-  <md-list *ngIf="items" fxFlex fxLayout="column" fxLayoutAlign="start">
-    <md-list-item class="tg-list-item" fxFlex fxLayout="column" fxLayoutAlign="start">
+  <md-list *ngIf="items" flex layout="column" layout-align="start">
+    <md-list-item class="tg-list-item" flex layout="column" layout-align="start">
       <md-checkbox
         [checked]="selectionCount == items.length"
         [indeterminate]="selectionCount > 0 && selectionCount < items.length"
@@ -9,7 +9,7 @@
         [disabled]="disabled"
         (change)="onSelectAllCheckAction(!$event.checked)"
       ></md-checkbox>
-      <div class="tg-multi-select-actions" fxLayout="row" fxLayoutAlign="start" fxFlex>
+      <div class="tg-multi-select-actions" layout="row" layout-align="start" flex>
         <button md-raised-button
                 [disabled]="selectionCount === 0"
                 (click)="fireRemoveSelectedAction()">
@@ -17,15 +17,15 @@
           Delete Selected
         </button>
       </div>
-      <div fxLayout="row" fxLayoutAlign="end" fxFlex>
+      <div layout="row" layout-align="end" flex>
         <button md-mini-fab (click)="fireAddItemAction()">
           <md-icon>add</md-icon>
         </button>
       </div>
     </md-list-item>
     <md-divider></md-divider>
-    <div *ngFor="let rowItem of items" class="tg-list-item-row" fxFlex fxLayout="column">
-      <div class="tg-list-item" fxLayout="row" fxFlex fxLayoutAlign="start start">
+    <div *ngFor="let rowItem of items" class="tg-list-item-row" flex layout="column">
+      <div class="tg-list-item" layout="row" flex layout-align="start start">
         <div *ngIf="expander && expander.template">
           <md-icon (click)="toggleExpanded(rowItem[keyField])">{{isExpanded(rowItem[keyField]) ? 'expand_less' :
             'expand_more'}}
@@ -40,7 +40,7 @@
         ></md-checkbox>
         <template [ngTemplateOutlet]="rowTemplate" [ngOutletContext]="{ $implicit: rowItem }"></template>
       </div>
-      <div *ngIf="expander && expander.template && isExpanded(rowItem[keyField])" class="tg-data-list-expander-wrapper" fxLayout="row" fxLayoutAlign="start">
+      <div *ngIf="expander && expander.template && isExpanded(rowItem[keyField])" class="tg-data-list-expander-wrapper" layout="row" layout-align="start">
         <template [ngTemplateOutlet]="expander.template" [ngOutletContext]="{ $implicit: rowItem }"></template>
       </div>
     </div>

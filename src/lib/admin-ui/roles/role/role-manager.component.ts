@@ -14,7 +14,7 @@ import {SelectionEntry, SelectionList} from "@tangential/common";
               >
 
   <template let-rowItem>
-    <tg-role fxFlex fxLayout="row"
+    <tg-role flex layout="row"
              [role]="rowItem"
              (change)="onItemChange(rowItem)"
              (remove)="onRemove(rowItem.$key)"></tg-role>
@@ -22,13 +22,13 @@ import {SelectionEntry, SelectionList} from "@tangential/common";
 
   <tg-data-list-expander>
     <template let-rowItem>
-      <md-grid-list cols="4" rowHeight="3em" fxFlex="80" >
+      <md-grid-list cols="4" rowHeight="3em" flex="80" >
         <md-grid-tile *ngFor="let permEntry of permissionsByRole[rowItem.$key] | async" 
           [colspan]="1"
           [rowspan]="1">
-          <div fxFlex class="tg-role-permission">
+          <div flex class="tg-role-permission">
             <md-checkbox [checked]="permEntry.selected" (change)="permEntry.selected ?revokePermission(rowItem, permEntry.value) : grantPermission(rowItem, permEntry.value)">
-              <span fxFlex="50">{{permEntry.value.$key}}</span>
+              <span flex="50">{{permEntry.value.$key}}</span>
             </md-checkbox>
           </div>
         </md-grid-tile>

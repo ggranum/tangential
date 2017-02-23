@@ -10,7 +10,6 @@ import {SignInPanelComponent} from './sign-in-panel.component'
 import {SignInPanelDemo} from "./sign-in-panel.demo";
 import {SignInPanelPage} from "./sign-in-panel.page";
 import {MdButtonModule, MdCheckboxModule, MdCardModule, MdIconModule, MdInputModule} from "@angular/material";
-import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -19,7 +18,6 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     SignInPanelComponent,
   ],
   imports: [
-    FlexLayoutModule,
     CommonModule,
     FormsModule,
     MdButtonModule,
