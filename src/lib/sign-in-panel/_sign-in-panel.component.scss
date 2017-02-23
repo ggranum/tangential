@@ -6,7 +6,7 @@
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
-  tg-sign-in-panel-component {
+  tg-sign-in-panel {
     .drop-shadow {
       border-radius: inherit;
       box-shadow: 0 2em 4em 0 rgba(0, 0, 0, 0.19);

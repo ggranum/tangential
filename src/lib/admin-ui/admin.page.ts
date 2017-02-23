@@ -8,8 +8,8 @@ import {Observable} from "rxjs";
 
 @Component({
   selector: 'tg-admin-page',
-  template: `<div class='admin-page-content' fxLayout="row" fxLayoutAlign="center">
-  <md-tab-group fxFlex color="primary" [(selectedIndex)]="selectedTabIndex">
+  template: `<div class='admin-page-content' layout="row" layout-align="center">
+  <md-tab-group flex color="primary" [(selectedIndex)]="selectedTabIndex">
     <md-tab label="Users">
       <tg-user-manager *ngIf="selectedTabIndex==0" ></tg-user-manager>
     </md-tab>

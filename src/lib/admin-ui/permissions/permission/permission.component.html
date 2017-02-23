@@ -1,8 +1,8 @@
-<div class="tg-permission-form-wrapper" fxFlex fxLayout="column" fxLayoutAlign="start">
-  <form *ngIf="permission != null" (ngSubmit)="onSubmit($event)" #permissionForm="ngForm" fxFlex fxLayout="row" fxLayoutAlign="space-between">
+<div class="tg-permission-form-wrapper" flex layout="column" layout-align="start">
+  <form *ngIf="permission != null" (ngSubmit)="onSubmit($event)" #permissionForm="ngForm" flex layout="row" layout-align="space-between">
 
-    <div class="tg-permission-inputs-wrapper" fxLayout="row" fxFlex="80" fxLayoutAlign="space-between start">
-      <md-input-container fxFlex="40">
+    <div class="tg-permission-inputs-wrapper" layout="row" flex="80" layout-align="space-between start">
+      <md-input-container flex="40">
         <input mdInput [(ngModel)]="permission.$key" name="name" #fName="ngModel"
                class="tg-input"
                dividerColor="accent"
@@ -16,7 +16,7 @@
                (blur)="onBlur($event)"
         />
       </md-input-container>
-      <md-input-container fxFlex="60">
+      <md-input-container flex="60">
         <input mdInput [(ngModel)]="permission.description" name="description" #fDescription="ngModel"
                class="tg-description tg-input"
                dividerColor="accent"
@@ -29,7 +29,7 @@
                placeholder="Description"/>
       </md-input-container>
     </div>
-    <div class="tg-delete-button" fxFlex fxLayout="row" fxLayoutAlign="end center">
+    <div class="tg-delete-button" flex layout="row" layout-align="end center">
       <button md-mini-fab
               type="button"
               aria-label="Delete Permission"

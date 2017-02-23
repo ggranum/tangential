@@ -15,8 +15,8 @@ import {
   selector: 'tg-drawer',
   template: `
 <ng-content *ngIf="expanded"></ng-content>
-<div class="tg-drawer-toggle" fxFlex fxLayout="row" fxLayoutAlign="center" (click)="doToggleDrawer(); $event.preventDefault()">
-      <div class="tg-toggle-left" fxFlex></div>
+<div class="tg-drawer-toggle" flex layout="row" layout-align="center" (click)="doToggleDrawer(); $event.preventDefault()">
+      <div class="tg-toggle-left" flex></div>
       <div class="toggle-shape-container">
         <div class="tg-toggle-shape">
           <svg viewBox='0 0 100 50' preserveAspectRatio='none'>
@@ -27,7 +27,7 @@ import {
           </svg>
         </div>
       </div>
-      <div class="tg-toggle-right" fxFlex></div>
+      <div class="tg-toggle-right" flex></div>
     </div>`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

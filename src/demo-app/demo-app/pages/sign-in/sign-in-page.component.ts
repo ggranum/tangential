@@ -18,8 +18,8 @@ import {AuthInfo} from "@tangential/sign-in-panel";
 @Component({
   selector: 'tgd-sign-in-page',
   host: {},
-  template: `<div fxFlex class="tg-sign-in-page" fxLayout="column" fxLayoutAlign="start" >
-  <md-card fxFlex *ngIf="signedOut$ | async" class="tg-sign-in-demo-card" fxLayout="row" fxLayoutAlign="center">
+  template: `<div flex  class="tg-sign-in-page"  layout="column" layout-align="center center">
+  <md-card flex *ngIf="signedOut$ | async" class="tg-sign-in-demo-card" layout="row" layout-align="center">
     <tg-sign-in-panel
       [preventSubmit]="true"
       [username]="'bob@example.com'"
@@ -30,14 +30,12 @@ import {AuthInfo} from "@tangential/sign-in-panel";
       (forgotPassword)="onForgotPassword($event)">
     </tg-sign-in-panel>
   </md-card>
-  </div>
-  
-`,
+  </div>`,
   styles:[
   `
 .tg-sign-in-page md-card {
     min-height: 30em;
-    max-width: 35em;
+   max-width: 35em;
 }
 
 .tg-sign-in-page {
@@ -51,9 +49,9 @@ import {AuthInfo} from "@tangential/sign-in-panel";
 })
 export class SignInPageComponent {
 
-  @HostBinding('attr.fxFlex') fxFlex = '';
-  @HostBinding('attr.fxLayout') layout = 'column';
-  @HostBinding('attr.fxLayoutAlign') layoutAlign = 'start';
+  @HostBinding('attr.flex') flex = '';
+  @HostBinding('attr.layout') layout = 'column';
+  @HostBinding('attr.layout-align') layoutAlign = 'start';
 
   visitorName$: Observable<string>
   signedOut$: Observable<boolean>

@@ -1,9 +1,9 @@
-<div class="tg-role-form-wrapper" fxFlex fxLayout="column" fxLayoutAlign="start">
-  <form *ngIf="role != null" (ngSubmit)="onSubmit($event)" #theForm="ngForm" fxFlex fxLayout="row"
-        fxLayoutAlign="space-between">
+<div class="tg-role-form-wrapper" flex layout="column" layout-align="start">
+  <form *ngIf="role != null" (ngSubmit)="onSubmit($event)" #theForm="ngForm" flex layout="row"
+        layout-align="space-between">
 
-    <div class="tg-role-inputs-wrapper" fxLayout="row" fxFlex="80" fxLayoutAlign="space-between start">
-      <md-input-container fxFlex="40">
+    <div class="tg-role-inputs-wrapper" layout="row" flex="80" layout-align="space-between start">
+      <md-input-container flex="40">
         <input mdInput [(ngModel)]="role.$key" name="name" #fName="ngModel"
                class="tg-input"
                dividerColor="accent"
@@ -15,7 +15,7 @@
                (focus)="$event.stopPropagation(); onFocus()"
                (blur)="$event.stopPropagation(); onBlur()"
         /></md-input-container>
-      <md-input-container fxFlex="60">
+      <md-input-container flex="60">
         <input mdInput [(ngModel)]="role.description" name="description" #fDescription="ngModel"
                class="tg-description tg-input"
                dividerColor="accent"
@@ -27,7 +27,7 @@
                placeholder="Description"/>
       </md-input-container>
     </div>
-    <div class="tg-delete-button" fxFlex fxLayout="row" fxLayoutAlign="end center">
+    <div class="tg-delete-button" flex layout="row" layout-align="end center">
       <button md-mini-fab
               type="button"
               aria-label="Delete Role"

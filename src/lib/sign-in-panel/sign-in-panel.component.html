@@ -1,20 +1,20 @@
-<div fxFlex class="sign-in-panel-content drop-shadow" fxLayout="row" fxLayoutAlign="center">
-  <div fxFlex class="sign-in-panel-body" fxLayout="column" fxLayoutAlign="start">
+<div flex class="sign-in-panel-content drop-shadow" layout="row" layout-align="center">
+  <div flex class="sign-in-panel-body" layout="column" layout-align="start">
     <div class="sign-in-panel-header">
       <h2>{{rsrc.headerText}}</h2>
       <div class="dialog-create-account">{{rsrc.subHeaderText}}
         <a href="javascript:void(0);" (click)="onSubHeaderLinkClick($event)">{{rsrc.subHeaderLinkText}}</a>
       </div>
     </div>
-    <div fxFlex="80" class="tg-sign-in-panel-content" fxLayout="column" fxLayoutAlign="start">
+    <div flex="80" class="tg-sign-in-panel-content" layout="column" layout-align="start">
       <h3>{{rsrc.ledeText}}</h3>
-      <div fxFlex="90" class="dialog-fields"
-           fxLayout="column"
-           fxLayoutAlign="space-between">
+      <div flex="90" class="dialog-fields"
+           layout="column"
+           layout-align="space-between">
         <form (ngSubmit)="onSubmit($event)" (change)="onAuthChange(signInForm)" #signInForm="ngForm"
-              fxFlex fxLayout="column"
-              fxLayoutAlign="space-between">
-          <md-input-container fxFlex dividerColor="accent">
+              flex layout="column"
+              layout-align="space-between">
+          <md-input-container flex dividerColor="accent">
             <input mdInput [(ngModel)]="authInfo.username" name="username" #fUsername="ngModel"
                    class="username-field"
                    tabindex="0"
@@ -23,7 +23,7 @@
                    value="{{authInfo.username}}"
                    placeholder="{{rsrc.usernameInput.placeholder}}">
           </md-input-container>
-          <md-input-container fxFlex *ngIf="!isForgotPasswordMode()" dividerColor="accent">
+          <md-input-container flex *ngIf="!isForgotPasswordMode()" dividerColor="accent">
             <input mdInput [(ngModel)]="authInfo.password" name="password"
                    #fPassword="ngModel"
                    class="password-field"
@@ -31,7 +31,7 @@
                    required minlength="8"
                    placeholder="{{rsrc.passwordInput.placeholder}}"/>
           </md-input-container>
-          <md-input-container fxFlex *ngIf="isSignUpMode()" dividerColor="accent">
+          <md-input-container flex *ngIf="isSignUpMode()" dividerColor="accent">
             <input mdInput [(ngModel)]="authInfo.password2" name="password2"
                    #fPassword2="ngModel"
                    class="password-field"
@@ -48,7 +48,7 @@
           <md-checkbox *ngIf="isSignInMode()" [(ngModel)]="authInfo.rememberMe" name="rememberMe" #fRememberMe="ngModel"
                        class="tg-remember-me"
                        [checked]="authInfo.rememberMe"
-                       fxFlex>{{rsrc.rememberMe.text}}
+                       flex>{{rsrc.rememberMe.text}}
           </md-checkbox>
 
           <a md-raised-button

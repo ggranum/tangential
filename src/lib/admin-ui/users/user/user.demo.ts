@@ -8,9 +8,9 @@ import {AuthUser, AuthRole, AuthPermission} from "@tangential/media-types";
 @Component({
   selector: 'tg-user-item-demo',
   template: `<h1>User Item Demo</h1>
-<div class='tg-demo-content' fxLayout="row" fxLayoutAlign="center">
+<div class='demo-content' layout="row" layout-align="center">
   <tg-user  
-    fxFlex
+    flex
     [user]="user"
     [userRoles]="roles"
     [userGrantedPermissions]="permissions"

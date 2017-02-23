@@ -21,7 +21,6 @@ import {InlineProfileModule} from "@tangential/inline-profile";
 import {InlineLoginFormModule} from "@tangential/inline-login-form";
 import {AuthorizationServiceDemo} from "./authorization-service-demo";
 import {AuthorizationServiceDemoContainer} from "./authorization-service-demo.container";
-import {FlexLayoutModule} from "@angular/flex-layout";
 
 
 @NgModule({
@@ -30,7 +29,6 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     AuthorizationServiceDemoContainer,
   ],
   imports: [
-    FlexLayoutModule,
     CommonModule,
     InlineProfileModule,
     InlineLoginFormModule,
