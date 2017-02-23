@@ -2,7 +2,7 @@
   "name": "@tangential/sign-in-panel",
   "description": "A sign-up form that works with the @tangential/authorization-service",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.0.1-beta.10",
+  "version": "0.0.1-beta.11",
   "license": "MIT",
   "private": false,
   "repository": {
@@ -32,7 +32,7 @@
     "@angular/forms": "4.0.0-beta.4",
     "@angular/material": "git+https://github.com/angular/material2-builds.git",
     "@angular/compiler": "4.0.0-beta.4",
-    "@tangential/authorization-service": "0.0.1-beta.10",
+    "@tangential/authorization-service": "0.0.1-beta.11",
     "firebase": "3.6.6",
     "rxjs": "5.0.3"
   },
