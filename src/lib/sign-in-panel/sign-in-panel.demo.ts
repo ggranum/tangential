@@ -12,11 +12,11 @@ import {Observable} from "rxjs";
   selector: 'tg-sign-in-panel-demo',
   template: `<h1>Login Panel Demo</h1>
 <h3>Open your browsers debug console to view log messages related to various actions.</h3>
-<div flex class='demo-content' layout="column" layout-align="start">
+<div fxFlex class='tg-demo-content' fxLayout="column" fxLayoutAlign="start">
   <span style="font-weight: bolder">You are currently signed in as: {{visitorName$ | async}}</span>
   <span style="font-weight: bolder;margin-bottom: 2em;">This form does not actually attempt to perform a sign in action.</span>
-  <md-card flex layout="column">
-    <tg-sign-in-panel flex
+  <md-card fxFlex="35em" fxLayout="row">
+    <tg-sign-in-panel fxFlex
       [preventSubmit]="true"
       [username]="'bob@example.com'"
       [displayMode]="signIn"

@@ -9,7 +9,9 @@
       "outDir": "dist",
       "assets": [
         "demo-app/favicon.ico",
-        "demo-app/vendor/material-fonts.woff2"
+        "demo-app/vendor/MaterialIcons-Regular.woff2",
+        "demo-app/vendor/MaterialIcons-Regular.woff",
+        "demo-app/vendor/MaterialIcons-Regular.ttf"
       ],
       "index": "demo-app/index.html",
       "main": "demo-app/main.ts",
@@ -19,7 +21,6 @@
       "mobile": false,
       "styles": [
         "demo-app/theme.scss",
-        "demo-app/angular-material.layouts.min.css",
         "demo-app/vendor/material-icons.css",
         "../node_modules/primeng/resources/themes/omega/theme.css",
         "../node_modules/primeng/resources/primeng.min.css"

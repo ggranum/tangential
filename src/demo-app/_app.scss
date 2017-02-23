@@ -22,8 +22,14 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 
   min-height:100%;
+  min-width:100%;
   padding:0;
   margin:0;
+
+  demo-app {
+    min-height:100%;
+    min-width:100%;
+  }
 
   // Helps fonts on OSX looks more consistent with other systems
   // Isn't currently in button styles due to performance concerns
@@ -32,8 +38,8 @@ body {
     -moz-osx-font-smoothing: grayscale;
   }
 
-  .demo-content {
-    padding: 32px;
+  .tg-demo-content {
+    padding: 16px;
   }
 
   md-toolbar {

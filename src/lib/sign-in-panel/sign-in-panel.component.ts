@@ -152,9 +152,9 @@ ResourceState[SignInAction.forgotPassword] = FORGOT_PASSWORD_RSRC
 export class SignInPanelComponent implements OnInit {
 
 
-  @HostBinding('attr.flex') flex;
-  @HostBinding('attr.layout') flexLayout = 'column';
-  @HostBinding('attr.layout-align') flexLayoutAlign = 'start';
+  @HostBinding('attr.flex') fxFlex;
+  @HostBinding('attr.layout') fxFlexLayout = 'column';
+  @HostBinding('attr.layout-align') fxFlexLayoutAlign = 'start';
 
   @Input() username: string
   @Input() requireEmailUsername: boolean

@@ -10,7 +10,7 @@ import {PermissionService} from "@tangential/authorization-service";
               (removeSelectedAction)="onRemoveSelectedAction($event)">
 
   <template let-rowItem>
-    <tg-permission flex layout="row"
+    <tg-permission fxFlex fxLayout="row"
                    [permission]="rowItem"
                    (change)="onItemChange(rowItem)"
                    (remove)="onRemove(rowItem.$key)"></tg-permission>

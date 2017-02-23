@@ -10,6 +10,7 @@ import {MdInputModule} from '@angular/material/input'
 
 
 import {InlineLoginFormComponent} from './inline-login-form.component'
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {InlineLoginFormComponent} from './inline-login-form.component'
     InlineLoginFormComponent
   ],
   imports: [
+    FlexLayoutModule,
     CommonModule,
     FormsModule,
     MdButtonModule,
