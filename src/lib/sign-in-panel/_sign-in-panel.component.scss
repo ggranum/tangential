@@ -14,7 +14,7 @@
 
     .sign-in-panel-content {
       height: 31em;
-      width: 25em;
+      max-width: 25em;
       background-color: mat-color($background, card);
       color: mat-color($foreground, text);
     }

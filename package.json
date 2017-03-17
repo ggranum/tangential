@@ -45,7 +45,7 @@
     "@angular/core": "4.0.0-beta.4",
     "@angular/forms": "4.0.0-beta.4",
     "@angular/http": "4.0.0-beta.4",
-    "@angular/material": "git+https://github.com/angular/material2-builds.git",
+    "@angular/material": "2.0.0-beta.2",
     "@angular/platform-browser": "4.0.0-beta.4",
     "@angular/platform-browser-dynamic": "4.0.0-beta.4",
     "@angular/platform-server": "4.0.0-beta.4",

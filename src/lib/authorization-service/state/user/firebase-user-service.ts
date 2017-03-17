@@ -223,11 +223,12 @@ export class FirebaseUserService extends FirebaseService<AuthUser> implements Us
   }
 
   getRolesForUser$(user: AuthUser): Observable<AuthRole[]> {
-    return this.$userRolesMappingRef.child(user.$key).value$.flatMap((obj: ObjMap<boolean>) => {
+    return this.$userRolesMappingRef.child(user.$key).value$.flatMap((obj: { key?:string, values?:ObjMap<boolean>}) => {
       //noinspection JSMismatchedCollectionQueryUpdate
       let userRoles: AuthRole[] = []
       let promises: Promise<void>[] = []
-      Object.keys(obj || {}).forEach(key => {
+      obj = obj || {}
+      Object.keys(obj.values || {}).forEach(key => {
         promises.push(this._roleService.value(key).then((role: AuthRole) => {
           if (role) {
             userRoles.push(role)

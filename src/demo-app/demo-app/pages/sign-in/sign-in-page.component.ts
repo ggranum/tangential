@@ -19,7 +19,7 @@ import {AuthInfo} from "@tangential/sign-in-panel";
   selector: 'tgd-sign-in-page',
   host: {},
   template: `<div flex  class="tg-sign-in-page"  layout="column" layout-align="center center">
-  <md-card flex *ngIf="signedOut$ | async" class="tg-sign-in-demo-card" layout="row" layout-align="center">
+  <md-card flex *ngIf="signedOut$ | async" layout="row" layout-align="center">
     <tg-sign-in-panel
       [preventSubmit]="true"
       [username]="'bob@example.com'"
