@@ -21,13 +21,36 @@ export class FirebaseVisitorService extends VisitorService {
   private _auth: firebase.auth.Auth
   private _signInStateValue: SignInState
   private _signInStateSubject: BehaviorSubject<SignInState>
+  private _visitorSubject: BehaviorSubject<AuthUser>
+
   private _currentVisitor: AuthUser
 
   constructor(public fb: FirebaseProvider, private _userService: UserService, private _zone:NgZone) {
     super()
     this._auth = fb.app.auth()
-    this._signInStateSubject = new BehaviorSubject(SignInState.unknown)
+    this._initSubjects(this._auth)
     this._setSignInState(SignInState.unknown)
+  }
+
+  private _initSubjects(auth: firebase.auth.Auth) {
+    this._visitorSubject = new BehaviorSubject(null)
+    this._signInStateSubject = new BehaviorSubject(SignInState.unknown)
+    this._watchAuthState(auth, this._visitorSubject)
+  }
+
+  private _watchAuthState(auth:firebase.auth.Auth, subject:BehaviorSubject<AuthUser>){
+    auth.onAuthStateChanged((fbAuthState:any) => {
+      let visitor: AuthUser = null
+      if (fbAuthState) {
+        visitor = new AuthUser(this.userFromFirebaseResponse(fbAuthState))
+        this._setSignInState(visitor.isAnonymous ? SignInState.signedInAnonymous : SignInState.signedIn)
+      }
+      else {
+        this._setSignInState(SignInState.signedOut)
+      }
+      this._currentVisitor = visitor
+      subject.next(visitor)
+    })
   }
 
   _setSignInState(newState: SignInState) {
@@ -126,22 +149,7 @@ export class FirebaseVisitorService extends VisitorService {
   }
 
   signOnObserver(): Observable<AuthUser> {
-    return Observable.create((subscriber:Subscriber<any>) => {
-      this._auth.onAuthStateChanged((event:any) => {
-        this._zone.run(() => subscriber.next(event))
-      })
-    }).map((fbAuthState:any) => {
-      let visitor: AuthUser = null
-      if (fbAuthState) {
-        visitor = new AuthUser(this.userFromFirebaseResponse(fbAuthState))
-        this._setSignInState(visitor.isAnonymous ? SignInState.signedInAnonymous : SignInState.signedIn)
-      }
-      else {
-        this._setSignInState(SignInState.signedOut)
-      }
-      this._currentVisitor = visitor
-      return visitor
-    })
+    return this._visitorSubject
   }
 
   deleteAccount(): Promise<void> {
@@ -193,5 +201,7 @@ export class FirebaseVisitorService extends VisitorService {
     user.photoURL = fbResponse.photoURL
     return user;
   }
+
+
 }
 
