@@ -1,3 +1,13 @@
+<a name="0.0.1-beta.12"></a>
+## [0.0.1-beta.12](https://github.com/ggranum/tangential/compare/v0.0.1-beta.11...v0.0.1-beta.12) (2017-03-17)
+
+
+### Bug Fixes
+
+* **authorization-services:** fix for getRolesForUser$ ([#15](https://github.com/ggranum/tangential/issues/15)) ([8862ac0](https://github.com/ggranum/tangential/commit/8862ac0))
+
+
+
 <a name="0.0.1-beta.11"></a>
 ## [0.0.1-beta.11](https://github.com/ggranum/tangential/compare/v0.0.1-beta.10...v0.0.1-beta.11) (2017-02-23)
 
