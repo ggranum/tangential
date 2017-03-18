@@ -1,3 +1,17 @@
+<a name="0.0.1-beta.14"></a>
+## [0.0.1-beta.14](https://github.com/ggranum/tangential/compare/v0.0.1-beta.13...v0.0.1-beta.14) (2017-03-18)
+
+
+* refactor:(authorization-service): remove overcomplication, use firebase directly (#16) ([1e19c93](https://github.com/ggranum/tangential/commit/1e19c93))
+
+
+### BREAKING CHANGES
+
+* role and permission getters on the User and visitor services are now Promises. Using
+Observables was a lie, and overcomplicated the code.
+
+
+
 <a name="0.0.1-beta.13"></a>
 ## [0.0.1-beta.13](https://github.com/ggranum/tangential/compare/v0.0.1-beta.12...v0.0.1-beta.13) (2017-03-17)
 
