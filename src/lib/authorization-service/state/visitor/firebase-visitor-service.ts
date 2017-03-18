@@ -1,7 +1,7 @@
-import {Injectable, EventEmitter, NgZone} from '@angular/core'
-import {Observable, Subscriber, BehaviorSubject} from 'rxjs'
-import {EmailPasswordCredentials, AuthUser, AuthUserIF, AuthRole, AuthPermission} from "@tangential/media-types";
-import {FirebaseProvider} from "@tangential/firebase-util"
+import {Injectable, NgZone} from "@angular/core";
+import {BehaviorSubject, Observable} from "rxjs";
+import {AuthPermission, AuthRole, AuthUser, AuthUserIF, EmailPasswordCredentials} from "@tangential/media-types";
+import {FirebaseProvider} from "@tangential/firebase-util";
 //noinspection TypeScriptPreferShortImport
 import {VisitorService} from "./visitor-service";
 import {UserService} from "../user/user-service";
@@ -18,24 +18,24 @@ export class FirebaseVisitorService extends VisitorService {
 
   redirectUrl: string;
 
-  private _auth: firebase.auth.Auth
-  private _signInStateValue: SignInState
-  private _signInStateSubject: BehaviorSubject<SignInState>
-  private _visitorSubject: BehaviorSubject<AuthUser>
+  private auth: firebase.auth.Auth
+  private signInStateValue: SignInState
+  private signInStateSubject: BehaviorSubject<SignInState>
+  private visitorSubject: BehaviorSubject<AuthUser>
 
   private _currentVisitor: AuthUser
 
   constructor(public fb: FirebaseProvider, private _userService: UserService, private _zone:NgZone) {
     super()
-    this._auth = fb.app.auth()
-    this._initSubjects(this._auth)
-    this._setSignInState(SignInState.unknown)
+    this.auth = fb.app.auth()
+    this._initSubjects(this.auth)
+    this.setSignInState(SignInState.unknown)
   }
 
   private _initSubjects(auth: firebase.auth.Auth) {
-    this._visitorSubject = new BehaviorSubject(null)
-    this._signInStateSubject = new BehaviorSubject(SignInState.unknown)
-    this._watchAuthState(auth, this._visitorSubject)
+    this.visitorSubject = new BehaviorSubject(null)
+    this.signInStateSubject = new BehaviorSubject(SignInState.unknown)
+    this._watchAuthState(auth, this.visitorSubject)
   }
 
   private _watchAuthState(auth:firebase.auth.Auth, subject:BehaviorSubject<AuthUser>){
@@ -43,31 +43,31 @@ export class FirebaseVisitorService extends VisitorService {
       let visitor: AuthUser = null
       if (fbAuthState) {
         visitor = new AuthUser(this.userFromFirebaseResponse(fbAuthState))
-        this._setSignInState(visitor.isAnonymous ? SignInState.signedInAnonymous : SignInState.signedIn)
+        this.setSignInState(visitor.isAnonymous ? SignInState.signedInAnonymous : SignInState.signedIn)
       }
       else {
-        this._setSignInState(SignInState.signedOut)
+        this.setSignInState(SignInState.signedOut)
       }
       this._currentVisitor = visitor
       subject.next(visitor)
     })
   }
 
-  _setSignInState(newState: SignInState) {
-    if (this._signInStateValue !== newState) {
-      this._signInStateValue = newState
-      this._zone.run(() => this._signInStateSubject.next(this._signInStateValue))
+  private setSignInState(newState: SignInState) {
+    if (this.signInStateValue !== newState) {
+      this.signInStateValue = newState
+      this._zone.run(() => this.signInStateSubject.next(this.signInStateValue))
     }
   }
 
   signInWithEmailAndPassword(payload: EmailPasswordCredentials, suppressUserInfoSynchronization: boolean = false): Promise<AuthUser> {
-    this._setSignInState(SignInState.signingIn)
+    this.setSignInState(SignInState.signingIn)
     let loginCfg = {
       email: payload.email,
       password: payload.password
     }
     return new Promise((resolve, reject) => {
-      this._auth.signInWithEmailAndPassword(loginCfg.email, loginCfg.password)
+      this.auth.signInWithEmailAndPassword(loginCfg.email, loginCfg.password)
         .then((fbAuthState) => {
           const authUser = new AuthUser(this.userFromFirebaseResponse(fbAuthState));
           return this._userService.value(authUser.$key).then((visitor: AuthUser) => {
@@ -78,13 +78,13 @@ export class FirebaseVisitorService extends VisitorService {
                 // the user was created but some other way, or something got out of sync; re-create their entry
                 // in the database.
                 this._userService.create(authUser).then(() => {
-                  this._setSignInState(SignInState.signedIn)
+                  this.setSignInState(SignInState.signedIn)
                   resolve(authUser)
                 }).catch((reason)=>{
                   reject(reason)
                 })
               } else {
-                this._setSignInState(SignInState.signedIn)
+                this.setSignInState(SignInState.signedIn)
                 resolve(visitor)
               }
             }
@@ -92,40 +92,40 @@ export class FirebaseVisitorService extends VisitorService {
             reject(reason)
           })
         }).catch((reason) => {
-          this._setSignInState(SignInState.signInFailed)
+          this.setSignInState(SignInState.signInFailed)
           reject(reason)
         })
     });
   }
 
   signInAnonymously(): Promise<AuthUser> {
-    this._setSignInState(SignInState.signingIn)
+    this.setSignInState(SignInState.signingIn)
     return new Promise((resolve, reject) => {
-      this._auth.signInAnonymously()
+      this.auth.signInAnonymously()
         .then((fbAuthState) => {
-          this._setSignInState(SignInState.signedInAnonymous)
+          this.setSignInState(SignInState.signedInAnonymous)
           resolve(new AuthUser(this.userFromFirebaseResponse(fbAuthState)))
         })
         .catch((reason) => {
-          this._setSignInState(SignInState.signInFailed)
+          this.setSignInState(SignInState.signInFailed)
           reject(reason)
         })
     });
   }
 
   createUserWithEmailAndPassword(payload: EmailPasswordCredentials): Promise<AuthUser> {
-    this._setSignInState(SignInState.signingUp)
+    this.setSignInState(SignInState.signingUp)
     return new Promise((resolve, reject) => {
-      this._auth.createUserWithEmailAndPassword(payload.email, payload.password)
+      this.auth.createUserWithEmailAndPassword(payload.email, payload.password)
         .then((fbAuthState) => {
           const authUser = new AuthUser(this.userFromFirebaseResponse(fbAuthState));
           return this._userService.create(authUser).then(() => {
-            this._setSignInState(SignInState.signedIn)
+            this.setSignInState(SignInState.signedIn)
             resolve(authUser)
           })
         })
         .catch((reason) => {
-          this._setSignInState(SignInState.signUpFailed)
+          this.setSignInState(SignInState.signUpFailed)
           reject(reason)
         })
     })
@@ -136,28 +136,28 @@ export class FirebaseVisitorService extends VisitorService {
   }
 
   signOut(): Promise<void> {
-    this._setSignInState(SignInState.signingOut)
+    this.setSignInState(SignInState.signingOut)
     return new Promise<void>((resolve, reject) => {
-      this._auth.signOut().then(() => {
-        this._setSignInState(SignInState.signedOut)
+      this.auth.signOut().then(() => {
+        this.setSignInState(SignInState.signedOut)
         resolve()
       }).catch(() => {
-        this._setSignInState(this._auth.currentUser ? SignInState.signedIn : SignInState.signedOut)
+        this.setSignInState(this.auth.currentUser ? SignInState.signedIn : SignInState.signedOut)
         reject()
       })
     })
   }
 
   signOnObserver(): Observable<AuthUser> {
-    return this._visitorSubject
+    return this.visitorSubject
   }
 
   deleteAccount(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      let _authUser = this._auth.currentUser
+      let _authUser = this.auth.currentUser
       if (_authUser) {
         this._userService.remove(_authUser.uid).then(() => {
-          this._auth.currentUser.delete().then(resolve)
+          this.auth.currentUser.delete().then(resolve)
         }).catch((reason) => reject(reason))
       }
       else {
@@ -167,28 +167,28 @@ export class FirebaseVisitorService extends VisitorService {
   }
 
   signInState$(): Observable<SignInState> {
-    return this._signInStateSubject
+    return this.signInStateSubject
   }
 
   signInState(): SignInState {
-    return this._signInStateValue
+    return this.signInStateValue
   }
 
   isVisitorSignedIn():boolean {
-    return SIGNED_IN_STATES.indexOf(this._signInStateValue) > -1
+    return SIGNED_IN_STATES.indexOf(this.signInStateValue) > -1
   }
 
 
-  getEffectivePermissions$():Observable<AuthPermission[]> {
-    return this._userService.getEffectivePermissionsForUser$(this._currentVisitor)
+  getEffectivePermissions():Promise<AuthPermission[]> {
+    return this._userService.getEffectivePermissionsForUser(this._currentVisitor)
   }
 
-  getGrantedPermissions$():Observable<AuthPermission[]> {
-    return this._userService.getGrantedPermissionsForUser$(this._currentVisitor)
+  getGrantedPermissions():Promise<AuthPermission[]> {
+    return this._userService.getGrantedPermissionsForUser(this._currentVisitor)
   }
 
-  getRoles$():Observable<AuthRole[]> {
-    return this._userService.getRolesForUser$(this._currentVisitor)
+  getRoles():Promise<AuthRole[]> {
+    return this._userService.getRolesForUser(this._currentVisitor)
   }
 
   private userFromFirebaseResponse(fbResponse: any): AuthUserIF {

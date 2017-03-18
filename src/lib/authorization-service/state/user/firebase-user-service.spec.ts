@@ -28,8 +28,7 @@ describe('Auth-services.user.state', () => {
 
     TestBed.configureTestingModule({
       declarations: [],
-      imports: [
-      ],
+      imports: [],
       providers: [
         {provide: TestConfiguration, useClass: TestConfiguration},
         {provide: FirebaseConfig, useValue: firebaseConfig},
@@ -42,7 +41,7 @@ describe('Auth-services.user.state', () => {
       ]
     })
 
-    inject([TestConfiguration, VisitorService, UserService], (testConfig:TestConfiguration, visitorService: VisitorService) => {
+    inject([TestConfiguration, VisitorService, UserService], (testConfig: TestConfiguration, visitorService: VisitorService) => {
       visitorService.signInWithEmailAndPassword(testConfig.adminCredentials).then(done)
     })()
   })
@@ -72,7 +71,7 @@ describe('Auth-services.user.state', () => {
         })
         expect(count).toBeGreaterThan(0)
         done()
-      }, (e)=>{
+      }, (e) => {
         console.log('Error handling load users', e)
       })
     })()
@@ -100,7 +99,6 @@ describe('Auth-services.user.state', () => {
       let updatedDisplayName = "updated"
       let changeCount = 0
 
-
       let primary = new AuthUser({
         $key: key,
         displayName: key,
@@ -108,64 +106,40 @@ describe('Auth-services.user.state', () => {
       let updated = new AuthUser(primary)
       updated.displayName = updatedDisplayName
 
-      let start = () => {
-        service.create(primary).then((createdUser: AuthUser) => {
-          expect(createdUser.$key).toBe(key)
-          service.update(updated, primary).then((result) => {
-            expect(result.displayName).toBe(updatedDisplayName, "Should have updated the description")
-            service.value(key)
-              .then((updatedUser) => {
-                expect(updatedUser.displayName).toBe(updatedDisplayName, 'Should have updated the User.')
-                expect(changeCount).toBe(3, 'Should trigger changes.')
-                done()
-              })
-              .catch((reason) => {
-                fail(reason)
-                done()
-              })
-          })
+      service.create(primary)
+        .then((createdUser: AuthUser) => expect(createdUser.$key).toBe(key)).catch((e) => fail() )
+        .then(() => service.update(updated, primary)).catch((e) => fail() )
+        .then(() => service.value(key)).catch((e) => <any>fail() )
+        .then((updatedUser) => {
+          expect(updatedUser.displayName).toBe(updatedDisplayName, 'Should have updated the User.')
+        }).catch((e) => fail())
+        .then(() => done())
+        .catch((reason) => {
+          fail(reason)
+          done()
         })
-      }
-
-      service.values().subscribe(() => {
-        changeCount++
-        if (changeCount === 1) {
-          start()
-        }
-      })
     })()
+
   })
 
   it('removes a User', (done) => {
     inject([UserService], (service: UserService) => {
       let key = "SPEC_RANDOM_USER" + Math.round((100000 * Math.random()))
       let changeCount = 0
-      let start = () => {
-        service.create(new AuthUser({
-          $key: key,
-          displayName: key,
-        })).then((created: AuthUser) => {
-          expect(created.$key).toBe(key)
-          service.remove(key).then((removedKey) => {
-            service.value(key)
-              .then((removed) => {
-                expect(removed).toBeFalsy('Removed values should be null on read.')
-                expect(removedKey).toBe(key, 'the remove promise should provide the key removed on success.')
-                expect(changeCount).toBe(3, 'Should trigger changes.')
-                done()
-              })
-              .catch(() => {
-                fail('should return null value rather than fail.')
-              })
-          })
-        })
-      }
-      service.values().subscribe(() => {
-        changeCount++
-        if (changeCount === 1) {
-          start()
-        }
+      let testUser = new AuthUser({
+        $key: key,
+        displayName: key,
       })
+      service.create(testUser).then((created: AuthUser) => expect(created.$key).toBe(key))
+        .then(() => service.remove(key))
+        .then((removedKey) => service.value(key))
+        .then((removed) => {
+          expect(removed).toBeFalsy('Removed values should be null on read.')
+          done()
+        })
+        .catch(() => {
+          fail('should return null value rather than fail.')
+        })
     })()
   })
 
@@ -183,20 +157,21 @@ describe('Auth-services.user.state', () => {
         description: "A spec permission."
       })
 
-      let start = () => {
-        userService.grantPermission(user, permission).then((value) => {
-          expect(value.user).toBeTruthy()
-          expect(value.permission).toBeTruthy()
-          return userService.revokePermission(user, permission).then(() => done())
-        }).catch((reason) => {
-          fail(reason)
+      permissionService.create(permission)
+        .then(() => userService.create(user))
+        .then(() => userService.grantPermission(user, permission))
+        .then(() => userService.getEffectivePermissionsForUser(user))
+        .then((perms: AuthPermission[]) => {
+          expect(perms.filter(perm => perm.$key === permission.$key)[0]).toBeTruthy()
+        })
+        .then(() => userService.revokePermission(user, permission))
+        .then(() => done())
+        .catch((reason) => {
+          fail(reason);
           done()
         })
-      }
 
-      permissionService.create(permission).then(() => {
-        userService.create(user).then(start)
-      })
+
     })()
   })
 
@@ -214,23 +189,27 @@ describe('Auth-services.user.state', () => {
         description: "A spec permission."
       })
 
-      let start = () => {
-        userService.revokePermission(user, permission).then((value) => {
-          expect(value.user).toBeTruthy()
-          expect(value.permission).toBeTruthy()
+      permissionService.create(permission)
+        .then(() => userService.create(user))
+        .then(() => userService.grantPermission(user, permission))
+        .then(() => userService.getEffectivePermissionsForUser(user))
+        .then((perms: AuthPermission[]) => {
+          expect(perms.some(perm => perm.$key === permission.$key)).toBeTruthy()
+        })
+        .then(() => userService.revokePermission(user, permission))
+        .then(() => userService.getEffectivePermissionsForUser(user))
+        .then((perms: AuthPermission[]) => {
+          expect(perms.some(perm => perm.$key === permission.$key)).toBeFalsy()
+        })
+        .then(() => done())
+        .catch((reason) => {
+          fail(reason);
           done()
-
         })
-      }
 
-      permissionService.create(permission).then(() => {
-        userService.create(user).then(() => {
-          userService.grantPermission(user, permission).then(() => {
-            start()
-          })
-        })
-      })
+
     })()
+
   })
 
   xit('removes a permission from a user when the permission is deleted', (done) => {
@@ -259,7 +238,7 @@ describe('Auth-services.user.state', () => {
 
       let count = 0
       let start = () => {
-        userService.getGrantedPermissionsForUser$(user).subscribe((permissions: AuthPermission[]) => {
+        userService.getGrantedPermissionsForUser(user).then((permissions: AuthPermission[]) => {
           let map = ObjMapUtil.fromKeyedEntityArray(permissions)
           if (count === 0) {
             expect(permissions.length).toBe(3)
@@ -273,7 +252,7 @@ describe('Auth-services.user.state', () => {
             expect(permissions.length).toBe(2)
             expect(map[permKey]).toBeFalsy('Perm1 should NOT be assigned')
             expect(map[permKey2].description).toBe(permission2.description)
-            permissionService.remove(permKey2).then(() => permissionService.remove(permKey3)).then(() => done() )
+            permissionService.remove(permKey2).then(() => permissionService.remove(permKey3)).then(() => done())
           }
           count++
         })
@@ -299,32 +278,24 @@ describe('Auth-services.user.state', () => {
         $key: userKey,
         displayName: userKey
       })
-      let role = new AuthRole({
+      let testRole = new AuthRole({
         $key: roleKey,
         description: "A spec role."
       })
 
-      let start = () => {
-        userService.grantRole(user, role).then((value) => {
-          expect(value.user).toBeTruthy()
-          expect(value.role).toBeTruthy()
-          userService.revokeRole(user, role).then(() => done()).catch((reason) => {
-            console.log('failed to revoke', reason)
-            fail("Failed to revoke role")
-          })
-        }).catch((reason)=>{
-          console.log('Failed to grant role', reason)
-          fail('Failed to grant role on user.')
+      roleService.create(testRole)
+        .then(() => userService.create(user))
+        .then(() => userService.grantRole(user, testRole))
+        .then(() => userService.getRolesForUser(user))
+        .then((roles: AuthRole[]) => {
+          expect(roles.some(perm => perm.$key === testRole.$key)).toBeTruthy()
+        })
+        .then(() => userService.revokeRole(user, testRole))
+        .then(() => done())
+        .catch((reason) => {
+          fail(reason);
           done()
         })
-      }
-
-      roleService.create(role).then(() => {
-        userService.create(user).then(start)
-      }).catch((reason) => {
-        console.log('bob', reason)
-        fail("It done failed")
-      })
     })()
   })
 
@@ -337,27 +308,29 @@ describe('Auth-services.user.state', () => {
         $key: userKey,
         displayName: userKey
       })
-      let role = new AuthRole({
+      let testRole = new AuthRole({
         $key: roleKey,
         description: "A spec role."
       })
 
-      let start = () => {
-        userService.revokeRole(user, role).then((value) => {
-          expect(value.user).toBeTruthy()
-          expect(value.role).toBeTruthy()
+      roleService.create(testRole)
+        .then(() => userService.create(user))
+        .then(() => userService.grantRole(user, testRole))
+        .then(() => userService.getRolesForUser(user))
+        .then((roles: AuthRole[]) => {
+        debugger
+          expect(roles.some(perm => perm.$key === testRole.$key)).toBeTruthy()
+        })
+        .then(() => userService.revokeRole(user, testRole))
+        .then(() => userService.getRolesForUser(user))
+        .then((perms: AuthRole[]) => {
+          expect(perms.some(perm => perm.$key === testRole.$key)).toBeFalsy()
+        })
+        .then(() => done())
+        .catch((reason) => {
+          fail(reason);
           done()
-
         })
-      }
-
-      roleService.create(role).then(() => {
-        userService.create(user).then(() => {
-          userService.grantRole(user, role).then(() => {
-            start()
-          })
-        })
-      })
     })()
   })
 
@@ -387,7 +360,7 @@ describe('Auth-services.user.state', () => {
 
       let count = 0
       let start = () => {
-        userService.getRolesForUser$(user).subscribe((roles: AuthRole[]) => {
+        userService.getRolesForUser(user).then((roles: AuthRole[]) => {
           let map = ObjMapUtil.fromKeyedEntityArray(roles)
           if (count === 0) {
             expect(roles.length).toBe(3)
@@ -401,7 +374,7 @@ describe('Auth-services.user.state', () => {
             expect(roles.length).toBe(2)
             expect(map[roleKey]).toBeFalsy('Perm1 should NOT be assigned')
             expect(map[roleKey2].description).toBe(role2.description)
-            roleService.remove(roleKey2).then(() => roleService.remove(roleKey3)).then(() => done() )
+            roleService.remove(roleKey2).then(() => roleService.remove(roleKey3)).then(() => done())
           }
           count++
         })

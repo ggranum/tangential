@@ -17,7 +17,7 @@ export abstract class VisitorService {
   abstract isVisitorSignedIn(): boolean
   abstract deleteAccount(): Promise<void>
 
-  abstract getEffectivePermissions$():Observable<AuthPermission[]>
-  abstract getGrantedPermissions$():Observable<AuthPermission[]>
-  abstract getRoles$():Observable<AuthRole[]>
+  abstract getEffectivePermissions():Promise<AuthPermission[]>
+  abstract getGrantedPermissions():Promise<AuthPermission[]>
+  abstract getRoles():Promise<AuthRole[]>
 }

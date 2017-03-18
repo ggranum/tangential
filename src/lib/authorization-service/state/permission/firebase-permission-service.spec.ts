@@ -77,7 +77,7 @@ describe('Auth-services.permission.state', () => {
 
   it('load perms from Permission Service', (done) => {
     inject([PermissionService], (service: PermissionService) => {
-      service.values().subscribe((x) => {
+      service.values$().subscribe((x) => {
         let count = 0
         x.forEach((perm: AuthPermission) => {
           count++
@@ -109,7 +109,7 @@ describe('Auth-services.permission.state', () => {
       let description = "Using firebasePermission Service in spec."
       let updatedDescription = "Using firebasePermission Service in spec - updated."
       let changeCount = 0
-      service.values().subscribe((values) => {
+      service.values$().subscribe((values) => {
         changeCount++
       })
 
@@ -143,7 +143,7 @@ describe('Auth-services.permission.state', () => {
     inject([PermissionService], (service: PermissionService) => {
       let key = "SPEC_RANDOM_" + Math.round((100000 * Math.random()))
       let changeCount = 0
-      service.values().subscribe((values) => {
+      service.values$().subscribe((values) => {
         changeCount++
       })
 

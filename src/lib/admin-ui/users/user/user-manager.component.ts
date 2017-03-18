@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnInit, ViewEncapsulation, NgZone} from "@angular/core";
+import {Component, ChangeDetectionStrategy, OnInit, ViewEncapsulation, NgZone, ChangeDetectorRef} from "@angular/core";
 import {AuthUser, AuthPermission, AuthRole} from "@tangential/media-types";
 import {Observable, BehaviorSubject} from "rxjs";
 import {UserService, PermissionService, RoleService} from "@tangential/authorization-service";
@@ -63,20 +63,22 @@ export class UserManagerComponent implements OnInit {
 
 
   allUsers$: Observable<AuthUser[]>
-  grantedPermissionsByUser: {[userKey: string]: Observable<SelectionEntry<AuthPermission>[]>} = {}
-  rolesByUser: {[userKey: string]: Observable<SelectionEntry<AuthRole>[]>} = {}
+  grantedPermissionsByUser: {[userKey: string]: Promise<SelectionEntry<AuthPermission>[]>} = {}
+  rolesByUser: {[userKey: string]: Promise<SelectionEntry<AuthRole>[]>} = {}
 
   watchMe: number = 0
   _newIndex: number = 0
 
-  constructor(private _userService: UserService, private _permissionService: PermissionService,
-              private _roleService: RoleService, private _zone:NgZone) {
+  constructor(private userService: UserService,
+              private permissionService: PermissionService,
+              private roleService: RoleService,
+              private changeDetectorRef:ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    this.allUsers$ = this._userService.values().flatMap((users: AuthUser[]) => {
-      return this._permissionService.values().flatMap((allPermissions) => {
-        return this._roleService.values().map((allRoles) => {
+    this.allUsers$ = this.userService.values().flatMap((users: AuthUser[]) => {
+      return this.permissionService.values$().flatMap((allPermissions) => {
+        return this.roleService.values().map((allRoles) => {
           users.forEach((user) => {
             if (user.$key.startsWith('New User')) {
               try {
@@ -86,27 +88,27 @@ export class UserManagerComponent implements OnInit {
                 this._newIndex = Math.max(this._newIndex, 0)
               }
             }
-            let grantedSubject = new BehaviorSubject([])
-            this.grantedPermissionsByUser[user.$key] = grantedSubject.asObservable()
-            this._userService.getRolePermissionsForUser$(user).flatMap((userRolePermissionsMap:ObjMap<AuthPermission>) => {
-              return this._userService.getGrantedPermissionsForUser$(user).map((userGrantedPermissions) => {
+
+            this.grantedPermissionsByUser[user.$key] = this.userService.getRolePermissionsForUser(user).then((userRolePermissionsMap:ObjMap<AuthPermission>) => {
+              return this.userService.getGrantedPermissionsForUser(user).then((userGrantedPermissions) => {
                 let list = new SelectionList<AuthPermission>(allPermissions)
                 list.select(userGrantedPermissions)
                 let userRolePermissions = ObjMapUtil.toKeyedEntityArray(userRolePermissionsMap)
                 list.select(userRolePermissions)
                 list.disable(userRolePermissions)
                 this.watchMe++
-                grantedSubject.next(list.entries)
+                return list.entries
               })
-            }).subscribe((v)=>{ })
+            })
 
-            this.rolesByUser[user.$key] = this._userService.getRolesForUser$(user).map((userRoles) => {
+            this.rolesByUser[user.$key] = this.userService.getRolesForUser(user).then((userRoles) => {
               let list = new SelectionList<AuthRole>(allRoles)
               list.select(userRoles)
               this.watchMe++
               return list.entries
             })
           })
+          this.changeDetectorRef.markForCheck()
           return users
         })
       })
@@ -115,26 +117,26 @@ export class UserManagerComponent implements OnInit {
 
 
   grantPermission(user: AuthUser, permission: AuthPermission) {
-    this._userService.grantPermission(user, permission).catch((reason) => {
+    this.userService.grantPermission(user, permission).catch((reason) => {
       console.error('UserManagerComponent', 'could not grant permission', reason)
     })
   }
 
   revokePermission(user: AuthUser, permission: AuthPermission) {
     console.log('UserManagerComponent', 'revokePermission')
-    this._userService.revokePermission(user, permission).catch((reason) => {
+    this.userService.revokePermission(user, permission).catch((reason) => {
       console.error('UserManagerComponent', 'could not revoke permission', reason)
     })
   }
 
   grantRole(user: AuthUser, role: AuthRole) {
-    this._userService.grantRole(user, role).catch((reason) => {
+    this.userService.grantRole(user, role).catch((reason) => {
       console.error('UserManagerComponent', 'could not grant role', reason)
     })
   }
 
   revokeRole(user: AuthUser, role: AuthRole) {
-    this._userService.revokeRole(user, role).catch((reason) => {
+    this.userService.revokeRole(user, role).catch((reason) => {
       console.error('UserManagerComponent', 'could not revoke role', reason)
     })
   }
@@ -145,14 +147,14 @@ export class UserManagerComponent implements OnInit {
       $key: generatePushID(),
       displayName: 'New User ' + (this._newIndex),
     })
-    this._userService.create(user).catch((reason) => {
+    this.userService.create(user).catch((reason) => {
       console.error('UserManagerComponent', 'error adding user', reason)
       throw new Error(reason)
     })
   }
 
   onRemove(key: string) {
-    this._userService.remove(key).catch((reason) => {
+    this.userService.remove(key).catch((reason) => {
       console.error('UserManagerComponent', 'error removing user', reason)
       throw new Error(reason)
     })
@@ -160,7 +162,7 @@ export class UserManagerComponent implements OnInit {
 
   onRemoveSelectedAction(keys: string[]) {
     keys.forEach((key) => {
-      this._userService.remove(key).catch((reason) => {
+      this.userService.remove(key).catch((reason) => {
         console.error('UserManagerComponent', 'error removing user', reason)
         throw new Error(reason)
       })
@@ -169,7 +171,7 @@ export class UserManagerComponent implements OnInit {
 
 
   onItemChange(user: AuthUser) {
-    this._userService.update(user, user).catch((reason) => {
+    this.userService.update(user, user).catch((reason) => {
       console.error('UserManagerComponent', 'error updating user', reason)
       throw new Error(reason)
     })

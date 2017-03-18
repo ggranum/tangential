@@ -33,7 +33,7 @@ export class PermissionManagerComponent implements OnInit {
   ngOnInit() {
     console.log('PermissionManagerComponent', 'ngOnInit')
 
-    this.allPermissions$ = this._permissionService.values().map((permissions: AuthPermission[]) => {
+    this.allPermissions$ = this._permissionService.values$().map((permissions: AuthPermission[]) => {
       permissions.sort((a, b) => {
         return a.orderIndex - b.orderIndex
       })
