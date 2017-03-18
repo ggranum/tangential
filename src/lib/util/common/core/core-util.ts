@@ -1,6 +1,80 @@
 import {ObjMap} from "../lang/omap";
 
+
+export type MapEntry<T> = { key: string, value: T }
+
 export class ObjectUtil {
+
+
+  /**
+   * Null safe version of Object.keys.
+   * @param map
+   * @returns {string[]} The keys for the map, or an empty array if the argument provided is falsy.
+   */
+  static keys<T>(map: ObjMap<T>): string[] {
+    return Object.keys(map || {})
+  }
+
+  /**
+   * Provide a map of keys such that 'map[key]' provides a literal true value if the key is present, even if the value
+   * on the source map is falsy.
+   */
+  static truthMap<T>(map: ObjMap<T>): ObjMap<boolean> {
+    let result: ObjMap<boolean> = {}
+    Object.keys(map || {}).forEach(key => result[key] = true)
+    return result
+  }
+
+  /**
+   * Expand the map into an array of key-value pairs.
+   * @param {ObjMap<T>} map
+   * @returns MapEntry<T>
+   */
+  static entries<T>(map: ObjMap<T> | any): MapEntry<T>[] {
+    return Object.keys(map || {}).map((key) => {
+      return {key: key, value: map[key]}
+    })
+  }
+
+  /**
+   * Provide the values of the map.
+   * @param {ObjMap<T>} map
+   * @returns MapEntry<T>
+   */
+  static values<T>(map: ObjMap<T> | any): T[] {
+    return Object.keys(map || {}).map((key) => {
+      return map[key]
+    })
+  }
+
+  static isObject(value): boolean {
+    return (typeof value === 'object' || value.constructor === Object)
+  }
+
+  static isFunction(value): boolean {
+    return (typeof value === 'function' || value instanceof Function)
+  }
+
+  static isNullOrDefined(value): boolean {
+    return value === null || value === undefined
+  }
+
+  static assignDeep(target: any, ...sources: any[]): any {
+    target = target || {}
+    for (let i = 0, L = sources.length; i < L; i++) {
+      let source = sources[i] || {}
+      Object.keys(source).forEach(key => {
+        let value = source[key]
+        if (value && ObjectUtil.isObject(value)) {
+          target[key] = ObjectUtil.assignDeep(target[key] || {}, value)
+        } else {
+          target[key] = value
+        }
+      })
+    }
+    return target
+  }
+
 
   static removeNullish<T>(obj: T): T {
     let cleanObj: T = <T>{}
@@ -25,7 +99,7 @@ export class ObjectUtil {
   }
 }
 
-export const cleanFirebaseMap = function<T>(firebaseList: ObjMap<T>, deep?: boolean): ObjMap<T> {
+export const cleanFirebaseMap = function <T>(firebaseList: ObjMap<T>, deep?: boolean): ObjMap<T> {
   let result: ObjMap<T> = {}
 
   Object.keys(firebaseList).forEach((key: string) => {
@@ -106,10 +180,7 @@ export const eachKey = <T>(objMap: T, fn: (arg?: T, key?: string) => any) => {
 }
 
 
-export interface Duo<X,Y> {
+export interface Duo<X, Y> {
   x: X
   y: Y
-}
-export interface Trio<X,Y,Z> extends Duo<X,Y> {
-  z: Z
 }

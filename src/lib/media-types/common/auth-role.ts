@@ -1,47 +1,25 @@
-import {ObjectUtil} from "@tangential/common";
-import {MediaType, TypeDescriptor} from "../media-type";
+import {Jsonified, ObjectUtil} from "@tangential/common";
+import {StampedMediaType, StampedMediaTypeJson} from "@tangential/media-types";
 
-export const __AuthRole: TypeDescriptor = {
-  name: 'auth-role',
-  version: 1,
-  prefix: 'vnd'
-}
-
-export class AuthRoleType implements MediaType {
-  descriptor: TypeDescriptor = __AuthRole;
-  definition: typeof AuthRole = AuthRole
-}
-
-export interface AuthRoleIF {
-  $key?: string
+export interface AuthRoleJson extends StampedMediaTypeJson {
   description?: string
-  createdMils?: number
   orderIndex?: number
 }
 
-export class AuthRole implements AuthRoleIF {
+const Model:AuthRoleJson = {
+  description : null,
+  orderIndex: 0
+}
+
+export class AuthRole extends StampedMediaType implements Jsonified<AuthRole, AuthRoleJson>, AuthRoleJson {
+  static $model:AuthRoleJson = ObjectUtil.assignDeep({}, StampedMediaType.$model, Model)
   $key?: string
   description?: string
   createdMils?: number
   orderIndex?: number
 
-  constructor(config:AuthRoleIF, ) {
-    this.$key = config.$key
-    this.description = config.description
-    this.orderIndex = config.orderIndex
-    this.createdMils = config.createdMils || Date.now()
-  }
-
-  toJson(withHiddenFields?:boolean):AuthRoleIF {
-    let json:AuthRoleIF = {
-      description: this.description,
-      createdMils: this.createdMils,
-      orderIndex: this.orderIndex
-    }
-    if(withHiddenFields === true){
-      json.$key = this.$key
-    }
-    return ObjectUtil.removeNullish(json)
+  constructor(config:AuthRoleJson, key?:string ) {
+    super(config, key)
   }
 
   static guard(value: AuthRole | string ): value is AuthRole {

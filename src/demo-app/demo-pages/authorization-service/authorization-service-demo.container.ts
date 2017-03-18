@@ -38,19 +38,19 @@ export class AuthorizationServiceDemoContainer implements OnInit {
       return visitor
     })
     this.visitorRoles$ = this.visitor$.flatMap((visitor) => {
-      return this._visitorService.getRoles$().map((roles: AuthRole[]) => {
+      return this._visitorService.getRoles().then((roles: AuthRole[]) => {
         console.log('AuthorizationServiceDemoContainer', 'Roles for user', roles.length)
         return roles
       })
     })
     this.visitorGrantedPermissions$ = this.visitor$.flatMap((visitor) => {
-      return this._visitorService.getGrantedPermissions$().map((permissions: AuthPermission[]) => {
+      return this._visitorService.getGrantedPermissions().then((permissions: AuthPermission[]) => {
         console.log('AuthorizationServiceDemoContainer', 'Granted Permissions for user', permissions.length)
         return permissions
       })
     })
     this.visitorEffectivePermissions$ = this.visitor$.flatMap((visitor) => {
-      return this._visitorService.getEffectivePermissions$().map((permissions: AuthPermission[]) => {
+      return this._visitorService.getEffectivePermissions().then((permissions: AuthPermission[]) => {
         console.log('AuthorizationServiceDemoContainer', 'Effective Permissions for user', permissions.length)
         return permissions
       })

@@ -52,7 +52,7 @@ export class RoleManagerComponent implements OnInit {
 
   ngOnInit() {
     this.allRoles$ = this._roleService.values().flatMap((roles: AuthRole[]) => {
-      return this._permissionService.values().map((allPermissions) => {
+      return this._permissionService.values$().map((allPermissions) => {
         roles.forEach((role) => {
           if (role.$key.startsWith('New Role')) {
             try {

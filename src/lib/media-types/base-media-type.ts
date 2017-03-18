@@ -1,32 +1,28 @@
-import {
-  generatePushID,
-  ObjectUtil
-} from "@tangential/common";
-export interface BaseMediaTypeIF {
+import {generatePushID, Jsonified, JsonUtil} from "@tangential/common";
+
+export interface BaseMediaTypeJson {
   $key?: string
-  _createdMils: number
-  _editedMils: number
 }
 
-export class BaseMediaType implements BaseMediaTypeIF {
+const Model:BaseMediaTypeJson = {
+  $key: null
+}
+
+export class BaseMediaType implements Jsonified<BaseMediaType, BaseMediaTypeJson>, BaseMediaTypeJson {
+  static $model: BaseMediaTypeJson = Model
   $key?: string
-  _createdMils: number
-  _editedMils: number
 
-
-  constructor(config?: any) {
-    config = config || {}
-    this.$key = config.$key || generatePushID()
-    this._createdMils = config._createdMils || Date.now()
-    this._editedMils = config._editedMils || this._createdMils
+  constructor(config: any, key?: string) {
+    JsonUtil.applyJsonToInstance(this, config)
+    this.$key = key || config.$key || generatePushID()
   }
 
+  getModel(){
+    return this.constructor['$model']
+  }
 
-  toJson<T>(withHiddenFields?: boolean, baseJson?: T): T {
-    let json: any = baseJson || {}
-    json._createdMils = this._createdMils
-    json._editedMils = this._editedMils
-    return withHiddenFields !== true ? ObjectUtil.removeIllegalFirebaseKeys(json) : ObjectUtil.removeNullish(json)
+  toJson(withHiddenFields?: boolean): BaseMediaTypeJson {
+    return JsonUtil.instanceToJson(this, withHiddenFields)
   }
 
 

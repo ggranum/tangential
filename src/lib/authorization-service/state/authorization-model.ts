@@ -1,8 +1,8 @@
 import {ObjMap, OneToManyReferenceMap} from "@tangential/common";
-import {AuthUserIF, AuthPermissionIF, AuthRole} from "@tangential/media-types";
+import {AuthUserIF, AuthPermissionJson, AuthRole} from "@tangential/media-types";
 
 export interface AuthorizationModel {
-  permissions?: ObjMap<AuthPermissionIF>
+  permissions?: ObjMap<AuthPermissionJson>
   roles?: ObjMap<AuthRole>
   users?: ObjMap<AuthUserIF>
   role_permissions?: OneToManyReferenceMap

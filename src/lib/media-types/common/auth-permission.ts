@@ -1,50 +1,29 @@
-import {ObjectUtil, ToJson, Keyed} from "@tangential/common";
+import {ObjectUtil, Jsonified} from "@tangential/common";
 
-import {MediaType, TypeDescriptor} from "../media-type";
-
-export const __AuthPermission: TypeDescriptor = {
-  name: 'auth-permission',
-  version: 1,
-  prefix: 'vnd'
-}
-
-export class AuthPermissionType implements MediaType {
-  descriptor: TypeDescriptor = __AuthPermission;
-  definition: typeof AuthPermission = AuthPermission
-}
+import {StampedMediaType, StampedMediaTypeJson} from "../stamped-media-type";
 
 
-export interface AuthPermissionIF {
-  $key?: string
+export interface AuthPermissionJson extends StampedMediaTypeJson {
   description?: string
-  createdMils?: number
   orderIndex?: number
 }
 
-export class AuthPermission implements AuthPermissionIF, Keyed, ToJson {
-  $key?: string
+const Model: AuthPermissionJson = {
+  description: null,
+  orderIndex: null,
+}
+
+export class AuthPermission extends StampedMediaType implements Jsonified<AuthPermission, AuthPermissionJson>, AuthPermissionJson{
+  static $model:AuthPermissionJson  = ObjectUtil.assignDeep({}, StampedMediaType.$model, Model)
   description?: string;
-  createdMils?: number
   orderIndex?: number
 
-
-  constructor(config: AuthPermissionIF) {
-    this.$key = config.$key
-    this.description = config.description
-    this.createdMils = config.createdMils || Date.now()
-    this.orderIndex = config.orderIndex
+  constructor(config: AuthPermissionJson, key?: string) {
+    super(config, key)
   }
 
-  toJson(includeHidden?: boolean): AuthPermissionIF {
-    let json: AuthPermissionIF = {
-      description: this.description,
-      createdMils: this.createdMils,
-      orderIndex: this.orderIndex
-    }
-    if (includeHidden === true) {
-      json.$key = this.$key
-    }
-    return ObjectUtil.removeNullish(json)
+  static guard(value: AuthPermission | string ): value is AuthPermission {
+    return !(typeof value == 'string') && (<AuthPermission>value).$key !== undefined;
   }
 
 }

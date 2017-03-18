@@ -1,3 +1,13 @@
+<a name="0.0.1-beta.13"></a>
+## [0.0.1-beta.13](https://github.com/ggranum/tangential/compare/v0.0.1-beta.12...v0.0.1-beta.13) (2017-03-17)
+
+
+### Bug Fixes
+
+* **authorization-service:** republish with missed change ([ded96cc](https://github.com/ggranum/tangential/commit/ded96cc))
+
+
+
 <a name="0.0.1-beta.12"></a>
 ## [0.0.1-beta.12](https://github.com/ggranum/tangential/compare/v0.0.1-beta.11...v0.0.1-beta.12) (2017-03-17)
 

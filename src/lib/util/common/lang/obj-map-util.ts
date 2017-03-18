@@ -2,6 +2,7 @@ import {ObjMap} from "./omap";
 export class ObjMapUtil {
 
   static fromKeyedEntityArray<V>(values: V[], keyField: string = "$key"): ObjMap<V> {
+    values = values || []
     let m: ObjMap<V> = {}
     for (let i = 0; i < values.length; i++) {
       m[values[i][keyField]] = values[i]

@@ -1,5 +1,3 @@
-export * from './observable-reference'
+export * from './fire-blanket'
 export * from './firebase-config'
 export * from './firebase-provider'
-export * from './observable-objmap-reference'
-export * from './service/firebase-service'

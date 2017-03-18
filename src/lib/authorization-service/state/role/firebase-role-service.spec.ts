@@ -96,8 +96,6 @@ describe('Auth-services.role.state', () => {
       let key = "SPEC_RANDOM_" + Math.round((100000 * Math.random()))
       let description = "Using firebaseRole Service in spec."
       let updatedDescription = "Using firebaseRole Service in spec - updated."
-      let changeCount = 0
-
 
       let primary = new AuthRole({
         $key: key,
@@ -107,65 +105,37 @@ describe('Auth-services.role.state', () => {
       let updated = new AuthRole(primary)
       updated.description = updatedDescription
 
-      let start = () => {
-        service.create(primary).then((createdRole: AuthRole) => {
-          expect(createdRole.$key).toBe(key)
-          service.update(updated, primary).then((result) => {
-            expect(result.description).toBe(updatedDescription, "Should have updated the description")
-            service.value(key)
-              .then((updatedRole) => {
-                expect(updatedRole.description).toBe(updatedDescription, 'Should have updated hte role.')
-                expect(changeCount).toBe(3, 'Should trigger changes.')
-                done()
-              })
-              .catch((e) => {
-                console.log('error', e)
-                fail('error')
-              })
-          })
-        })
-      }
-
-      service.values().subscribe((values) => {
-        changeCount++
-        if (changeCount === 1) {
-          start()
-        }
-      })
+      service.create(primary)
+        .then((createdRole: AuthRole) => expect(createdRole.$key).toBe(key))
+        .then(() => service.update(updated, primary))
+        .then(() => service.value(key))
+        .then((updatedRole) => {
+          expect(updatedRole.description).toBe(updatedDescription, 'Should have updated the role.')
+          done()
+        }).catch((e) => fail() )
     })()
   })
 
   it('removes a Role', (done) => {
     inject([RoleService], (service: RoleService) => {
       let key = "SPEC_RANDOM_" + Math.round((100000 * Math.random()))
-      let changeCount = 0
-      let start = () => {
-        service.create(new AuthRole({
-          $key: key,
-          description: "Using firebaseRole Service in spec. ",
-          orderIndex: -1
-        })).then((created: AuthRole) => {
-          expect(created.$key).toBe(key)
-          service.remove(key).then((removedKey) => {
-            service.value(key)
-              .then((removed) => {
-                expect(removed).toBeFalsy('Removed values should be null on read.')
-                expect(removedKey).toBe(key, 'the remove promise should provide the key removed on success.')
-                expect(changeCount).toBe(3, 'Should trigger changes.')
-                done()
-              })
-              .catch(() => {
-                fail('should return null value rather than fail.')
-              })
-          })
-        })
-      }
-      service.values().subscribe((values) => {
-        changeCount++
-        if (changeCount === 1) {
-          start()
-        }
+
+      let testRole = new AuthRole({
+        $key: key,
+        description: "Using firebaseRole Service in spec. ",
+        orderIndex: -1
       })
+      service.create(testRole).then((created: AuthRole) => expect(created.$key).toBe(key))
+        .then(() => service.remove(key)).catch((e) => fail() )
+        .then(() => service.value(key)).catch((e) => fail() )
+        .then((removed) => {
+          expect(removed).toBeFalsy('Removed values should be null on read.')
+          done()
+        }).catch((e) => fail() )
+        .catch(() => {
+          fail('should return null value rather than fail.')
+        })
+
     })()
   })
 
@@ -182,18 +152,20 @@ describe('Auth-services.role.state', () => {
         $key: permKey,
         description: "A spec permission."
       })
-
-      let start = () => {
-        roleService.grantPermission(role, permission).then((value) => {
-          expect(value.role).toBeTruthy()
-          expect(value.permission).toBeTruthy()
-          roleService.revokePermission(role, permission).then(() => done())
+      permissionService.create(permission)
+        .then(() => roleService.create(role)).catch((e) => fail())
+        .then(() => roleService.grantPermission(role, permission)).catch((e) => fail())
+        .then(() => roleService.getPermissionsForRole(role)).catch((e) => fail())
+        .then((perms: AuthPermission[]) => {
+          let map = ObjMapUtil.fromKeyedEntityArray(perms)
+          expect(map[permission.$key]).toBeTruthy()
+        }).catch((e) => fail())
+        .then(() => roleService.revokePermission(role, permission)).catch((e) => fail())
+        .then(() => done())
+        .catch((e) => {
+          console.log('Error', e)
+          fail()
         })
-      }
-
-      permissionService.create(permission).then(() => {
-        roleService.create(role).then(start)
-      })
     })()
   })
 
@@ -211,21 +183,17 @@ describe('Auth-services.role.state', () => {
         description: "A spec permission."
       })
 
-      let start = () => {
-        roleService.revokePermission(role, permission).then((value) => {
-          expect(value.role).toBeTruthy()
-          expect(value.permission).toBeTruthy()
-          done()
-        })
-      }
-
-      permissionService.create(permission).then(() => {
-        roleService.create(role).then(() => {
-          roleService.grantPermission(role, permission).then(() => {
-            start()
-          })
-        })
-      })
+      permissionService.create(permission)
+        .then(() => roleService.create(role)).catch((e) => fail() )
+        .then(() => roleService.grantPermission(role, permission)).catch((e) => fail() )
+        .then(() => roleService.revokePermission(role, permission)).catch((e) => fail() )
+        .then(() => roleService.getPermissionsForRole(role)).catch((e) => fail() )
+        .then((perms: AuthPermission[]) => {
+          let map = ObjMapUtil.fromKeyedEntityArray(perms)
+          expect(map[permission.$key]).toBeFalsy()
+        }).catch((e) => fail() )
+        .then(() => roleService.revokePermission(role, permission)).catch((e) => fail() )
+        .then(() => done()).catch((e) => fail() )
     })()
   })
 

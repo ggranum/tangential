@@ -2,7 +2,7 @@
   "name": "tangential",
   "description": "Angular + Firebase bootstrap project / widget library, complete with authorization.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.0.1-beta.12",
+  "version": "0.0.1-beta.13",
   "license": "MIT",
   "private": false,
   "repository": {
@@ -55,8 +55,8 @@
     "primeng": "^1.1.4",
     "reflect-metadata": "0.1.8",
     "rxjs": "5.0.3",
-    "ts-helpers": "^1.1.1",
-    "zone.js": "^0.6.23"
+    "ts-helpers": "1.1.1",
+    "zone.js": "0.6.23"
   },
   "devDependencies": {
     "@angular/compiler-cli": "4.0.0-beta.4",
