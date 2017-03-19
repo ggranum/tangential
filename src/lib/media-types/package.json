@@ -2,7 +2,7 @@
   "name": "@tangential/media-types",
   "description": "Media Types - base functionality and a number of common/shared or just generally useful media types.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.0.1-beta.14",
+  "version": "0.0.1-beta.15",
   "license": "MIT",
   "private": false,
   "repository": {

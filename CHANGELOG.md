@@ -1,3 +1,10 @@
+<a name="0.0.1-beta.15"></a>
+## [0.0.1-beta.15](https://github.com/ggranum/tangential/compare/v0.0.1-beta.14...v0.0.1-beta.15) (2017-03-19)
+
+
+* Update to Angular 4 RC5
+
+
 <a name="0.0.1-beta.14"></a>
 ## [0.0.1-beta.14](https://github.com/ggranum/tangential/compare/v0.0.1-beta.13...v0.0.1-beta.14) (2017-03-18)
 

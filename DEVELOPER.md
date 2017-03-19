@@ -211,10 +211,9 @@ If you are cloning this project for your own devious purposes, see the **Using t
 
 ##### Release Process
 1) Pull from origin/master
-1) Run `gulp versionBump --bump=prerelease --beta`
+1) Run `gulp versionBump --bump=prerelease --beta && git add .`
     * There's also a --alpha flag, and --bump can take any of the semver values that npm version accepts (note, however, this is NOT using 'npm version' to do the update.) 
 1) Verify the version number has been updated and that there are no other uncommitted changes. Version numbers should be consistent across modules prior to release. Pending further discussion (and build tooling), this includes even 'new' components that are in an alpha state.
-1) Run `git add .` 
 1) Run `./generate-changelog.sh patch`
     2) This should only modify and `git add` the changelog file.
     2) Execute the additional steps that are printed out to the console. 
