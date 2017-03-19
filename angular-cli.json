@@ -27,8 +27,9 @@
         "../node_modules/primeng/resources/primeng.min.css"
       ],
       "scripts": [],
+
+      "environmentSource": "demo-app/environments/environment.ts",
       "environments": {
-        "source": "demo-app/environments/environment.ts",
         "dev": "demo-app/environments/environment.dev.ts",
         "prod": "demo-app/environments/environment.prod.ts"
       }

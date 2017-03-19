@@ -21,6 +21,11 @@ import {firebaseConfig} from "../../config/firebase-config.local";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
 
+const doFail = (e, done) => {
+  fail(e)
+  return <any>done()
+}
+
 describe('Auth-services.permission.state', () => {
 
   beforeEach((done) => {
@@ -61,13 +66,13 @@ describe('Auth-services.permission.state', () => {
       (permissionService: PermissionService, visitorService: VisitorService, testConfiguration: TestConfiguration) => {
         visitorService.signOut().then(() => {
           visitorService.signInWithEmailAndPassword(testConfiguration.adminCredentials).then(() => {
-            cleanupPermissions(permissionService).then(()=>{
+            cleanupPermissions(permissionService).then(() => {
               done()
             }).catch((reason) => {
               console.error('error', reason)
               done()
             })
-          }).catch((reason)=> {
+          }).catch((reason) => {
             console.error('Could not sign in as admin', reason)
             done()
           })
@@ -88,18 +93,23 @@ describe('Auth-services.permission.state', () => {
     })()
   })
 
+
   it('creates a Permission', (done) => {
     inject([PermissionService], (service: PermissionService) => {
       let key = "SPEC_RANDOM_" + Math.round((100000 * Math.random()))
-      service.create(new AuthPermission({
+      let testPerm = new AuthPermission({
         $key: key,
         description: "Using firebasePermission Service in spec. ",
         orderIndex: -1
-      })).then((x: AuthPermission) => {
-        expect(x).toBeTruthy('Should have provided the updated value.')
-        expect(x.$key).toBe(key)
-        done()
       })
+      service.create(testPerm)
+        .then(() => service.value(key))
+        .then((x) => {
+          expect(x).toBeTruthy('Should have provided the created value.')
+          expect(x.$key).toBe(key)
+          done()
+        })
+        .catch((e) => doFail(e, done))
     })()
   })
 
@@ -121,21 +131,12 @@ describe('Auth-services.permission.state', () => {
       let updated = new AuthPermission(primary)
       updated.description = updatedDescription
 
-      service.create(primary).then((created: AuthPermission) => {
-        expect(created.$key).toBe(key)
-        service.update(updated, primary).then((result) => {
-          expect(result.description).toBe(updatedDescription, "Should have updated the description")
-          service.value(key)
-            .then((updated) => {
-              expect(updated.description).toBe(updatedDescription, 'Should have updated the permission.')
-              done()
-            })
-            .catch((e) => {
-              console.log('error', e)
-              fail('error')
-            })
-        })
-      })
+      service.create(primary)
+        .then(() => service.update(updated, primary))
+        .then(() => service.value(key))
+        .then((updated) => expect(updated.description).toBe(updatedDescription, 'Should have updated the permission.'))
+        .then(() => done())
+        .catch((e) => doFail(e, done))
     })()
   })
 
@@ -147,26 +148,19 @@ describe('Auth-services.permission.state', () => {
         changeCount++
       })
 
-      service.create(new AuthPermission({
+      let testPermission = new AuthPermission({
         $key: key,
         description: "A spec permission.",
         orderIndex: -1
-      })).then((created: AuthPermission) => {
-        expect(created.$key).toBe(key)
-        service.remove(key).then((removedKey) => {
-          expect(removedKey).toBe(key, 'the remove promise should provide the key removed on success.')
-          service.value(key)
-            .then((removed) => {
-              expect(removed).toBeFalsy('Removed values should be null on read.')
-              done()
-            })
-            .catch(() => {
-              fail('should return null value rather than fail.')
-            })
-        }).catch((reason) => {
-          fail("shouldn't throw error on remove." + JSON.stringify(reason, null, 2))
-        })
       })
+
+      service.create(testPermission)
+        .then(() => service.remove(key))
+        .then((removedKey) => expect(removedKey).toBe(key, 'the remove promise should provide the key removed on success.'))
+        .then(() => service.value(key))
+        .then((removed) => expect(removed).toBeFalsy('Removed values should be null on read.'))
+        .then(() => done())
+        .catch((e) => doFail(e, done))
     })()
   })
 
@@ -182,11 +176,14 @@ describe('Auth-services.permission.state', () => {
     it("does not create a Permission if user doesn't have 'ADD PERMISSION' permission.", (done) => {
       inject([PermissionService], (service: PermissionService) => {
         let key = "SPEC_RANDOM_" + Math.round((100000 * Math.random()))
-        service.create(new AuthPermission({
+
+        let testPermission = new AuthPermission({
           $key: key,
           description: "Using firebasePermission Service in spec. ",
           orderIndex: -1
-        })).then((x: AuthPermission) => {
+        })
+
+        service.create(testPermission).then(() => {
           fail('Should have failed with a permission denied error.')
           done()
         }).catch((e) => {

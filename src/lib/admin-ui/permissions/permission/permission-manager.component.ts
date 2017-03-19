@@ -9,12 +9,12 @@ import {PermissionService} from "@tangential/authorization-service";
               (addItemAction)="onAddItemAction()"
               (removeSelectedAction)="onRemoveSelectedAction($event)">
 
-  <template let-rowItem>
+  <ng-template let-rowItem>
     <tg-permission flex layout="row"
                    [permission]="rowItem"
                    (change)="onItemChange(rowItem)"
                    (remove)="onRemove(rowItem.$key)"></tg-permission>
-  </template>
+  </ng-template>
 
 </tg-data-list>`,
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -13,15 +13,15 @@ import {SelectionEntry, SelectionList} from "@tangential/common";
               [watchField]="watchMe"
               >
 
-  <template let-rowItem>
+  <ng-template let-rowItem>
     <tg-role flex layout="row"
              [role]="rowItem"
              (change)="onItemChange(rowItem)"
              (remove)="onRemove(rowItem.$key)"></tg-role>
-  </template>
+  </ng-template>
 
   <tg-data-list-expander>
-    <template let-rowItem>
+    <ng-template let-rowItem>
       <md-grid-list cols="4" rowHeight="3em" flex="80" >
         <md-grid-tile *ngFor="let permEntry of permissionsByRole[rowItem.$key] | async" 
           [colspan]="1"
@@ -33,7 +33,7 @@ import {SelectionEntry, SelectionList} from "@tangential/common";
           </div>
         </md-grid-tile>
       </md-grid-list>
-    </template>
+    </ng-template>
   </tg-data-list-expander>
 </tg-data-list>`,
   changeDetection: ChangeDetectionStrategy.OnPush,

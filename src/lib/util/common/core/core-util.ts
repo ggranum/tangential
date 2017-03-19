@@ -25,6 +25,12 @@ export class ObjectUtil {
     return result
   }
 
+  static toTruthMap(ary: string[]):ObjMap<boolean> {
+    let map = {}
+    ary.forEach(value => map[value] = true)
+    return map
+  }
+
   /**
    * Expand the map into an array of key-value pairs.
    * @param {ObjMap<T>} map

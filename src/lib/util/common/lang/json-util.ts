@@ -41,11 +41,14 @@ export class JsonUtil {
     ObjectUtil.keys(model).forEach((key) => {
       if(withHiddenFields || JsonUtil.isLegalFirebaseKey(key)){
         let value = instance[key]
-        if(value && ObjectUtil.isFunction(value['toJson'])){
-          json[key] = value.toJson(withHiddenFields)
-        }
-        else {
-          json[key] = value
+        json[key] = value
+        if(value ){
+          if(ObjectUtil.isFunction(value['toJson'])){
+            json[key] = value.toJson(withHiddenFields)
+          }
+          else if( ObjectUtil.isObject(value)){
+            json[key] = JsonUtil.mapToJson(value, withHiddenFields)
+          }
         }
       }
     })
