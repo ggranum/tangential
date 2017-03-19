@@ -13,15 +13,15 @@ import {generatePushID, SelectionEntry, SelectionList, ObjMap, ObjMapUtil} from 
               [watchField]="watchMe"
               >
 
-  <template let-rowItem>
+  <ng-template let-rowItem>
     <tg-user flex layout="row"
              [user]="rowItem"
              (change)="onItemChange(rowItem)"
              (remove)="onRemove(rowItem.$key)"></tg-user>
-  </template>
+  </ng-template>
 
   <tg-data-list-expander>
-    <template let-rowItem>
+    <ng-template let-rowItem>
       <div layout="column" layout-align="start" flex="80">
         <div align="center"><h3>Roles</h3></div>
         <md-grid-list cols="4" rowHeight="3em" flex>
@@ -52,7 +52,7 @@ import {generatePushID, SelectionEntry, SelectionList, ObjMap, ObjMapUtil} from 
           </md-grid-tile>
         </md-grid-list>
       </div>
-    </template>
+    </ng-template>
   </tg-data-list-expander>
 
 </tg-data-list>`,

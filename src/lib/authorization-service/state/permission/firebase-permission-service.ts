@@ -53,15 +53,14 @@ export class FirebasePermissionService implements PermissionService {
 
   }
 
-  create(child: AuthPermission): Promise<AuthPermission> {
+  create(child: AuthPermission): Promise<void> {
     let cRef = this.ref.child(child.$key)
-    return FireBlanket.set(cRef, child.toJson(false)).then(() => child)
-
+    return FireBlanket.set(cRef, child.toJson(false)).then()
   }
 
-  update(child: AuthPermission): Promise<AuthPermission> {
+  update(child: AuthPermission): Promise<void> {
     let cRef = this.ref.child(child.$key)
-    return FireBlanket.set(cRef, child.toJson(false)).then(() => child)
+    return FireBlanket.set(cRef, child.toJson(false)).then()
   }
 
   remove(childKey: string): Promise<string> {

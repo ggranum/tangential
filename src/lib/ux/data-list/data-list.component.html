@@ -38,10 +38,10 @@
           [disabled]="disabled"
           (change)="$event.checked ? selectItem(rowItem[keyField]) : deselectItem(rowItem[keyField])"
         ></md-checkbox>
-        <template [ngTemplateOutlet]="rowTemplate" [ngOutletContext]="{ $implicit: rowItem }"></template>
+        <ng-template [ngTemplateOutlet]="rowTemplate" [ngOutletContext]="{ $implicit: rowItem }"></ng-template>
       </div>
       <div *ngIf="expander && expander.template && isExpanded(rowItem[keyField])" class="tg-data-list-expander-wrapper" layout="row" layout-align="start">
-        <template [ngTemplateOutlet]="expander.template" [ngOutletContext]="{ $implicit: rowItem }"></template>
+        <ng-template [ngTemplateOutlet]="expander.template" [ngOutletContext]="{ $implicit: rowItem }"></ng-template>
       </div>
     </div>
   </md-list>

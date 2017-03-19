@@ -287,9 +287,7 @@ describe('Auth-services.user.state', () => {
         .then(() => userService.create(user))
         .then(() => userService.grantRole(user, testRole))
         .then(() => userService.getRolesForUser(user))
-        .then((roles: AuthRole[]) => {
-          expect(roles.some(perm => perm.$key === testRole.$key)).toBeTruthy()
-        })
+        .then((roles: AuthRole[]) => expect(roles.some(perm => perm.$key === testRole.$key)).toBeTruthy())
         .then(() => userService.revokeRole(user, testRole))
         .then(() => done())
         .catch((reason) => {
@@ -317,10 +315,7 @@ describe('Auth-services.user.state', () => {
         .then(() => userService.create(user))
         .then(() => userService.grantRole(user, testRole))
         .then(() => userService.getRolesForUser(user))
-        .then((roles: AuthRole[]) => {
-        debugger
-          expect(roles.some(perm => perm.$key === testRole.$key)).toBeTruthy()
-        })
+        .then((roles: AuthRole[]) => expect(roles.some(perm => perm.$key === testRole.$key)).toBeTruthy())
         .then(() => userService.revokeRole(user, testRole))
         .then(() => userService.getRolesForUser(user))
         .then((perms: AuthRole[]) => {
