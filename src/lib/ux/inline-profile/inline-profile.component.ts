@@ -30,7 +30,6 @@ export class InlineProfileComponent {
   constructor() {  }
 
   isSignedIn(signInState: SignInState) {
-    console.log('InlineProfileComponent', 'isSignedIn', signInState )
     return signInState == SignInState.signedIn
   }
 
