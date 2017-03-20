@@ -59,7 +59,7 @@ export class JsonUtil {
   static mapToJson<J>(map: ObjMap<ToJson<J>>, withHiddenFields: boolean):ObjMap<J> {
     let json = {}
     ObjectUtil.entries(map).forEach((entry: MapEntry<ToJson<J>>) => {
-      json[entry.key] = entry.value.toJson(withHiddenFields)
+      json[entry.key] = entry.value ? entry.value.toJson(withHiddenFields) : entry.value
     })
     return json
   }

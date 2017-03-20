@@ -70,7 +70,6 @@
     "@types/merge2": "0.3.30",
     "@types/minimist": "1.2.0",
     "@types/node": "7.0.8",
-    "@types/protractor": "4.0.0",
     "@types/request": "0.0.41",
     "@types/run-sequence": "0.0.29",
     "@types/whatwg-fetch": "0.0.33",
