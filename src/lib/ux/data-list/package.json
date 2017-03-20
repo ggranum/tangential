@@ -2,7 +2,7 @@
   "name": "@tangential/data-list",
   "description": "An expandable, template-based data list.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.0.1-beta.16",
+  "version": "0.0.1-beta.17",
   "license": "MIT",
   "private": false,
   "repository": {
@@ -32,7 +32,7 @@
     "@angular/forms": "4.0.0-rc.5",
     "@angular/material": "2.0.0-beta.2",
     "@angular/compiler": "4.0.0-rc.5",
-    "@tangential/authorization-service": "0.0.1-beta.16",
+    "@tangential/authorization-service": "0.0.1-beta.17",
     "firebase": "3.7.2",
     "rxjs": "5.2.0"
   },
