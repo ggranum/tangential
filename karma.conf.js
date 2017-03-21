@@ -8,8 +8,8 @@ module.exports = function (config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-      require('karma-remap-istanbul'),
-      require('karma-htmlfile-reporter'),
+      require('karma-jasmine-html-reporter'),
+      require('karma-coverage-istanbul-reporter'),
       require('karma-spec-reporter'),
       require('@angular/cli/plugins/karma')
     ],
@@ -22,22 +22,21 @@ module.exports = function (config) {
     preprocessors: {
       './src/test.ts': ['@angular/cli']
     },
-    remapIstanbulReporter: {
-      reports: {
-        html: 'coverage',
-        lcovonly: './coverage/coverage.lcov'
-      }
-    },
-    angularCli: {
-      environment: 'dev'
-    },
     mime: {
       'text/x-typescript': ['ts','tsx'],
       'application/javascript': ['js']
     },
+    coverageIstanbulReporter: {
+      reports: [ 'html', 'lcovonly' ],
+      fixWebpackSourcePaths: true
+    },
+    angularCli: {
+      environment: 'dev'
+    },
+
     reporters: config.angularCli && config.angularCli.codeCoverage
-              ? ['spec', 'karma-remap-istanbul', 'html']
-              : ['spec', 'html'],
+      ? ['progress', 'coverage-istanbul']
+      : ['progress', 'kjhtml'],
     specReporter: {
       maxLogLines: 5,         // limit number of lines logged per test
       suppressErrorSummary: true,  // do not print error summary

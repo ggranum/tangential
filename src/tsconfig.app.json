@@ -1,0 +1,56 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": [
+      "es2016",
+      "dom"
+    ],
+    "outDir": "../out-tsc/app",
+    "target": "es5",
+    "module": "es2015",
+    "baseUrl": "",
+    "types": [],
+    "paths": {
+      "@tangential/common": [
+        "lib/util/common"
+      ],
+      "@tangential/firebase-util": [
+        "lib/util/firebase"
+      ],
+      "@tangential/media-types": [
+        "lib/media-types"
+      ],
+      "@tangential/authorization-service": [
+        "lib/authorization-service"
+      ],
+      "@tangential/admin-ui": [
+        "lib/admin-ui"
+      ],
+      "@tangential/email-password-top-nav-login": [
+        "lib/email-password-top-nav-login"
+      ],
+      "@tangential/sign-in-panel": [
+        "lib/sign-in-panel"
+      ],
+      "@tangential/asciidoctor-panel": [
+        "lib/asciidoctor-panel"
+      ],
+      "@tangential/data-list": [
+        "lib/ux/data-list"
+      ],
+      "@tangential/inline-login-form": [
+        "lib/ux/inline-login-form"
+      ],
+      "@tangential/inline-profile": [
+        "lib/ux/inline-profile"
+      ],
+      "@tangential/drawer": [
+        "lib/drawer"
+      ]
+    }
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}

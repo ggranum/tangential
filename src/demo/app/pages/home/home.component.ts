@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NAV_ITEMS} from "../../demo-app";
+import {NAV_ITEMS} from "../../app";
 @Component({
   selector: 'home',
   templateUrl: 'demo-home.html'

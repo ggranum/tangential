@@ -1,5 +1,4 @@
 import {MapEntry, ObjectUtil, ObjMap} from '@tangential/common'
-import any = jasmine.any;
 
 export interface ToJson<T> {
   toJson(withHiddenFields?: boolean): T

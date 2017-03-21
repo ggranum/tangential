@@ -1,0 +1,57 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/spec",
+    "module": "commonjs",
+    "target": "es6",
+    "baseUrl": ".",
+    "types": [
+      "jasmine",
+      "node"
+    ],
+    "paths": {
+      "@tangential/common": [
+        "lib/util/common"
+      ],
+      "@tangential/firebase-util": [
+        "lib/util/firebase"
+      ],
+      "@tangential/media-types": [
+        "lib/media-types"
+      ],
+      "@tangential/authorization-service": [
+        "lib/authorization-service"
+      ],
+      "@tangential/admin-ui": [
+        "lib/admin-ui"
+      ],
+      "@tangential/email-password-top-nav-login": [
+        "lib/email-password-top-nav-login"
+      ],
+      "@tangential/sign-in-panel": [
+        "lib/sign-in-panel"
+      ],
+      "@tangential/asciidoctor-panel": [
+        "lib/asciidoctor-panel"
+      ],
+      "@tangential/data-list": [
+        "lib/ux/data-list"
+      ],
+      "@tangential/inline-login-form": [
+        "lib/ux/inline-login-form"
+      ],
+      "@tangential/inline-profile": [
+        "lib/ux/inline-profile"
+      ],
+      "@tangential/drawer": [
+        "lib/drawer"
+      ]
+    }
+  },
+  "files": [
+    "test.ts"
+  ],
+  "include": [
+    "**/*.spec.ts"
+  ]
+}
