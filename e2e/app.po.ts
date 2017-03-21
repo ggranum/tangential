@@ -1,9 +1,18 @@
-export class TangentialDemoPage {
+import { browser, element, by } from 'protractor';
+
+export class TestAppWithNg4Page {
   navigateTo() {
     return browser.get('/');
   }
 
   getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+    let x = element(by.css('.demo-toolbar a'))
+    let y =   x.getText();
+    debugger
+    y.then((r) => {
+      console.log('TestAppWithNg4Page', y)
+      debugger
+    })
+    return y
   }
 }

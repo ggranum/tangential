@@ -1,7 +1,7 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {VisitorService, SignInState} from "@tangential/authorization-service";
-import {Observable} from "rxjs";
 import {AuthUser} from "@tangential/media-types";
+import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 
 
@@ -14,27 +14,25 @@ export const NAV_ITEMS = [
 ];
 
 @Component({
-  selector: 'demo-app',
+  selector: 'app',
   providers: [],
-  templateUrl: 'demo-app.html',
-  styleUrls: ['demo-app.scss'],
+  templateUrl: 'app.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class DemoApp {
+export class AppComponent {
   signInState$:Observable<SignInState>
   visitor$:Observable<AuthUser>
 
   navItems = NAV_ITEMS
 
-
-  constructor(private _router:Router, private _visitorService: VisitorService) { }
+  constructor(private router:Router, private visitorService: VisitorService) { }
 
   ngOnInit(){
-    this.signInState$ = this._visitorService.signInState$().map((state) => {
+    this.signInState$ = this.visitorService.signInState$().map((state) => {
       console.log('AuthorizationServiceDemoContainer', 'signInState', state)
       return state
     })
-    this.visitor$ = this._visitorService.signOnObserver().map((visitor) => {
+    this.visitor$ = this.visitorService.signOnObserver().map((visitor) => {
       console.log('AuthorizationServiceDemoContainer', 'Visitor', visitor)
       return visitor
     })
@@ -42,12 +40,12 @@ export class DemoApp {
 
   onSignOut(visitorId:string){
     console.log('DemoApp', 'onSignOut', visitorId)
-    this._visitorService.signOut().then(()=>{
+    this.visitorService.signOut().then(()=>{
       console.log('DemoApp', 'Signed out')
     })
   }
 
   navigateToAdmin() {
-    this._router.navigate(['./admin-demo']);
+    this.router.navigate(['./admin-demo']);
   }
 }

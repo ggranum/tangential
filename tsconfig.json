@@ -1,59 +1,52 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "",
+    "outDir": "./dist/out-tsc",
+    "baseUrl": ".",
+    "sourceMap": true,
     "declaration": false,
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["es6", "dom"],
-    "mapRoot": "./",
-    "module": "es6",
-    "moduleResolution": "node",
-    "outDir": "../dist/out-tsc",
-    "sourceMap": true,
-    "skipLibCheck": true,
-    "target": "es5",
-    "typeRoots": [
-      "../node_modules/@types"
-    ],
-    "types": [
-      "jasmine"
+    "lib": [
+      "es2016"
     ],
     "paths": {
       "@tangential/common": [
-        "./lib/util/common"
+        "src/lib/util/common"
       ],
       "@tangential/firebase-util": [
-        "./lib/util/firebase"
+        "src/lib/util/firebase"
       ],
       "@tangential/media-types": [
-        "./lib/media-types"
+        "src/lib/media-types"
       ],
       "@tangential/authorization-service": [
-        "./lib/authorization-service"
+        "src/lib/authorization-service"
       ],
       "@tangential/admin-ui": [
-        "./lib/admin-ui"
+        "src/lib/admin-ui"
       ],
       "@tangential/email-password-top-nav-login": [
-        "./lib/email-password-top-nav-login"
+        "src/lib/email-password-top-nav-login"
       ],
       "@tangential/sign-in-panel": [
-        "./lib/sign-in-panel"
+        "src/lib/sign-in-panel"
       ],
       "@tangential/asciidoctor-panel": [
-        "./lib/asciidoctor-panel"
+        "src/lib/asciidoctor-panel"
       ],
       "@tangential/data-list": [
-        "./lib/ux/data-list"
+        "src/lib/ux/data-list"
       ],
       "@tangential/inline-login-form": [
-        "./lib/ux/inline-login-form"
+        "src/lib/ux/inline-login-form"
       ],
       "@tangential/inline-profile": [
-        "./lib/ux/inline-profile"
+        "src/lib/ux/inline-profile"
       ],
       "@tangential/drawer": [
-        "./lib/drawer"
+        "src/lib/drawer"
       ]
     }
   }
