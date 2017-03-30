@@ -1,3 +1,8 @@
+<a name="0.0.1-beta.19"></a>
+## [0.0.1-beta.19](https://github.com/ggranum/tangential/compare/v0.0.1-beta.18...v0.0.1-beta.19) (2017-03-30)
+
+
+
 <a name="0.0.1-beta.18"></a>
 ## [0.0.1-beta.18](https://github.com/ggranum/tangential/compare/v0.0.1-beta.17...v0.0.1-beta.18) (2017-03-21)
 
