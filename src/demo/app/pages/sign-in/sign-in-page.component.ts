@@ -65,7 +65,6 @@ export class SignInPageComponent {
     this.signedOut$ = subject.asObservable()
     this._visitorService.signInState$().subscribe((state) => {
       let v = !(state == SignInState.signedIn || state == SignInState.signingUp)
-      console.log('SignInPageComponent', 'signout state', v, state)
       subject.next(v)
     })
     this.visitorName$ = this._visitorService.signOnObserver().map((visitor: AuthUser) => {
@@ -78,7 +77,7 @@ export class SignInPageComponent {
       email: authInfo.username,
       password: authInfo.password
     }).then(() => {
-      console.log('SignInPageComponent', 'sign-in successful')
+      // console.log('SignInPageComponent', 'sign-in successful')
     }).catch(() => {
       console.log('SignInPageComponent', 'sign-in failed')
     })
@@ -89,7 +88,7 @@ export class SignInPageComponent {
       email: authInfo.username,
       password: authInfo.password
     }).then((user) => {
-      console.log('SignInPageComponent', 'sign-up successful: userId=', user.$key)
+      // console.log('SignInPageComponent', 'sign-up successful: userId=', user.$key)
     }).catch(() => {
       console.log('SignInPageComponent', 'sign-up failed')
     })
@@ -97,7 +96,7 @@ export class SignInPageComponent {
 
   onForgotPassword(authInfo: AuthInfo) {
     this.actionPerformed = "You have attempted to request a forgotten password."
-    console.log('SignInPanelDemo', 'onForgotPassword', authInfo)
+    // console.log('SignInPanelDemo', 'onForgotPassword', authInfo)
   }
 
 }

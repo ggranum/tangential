@@ -72,7 +72,7 @@ export class ObjectUtil {
       Object.keys(source).forEach(key => {
         let value = source[key]
         if (value && ObjectUtil.isObject(value)) {
-          target[key] = ObjectUtil.assignDeep(target[key] || {}, value)
+          target[key] = ObjectUtil.assignDeep({}, target[key] || {}, value)
         } else {
           target[key] = value
         }
