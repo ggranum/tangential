@@ -1,3 +1,27 @@
+<a name="0.0.1-beta.20"></a>
+## [0.0.1-beta.20](https://github.com/ggranum/tangential/compare/v0.0.1-beta.19...v0.0.1-beta.20) (2017-04-09)
+
+
+### Features
+
+* **all:** Update to Angular 4, material 2 beta 3 ([#23](https://github.com/ggranum/tangential/issues/23)) ([690c429](https://github.com/ggranum/tangential/commit/690c429))
+
+
+### BREAKING CHANGES
+
+* **all:** This commit also removes a dependency on AsciiDoc wrapper project in favor
+of (now working) direct npm install asciidoctor.js.
+
+This requires loading asciidoctor.js into the page from your
+index.html file, and referencing that file out of node_modules
+in your angular-cli.json file.
+
+Warning: As of the AsciiDoctor.js 1.5.5 preview release, adding the
+asciidoctor.js file into your page will cause e2e testing to break
+with a stack overflow error.
+
+
+
 <a name="0.0.1-beta.19"></a>
 ## [0.0.1-beta.19](https://github.com/ggranum/tangential/compare/v0.0.1-beta.18...v0.0.1-beta.19) (2017-03-30)
 
