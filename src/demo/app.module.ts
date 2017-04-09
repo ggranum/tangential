@@ -54,6 +54,7 @@ import "hammerjs";
     HttpModule,
     BrowserAnimationsModule,
 
+    MdButtonModule,
     MdIconModule,
     MdToolbarModule,
     MdCardModule,
