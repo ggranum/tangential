@@ -256,6 +256,10 @@ export class SignInPanelComponent implements OnInit {
     }
   }
 
+  onSubmit(event){
+
+  }
+
   private fireAction(action: SignInAction) {
     switch (action) {
       case SignInAction.signIn:

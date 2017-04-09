@@ -1,24 +1,27 @@
 import {ElementRef} from "@angular/core";
+
+declare const Asciidoctor: any;
+
 export class AsciidoctorPanelRenderer {
 
-  private _viewPanelEl: HTMLElement;
-  private _contentHtml: string;
+  private viewPanelEl: HTMLElement;
+  private contentHtml: string;
 
-  constructor(private _elementRef: ElementRef) {
-    this._viewPanelEl = _elementRef.nativeElement.querySelector('.tg-asciidoctor-body');
+  constructor(private elementRef: ElementRef) {
+    this.viewPanelEl = elementRef.nativeElement.querySelector('.tg-asciidoctor-body');
   }
 
   updateContent(content: string) {
-    // silly compile hack.
-    // Fixes "Element implicitly has an 'any' type because index expression is not of type 'number'" error.
-    let x: any = window
-    let Opal: any = x['Opal']
-    let options: any = Opal.hash({doctype: 'article', attributes: ['showtitle']});
 
-    if(!content){
-      content = ""
+
+    if (Asciidoctor) {
+      let options: any = {doctype: 'article', attributes: ['showtitle']}
+      let ad = Asciidoctor();
+      this.contentHtml = ad.convert(content, options)
+      this.viewPanelEl.innerHTML = this.contentHtml
+    } else {
+      console.log('AsciidoctorPanelRenderer', 'AsciiDoctor script not found')
     }
-    this._contentHtml = Opal.Asciidoctor.$convert(content, options);
-    this._viewPanelEl.innerHTML = this._contentHtml
   }
+
 }
