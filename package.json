@@ -28,7 +28,7 @@
     "build": "gulp build:components",
     "build.release": "gulp build:release",
     "firebase.init-project": "gulp firebase:init-project",
-    "fireabse.init-database": "gulp firebase:init-database",
+    "firebase.init-database": "gulp firebase:init-database",
     "publish": "gulp publish",
     "serve": "ng serve",
     "test": "ng test",
