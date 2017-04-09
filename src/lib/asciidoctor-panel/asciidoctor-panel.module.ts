@@ -1,4 +1,3 @@
-import 'asciidoctorjs-web-repack/asciidoctor-all.min'
 import {NgModule} from "@angular/core";
 import {AsciidoctorComponent} from "./asciidoctor-panel.component";
 
