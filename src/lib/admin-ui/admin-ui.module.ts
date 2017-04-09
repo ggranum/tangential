@@ -19,20 +19,15 @@ import {RoleAvatarComponent} from "./users/user/role-avatar.component";
 import {UserPermissionEditorComponent} from "./users/user/user-permission-editor.component";
 import {UserManagerComponent} from "./users/user/user-manager.component";
 
-import {MdButtonModule} from '@angular/material/button'
-import {MdButtonToggleModule} from '@angular/material/button-toggle'
-import {MdIconModule} from '@angular/material/icon'
-import {MdInputModule} from '@angular/material/input'
-import {MdToolbarModule} from '@angular/material/toolbar'
-import {MdMenuModule} from '@angular/material/menu'
-import {MdListModule} from '@angular/material/list'
-import {MdGridListModule} from '@angular/material/grid-list'
-import {MdCheckboxModule} from '@angular/material/checkbox'
-import {MdTabsModule} from '@angular/material/tabs'
+
 
 import {DataListModule} from "@tangential/data-list";
 import {DrawerModule} from "@tangential/drawer";
 import {AdminPage} from "./admin.page";
+import {
+  MdButtonModule, MdButtonToggleModule, MdCheckboxModule, MdGridListModule, MdIconModule, MdInputModule, MdListModule,
+  MdMenuModule, MdTabsModule, MdToolbarModule
+} from "@angular/material";
 
 
 @NgModule({
