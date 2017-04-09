@@ -11,33 +11,34 @@ import {Observable} from "rxjs";
 @Component({
   selector: 'tg-sign-in-panel-demo',
   template: `<h1>Login Panel Demo</h1>
-<h3>Open your browsers debug console to view log messages related to various actions.</h3>
-<div flex class='tg-demo-content' layout="column" layout-align="start">
-  <span style="font-weight: bolder">You are currently signed in as: {{visitorName$ | async}}</span>
-  <span style="font-weight: bolder;margin-bottom: 2em;">This form does not actually attempt to perform a sign in action.</span>
-  <md-card flex layout="column">
-    <tg-sign-in-panel flex
-      [preventSubmit]="true"
-      [username]="'bob@example.com'"
-      [displayMode]="signIn"
-      [requireEmailUsername]="true"
-      (signIn)="onSignIn($event)"
-      (signUp)="onSignUp($event)"
-      (forgotPassword)="onForgotPassword($event)">
-    </tg-sign-in-panel>
-  </md-card>
-  <h4>{{actionPerformed}}</h4>
-</div>`,
-  styles:[
+  <h3>Open your browsers debug console to view log messages related to various actions.</h3>
+  <div flex class='tg-demo-content' layout="column" layout-align="start">
+    <span style="font-weight: bolder">You are currently signed in as: {{visitorName$ | async}}</span>
+    <span style="font-weight: bolder;margin-bottom: 2em;">This form does not actually attempt to perform a sign in action.</span>
+    <md-card flex layout="column">
+      <tg-sign-in-panel flex
+                        [preventSubmit]="true"
+                        [username]="'bob@example.com'"
+                        [displayMode]="'signIn'"
+                        [requireEmailUsername]="true"
+                        (signIn)="onSignIn($event)"
+                        (signUp)="onSignUp($event)"
+                        (forgotPassword)="onForgotPassword($event)">
+      </tg-sign-in-panel>
+    </md-card>
+    <h4>{{actionPerformed}}</h4>
+  </div>`,
+  styles: [
+      `
+      tg-sign-in-panel-demo {
+        padding-bottom: 1em;
+      }
+
+      tg-sign-in-panel-demo md-card {
+        max-height: 40em;
+        min-height: 33em;
+      }
     `
-tg-sign-in-panel-demo {
-padding-bottom: 1em;
-}
-tg-sign-in-panel-demo md-card {
-max-height: 40em;
-min-height: 33em;
-}
-`
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None

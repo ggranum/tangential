@@ -1,15 +1,11 @@
-import {NgModule} from '@angular/core'
+import {NgModule} from "@angular/core";
 
 
-import {CommonModule} from '@angular/common'
+import {CommonModule} from "@angular/common";
 
-import {MdButtonModule} from '@angular/material/button/button'
-import {MdIconModule} from '@angular/material/icon/icon'
-import {MdInputModule} from "@angular/material/input";
-import {MdListModule} from '@angular/material/list'
-import {MdCheckboxModule} from '@angular/material/checkbox'
+import {MdButtonModule, MdCheckboxModule, MdIconModule, MdInputModule, MdListModule} from "@angular/material";
 
-import {DataListComponent, DataListExpander} from './data-list.component'
+import {DataListComponent, DataListExpander} from "./data-list.component";
 
 
 @NgModule({

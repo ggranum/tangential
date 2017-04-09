@@ -8,7 +8,9 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "app/favicon.ico"
+        "demo/favicon.ico",
+        { "glob": "asciidoctor.js", "input": "../node_modules/asciidoctor.js/dist/", "output": "./demo/assets/" },
+        { "glob": "asciidoctor.css", "input": "../node_modules/asciidoctor.js/dist/css", "output": "./demo/assets/" }
       ],
       "index": "demo/index.html",
       "main": "demo/main.ts",

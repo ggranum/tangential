@@ -2,7 +2,10 @@ import {NgModule} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {HttpModule} from "@angular/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MaterialModule} from "@angular/material";
+import {
+  MaterialModule, MdButtonModule, MdCardModule, MdIconModule, MdListModule, MdMenuModule,
+  MdToolbarModule
+} from "@angular/material";
 
 import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app/app";
@@ -50,7 +53,14 @@ import "hammerjs";
     FormsModule,
     HttpModule,
     BrowserAnimationsModule,
-    MaterialModule,
+
+    MdIconModule,
+    MdToolbarModule,
+    MdCardModule,
+    MdListModule,
+    MdMenuModule,
+
+
     ReactiveFormsModule,
 
     AppRoutingModule,
