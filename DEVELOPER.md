@@ -7,7 +7,7 @@ This project was bootstrapped from the combination of the Angular Material 2 and
 To start hacking, perform a clone-install-build:
 
 ```bash
-> git clone git@github.com:ggranum/tangential.git
+> git clone https://github.com/ggranum/tangential.git
 > cd tangential
 > npm install
 > firebase init
@@ -25,7 +25,7 @@ To start hacking, perform a clone-install-build:
 
 ### That which you must Do First  
 
-1) Clone the repo: `git clone git@github.com:ggranum/tangential.git` 
+1) Clone the repo: `git clone https://github.com/ggranum/tangential.git` 
 1) `npm install`
 
 Cloning the repository provides the code and scripts, but you'll need to prepare the environment. 
