@@ -1,21 +1,37 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core'
-import {Router} from '@angular/router'
-import {AuthService} from '@tangential/authorization-service'
-import {Logger, MessageBus} from '@tangential/core'
-import {AppRoutes} from '../../../app.routing.module'
+import {AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
+import {Router} from '@angular/router';
+import {AuthService} from '@tangential/authorization-service';
+import {Logger, MessageBus, Page, RouteInfo} from '@tangential/core';
+import {AppRoutes} from '../../../app.routing.module';
 
+/**
+ * Provides an endpoint that allows a logout via direct navigation.
+ * Immediately redirects user to home page.
+ */
 @Component({
-  selector:        'tanj-sign-out-page',
-  template:        ``,
+  selector: 'tanj-sign-out-page',
+  template: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation:   ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
-export class SignOutPage implements AfterViewInit {
+export class SignOutPage extends Page implements AfterViewInit {
 
+  routeInfo: RouteInfo = {
+    page: {
+      title: 'Tangential: Sign Out'
+    },
+    analytics: {
+      events: {
+        load: true
+      }
+    },
+    showAds: false
+  }
 
-  constructor(private router: Router,
-              private bus: MessageBus,
+  constructor(protected bus: MessageBus,
+              private router: Router,
               private visitorService: AuthService) {
+    super(bus)
   }
 
   ngAfterViewInit() {

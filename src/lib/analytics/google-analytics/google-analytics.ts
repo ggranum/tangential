@@ -1,7 +1,7 @@
 import {ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 import {Logger, MessageBus, NgUtil} from '@tangential/core';
 import {Injectable} from '@angular/core';
-import {AppEnvironment} from '../../core/media-type/app-environment';
+import {AppEnvironment} from '@tangential/core';
 export type HitType =
   'pageview' |
   'screenview' |

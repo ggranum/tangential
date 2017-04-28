@@ -1,60 +1,56 @@
-/**
-* @hack ggranum: The md-select label is not aligned with the md-input labels
-*/
-.tanj-select-input {
-  padding-top : 9px;
-}
-
-/**
- @hack ggranum: The following centers the dialog body on the page when the page is narrow.
+@mixin tanj-material_hacks-theme($theme) {
+  /**
+  * @hack ggranum: The md-select label is not aligned with the md-input labels
   */
-md-dialog-container.mat-dialog-container {
-  margin-left  : auto;
-  margin-right : auto;
-}
+  .tanj-select-input {
+    padding-top: 9px;
+  }
 
-.tanj-themed {
+  /**
+   @hack ggranum: The following centers the dialog body on the page when the page is narrow.
+    */
+  md-dialog-container.mat-dialog-container {
+    margin-left: auto;
+    margin-right: auto;
+  }
 
   .mat-slide-toggle {
-    margin : 0;
+    margin: 0;
   }
+
   md-checkbox {
-    margin : 16px 0;
+    margin: 16px 0;
     label {
-      @include tanj-input-label();
+      @include tanj-input-label($theme);
     }
   }
 
   .mat-slide-toggle-content {
-    @include tanj-input-label();
+    @include tanj-input-label($theme);
   }
-}
 
-md-chip-list:focus {
-  outline : none;
-}
+  md-chip-list:focus {
+    outline: none;
+  }
 
-md-chip:focus {
-  outline : none;
-}
+  md-chip:focus {
+    outline: none;
+  }
 
-/* Need to increase specificity or the default 'flex' wins. */
-body [flex="grow"] {
-  flex : 1 0 auto;
-}
+  /* Need to increase specificity or the default 'flex' wins. */
+  body [flex="grow"] {
+    flex: 1 0 auto;
+  }
 
-/**
- * I really hate doing this. But damn it material design team, what the hell do you do to test?
- */
-md-dialog-container.mat-dialog-container {
-  overflow : hidden;
-  padding  : 0;
-}
+  /**
+   * I really hate doing this. But damn it material design team, what the hell do you do to test?
+   */
+  md-dialog-container.mat-dialog-container {
+    overflow: hidden;
+    padding: 0;
+  }
 
-.cdk-focus-trap-content {
-  height : 100%;
-}
-
-@mixin tanj-material_hacks-theme($theme) {
-
+  .cdk-focus-trap-content {
+    height: 100%;
+  }
 }

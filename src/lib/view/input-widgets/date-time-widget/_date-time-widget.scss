@@ -16,7 +16,7 @@
     text-align : left;
     .tanj-label {
       min-width : 5em;
-      @include tanj-input-widget-font();
+      @include tanj-input-widget-font($theme);
     }
 
     .tanj-date-time-input-field {

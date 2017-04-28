@@ -17,7 +17,7 @@
 
     .tanj-label {
       min-width : 5em;
-      @include tanj-input-widget-font();
+      @include tanj-input-widget-font($theme);
     }
 
     .tanj-input-spinner-field {

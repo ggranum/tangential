@@ -1,27 +1,24 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core'
-import {Title} from '@angular/platform-browser'
-import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, RoutesRecognized} from '@angular/router'
-import {MessageBus, NgUtil} from '@tangential/core'
-import {GoogleAnalytics, GoogleAnalyticsFields} from '@tangential/analytics'
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {Title} from '@angular/platform-browser';
+import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, RoutesRecognized} from '@angular/router';
+import {MessageBus, NgUtil, RouteInfo} from '@tangential/core';
+import {GoogleAnalytics} from '@tangential/analytics';
 
-export interface PageData {
-  seo?: any
-  analytics?: GoogleAnalyticsFields
-  showAds?: boolean
-}
 
 @Component({
   selector: 'app-component',
   template: `
-              <tanj-main [ngClass]="{'tanj-showing-ads': showingAds}"></tanj-main>`,
+    <tanj-main [ngClass]="{'tanj-showing-ads': showingAds}"></tanj-main>`,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
 
   showingAds: boolean = false
 
-
-  constructor(private analytics:GoogleAnalytics, private router: Router, private title: Title, bus: MessageBus) {
+  constructor(bus: MessageBus,
+              private analytics: GoogleAnalytics,
+              private router: Router,
+              private title: Title) {
     router.events.subscribe({
       next: (ev) => {
         if (ev instanceof RoutesRecognized) {
@@ -29,15 +26,13 @@ export class AppComponent {
         }
       }
     })
-
-
   }
 
-  getRouteInfo(leaf: ActivatedRouteSnapshot): PageData {
-    const data: PageData = {}
+  getRouteInfo(leaf: ActivatedRouteSnapshot): RouteInfo {
+    const data: RouteInfo = {}
     if (leaf && leaf.data) {
       data.analytics = leaf.data['analytics']
-      data.seo = leaf.data['seo']
+      data.page = leaf.data['page']
       data.showAds = leaf.data['showAds']
     }
     return data
@@ -48,12 +43,12 @@ export class AppComponent {
     const leaf = NgUtil.routeLeaf(state)
     const pageData = this.getRouteInfo(leaf)
     this.handleAnalytics(state, leaf, pageData)
-    this.handleSeo(pageData)
+    this.handlePageInfo(pageData)
     this.handleAds(pageData)
   }
 
 
-  private handleAnalytics(state, leaf, pageData: PageData) {
+  private handleAnalytics(state, leaf, pageData: RouteInfo) {
     if (pageData.analytics) {
       this.analytics.navigatedTo(state, leaf, pageData.analytics)
     } else {
@@ -61,13 +56,13 @@ export class AppComponent {
     }
   }
 
-  private handleSeo(pageData: PageData) {
-    if (pageData.seo && pageData.seo.title) {
-      this.title.setTitle(pageData.seo.title)
+  private handlePageInfo(pageData: RouteInfo) {
+    if (pageData.page && pageData.page.title) {
+      this.title.setTitle(pageData.page.title)
     }
   }
 
-  private handleAds(pageData: PageData) {
+  private handleAds(pageData: RouteInfo) {
     this.showingAds = pageData.showAds
   }
 }

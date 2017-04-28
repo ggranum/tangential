@@ -1,8 +1,8 @@
 @mixin tanj-contact-theme($theme) {
   $primary : mat-color(map-get($theme, primary), 500);
 
-  tanj-contact-component {
-    font-size : 12px;
+  tanj-contact-page {
+    font-size : 16px;
     h1 {
       color          : $primary;
       font-size      : 200%;
@@ -19,7 +19,7 @@
       .tanj-section-body {
         margin-left : .5em;
         p, span {
-          font-size : 12px;
+          font-size : 14px;
         }
 
         a, a:hover, a:visited {

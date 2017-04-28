@@ -12,8 +12,6 @@ export class TipDialogFooterComponent implements OnInit {
   @HostBinding('attr.layout') flexLayout = 'column';
   @HostBinding('attr.layout-align') flexLayoutAlign = 'start';
 
-  @HostBinding('class.tanj-themed') clazz = true;
-
   @Input() offerToSuppress: boolean
   @Input() doNotShowAgain: boolean
   @Output() doNotShowAgainChange: EventEmitter<boolean> = new EventEmitter(false)

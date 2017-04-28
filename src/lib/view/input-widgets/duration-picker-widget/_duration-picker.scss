@@ -15,7 +15,7 @@
 
     .tanj-label {
       min-width : 5em;
-      @include tanj-input-widget-font();
+      @include tanj-input-widget-font($theme);
     }
 
     tanj-number-spinner-widget {
@@ -43,7 +43,7 @@
 
     .tanj-label {
       min-width : 5em;
-      @include tanj-input-widget-font();
+      @include tanj-input-widget-font($theme);
     }
 
     .tanj-mode-configure {

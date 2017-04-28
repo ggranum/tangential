@@ -4,6 +4,7 @@ import {AuthInfo} from '@tangential/components';
 import {Visitor, VisitorService} from '@tangential/visitor-service';
 import {Observable} from 'rxjs/Observable';
 import {AppRoutes} from '../../../app.routing.module';
+import {DefaultPageAnalytics, MessageBus, Page, RouteInfo} from '@tangential/core';
 
 @Component({
   selector: 'tanj-sign-up-page',
@@ -28,13 +29,23 @@ import {AppRoutes} from '../../../app.routing.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class SignUpPage implements OnInit {
+export class SignUpPage extends Page implements OnInit {
 
   visitorName$: Observable<string>
   showForm$: Observable<boolean>
 
-  constructor(private router: Router,
+  routeInfo:RouteInfo = {
+    page: {
+      title: 'Tangential: Register'
+    },
+    analytics: DefaultPageAnalytics(),
+    showAds: false
+  }
+
+  constructor(protected bus:MessageBus,
+              private router: Router,
               private visitorService: VisitorService) {
+    super(bus)
   }
 
   ngOnInit() {

@@ -47,10 +47,10 @@ import {environment} from '../environments/environment'
 import {AppComponent} from './app.component'
 import {AppRoutingModule} from './app.routing.module'
 // import { AdsenseModule } from "ng2-adsense";
-import {AboutComponent} from './features/casa/about/about.component'
-import {ContactComponent} from './features/casa/contact/contact.component'
+import {AboutPage} from './features/casa/about/about.page'
+import {ContactPage} from './features/casa/contact/contact.page'
 import {HomePage} from './features/casa/home/home.page'
-import {PrivacyComponent} from './features/casa/privacy/privacy.component'
+import {PrivacyPage} from './features/casa/privacy/privacy.page'
 import {PasswordResetPage} from './features/casa/sign-in/password-reset.page'
 import {SignInPage} from './features/casa/sign-in/sign-in.page'
 import {SignOutPage} from './features/casa/sign-in/sign-out.page'
@@ -119,9 +119,9 @@ if (!environment || !appEnvironment['firebaseConfig']) {
     AppComponent,
     MainComponent,
     HomePage,
-    AboutComponent,
-    ContactComponent,
-    PrivacyComponent,
+    AboutPage,
+    ContactPage,
+    PrivacyPage,
 
     SignInPage,
     SignUpPage,

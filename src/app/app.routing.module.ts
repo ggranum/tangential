@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core'
 import {RouterModule, Routes} from '@angular/router'
 import {GoogleAnalyticsFields} from '@tangential/analytics'
-import {AboutComponent} from './features/casa/about/about.component'
-import {ContactComponent} from './features/casa/contact/contact.component'
+import {AboutPage} from './features/casa/about/about.page'
+import {ContactPage} from './features/casa/contact/contact.page'
 import {HomePage} from './features/casa/home/home.page'
-import {PrivacyComponent} from './features/casa/privacy/privacy.component'
+import {PrivacyPage} from './features/casa/privacy/privacy.page'
 import {PasswordResetPage} from './features/casa/sign-in/password-reset.page'
 import {SignInPage} from './features/casa/sign-in/sign-in.page'
 import {SignOutPage} from './features/casa/sign-in/sign-out.page'
@@ -12,6 +12,7 @@ import {SignUpPage} from './features/casa/sign-in/sign-up.page'
 import {TryoutWelcomePage} from './features/casa/tryout-welcome/tryout-welcome.page'
 import {PageNotFoundComponent} from './features/common/page-not-found/page-not-found.component'
 import {VisitorResolver} from '@tangential/visitor-service'
+import {PageInfo} from '@tangential/core';
 
 
 export const AppRoutes = {
@@ -21,7 +22,7 @@ export const AppRoutes = {
     component:  SignInPage,
     resolve:    {visitor: VisitorResolver},
     data:       {
-      seo:     {
+      page:     <PageInfo>{
         title: 'Tangential: Sign in'
       },
       showAds: false
@@ -41,7 +42,7 @@ export const AppRoutes = {
     component:  SignUpPage,
     resolve:    {visitor: VisitorResolver},
     data:       {
-      seo:     {
+      page:     <PageInfo>{
         title: 'Tangential: Sign up'
       },
       showAds: false
@@ -58,7 +59,7 @@ export const AppRoutes = {
     component:  PasswordResetPage,
     resolve:    {visitor: VisitorResolver},
     data:       {
-      seo:     {
+      page:     <PageInfo>{
         title: 'Tangential: Reset Password'
       },
       showAds: false
@@ -75,7 +76,7 @@ export const AppRoutes = {
     component:  SignOutPage,
     resolve:    {visitor: VisitorResolver},
     data:       {
-      seo:     {
+      page:     <PageInfo>{
         title: 'Tangential: Sign out'
       },
       showAds: false
@@ -89,9 +90,8 @@ export const AppRoutes = {
     component: HomePage,
     resolve:   {visitor: VisitorResolver},
     data:      {
-      seo:       {
+      page:     <PageInfo>{
         title:       'Tangential: Fly home, buddy',
-        description: ``
       },
       analytics: <GoogleAnalyticsFields> {
         page:          '/home',
@@ -116,9 +116,9 @@ export const AppRoutes = {
   },
   about:         {
     path:       'about',
-    component:  AboutComponent,
+    component:  AboutPage,
     data:       {
-      seo:       {
+      page:     <PageInfo>{
         title: 'Tangential: About'
       },
       analytics: <GoogleAnalyticsFields> {
@@ -135,7 +135,7 @@ export const AppRoutes = {
     path:       'tryout-welcome',
     component:  TryoutWelcomePage,
     data:       {
-      seo:       {
+      page:     <PageInfo>{
         title: 'Tangential: Try it out'
       },
       analytics: <GoogleAnalyticsFields> {
@@ -152,9 +152,9 @@ export const AppRoutes = {
   },
   contact:       {
     path:       'contact',
-    component:  ContactComponent,
+    component:  ContactPage,
     data:       {
-      seo:       {
+      page:     <PageInfo>{
         title: 'Tangential: Contact us'
       },
       analytics: <GoogleAnalyticsFields> {
@@ -169,9 +169,9 @@ export const AppRoutes = {
   },
   privacy:       {
     path:       'privacy',
-    component:  PrivacyComponent,
+    component:  PrivacyPage,
     data:       {
-      seo:       {
+      page:     <PageInfo>{
         title: 'Tangential: Our privacy policy'
       },
       analytics: <GoogleAnalyticsFields> {

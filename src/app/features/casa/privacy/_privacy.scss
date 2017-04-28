@@ -2,7 +2,7 @@
   $text : mat-color(map-get($theme, primary), 400);
   $subText : mat-color(map-get($theme, primary), 50);
 
-  privacy-component {
+  tanj-privacy-page {
 
     font-size : 12px;
     margin: 2em 1em 0 1em;

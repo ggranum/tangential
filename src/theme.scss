@@ -17,6 +17,7 @@ $warn : mat-palette($mat-red);
 
 
 
+$tanj-font-family: Roboto, 'Helvetica Neue', sans-serif;
 
 $tanj-light-theme-foreground: (
   base:            black,
@@ -62,9 +63,12 @@ $bottom-nav: (
 
 $dialog: (
   background: white,
-
 );
 
+$forms: (
+  label-font-family: $tanj-font-family,
+  placeholder-font-family: $tanj-font-family
+);
 
 @function tanj-custom-light-theme($primary, $accent, $warn: mat-palette($mat-red)) {
   @return (
@@ -75,7 +79,8 @@ $dialog: (
     foreground: $tanj-light-theme-foreground,
     background: $tanj-light-theme-background,
     app-bar: $app-bar,
-    bottom-nav: $bottom-nav
+    bottom-nav: $bottom-nav,
+    forms: $forms
   );
 }
 

@@ -24,7 +24,7 @@ import {Icon} from './icon'
       <ng-container *ngIf="label"><span class="tanj-icon-label">{{label}}</span></ng-container>
     </div>
                        `, host: {
-    '[class.no-select]': 'true', '[class.disabled]': 'disabled', '[class.tanj-labeled-icon]': 'label',
+    '[class.no-select]': 'true', '[class.tanj-disabled]': 'disabled', '[class.tanj-labeled-icon]': 'label',
   }, styles:           [
       `
       /* Increase in specificity is intentional, to override Angular Material styles.*/

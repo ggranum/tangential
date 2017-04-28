@@ -9,7 +9,7 @@ import {
 } from '@angular/core'
 import {Router} from '@angular/router'
 import {AuthService} from '@tangential/authorization-service'
-import {Logger, MessageBus} from '@tangential/core'
+import {DefaultPageAnalytics, Logger, MessageBus, Page, RouteInfo} from '@tangential/core'
 import {Visitor, VisitorService} from '@tangential/visitor-service'
 import {Subscription} from 'rxjs/Subscription'
 import {AppRoutes} from '../../../app.routing.module'
@@ -20,7 +20,7 @@ import {AppRoutes} from '../../../app.routing.module'
   encapsulation:   ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class HomePage implements AfterViewInit, OnDestroy {
+export class HomePage extends Page implements AfterViewInit, OnDestroy {
 
   @HostBinding('class') clazz = 'tanj-themed tanj-page-component tanj-flex-column'
 
@@ -30,11 +30,20 @@ export class HomePage implements AfterViewInit, OnDestroy {
 
   private subs: Subscription[] = []
 
-  constructor(private bus: MessageBus,
+  routeInfo:RouteInfo = {
+    page: {
+      title: 'Tangential: Home'
+    },
+    analytics: DefaultPageAnalytics(),
+    showAds: false
+  }
+
+  constructor(protected bus: MessageBus,
               private router: Router,
               private authService: AuthService,
               private visitorService: VisitorService,
               private changeDetectorRef: ChangeDetectorRef) {
+    super(bus)
   }
 
   ngOnDestroy() {
