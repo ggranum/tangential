@@ -1,22 +1,25 @@
 /* tslint:disable:no-unused-variable */
-import {inject, TestBed} from "@angular/core/testing";
-import {AuthRole, AuthPermission} from "@tangential/media-types";
-import {cleanupPermissions, cleanupRoles} from "../test-setup.spec";
-import {ObjMapUtil} from "@tangential/common";
+import {inject, TestBed} from '@angular/core/testing'
 import {
-  PermissionService,
+  AuthorizationDefaultsProvider,
+  AuthPermission,
+  AuthRole,
+  AuthService,
+  DefaultAuthorizationDefaultsProvider,
+  FirebaseAuthService,
   FirebasePermissionService,
-  RoleService,
   FirebaseRoleService,
-  VisitorService,
-  FirebaseVisitorService,
   FirebaseUserService,
-  UserService, AuthorizationDefaultsProvider,
-  DefaultAuthorizationDefaultsProvider
-} from "@tangential/authorization-service";
-import {FirebaseProvider, FirebaseConfig} from "@tangential/firebase-util";
-import {TestConfiguration} from "../test-config.spec";
-import {firebaseConfig} from "../../config/firebase-config.local";
+  PermissionService,
+  RoleService,
+  UserService
+} from '@tangential/authorization-service'
+import {ObjMapUtil} from '@tangential/core'
+import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util'
+import {environment} from '../../../../environments/environment.dev'
+import {TestConfiguration} from '../test-config.spec'
+import {cleanupPermissions, cleanupRoles} from '../test-setup.spec'
+
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
 
@@ -25,21 +28,21 @@ describe('Auth-services.role.state', () => {
 
     TestBed.configureTestingModule({
       declarations: [],
-      imports: [],
-      providers: [
+      imports:      [],
+      providers:    [
         {provide: TestConfiguration, useClass: TestConfiguration},
-        {provide: FirebaseConfig, useValue: firebaseConfig},
+        {provide: FirebaseConfig, useValue: environment.firebaseConfig},
         {provide: AuthorizationDefaultsProvider, useClass: DefaultAuthorizationDefaultsProvider},
         {provide: FirebaseProvider, useClass: FirebaseProvider},
         {provide: RoleService, useClass: FirebaseRoleService},
         {provide: PermissionService, useClass: FirebasePermissionService},
-        {provide: VisitorService, useClass: FirebaseVisitorService},
+        {provide: AuthService, useClass: FirebaseAuthService},
         {provide: UserService, useClass: FirebaseUserService},
       ]
     })
 
-    inject([TestConfiguration, VisitorService, RoleService],
-      (testConfig: TestConfiguration, visitorService: VisitorService, roleService: RoleService) => {
+    inject([TestConfiguration, AuthService, RoleService],
+      (testConfig: TestConfiguration, visitorService: AuthService, roleService: RoleService) => {
         visitorService.signInWithEmailAndPassword(testConfig.adminCredentials, true).then(() => {
           done()
         })
@@ -63,7 +66,7 @@ describe('Auth-services.role.state', () => {
 
   it('load roles from Role Service', (done) => {
     inject([RoleService], (service: RoleService) => {
-      service.values().subscribe((roles) => {
+      service.roles$().subscribe((roles) => {
         let count = 0
         roles.forEach((role: AuthRole) => {
           count++
@@ -77,12 +80,13 @@ describe('Auth-services.role.state', () => {
   it('creates a Role', (done) => {
     inject([RoleService], (service: RoleService) => {
 
-      let key = "SPEC_RANDOM_" + Math.round((100000 * Math.random()))
-      service.create(new AuthRole({
-        $key: key,
-        description: "Using firebaseRole Service in spec. ",
-        orderIndex: -1
-      })).then((role: AuthRole) => {
+      const key = 'SPEC_RANDOM_' + Math.round((100000 * Math.random()))
+      const role = new AuthRole({
+        $key:        key,
+        description: 'Using firebaseRole Service in spec. ',
+        orderIndex:  -1
+      })
+      service.create(role).then(() => {
         expect(role).toBeTruthy('Should have provided the updated value.')
         expect(role.$key).toBe(key)
         done()
@@ -93,45 +97,45 @@ describe('Auth-services.role.state', () => {
 
   it('updates a Role', (done) => {
     inject([RoleService], (service: RoleService) => {
-      let key = "SPEC_RANDOM_" + Math.round((100000 * Math.random()))
-      let description = "Using firebaseRole Service in spec."
-      let updatedDescription = "Using firebaseRole Service in spec - updated."
+      const key = 'SPEC_RANDOM_' + Math.round((100000 * Math.random()))
+      const description = 'Using firebaseRole Service in spec.'
+      const updatedDescription = 'Using firebaseRole Service in spec - updated.'
 
-      let primary = new AuthRole({
-        $key: key,
+      const primary = new AuthRole({
+        $key:        key,
         description: description,
-        orderIndex: -1
+        orderIndex:  -1
       })
-      let updated = new AuthRole(primary)
+      const updated = new AuthRole(primary)
       updated.description = updatedDescription
 
       service.create(primary)
-        .then((createdRole: AuthRole) => expect(createdRole.$key).toBe(key))
+        .then(() => expect(primary.$key).toBe(key))
         .then(() => service.update(updated, primary))
         .then(() => service.value(key))
         .then((updatedRole) => {
           expect(updatedRole.description).toBe(updatedDescription, 'Should have updated the role.')
           done()
-        }).catch((e) => fail() )
+        }).catch((e) => fail())
     })()
   })
 
   it('removes a Role', (done) => {
     inject([RoleService], (service: RoleService) => {
-      let key = "SPEC_RANDOM_" + Math.round((100000 * Math.random()))
+      const key = 'SPEC_RANDOM_' + Math.round((100000 * Math.random()))
 
-      let testRole = new AuthRole({
-        $key: key,
-        description: "Using firebaseRole Service in spec. ",
-        orderIndex: -1
+      const testRole = new AuthRole({
+        $key:        key,
+        description: 'Using firebaseRole Service in spec. ',
+        orderIndex:  -1
       })
-      service.create(testRole).then((created: AuthRole) => expect(created.$key).toBe(key))
-        .then(() => service.remove(key)).catch((e) => fail() )
-        .then(() => service.value(key)).catch((e) => fail() )
+      service.create(testRole).then(() => expect(testRole.$key).toBe(key))
+        .then(() => service.remove(key)).catch((e) => fail())
+        .then(() => service.value(key)).catch((e) => fail())
         .then((removed) => {
           expect(removed).toBeFalsy('Removed values should be null on read.')
           done()
-        }).catch((e) => fail() )
+        }).catch((e) => fail())
         .catch(() => {
           fail('should return null value rather than fail.')
         })
@@ -141,23 +145,23 @@ describe('Auth-services.role.state', () => {
 
   it('grants a permission on a role', (done) => {
     inject([RoleService, PermissionService], (roleService: RoleService, permissionService: PermissionService) => {
-      let roleKey = "SPEC_RANDOM_ROLE" + Math.round((100000 * Math.random()))
-      let permKey = "SPEC_RANDOM_PERM" + Math.round((100000 * Math.random()))
+      const roleKey = 'SPEC_RANDOM_ROLE' + Math.round((100000 * Math.random()))
+      const permKey = 'SPEC_RANDOM_PERM' + Math.round((100000 * Math.random()))
 
-      let role = new AuthRole({
-        $key: roleKey,
-        description: "A spec role."
+      const role = new AuthRole({
+        $key:        roleKey,
+        description: 'A spec role.'
       })
-      let permission = new AuthPermission({
-        $key: permKey,
-        description: "A spec permission."
+      const permission = new AuthPermission({
+        $key:        permKey,
+        description: 'A spec permission.'
       })
       permissionService.create(permission)
         .then(() => roleService.create(role)).catch((e) => fail())
         .then(() => roleService.grantPermission(role, permission)).catch((e) => fail())
         .then(() => roleService.getPermissionsForRole(role)).catch((e) => fail())
         .then((perms: AuthPermission[]) => {
-          let map = ObjMapUtil.fromKeyedEntityArray(perms)
+          const map = ObjMapUtil.fromKeyedEntityArray(perms)
           expect(map[permission.$key]).toBeTruthy()
         }).catch((e) => fail())
         .then(() => roleService.revokePermission(role, permission)).catch((e) => fail())
@@ -171,66 +175,66 @@ describe('Auth-services.role.state', () => {
 
   it('revokes a permission on a role', (done) => {
     inject([RoleService, PermissionService], (roleService: RoleService, permissionService: PermissionService) => {
-      let roleKey = "SPEC_RANDOM_ROLE" + Math.round((100000 * Math.random()))
-      let permKey = "SPEC_RANDOM_PERM" + Math.round((100000 * Math.random()))
+      const roleKey = 'SPEC_RANDOM_ROLE' + Math.round((100000 * Math.random()))
+      const permKey = 'SPEC_RANDOM_PERM' + Math.round((100000 * Math.random()))
 
-      let role = new AuthRole({
-        $key: roleKey,
-        description: "A spec role."
+      const role = new AuthRole({
+        $key:        roleKey,
+        description: 'A spec role.'
       })
-      let permission = new AuthPermission({
-        $key: permKey,
-        description: "A spec permission."
+      const permission = new AuthPermission({
+        $key:        permKey,
+        description: 'A spec permission.'
       })
 
       permissionService.create(permission)
-        .then(() => roleService.create(role)).catch((e) => fail() )
-        .then(() => roleService.grantPermission(role, permission)).catch((e) => fail() )
-        .then(() => roleService.revokePermission(role, permission)).catch((e) => fail() )
-        .then(() => roleService.getPermissionsForRole(role)).catch((e) => fail() )
+        .then(() => roleService.create(role)).catch((e) => fail())
+        .then(() => roleService.grantPermission(role, permission)).catch((e) => fail())
+        .then(() => roleService.revokePermission(role, permission)).catch((e) => fail())
+        .then(() => roleService.getPermissionsForRole(role)).catch((e) => fail())
         .then((perms: AuthPermission[]) => {
-          let map = ObjMapUtil.fromKeyedEntityArray(perms)
+          const map = ObjMapUtil.fromKeyedEntityArray(perms)
           expect(map[permission.$key]).toBeFalsy()
-        }).catch((e) => fail() )
-        .then(() => roleService.revokePermission(role, permission)).catch((e) => fail() )
-        .then(() => done()).catch((e) => fail() )
+        }).catch((e) => fail())
+        .then(() => roleService.revokePermission(role, permission)).catch((e) => fail())
+        .then(() => done()).catch((e) => fail())
     })()
   })
 
   xit('removes a permission from a role when the permission is deleted', (done) => {
     inject([RoleService, PermissionService], (roleService: RoleService, permissionService: PermissionService) => {
 
-      let roleKey = "SPEC_RANDOM_ROLE_" + Math.round((100000 * Math.random()))
-      let permKey = "SPEC_RANDOM_PERM_" + Math.round((100000 * Math.random()))
-      let permKey2 = permKey + "-2"
-      let permKey3 = permKey + "-3"
-      let role = new AuthRole({
-        $key: roleKey,
-        description: "A spec role."
+      const roleKey = 'SPEC_RANDOM_ROLE_' + Math.round((100000 * Math.random()))
+      const permKey = 'SPEC_RANDOM_PERM_' + Math.round((100000 * Math.random()))
+      const permKey2 = permKey + '-2'
+      const permKey3 = permKey + '-3'
+      const role = new AuthRole({
+        $key:        roleKey,
+        description: 'A spec role.'
       })
-      let permission = new AuthPermission({
-        $key: permKey,
-        description: "A spec permission - " + permKey
+      const permission = new AuthPermission({
+        $key:        permKey,
+        description: 'A spec permission - ' + permKey
       })
-      let permission2 = new AuthPermission({
-        $key: permKey2,
-        description: "A spec permission - " + permKey2
+      const permission2 = new AuthPermission({
+        $key:        permKey2,
+        description: 'A spec permission - ' + permKey2
       })
-      let permission3 = new AuthPermission({
-        $key: permKey3,
-        description: "A spec permission - " + permKey3
+      const permission3 = new AuthPermission({
+        $key:        permKey3,
+        description: 'A spec permission - ' + permKey3
       })
 
       let count = 0
-      let start = () => {
+      const start = () => {
         roleService.getPermissionsForRole$(role).subscribe((permissions: AuthPermission[]) => {
-          let map = ObjMapUtil.fromKeyedEntityArray(permissions)
+          const map = ObjMapUtil.fromKeyedEntityArray(permissions)
           if (count === 0) {
             expect(permissions.length).toBe(3)
             expect(map[permKey]).toBeTruthy('Perm1 should be assigned')
             expect(map[permKey2].description).toBe(permission2.description)
-            permissionService.remove(permKey).then((result) => {
-              expect(result).toBe(permKey)
+            permissionService.remove(permKey).then(() => {
+              expect(permKey).toBe(permKey)
             })
           }
           if (count === 1) {

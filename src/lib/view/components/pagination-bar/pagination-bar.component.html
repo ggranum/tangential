@@ -1,0 +1,32 @@
+<div flex layout="row" layout-align="start center">
+  <tanj-icon layout="column"
+             layout-align="center"
+             align="center"
+             [icon]="{font: 'material-icons', name: 'skip_previous'}"
+             [disabled]="!previousEnabled"
+             (click)="start.emit($event)"></tanj-icon>
+  <tanj-icon class="tanj-pagination-previous"
+             layout="column"
+             layout-align="center"
+             align="center"
+             [icon]="{font: 'material-icons', name: 'play_arrow'}"
+             [disabled]="!previousEnabled"
+             (click)="previous.emit($event)"></tanj-icon>
+  <div flex layout="row" layout-align="center">
+    <ng-content></ng-content>
+  </div>
+  <div layout="row" layout-align="end center">
+    <tanj-icon layout="column"
+               layout-align="center"
+               align="center"
+               [icon]="{font: 'material-icons', name: 'play_arrow'}"
+               [disabled]="!nextEnabled"
+               (click)="next.emit($event)"></tanj-icon>
+    <tanj-icon layout="column"
+               layout-align="center"
+               align="center"
+               [icon]="{font: 'material-icons', name: 'skip_next'}"
+               [disabled]="!nextEnabled"
+               (click)="end.emit($event)"></tanj-icon>
+  </div>
+</div>

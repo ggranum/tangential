@@ -1,0 +1,6 @@
+@import './common/side-nav-menu/side-nav-menu';
+
+@mixin tanj-themed-features-main($theme) {
+
+  @include tanj-themed-side-nav-menu($theme)
+}

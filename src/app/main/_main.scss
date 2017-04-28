@@ -1,0 +1,65 @@
+@mixin tanj-main-theme($theme) {
+
+  $background : map-get($theme, background);
+  $appBar : map-get($theme, app-bar);
+
+  tanj-main {
+    box-sizing      : border-box;
+    display         : flex;
+    flex            : 1;
+    flex-direction  : column;
+    justify-content : start;
+    align-items     : stretch;
+  }
+  .tanj-add-entry-menu-row tanj-icon {
+    margin-right : .25em;
+  }
+
+  tanj-side-nav {
+  }
+
+  tanj-app-bar {
+    position   : fixed;
+    min-width  : 100%;
+    min-height : map-get($appBar, height);
+    top        : 0;
+    right      : 0;
+    left       : 0;
+    z-index    : 1;
+  }
+
+  tanj-notification-bar {
+    position   : fixed;
+    min-width  : 100%;
+    min-height : 4em;
+    top        : 4em;
+    right      : 0;
+    left       : 0;
+    z-index    : 1000;
+  }
+
+  .tanj-bottom-nav {
+    bottom    : 0;
+    left      : 0;
+    right     : 0;
+    position  : fixed;
+    min-width : 100%;
+    z-index   : 1;
+  }
+
+  .tanj-showing-ads .tanj-bottom-nav {
+    bottom : 52px;
+  }
+
+  .tanj-showing-ads .tanj-ad-container {
+    min-height       : 52px;
+    height           : 54px;
+    position         : fixed;
+    min-width        : 100%;
+    z-index          : 2;
+    padding-top      : 1px;
+    bottom           : 0;
+    background-color : mat-color($background, background);
+  }
+
+}

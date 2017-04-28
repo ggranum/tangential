@@ -4,47 +4,41 @@
     "outDir": "../out-tsc/spec",
     "module": "commonjs",
     "target": "es6",
-    "baseUrl": ".",
+    "baseUrl": "",
     "types": [
       "jasmine",
       "node"
     ],
     "paths": {
-      "@tangential/common": [
-        "lib/util/common"
+      "@tangential/admin-console": [
+        "lib/view/modules/admin-console"
       ],
-      "@tangential/firebase-util": [
-        "lib/util/firebase"
-      ],
-      "@tangential/media-types": [
-        "lib/media-types"
+      "@tangential/analytics": [
+        "lib/analytics"
       ],
       "@tangential/authorization-service": [
         "lib/authorization-service"
       ],
-      "@tangential/admin-ui": [
-        "lib/admin-ui"
+      "@tangential/components": [
+        "lib/view/components"
       ],
-      "@tangential/email-password-top-nav-login": [
-        "lib/email-password-top-nav-login"
+      "@tangential/configurable-widgets": [
+        "lib/view/configurable-widgets"
       ],
-      "@tangential/sign-in-panel": [
-        "lib/sign-in-panel"
+      "@tangential/core": [
+        "lib/core"
       ],
-      "@tangential/asciidoctor-panel": [
-        "lib/asciidoctor-panel"
+      "@tangential/firebase-util": [
+        "lib/util/firebase"
       ],
-      "@tangential/data-list": [
-        "lib/ux/data-list"
+      "@tangential/input-widgets": [
+        "lib/view/input-widgets"
       ],
-      "@tangential/inline-login-form": [
-        "lib/ux/inline-login-form"
+      "@tangential/media-types": [
+        "lib/media-types"
       ],
-      "@tangential/inline-profile": [
-        "lib/ux/inline-profile"
-      ],
-      "@tangential/drawer": [
-        "lib/drawer"
+      "@tangential/visitor-service": [
+        "lib/visitor-service"
       ]
     }
   },

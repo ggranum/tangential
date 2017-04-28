@@ -1,0 +1,33 @@
+@mixin tanj-contact-theme($theme) {
+  $primary : mat-color(map-get($theme, primary), 500);
+
+  tanj-contact-component {
+    font-size : 12px;
+    h1 {
+      color          : $primary;
+      font-size      : 200%;
+      padding        : 0;
+      margin         : 1em 0 0;
+      letter-spacing : .25em;
+    }
+    .tanj-section {
+      h2 {
+        color          : $primary;
+        margin-bottom  : .25em;
+        letter-spacing : .1em;
+      }
+      .tanj-section-body {
+        margin-left : .5em;
+        p, span {
+          font-size : 12px;
+        }
+
+        a, a:hover, a:visited {
+          color : blue;
+        }
+      }
+      margin    : 1em 0 2em .5em;
+      font-size : 125%;
+    }
+  }
+}

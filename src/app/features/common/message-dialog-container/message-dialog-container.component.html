@@ -1,0 +1,16 @@
+<div class="tanj-tip-dialog-title" layout="row" layout-align="center">
+  <md-icon flex>{{messageIcon}}</md-icon>
+  <h2 flex class="tanj-fancy-font" layout="row" layout-align="center">{{heading}}</h2>
+  <div flex layout="row" layout-align="end">
+    <md-icon>{{messageIcon}}</md-icon>
+  </div>
+</div>
+<div flex class="tanj-tip-dialog-body tanj-capture-edit-tip-body" layout="column" layout-align="left">
+  <ng-content></ng-content>
+</div>
+<div class="tanj-tip-dialog-footer" layout="column" layout-align="end">
+  <tanj-tip-dialog-footer [offerToSuppress]="offerToSuppress"
+                         [doNotShowAgain]="doNotShowAgain"
+                         (closeRequest)="closeRequest.emit($event)"
+                         (doNotShowAgainChange)="onDoNotShowAgain($event)"></tanj-tip-dialog-footer>
+</div>

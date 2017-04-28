@@ -1,13 +1,27 @@
-export enum SignInState {
-  unknown = 1,
-  signedOut = 10,
-  signingIn = 20,
-  signedIn = 30,
-  signedInAnonymous = 35,
-  signInFailed = 40,
-  signingOut = 50,
-  signingUp = 60,
-  newAccount = 70,
-  signUpFailed = 80,
+export type SignInState =
+  'unknown' |
+  'guest' |
+  'signedOut' |
+  'signingIn' |
+  'signedIn' |
+  'signedInAnonymous' |
+  'signInFailed' |
+  'signingOut' |
+  'signingUp' |
+  'newAccount' |
+  'signUpFailed'
+
+export const SignInStates = {
+  unknown:           <SignInState>'unknown',
+  guest:             <SignInState>'guest',
+  signedOut:         <SignInState>'signedOut',
+  signingIn:         <SignInState>'signingIn',
+  signedIn:          <SignInState>'signedIn',
+  signedInAnonymous: <SignInState>'signedInAnonymous',
+  signInFailed:      <SignInState>'signInFailed',
+  signingOut:        <SignInState>'signingOut',
+  signingUp:         <SignInState>'signingUp',
+  newAccount:        <SignInState>'newAccount',
+  signUpFailed:      <SignInState>'signUpFailed',
 }
 

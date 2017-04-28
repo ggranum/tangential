@@ -1,0 +1,14 @@
+@import '~primeng/resources/themes/omega/theme.css';
+@import '~primeng/resources/primeng.min.css';
+@import '_parent/parent.component';
+@import 'permissions/permission.component';
+@import 'roles/role.component';
+@import 'users/user.component';
+
+@mixin tanj-view-modules-admin_console-index($theme) {
+  @include tanj-view-modules-admin_console-parent($theme);
+  @include tanj-view-modules-admin_console-permission($theme);
+  @include tanj-view-modules-admin_console-role($theme);
+  @include tanj-view-modules-admin_console-user($theme);
+
+}

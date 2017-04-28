@@ -10,8 +10,8 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('karma-spec-reporter'),
-      require('@angular/cli/plugins/karma')
+      require('@angular/cli/plugins/karma'),
+      require('karma-spec-reporter')
     ],
     client:{
       clearContext: false // leave Jasmine Spec Runner output visible in browser
@@ -44,16 +44,6 @@ module.exports = function (config) {
       suppressPassed: false,  // do not print information about passed tests
       suppressSkipped: false,  // do not print information about skipped tests
       showSpecTiming: false // print the time elapsed for each spec
-    },
-    htmlReporter: {
-      outputFile: 'dist/test-output.html',
-
-      // Optional
-      pageTitle: 'Unit Tests',
-      subPageTitle: 'A sample project description',
-      groupSuites: true,
-      useCompactStyle: true,
-      useLegacyStyle: true
     },
     port: 9876,
     colors: true,

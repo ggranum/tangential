@@ -1,0 +1,81 @@
+<tanj-page-body layout="column" layout-align="start" suppressHeaderShim="true">
+  <div flex class="tanj-above-the-fold" layout="column" layout-align="start">
+    <div class="tanj-header-shim"></div>
+    <div flex layout="column" layout-align="start">
+      <div flex layout="row" layout-align="center">
+        <h1 class="tanj-title">Tangential</h1>
+      </div>
+      <div flex layout="row" layout-align="center">
+        <h4 class="tanj-sub-title tanj-center" i18n>You build web applications. We help.</h4>
+      </div>
+      <div flex class="tanj-wall-of-text-container" layout="column" layout-align="start center">
+        <div flex class="tanj-wall-of-text" layout="column" layout-align="start">
+          <h4>A fully featured bootstrap for Angular + Firebase web applications.</h4>
+          <h4>Lazy loaded routes and Ahead of Time compilation</h4>
+          <h4>Ready for Google analytics and AdWords</h4>
+          <h4>Full Identity and Access Management, with console</h4>
+          <h4>Deploys to Firebase Hosting, with no additional server required.</h4>
+          <h4>Material Design themes, full-screen mobile manifest... </h4>
+          <h3>Tangential is ready to go. &nbsp;&nbsp;Are you?</h3>
+          <h4 class="tanj-this-is-the-demo">This is Tangential, out of the box. Sign in or hit 'try it out' to experience even more of the
+            <a [routerLink]="appRoutes.about.navTargets.absSelf">built in features.</a></h4>
+        </div>
+      </div>
+      <div flex
+           *ngIf="visitor && !visitor.isPlaceholder() && visitor.isGuest()"
+           class="tanj-auth-buttons-container"
+           layout="column"
+           layout-align="start center">
+        <a md-raised-button [disabled]="false" color="accent" class="tanj-button" [routerLink]="['/sign-in']">
+          <i class="material-icons tanj-button-icon">verified_user</i><i
+          class="tanj-button-text" i18n>Sign in / Sign up</i>
+        </a>
+        <a class="tanj-anonymous-login-link tanj-linky-link" (click)="onAnonymousLoginRequest()">
+          <i class="tanj-button-text" i18n>Try it out</i>
+        </a>
+      </div>
+    </div>
+    <div layout="row" layout-align="center">&nbsp;</div>
+
+    <div class="tanj-home-look-down" layout="column" layout-align="end center">
+      <tanj-icon [icon]="{font: 'fa', name: 'fa-chevron-down'}">keyboard_arrow_down</tanj-icon>
+    </div>
+  </div>
+  <div flex class="tanj-homepage-section-group" layout="column" layout-align="space-between start">
+
+    <div layout="row" layout-align="start end">
+      <div class="tanj-callout-section tanj-about">
+        <p class="tanj-section-header">
+          <a [routerLink]="appRoutes.about.navTargets.absSelf" i18n>About us<i
+            class="tanj-angle-right fa fa-angle-right"></i></a></p>
+        <p><strong>Tangential</strong> is here to bootstrap you past the silly boilerplate of a new web app.</p>
+      </div>
+    </div>
+    <div layout="row" layout-align="start end">
+      <div class="tanj-callout-section tanj-privacy">
+        <p class="tanj-section-header"><a [routerLink]="appRoutes.privacy.navTargets.absSelf">Privacy
+          Policy<i class="tanj-angle-right fa fa-angle-right"></i></a>
+        </p>
+        <p><strong>We care about your privacy.</strong> We won't sell or share your data with anyone. We do collect
+          metrics to help us decide what to improve, and our advertising partners do collect and track some navigation
+          and other data.</p>
+      </div>
+    </div>
+    <div layout="row" layout-align="start end">
+      <div class="tanj-callout-section tanj-contact">
+        <p class="tanj-section-header">
+          <a [routerLink]="appRoutes.contact.navTargets.absSelf" i18n>Contact<i
+            class="tanj-angle-right fa fa-angle-right"></i></a>
+        </p>
+        <p i18n><strong>Have a suggestion?</strong> Github is the best place to find us, but we have a contact page here
+          for you to populate...</p>
+        <p></p>
+      </div>
+    </div>
+
+    <div flex class="tanj-callout-section tanj-copyright" layout="row" layout-align="center end" i18n>
+      © 2017 Geoff M. Granum, licensed under GPLv3
+    </div>
+  </div>
+</tanj-page-body>
+

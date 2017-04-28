@@ -1,0 +1,317 @@
+@import url('https://fonts.googleapis.com/css?family=Kaushan+Script');
+@import url('https://fonts.googleapis.com/css?family=Cantarell:400i');
+@import url('~font-awesome/css/font-awesome.min.css');
+@import 'clear_styles';
+@import 'mixins';
+@import 'material_hacks';
+@import 'dialog';
+
+html {
+  height: 100%;
+}
+
+.tanj-button-icon {
+  margin-right: .4em;
+}
+
+ng2-adsense div {
+  text-align: center;
+
+  .adsbygoogle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/**
+* @hack ggranum: The md-select label is not aligned with the md-input labels
+*/
+.tanj-select-input {
+  padding-top: 9px;
+}
+
+.tanj-md-null-option-hack.mat-option {
+  height: 0;
+}
+
+.no-select {
+  user-select: none;
+}
+
+@mixin tanj-global-app-theme($theme) {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary_500: mat-color(map-get($theme, primary), 500);
+  $accent_300: mat-color(map-get($theme, accent), 300);
+  $accent_900: mat-color(map-get($theme, accent), 900);
+  $accent_500: mat-color(map-get($theme, accent), 500);
+  $warn: mat-color(map-get($theme, warn));
+  $text: mat-color(map-get($theme, primary), 400);
+  $textColorDisabled: mat-color(map-get($theme, foreground), disabled-text);
+  $iconColorDisabled: mat-color(map-get($theme, foreground), disabled-button);
+  $subText: mat-color(map-get($theme, primary), 50);
+
+  a, a:visited, a:hover, a:active {
+    color: map-get($foreground, link);
+    &[md-button], &[md-raised-button] {
+      color: map-get($foreground, icon);
+    }
+  }
+
+  a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    &[md-button], &[md-raised-button] {
+      text-decoration: none;
+    }
+  }
+
+  .tanj-disabled {
+    color: $textColorDisabled;
+    .tanj-input-spinner-field {
+      color: $textColorDisabled;
+      md-icon {
+        color: $iconColorDisabled;
+      }
+    }
+
+  }
+
+  .disabled {
+    background-color: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.36);
+  }
+
+  .tanj-themed {
+
+    .tanj-center {
+      text-align: center;
+    }
+
+    .tanj-fancy-font {
+      letter-spacing: .2em;
+      font-family: 'Kaushan Script', cursive;
+    }
+
+    legend {
+      text-align: left;
+      padding: 0 .5em 0 .5em;
+      margin-left: 1em;
+    }
+
+    .tanj-capture-inputs-container {
+    }
+
+    .tanj-name-container {
+      margin: 0 1em 0 1em;
+    }
+
+    .tanj-input-template {
+      min-height: 4em;
+      margin-right: 1em;
+    }
+
+    .tanj-input-template.tanj-mode-preview {
+      opacity: 0.5;
+    }
+
+    .tanj-label {
+      @include tanj-input-label();
+    }
+
+    .mat-input-placeholder, md-select .mat-select-placeholder {
+      text-align: left;
+    }
+
+    .tanj-button-footer-container {
+      font-size: 24px;
+      .material-icons {
+        font-size: 24px;
+      }
+      height: 2.5em;
+
+      .tanj-button-footer {
+        width: 100%;
+        padding: .33em 1em;
+        box-shadow: -.4em -.4em .75em 0px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    &.tanj-edit-page {
+      margin: .5em 1em 0 1em;
+
+      .tanj-name-icon-container {
+        font-size: 125%;
+        tanj-icon {
+          margin-top: .65em;
+          > i {
+            font-size: 36px;
+          }
+        }
+        .tanj-main-input {
+          margin-left: 2em;
+          margin-right: 2em;
+        }
+
+      }
+      .tanj-name-container {
+        min-height: 2em;
+        max-height: 3em;
+        font-size: large;
+        .tanj-name {
+          margin-right: 1em;
+          font-size: larger;
+          .tanj-input-edit-mode {
+            font-size: larger;
+          }
+        }
+      }
+    }
+
+    /**
+    Lists of items with action buttons on right side
+     */
+    .tanj-edit-list {
+      margin: 1em 1em 0 1em;
+
+      .tanj-fab-menu-edit-row {
+        //min-height: 3.5em;
+        .tanj-edit-field {
+          min-width: 15em;
+        }
+      }
+      .tanj-fab-menu-edit-row-body {
+        min-width: 100%;
+        max-width: 100%;
+      }
+      .tanj-edit-row, .tanj-fab-menu-edit-row {
+        .mat-checkbox-label, .mat-slide-toggle-content, .tanj-number-spinner-label {
+          min-width: 10em;
+          text-align: left;
+        }
+      }
+      .tanj-fab-menu-edit-row .tanj-right-fab-container {
+        min-width: 3em;
+      }
+      .tanj-edit-nested-container {
+        margin: .15em 0 .15em 1em;
+      }
+      .tanj-edit-row {
+        min-height: 3.5em;
+        .tanj-edit-field {
+          min-width: 15em;
+          margin-right: 3em;
+          .mat-slide-toggle-content {
+            font-size: inherit;
+            font-weight: inherit;
+            font-family: inherit;
+            margin-right: 0
+          }
+        }
+      }
+    }
+
+    /**
+     * The help tip dialogs
+     */
+    &.tanj-tip-dialog-body {
+
+      text-align: left;
+      max-width: 40em;
+      min-width: 100%;
+      font-size: 14px;
+      .tanj-tip-section {
+
+        margin-top: 1em;
+        .mat-mini-fab {
+          transform: scale(.4, .4);
+          margin: 0 -0.5em -0.75em -0.5em;
+          vertical-align: bottom;
+        }
+        md-icon.tanj-icon-adjust {
+          font-size: 18px;
+          height: 1em;
+          width: 1em;
+          vertical-align: bottom;
+        }
+
+      }
+    }
+    .tanj-tip-inline-image, .tanj-tip-inline-font-icon {
+      vertical-align: text-bottom;
+      max-width: 1.5em;
+    }
+  }
+
+  .tanj-centered-label {
+    text-align: center;
+  }
+
+  .tanj-raw-input {
+    -webkit-appearance: inherit;
+    background-color: inherit;
+    user-select: text;
+    cursor: auto;
+    padding: 0;
+    border: none;
+
+    text-rendering: auto;
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0;
+    text-shadow: none;
+    display: inherit;
+    text-align: inherit;
+    margin: 0 0 0 0;
+    font: inherit;
+  }
+
+  .tanj-edit-list-row-fab-menu.mat-menu-panel {
+    padding-left: 1em;
+    margin-right: 1em;
+    .tanj-delete {
+      margin-right: 1em;
+      color: $warn;
+    }
+
+    .tanj-edit {
+      //margin-right: 1em;
+    }
+  }
+
+  $floatingButtonGap: 6em;
+  $bottomNav: map-get($theme, bottom-nav);
+  .tanj-floating-material-button-container {
+    position: fixed;
+    font-size: 12px;
+    min-width: 2em;
+    max-width: 2em;
+    bottom: map-get($bottomNav, 'height') + $floatingButtonGap;
+    right: $floatingButtonGap;
+    .tanj-floating-material-button {
+      position: static;
+      z-index: 500;
+      font-size: 24px;
+    }
+  }
+
+  .tanj-showing-ads .tanj-floating-material-button-container {
+    bottom: map-get($bottomNav, 'height') + $floatingButtonGap + (52/12)*1em;
+    right: $floatingButtonGap;
+  }
+
+  /**
+   * Transforms for icons
+   */
+  .tanj-rotate-45 {
+    transform: rotate(45deg);
+  }
+
+  .tanj-fading-line {
+    height: 2px;
+    background: radial-gradient(50% 100%, #000, transparent);
+  }
+}
+

@@ -1,0 +1,46 @@
+<tanj-page-body>
+<div flex="grow" class="tanj-page-body" layout="column" layout-align="start">
+  <div layout="column" layout-align="start">
+    <div layout="row" layout-align="center">
+      <h1 class="tanj-page-title" i18n>Welcome!</h1>
+    </div>
+    <div class="tanj-section" layout="row" layout-align="start">
+      <div flex layout="column" layout-align="start">
+        <h2 i18n>Welcome to Tangential</h2>
+        <div flex class="tanj-section-body">
+          <div><p i18n>We really appreciate you giving Tangential a go.
+            <p i18n>If you have any problems or wish to suggest something that would make Tangential even better, please
+                    don't hesitate to contact us via our
+              <a [routerLink]="appRoutes.tryoutWelcome.navTargets.absToContactPage()">contact page</a></p>
+            <p i18n>Enjoy!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tanj-section" layout="row" layout-align="start">
+      <div flex layout="column" layout-align="start">
+        <h2 i18n>Demo mode: Account not required (Kinda)</h2>
+        <div flex class="tanj-section-body">
+          <div><p i18n>Tryout mode is just a Firebase anonymous login. You can let your users do things, like add items
+            to a shopping cart, for example, but if they clear their cookies (or time does it for them) then the data
+            with the temporary account will be lost.</p></div>
+          <div><p i18n>
+            If, however, you convince the user to register (or, for example, they buy something and provide an email
+            address), you can 'link' the anonymous account to a real registration. You can find an example of how to
+            do that in this project by checking out the Nav menu.
+          </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div layout="row" layout-align="center">
+      <button md-raised-button
+              color="primary"
+              [routerLink]="['/']"
+              i18n>
+        Onward!
+      </button>
+    </div>
+  </div>
+</div>
+</tanj-page-body>

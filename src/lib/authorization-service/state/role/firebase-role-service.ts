@@ -1,18 +1,17 @@
-import {AuthPermission, AuthRole} from "@tangential/media-types";
-import {BehaviorSubject, Observable} from "rxjs";
-import {EventEmitter, Injectable} from "@angular/core";
-import {MapEntry, ObjectUtil, ObjMap, ObjMapUtil} from "@tangential/common";
+import {EventEmitter, Injectable} from '@angular/core'
+import {AuthPermission, AuthRole} from '@tangential/authorization-service'
+import {MapEntry, ObjectUtil, ObjMap, ObjMapUtil} from '@tangential/core'
 
-import {FirebaseProvider, FireBlanket} from "@tangential/firebase-util";
+import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util'
+import * as firebase from 'firebase/app'
+import {Observable} from 'rxjs/Observable'
+//noinspection TypeScriptPreferShortImport
+import {FirebasePermissionService} from '../permission/firebase-permission-service'
+//noinspection TypeScriptPreferShortImport
+import {PermissionService} from '../permission/permission-service'
 
-import {RoleService} from "./role-service";
-//noinspection TypeScriptPreferShortImport
-import {PermissionService} from "../permission/permission-service";
-//noinspection TypeScriptPreferShortImport
-import {FirebasePermissionService} from "../permission/firebase-permission-service";
-import * as firebase from "firebase/app";
+import {RoleService} from './role-service'
 import DataSnapshot = firebase.database.DataSnapshot;
-
 
 
 @Injectable()
@@ -20,8 +19,8 @@ export class FirebaseRoleService implements RoleService {
   valueRemoved$: EventEmitter<string> = new EventEmitter<string>(true)
 
 
-  private path: string = "/auth/roles"
-  private rolePermissionsPath: string = "/auth/role_permissions"
+  private path: string = '/auth/roles'
+  private rolePermissionsPath: string = '/auth/role_permissions'
   private db: firebase.database.Database
   private ref: firebase.database.Reference
   private roleToPermissionsRef: firebase.database.Reference
@@ -60,7 +59,7 @@ export class FirebaseRoleService implements RoleService {
 
   engagePermissionsSynchronization() {
     this.permissionService.valueRemoved$.subscribe((permissionKey: string) => {
-      this.removePermission(permissionKey).catch((e) =>{
+      this.removePermission(permissionKey).catch((e) => {
         console.log('FirebaseRoleService', 'error removing syncronized permission', e)
         throw e
       })
@@ -68,12 +67,12 @@ export class FirebaseRoleService implements RoleService {
   }
 
   value(childKey: string): Promise<AuthRole> {
-    let cRef = this.ref.child(childKey)
+    const cRef = this.ref.child(childKey)
     return FireBlanket.value(cRef).then(this.snapToValue)
   }
 
-  values(): Observable<AuthRole[]> {
-    return FireBlanket.value$(this.ref).map(this.snapMapToValue)
+  roles$(): Observable<AuthRole[]> {
+    return FireBlanket.awaitValue$(this.ref).map(this.snapMapToValue)
   }
 
   valuesOnce(): Promise<AuthPermission[]> {
@@ -81,38 +80,37 @@ export class FirebaseRoleService implements RoleService {
 
   }
 
-  create(child: AuthRole): Promise<AuthRole> {
-    let cRef = this.ref.child(child.$key)
-    return FireBlanket.set(cRef, child.toJson(false)).then(() => child)
+  create(child: AuthRole): Promise<void> {
+    const cRef = this.ref.child(child.$key)
+    return FireBlanket.set(cRef, child.toJson(false))
 
   }
 
-  update(child: AuthRole): Promise<AuthRole> {
-    let cRef = this.ref.child(child.$key)
-    return FireBlanket.set(cRef, child.toJson(false)).then(() => child)
+  update(child: AuthRole): Promise<void> {
+    const cRef = this.ref.child(child.$key)
+    return FireBlanket.set(cRef, child.toJson(false))
   }
 
-  remove(childKey: string): Promise<string> {
-    let cRef = this.ref.child(childKey)
+  remove(childKey: string): Promise<void> {
+    const cRef = this.ref.child(childKey)
     return FireBlanket.remove(cRef).then(() => {
       this.valueRemoved$.next(childKey)
-      return childKey
     })
   }
 
 
   removePermission(permissionKey: string): Promise<void> {
     return FireBlanket.value(this.roleToPermissionsRef).then((snap) => {
-      let rolesWithPermission: string[] = []
+      const rolesWithPermission: string[] = []
       if (snap.exists()) {
-        let map = snap.val()
+        const map = snap.val()
         ObjectUtil.entries(map).forEach((entry: MapEntry<ObjMap<boolean>>) => {
           if (entry.value[permissionKey] === true) {
             rolesWithPermission.push(entry.key)
           }
         })
       }
-      let promises: Promise<void>[] = []
+      const promises: Promise<void>[] = []
       rolesWithPermission.forEach((roleKey) => {
         promises.push(this.revokePermission(roleKey, permissionKey))
       })
@@ -121,26 +119,26 @@ export class FirebaseRoleService implements RoleService {
   }
 
   grantPermission(role: AuthRole | string, permission: AuthPermission | string): Promise<void> {
-    let roleKey: string = AuthRole.guard(role) ? role.$key : role
-    let permissionKey: string = AuthPermission.guard(permission) ? permission.$key : permission
-    let pRef = this.roleToPermissionsRef.child(roleKey).child(permissionKey)
+    const roleKey: string = AuthRole.guard(role) ? role.$key : role
+    const permissionKey: string = AuthPermission.guard(permission) ? permission.$key : permission
+    const pRef = this.roleToPermissionsRef.child(roleKey).child(permissionKey)
     return FireBlanket.set(pRef, true)
   }
 
   revokePermission(role: AuthRole | string, permission: AuthPermission | string): Promise<void> {
-    let roleKey: string = AuthRole.guard(role) ? role.$key : role
-    let permissionKey: string = AuthPermission.guard(permission) ? permission.$key : permission
-    let pRef = this.roleToPermissionsRef.child(roleKey).child(permissionKey)
+    const roleKey: string = AuthRole.guard(role) ? role.$key : role
+    const permissionKey: string = AuthPermission.guard(permission) ? permission.$key : permission
+    const pRef = this.roleToPermissionsRef.child(roleKey).child(permissionKey)
     return FireBlanket.remove(pRef)
   }
 
   getPermissionsForRole$(role: AuthRole | string): Observable<AuthPermission[]> {
-    let roleKey: string = AuthRole.guard(role) ? role.$key : role
-    let roleRef = this.roleToPermissionsRef.child(roleKey)
-    return FireBlanket.value$(roleRef).map(snap => snap.val()).flatMap((obj: ObjMap<boolean>) => {
+    const roleKey: string = AuthRole.guard(role) ? role.$key : role
+    const roleRef = this.roleToPermissionsRef.child(roleKey)
+    return FireBlanket.awaitValue$(roleRef).map(snap => snap.val()).flatMap((obj: ObjMap<boolean>) => {
       //noinspection JSMismatchedCollectionQueryUpdate
-      let rolePerms: AuthPermission[] = []
-      let promises: Promise<void>[] = []
+      const rolePerms: AuthPermission[] = []
+      const promises: Promise<void>[] = []
       Object.keys(obj || {}).forEach(key => {
         promises.push(this.permissionService.value(key).then((perm: AuthPermission) => {
           if (perm) {

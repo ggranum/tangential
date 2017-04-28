@@ -1,0 +1,83 @@
+<div flex class="tanj-themed" layout="column" layout-align="start">
+  <div flex class="tanj-app-content" layout="column" layout-align="start">
+    <section class="tanj-name-container" layout="row" layout-align="center center">
+      <div class="tanj-capture-list-icon tanj-icon-shim" layout="column" (click)="showChooseIconDialog()">
+        <i class="{{capture.icon.font}}">{{capture.icon.name}}</i>
+      </div>
+      <div flex class="tanj-name tanj-toggle-edit-field">
+        <md-input-container class="tanj-capture-input-container" flex dividerColor="accent">
+          <input mdInput class="tanj-input" placeholder="Give it a name" [(ngModel)]="capture.name">
+        </md-input-container>
+      </div>
+    </section>
+    <section *ngIf="isAdmin" layout="column" layout-align="start">
+      <div flex class="tanj-default-reports-container" layout="row" layout-align="start">
+        <md-select flex
+                   class="tanj-edit-field"
+                   [placeholder]="'Linked Report'"
+                   [(ngModel)]="capture.linkedReportKey"
+                   (change)="updateSelectedCapture()">
+          <md-option *ngFor="let report of availableDefaultReports" [value]="report.$key">
+            {{report.name}}
+          </md-option>
+        </md-select>
+      </div>
+    </section>
+
+    <div class="tanj-capture-inputs-container" layout="column" layout-align="start">
+      <div flex
+           class="tanj-item-row"
+           *ngFor="let template of inputTemplates;"
+           layout="row"
+           layout-align="center center">
+        <div flex layout="row" layout-align="start">
+          <tanj-input-template-container flex
+                                        [inputConfig]="template.config"
+                                        [inputIval]="template.ival"
+                                        [mode]="template.mode">
+          </tanj-input-template-container>
+          <div class="tanj-input-action-buttons" layout="row" layout-align="end">
+            <a md-mini-fab
+               [disabled]="false"
+               class="tanj-button"
+               color="accent"
+               title="Edit Input"
+               [mdMenuTriggerFor]="menu">
+              <md-icon>edit</md-icon>
+            </a>
+
+            <md-menu #menu="mdMenu" class="tanj-capture-edit-button-menu">
+              <a md-mini-fab
+                 [disabled]="!canDeleteInput(template)"
+                 class=" tanj-button tanj-delete"
+                 color="accent"
+                 title="Delete Input"
+                 (click)="onDeleteAction(template)">
+                <md-icon>delete</md-icon>
+              </a>
+              <a md-mini-fab
+                 [disabled]="false"
+                 class="tanj-capture-edit-page tanj-button tanj-edit"
+                 color="accent"
+                 title="Edit Input"
+                 (click)="onInputEdit()"
+                 [routerLink]="['./', 'input', template.config.$key]">
+                <md-icon>edit</md-icon>
+              </a>
+            </md-menu>
+          </div>
+        </div>
+      </div>
+      <div class="tanj-item-row" layout="row" layout-align="end center">
+        <a md-mini-fab color="accent" class="tanj-button" title="Add another input" (click)="doAddInput()">
+          <md-icon>add_circle</md-icon>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="tanj-floating-material-button-container">
+  <a class="tanj-floating-material-button tanj-add" md-fab color="primary" (click)="done.emit()">
+    <md-icon>done</md-icon>
+  </a>
+</div>

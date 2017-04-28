@@ -1,20 +1,18 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "target": "es5",
     "outDir": "./dist/out-tsc",
-    "baseUrl": ".",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "baseUrl": "",
     "lib": [
-      "es2016"
+      "es2016", "dom"
     ],
     "paths": {
-      "@tangential/common": [
-        "src/lib/util/common"
-      ],
       "@tangential/firebase-util": [
         "src/lib/util/firebase"
       ],
@@ -24,29 +22,26 @@
       "@tangential/authorization-service": [
         "src/lib/authorization-service"
       ],
-      "@tangential/admin-ui": [
-        "src/lib/admin-ui"
+      "@tangential/visitor-service": [
+        "src/lib/visitor-service"
       ],
-      "@tangential/email-password-top-nav-login": [
-        "src/lib/email-password-top-nav-login"
+      "@tangential/core": [
+        "src/lib/core"
       ],
-      "@tangential/sign-in-panel": [
-        "src/lib/sign-in-panel"
+      "@tangential/components": [
+        "src/lib/view/components"
       ],
-      "@tangential/asciidoctor-panel": [
-        "src/lib/asciidoctor-panel"
+      "@tangential/input-widgets": [
+        "src/lib/view/input-widgets"
       ],
-      "@tangential/data-list": [
-        "src/lib/ux/data-list"
+      "@tangential/configurable-widgets": [
+        "src/lib/view/configurable-widgets"
       ],
-      "@tangential/inline-login-form": [
-        "src/lib/ux/inline-login-form"
+      "@tangential/admin-console": [
+        "src/lib/view/modules/admin-console"
       ],
-      "@tangential/inline-profile": [
-        "src/lib/ux/inline-profile"
-      ],
-      "@tangential/drawer": [
-        "src/lib/drawer"
+      "@tangential/analytics": [
+        "src/lib/analytics"
       ]
     }
   }

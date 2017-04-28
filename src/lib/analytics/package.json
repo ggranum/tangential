@@ -1,0 +1,28 @@
+{
+  "name": "@tangential/analytics",
+  "description": "Analytics and advertising - monitization, generally.",
+  "homepage": "https://github.com/ggranum/tangential#readme",
+  "version": "0.1.1-beta.0",
+  "license": "GPLv3",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ggranum/tangential.git"
+  },
+  "keywords": [
+    "Advertising",
+    "Analytics",
+    "Angular"
+  ],
+  "bugs": {
+    "url": "https://github.com/ggranum/tangential/issues"
+  },
+  "engines": {
+    "node": ">= 7"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {},
+  "main": "./index.js",
+  "typings": "./index.d.ts"
+}

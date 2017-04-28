@@ -1,5 +1,8 @@
-import {ObjMap, OneToManyReferenceMap} from "@tangential/common";
-import {AuthUserIF, AuthPermissionJson, AuthRole} from "@tangential/media-types";
+import {ObjMap, OneToManyReferenceMap} from '@tangential/core'
+//noinspection TypeScriptPreferShortImport
+import {AuthPermissionJson} from '../media-type/auth/auth-permission'
+import {AuthRole} from '../media-type/auth/auth-role'
+import {AuthUserIF} from '../media-type/auth/auth-user'
 
 export interface AuthorizationModel {
   permissions?: ObjMap<AuthPermissionJson>

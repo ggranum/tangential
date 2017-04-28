@@ -1,0 +1,144 @@
+{
+  "rsrc": {
+    "general": {
+      "fields": {
+        "name": {
+          "title": "Name"
+        }
+      }
+    },
+    "main": {
+      "bottomNav": {
+        "home": {
+          "caption": "Home"
+        },
+        "captures": {
+          "caption": "Captures"
+        },
+        "addEntry": {
+          "caption": "Add Entry"
+        },
+        "help": {
+          "caption": "Help"
+        }
+      }
+    },
+    "home": {
+      "signInSignUp": "Sign in / Sign up",
+      "captureYourJourney": "Capture Your Journey",
+      "callouts": {
+        "level2": {
+          "captureYourJourney": "Capture your journey in a flash. ",
+          "tapTrackDone": "Tap. Track. Done. "
+        }
+      }
+    },
+    "capture": {
+      "add": {
+        "pickATemplate": "Pick a Template",
+        "orGo": "Or go",
+        "advanced": "Advanced",
+        "fromTemplate": {
+          "title": "Create!"
+        }
+      },
+      "edit": {
+        "name": {
+          "placeholder": "Give it a name"
+        },
+        "linkedReport": {
+          "placeholder": "Linked Report"
+        },
+        "category": {
+          "placeholder": "Category"
+        },
+        "deleteInput": {
+          "placeholder": "Delete Input"
+        },
+        "editInput": {
+          "placeholder": "Edit Input"
+        },
+        "addAnotherInput": {
+          "placeholder": "Add another input"
+        }
+      },
+      "list": {
+        "addCapture": {
+          "title": "Add Capture"
+        },
+        "addEntry": {
+          "title": "Add Entry"
+        },
+        "configure": {
+          "title": "Configure"
+        },
+        "charts": {
+          "title": "Charts"
+        },
+        "delete": {
+          "title": "Delete"
+        },
+        "noCaptures": {
+          "line1": "You have no captures",
+          "line2": "Create one below"
+        }
+      }
+    },
+    "template": {
+      "byName": {
+        "Blank": {
+          "name": "Blank",
+          "description": "Start with a clean slate and build your own custom Capture from scratch."
+        },
+        "Weight": {
+          "name": "Weight",
+          "description": ""
+        },
+        "Medication": {
+          "name": "Medication",
+          "description": ""
+        },
+        "Success!": {
+          "name": "Success!",
+          "description": ""
+        },
+        "Woke Up": {
+          "name": "Woke Up",
+          "description": ""
+        },
+        "Went to Bed": {
+          "name": "Went to Bed",
+          "description": ""
+        },
+        "Workout": {
+          "name": "Workout",
+          "description": ""
+        },
+        "100 Meter Dash": {
+          "name": "100 Meter Dash",
+          "description": ""
+        },
+        "I Adulted!": {
+          "name": "I Adulted!",
+          "description": ""
+        },
+        "Ate Trigger Food": {
+          "name": "Ate Trigger Food",
+          "description": ""
+        },
+        "Bowel Movement": {
+          "name": "Bowel Movement",
+          "description": ""
+        },
+        "Mood": {
+          "name": "Mood",
+          "description": ""
+        },
+        "Smoked Cigarette": {
+          "name": "Smoked Cigarette",
+          "description": ""
+        }
+      }
+    }
+  }
+}

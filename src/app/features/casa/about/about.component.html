@@ -1,0 +1,118 @@
+<tanj-page-body [flex]="true" [layout]="'row'" [layoutAlign]="'center'" >
+  <div flex class="tanj-about-body" layout="column" layout-align="start">
+    <div layout="column" layout-align="start">
+      <div flex layout="row" layout-align="center">
+        <h1>About Tangential</h1>
+      </div>
+      <div flex class="tanj-section" layout="row" layout-align="start">
+        <div flex layout="column" layout-align="start">
+          <h2>The framework you use is orthogonal to the problem you're trying to solve.</h2>
+          <div flex class="tanj-section-body">
+            <div><p>Developers love their frameworks, there's definitely passion in the arena. But, at the end of the
+              day, a framework is just another hammer in the toolbox. If it doesn't let you build your app,
+              it's worthless - or worse. And if it does let you build your app, neither end-users nor management is
+              going to care much which framework you used to do it.</p></div>
+            <div><p>Tangential works to bootstrap you past that horrible new-project phase. No need to write
+              Yet Another IAM package. Easy to follow steps for connecting analytics, and even advertising. </p>
+            </div>
+            <div>
+              <p>We'd love your feedback - and even your contributions, if you're up for it.
+                <a href="https://github.com/ggranum/tangential" target="_blank">Check us out on github</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div flex class="tanj-section" layout="row" layout-align="start">
+        <div flex layout="column" layout-align="start">
+          <h2>Features and highlights</h2>
+          <div class="tanj-section-body">
+            <div>
+              <p>
+                Tangential is still very much in early phases. It is growing as we use it to build out
+                our 'proof of concept' cum validation project, <a href="https://SnapLog.io">SnapLog.io</a>,
+                which is a fully featured, ad-supported, analytics-enabled, mobile-oriented 'Life Journal'. SnapLog
+                combines a purpose-driven form builder with long term tracking and correlation features, letting
+                users track, for example, their mood and medication use, and correlate the two over time.
+              </p>
+              <p>
+                Tangential is already a great way to bootstrap your next personal project, or even something slightly
+                larger in scale. For small sites that need to deploy a single web site or web application, but don't
+                want to deal with hosting, or implementing user management from scratch, you'll have a hard time
+                finding anything more powerful.
+              </p>
+              <p>
+                Once we've hit release candidate we will update the project with licensing information. We have
+                chosen to dual license Tangential because we would like to continue to grow it. As donation schemes
+                are rarely successful, this is the only option we know of that has the potential to fund
+                Tangential in the long term. Should some anonymous, glorious, benefactors wish to commit to funding the
+                project for a significant duration we'd gladly shift to MIT licensing.
+              </p>
+              <p>Below is a list of major features. Do note that many of the widgets and components you find in
+                the Tangential demo are actually available as separate NPM packages. E.g. the Admin Console can be
+                used without committing to using the entire bootstrap.
+              </p>
+            </div>
+            <div>
+              <dl>
+                <dt>Firebase Hosted</dt>
+                <dd>One server hosting. With Firebase Functions and some good Firebase Rule hygiene, you don't
+                  need a separate authentication server. How nice is that?
+                </dd>
+                <dt>Angular Goodness</dt>
+                <dd>Angular 4+, at the moment. We'll keep the project dependencies up to date</dd>
+                <dt>Built in IAM console</dt>
+                <dd>Create and assign new roles and permissions. It's basic at the moment, but growing.</dd>
+                <dt>Themed</dt>
+                <dd>Customizable Material Design themes.</dd>
+                <dt>Logging</dt>
+                <dd>Log to the browser console - you can see the output in the demo if you open your console</dd>
+                <dt>Google Analytics</dt>
+                <dd>Connect your Google Analytics account and get clean, easy to follow page and event tracking.
+                  don't have an Analytics account yet? We'll walk you through how to create one.
+                </dd>
+                <dt>Google AdSense</dt>
+                <dd>We're still creating ad widgets, but connecting AdSense is as easy as adding your AdSense
+                  campaign id to the environments.ts file. No idea what we mean? AdSense is Google's ad serving
+                  service, and if you want to display ads in your web site or web app, we'll walk you through how
+                  to get started.
+                </dd>
+                <dt>AoT Compilation</dt>
+                <dd>There are things you can't do if you want AoT to work in an Angular project. We don't do those
+                things, so your project can benefit from pre-compiled code.</dd>
+                <dt>Lazy Loaded Modules</dt>
+                <dd>If only administrators can access the Admin Console, shouldn't it only load if the current
+                  visitor is an administrator? Exactly.
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div flex class="tanj-section" layout="row" layout-align="start">
+        <div flex layout="column" layout-align="start">
+          <h2>Some shout outs</h2>
+          <div class="tanj-section-body">
+            <div>
+              <p>Tangential builds on some trusted, amazing projects. We keep up to date with Angular, hosting is
+                provided by Firebase, analytics and advertising by Google. We use NgPrimeFaces for tables, and we're
+                evaluating using more of their components.</p>
+            </div>
+            <div>
+              <dl>
+                <dt><a href="https://github.com/angular" target="_blank">Angular</a></dt>
+                <dd>The Angular teams have created an incredible framework. Amazingly powerful.</dd>
+                <dt><a href="http://fontawesome.io" target="_blank">Font Awesome</a></dt>
+                <dd>Icons make the world go around.</dd>
+                <dt><a href="https://www.primefaces.org/primeng" target="_blank">PrimeNg</a></dt>
+                <dd>Excellent DataGrid, and a very complete widget library.</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</tanj-page-body>

@@ -1,0 +1,15 @@
+<tanj-app-bar [title]="title" [visitor]="visitor"></tanj-app-bar>
+<tanj-notification-bar></tanj-notification-bar>
+
+<tanj-side-nav #sidenav [opened]="sideNavOpened" (onClose)="sideNavOpened = false">
+  <tanj-side-nav-menu [visitor]="visitor"></tanj-side-nav-menu>
+</tanj-side-nav>
+
+<div flex class="tanj-app-body" layout="column" layout-align="start">
+  <router-outlet></router-outlet>
+</div>
+
+<div *ngIf="showAds" class="tanj-ad-container" layout="row" layout-align="center">
+  <tanj-ad-mobile-footer-banner [adRegion]="adRegion"></tanj-ad-mobile-footer-banner>
+</div>
+

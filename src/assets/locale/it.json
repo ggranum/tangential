@@ -1,0 +1,137 @@
+{
+  "rsrc": {
+    "general": {
+      "fields": {
+        "name": {
+          "title": "Nome"
+        }
+      }
+    },
+    "main": {
+      "bottomNav": {
+        "home": {
+          "caption": "Home"
+        },
+        "captures": {
+          "caption": "Captures"
+        },
+        "addEntry": {
+          "caption": "Aggiungi Dato"
+        },
+        "help": {
+          "caption": "Aiuto"
+        }
+      }
+    },
+    "home": {
+      "signInSignUp": "Accedi / Iscriviti"
+    },
+    "capture": {
+      "add": {
+        "pickATemplate": "Scegli un Modello",
+        "orGo": "O",
+        "advanced": "Avanzato",
+        "fromTemplate": {
+          "title": "Crea!"
+        }
+      },
+      "edit": {
+        "name": {
+          "placeholder": "Dai un nome"
+        },
+        "linkedReport": {
+          "placeholder": "Rapporto"
+        },
+        "category": {
+          "placeholder": "Categoria"
+        },
+        "deleteInput": {
+          "placeholder": "Cancella Dato"
+        },
+        "editInput": {
+          "placeholder": "Modifica Dato"
+        },
+        "addAnotherInput": {
+          "placeholder": "Aggiungi altro Dato"
+        }
+      },
+      "list": {
+        "addCapture": {
+          "title": "Aggiungi Capture"
+        },
+        "addEntry": {
+          "title": "Aggiungi Dato"
+        },
+        "configure": {
+          "title": "Configura"
+        },
+        "charts": {
+          "title": "Grafici"
+        },
+        "delete": {
+          "title": "Cancella"
+        },
+        "noCaptures": {
+          "line1": "Non hai alcuna Capture",
+          "line2": "Creane una qui sotto"
+        }
+      }
+    },
+    "template": {
+      "byName": {
+        "Blank": {
+          "name": "Vuoto",
+          "description": "Inizia costruendo la tua Capture personalizzata."
+        },
+        "Weight": {
+          "name": "Peso",
+          "description": "Controlla facilmente l'andamento del tuo peso nel tempo!"
+        },
+        "Medication": {
+          "name": "Medicine",
+          "description": "Oggi ho preso la pillola per il cuore? E quella per la pressione?"
+        },
+        "Success!": {
+          "name": "Successo!",
+          "description": "Non dimenticarti di quando ce l'hai fatta!"
+        },
+        "Woke Up": {
+          "name": "Mi sono svegliato alle...",
+          "description": "Inserisci con un click l'ora in cui ti sei svegliato!"
+        },
+        "Went to Bed": {
+          "name": "Sono andato a letto alle...",
+          "description": "Andare a letto presto è il sogno di tutti..."
+        },
+        "Workout": {
+          "name": "Palestra",
+          "description": "Quante ore di esercizio oggi?"
+        },
+        "100 Meter Dash": {
+          "name": "Corsa (100mt)",
+          "description": ""
+        },
+        "I Adulted!": {
+          "name": "Mi sono comportato da adulto!",
+          "description": "Hai pulito casa invece di finire quella serie tv su Netflix?Ottimo lavoro!"
+        },
+        "Ate Trigger Food": {
+          "name": "Cibo/Intolleranze",
+          "description": "Correla i cibi che mangi con le reazioni del tuo corpo, scopri se hai delle intolleranze!"
+        },
+        "Bowel Movement": {
+          "name": "Movimenti Intestinali",
+          "description": "C'è davvero bisogno di una spiegazione? ;D"
+        },
+        "Mood": {
+          "name": "Umore",
+          "description": "Correla il sonno con il tuo umore!"
+        },
+        "Smoked Cigarette": {
+          "name": "Ne ho fumata una...",
+          "description": "Ma anche due, tre, quattro..."
+        }
+      }
+    }
+  }
+}

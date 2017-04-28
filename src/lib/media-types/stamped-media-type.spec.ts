@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
-import {generatePushID} from "@tangential/common";
-import {StampedMediaType, StampedMediaTypeJson} from "@tangential/media-types";
+import {generatePushID} from '@tangential/core'
+import {StampedMediaType, StampedMediaTypeJson} from './stamped-media-type'
 describe('media-types.stamped-media-type', () => {
 
   beforeEach((done) => {
@@ -18,9 +18,9 @@ describe('media-types.stamped-media-type', () => {
   })
 
   it('Loads from a config object', (done) => {
-    let key = generatePushID()
-    let configKey = generatePushID()
-    let perm = new StampedMediaType({}, key)
+    const key = generatePushID()
+    const configKey = generatePushID()
+    const perm = new StampedMediaType({}, key)
     expect(perm.$key).toEqual(key)
     expect(perm.createdMils).toBeLessThan(Date.now() + 1)
     expect(perm.editedMils).toBeLessThan(Date.now() + 1)
@@ -28,20 +28,19 @@ describe('media-types.stamped-media-type', () => {
   })
 
   it('Explicit key overrides config key', (done) => {
-    let key = generatePushID()
-    let explicitKey = generatePushID()
-    let config:StampedMediaTypeJson = {
+    const key = generatePushID()
+    const explicitKey = generatePushID()
+    const config: StampedMediaTypeJson = {
       $key: key
     }
-    let perm = new StampedMediaType(config, explicitKey)
+    const perm = new StampedMediaType(config, explicitKey)
     expect(perm.$key).toEqual(explicitKey)
     done()
   })
 
   it('Key is generated if none provided', (done) => {
-    let config:StampedMediaTypeJson = {
-    }
-    let perm = new StampedMediaType(config)
+    const config: StampedMediaTypeJson = {}
+    const perm = new StampedMediaType(config)
     expect(perm.$key).toBeTruthy()
     done()
   })

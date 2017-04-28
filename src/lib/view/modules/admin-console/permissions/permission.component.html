@@ -1,0 +1,55 @@
+<div flex layout="column" layout-align="start">
+
+  <div class="tanj-permission-form-wrapper" flex layout="column" layout-align="start">
+
+
+    <form *ngIf="permission != null"
+          (ngSubmit)="onSubmit($event)"
+          #permissionForm="ngForm"
+          flex
+          layout="row"
+          layout-align="space-between">
+
+      <div class="tanj-permission-inputs-wrapper" layout="row" flex="80" layout-align="space-between start">
+        <md-input-container flex="40">
+          <input mdInput [(ngModel)]="permission.$key" name="name" #fName="ngModel"
+                 class="tanj-input"
+                 dividerColor="accent"
+                 [type]="'text'"
+                 required minlength="2"
+                 value="{{permission.$key}}"
+                 placeholder="Name"
+                 (change)="onChange($event)"
+                 (focus)="onFocus($event)"
+                 (blur)="onBlur($event)"
+          />
+        </md-input-container>
+        <md-input-container flex="60">
+          <input mdInput [(ngModel)]="permission.description" name="description" #fDescription="ngModel"
+                 class="tanj-description tanj-input"
+                 dividerColor="accent"
+
+                 [type]="'text'"
+                 value="{{permission.description}}"
+                 (change)="onChange($event)"
+                 (focus)="onFocus($event)"
+                 (blur)="onBlur($event)"
+                 placeholder="Description"/>
+        </md-input-container>
+      </div>
+      <div class="tanj-delete-button" flex layout="row" layout-align="end center">
+        <button md-mini-fab
+                type="button"
+                aria-label="Delete Permission"
+                (focus)="onFocus($event)"
+                (blur)="onBlur($event)"
+                (click)="fireRemove()"
+                [disabled]="false">
+          <md-icon class="md-24">delete</md-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+
+
+</div>

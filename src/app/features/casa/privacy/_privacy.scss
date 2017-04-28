@@ -1,0 +1,42 @@
+@mixin tanj-privacy-theme($theme) {
+  $text : mat-color(map-get($theme, primary), 400);
+  $subText : mat-color(map-get($theme, primary), 50);
+
+  privacy-component {
+
+    font-size : 12px;
+    margin: 2em 1em 0 1em;
+
+    /* Restore the H2 styling for asciidoctor */
+
+    h1 {
+      display     : block;
+      font-size   : 200%;
+      margin      : .67em 0 .67em 0;
+      font-weight : bold;
+    }
+
+    h2 {
+      display     : block;
+      font-size   : 150%;
+      margin      : .83em 0 .83em 0;
+      font-weight : bold;
+    }
+
+    h3 {
+      display     : block;
+      font-size   : 1.17em;
+      margin      : 1em 0 1em 0;
+      font-weight : bold;
+    }
+
+    a {
+      color : blue;
+    }
+
+    a:hover {
+
+    }
+
+  }
+}

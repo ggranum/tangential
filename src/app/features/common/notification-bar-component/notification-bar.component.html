@@ -1,0 +1,15 @@
+<div *ngIf="notification"
+     class="tanj-notification-component"
+     (click)="onDismissAction()">
+  <div class="tanj-notification-body"
+       [class.tanj-error]="notification.type == 'error'"
+       [class.tanj-warn]="notification.type == 'warning'"
+       [class.tanj-info]="notification.type == 'info'"
+       layout="row" layout-align="center">
+    <div flex class="tanj-notification-message">{{notification.message}}</div>
+    <div class="tanj-dismiss-notification-button" layout="row" layout-align="end center">
+      <md-icon>close</md-icon>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,19 @@
+@mixin tanj-tip-dialog-theme($theme) {
+  $text : mat-color(map-get($theme, primary), 400);
+  $subText : mat-color(map-get($theme, primary), 50);
+
+  .tanj-tip-dialog-body {
+    padding : 0 .5em 0 .5em;
+    .tanj-fancy-font {
+      font-size : 125%;
+    }
+  }
+
+  .tanj-tip-dialog-title {
+    padding : .5em .5em .5em .5em;
+  }
+  .tanj-tip-dialog-footer {
+    padding : 0 .5em 0 .5em;
+  }
+
+}

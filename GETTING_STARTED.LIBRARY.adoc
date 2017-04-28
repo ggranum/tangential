@@ -1,0 +1,152 @@
+== Getting Started: Using Tangential widgets in your project
+
+Each component has it's own readme file, which should (eventually) contain the required install steps specific to that component.
+
+If you have not started your project yet we very much recommend using the Angular-CLI to create your project, then follow the docs below.
+
+With that out of the way, let's get stated installing widgets into our new project.
+
+=== Install all the things
+
+Install any of the components you wish to use. Be sure to check the dependencies of the components you do install if you chose not to install them all.
+
+[source, bash]
+npm install --save @tangential/admin-console
+npm install --save @tangential/analytics
+npm install --save @tangential/authorization-service
+npm install --save @tangential/components
+npm install --save @tangential/configurable-widgets
+npm install --save @tangential/core
+npm install --save @tangential/firebase-util
+npm install --save @tangential/input-widgets
+npm install --save @tangential/media-types
+npm install --save @tangential/visitor-service
+
+
+All components require Angular 4+. Some also require firebase. Do take a look at this project's link:./package.json file for the most up to date list of dependencies, or at each package's package.json file for the peer dependencies specific to the package.
+
+
+==== Global Tools
+
+There are a handful of tools that are usually installed globally included in the devDependencies of the Tangential Demo. Global NPM installs should be discouraged, as keeping versions in sync is a pain. It is better to create aliases to locally installed versions of tool libraries, or reference them via scripts in the package.json file. We realize this opinion is not universal, but experience leads us to prefer the use of aliases over global installs.
+
+
+To create aliases for the tools used by this project, execute the following:
+
+[source, bash]
+echo source ~/.bash_aliases >> ~/.bashrc
+echo alias firebase="./node_modules/.bin/firebase" >> ~/.bash_aliases
+echo alias ng="./node_modules/.bin/ng"  >> ~/.bash_aliases
+source ~/.bash_aliases
+
+
+The use of a bash_aliases file is optional, but often calling `source` on ~/.bashrc repeatedly isn't completely side effect free (e.g. `path` becoming very, very, very long), and who has the energy to fix that?
+
+The above use of aliases does restrict the use of these tools to the base directory of active projects. In practice this is rarely a problem.
+
+This can also be solved via NPM scripts, which are provided in the package.json for the Tangential Demo project. To call `ng serve` via the script you need to instead call the npm script we've provided (see 'scripts' in link:package.json[]):
+
+[source, bash]
+npm run ng -- serve
+
+Note the `--` before `serve`. This is how you pass arguments to an NPM script.
+
+Generally speaking, adding an alias is more developer friendly. But when that's not possible npm scripts are there to fall back on.
+
+== Firebase Components
+
+The 'fully functional' components (e.g. Auth) require a https://firebase.google.com/[Firebase] backend.
+
+=== Create and configure your firebase project
+
+The backend is provided by Firebase. So you'll need a firebase project. Create one here: https://console.firebase.google.com/.
+
+You may want to find and replace '${YourProject}' in this document with the *identity* of your new project. If you are using WebStorm, set search options to 'Ignore case', and set 'Preserve Case' to true and you can take care of it all in one go.
+
+Once you've created the project, open it to the overview page (if it wasn't opened for you: https://console.firebase.google.com/project/${yourproject}/overview) and click 'Add Firebase to your web app'. You'll be given a popup that contains your Firebase configuration.
+
+You will also need to enable email/password authentication. Do so here: https://console.firebase.google.com/project/${YourProject}/authentication/providers
+
+
+==== Initialize your Firebase project
+
+Right now you have no data stored in your firebase project (*NOTE* if this is not the case, make backups or go start a new project!). The User Management console has a bit of a boot-strap issue, as you need certain permissions in order to assign permissions to User's... but if you don't have any user's with those rights... Exactly. So we will bypass the Tangential-Demo admin panel for this first bit of configuration. *Which WILL DELETE ALL YOUR EXISTING CONTENT*.
+
+===== The Firebase CLI
+
+One of the 3rd party tools installed by NPM is the https://firebase.google.com/docs/cli/#administrative_commands[Firebase CLI] tool. We added an alias for it above.  We're going to use it here to push our initial data into our firebase project directly. But first you need to update the .firebaserc file with the name of your firebase project.
+
+First, list your firebase projects:
+
+[source, bash]
+> firebase list
+
+You'll probably be told to login. And once you do (and re-run 'list') you'll get something that looks like this:
+
+[source, bash]
+┌────────────────────────┬────────────────────────────┬─────────────┐
+│ Name                   │ Project ID / Instance      │ Permissions │
+├────────────────────────┼────────────────────────────┼─────────────┤
+│ TangentialDemo         │ tangentialdemo             │ Owner       │
+└────────────────────────┴────────────────────────────┴─────────────┘
+
+Now open link:.firebaserc[] and replace 'tangentialdemo' with the *Project ID* of your project.
+
+With that done, we should now be ready to push our initial data:
+
+[source, bash]
+> firebase database:update "/" ./src/environments/database.init.json
+
+We could have used either push or set, but chose update to reduce the risk of frying you existing data for those readers who may rush through docs without reading carefully :~)
+
+
+==== Building and deploying: Production
+
+_If you don't use Angular2-CLI, you will need to modify the various `ng *` commands to match your own build tools versions thereof._
+
+We're going straight to the production build first, then we'll walk back to the development builds. This is partly to be certain that the production build works before you change any code. A lot of the supporting tools, such as Angular 2 and the Angular CLI, are only recently starting to settle down into stable libraries, so breakage is quite possible.
+
+To deploy your project to Firebase hosting we just need to run two commands:
+
+[source, bash]
+> ng build -prod
+> firebase deploy
+
+
+Magic, no?
+
+==== Building and deploying: Development
+
+There are two development builds that will watch your code for changes by default. Well, two that we use. You can read up on the https://github.com/angular/angular-cli[Angular CLI] for more details if you wish (hint: you should probably do this eventually - it's really very powerful and it will save you a TONNE of time creating new components and routes!)
+
+===== ng serve
+
+When you're working on UI widgets, you'll probably want this build:
+
+[source, bash]
+> ng serve
+
+It starts builds your project and starts a server, then watches for changes. It includes live-reload, so your browser will update in the background each time the build completes (which is to say, after each change you make).
+
+===== ng test
+
+For editing service oriented code, ng test is where it's at:
+
+[source, bash]
+> ng test
+
+Builds your code and runs your unit tests (using Karma). Rebuilds on changes and runs the tests again. Does development get any better?
+
+== Contributing
+
+We'd love your bug reports, fixes, widgets, ideas. Take a look at 'DEVELOPER.MD' to get started hacking on the project, or add an issue.
+
+
+=== Running unit tests
+
+[source, bash]
+ng test
+
+=== Running end-to-end tests
+
+Work in progress.

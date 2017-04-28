@@ -1,0 +1,60 @@
+/**
+* @hack ggranum: The md-select label is not aligned with the md-input labels
+*/
+.tanj-select-input {
+  padding-top : 9px;
+}
+
+/**
+ @hack ggranum: The following centers the dialog body on the page when the page is narrow.
+  */
+md-dialog-container.mat-dialog-container {
+  margin-left  : auto;
+  margin-right : auto;
+}
+
+.tanj-themed {
+
+  .mat-slide-toggle {
+    margin : 0;
+  }
+  md-checkbox {
+    margin : 16px 0;
+    label {
+      @include tanj-input-label();
+    }
+  }
+
+  .mat-slide-toggle-content {
+    @include tanj-input-label();
+  }
+}
+
+md-chip-list:focus {
+  outline : none;
+}
+
+md-chip:focus {
+  outline : none;
+}
+
+/* Need to increase specificity or the default 'flex' wins. */
+body [flex="grow"] {
+  flex : 1 0 auto;
+}
+
+/**
+ * I really hate doing this. But damn it material design team, what the hell do you do to test?
+ */
+md-dialog-container.mat-dialog-container {
+  overflow : hidden;
+  padding  : 0;
+}
+
+.cdk-focus-trap-content {
+  height : 100%;
+}
+
+@mixin tanj-material_hacks-theme($theme) {
+
+}

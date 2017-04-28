@@ -1,0 +1,62 @@
+@mixin tanj-input_widgets-duration_picker($theme) {
+
+  $background : map-get($theme, background);
+  $backgroundColor : mat-color($background, card);
+  $textColor : mat-color(map-get($theme, foreground), text);
+  $textColorDisabled : mat-color(map-get($theme, foreground), disabled-text);
+  $iconColor : mat-color(map-get($theme, foreground), icon);
+  $iconColorDisabled : mat-color(map-get($theme, foreground), disabled-button);
+
+  duration-picker-dialog {
+    min-width        : 15em;
+    max-width        : 15em;
+    min-height       : 13em;
+    background-color : $backgroundColor;
+
+    .tanj-label {
+      min-width : 5em;
+      @include tanj-input-widget-font();
+    }
+
+    tanj-number-spinner-widget {
+      max-width : 4em;
+    }
+
+    .tanj-button-footer {
+    }
+
+    a.tanj-ok {
+      margin-left : .5em;
+    }
+
+    a.tanj-cancel {
+      margin-right : .5em;
+    }
+
+    .tanj-disabled, .mat-checkbox-disabled .mat-checkbox-label {
+      //color: $textColorDisabled;
+      color : red;
+    }
+  }
+
+  tanj-duration-picker-widget {
+
+    .tanj-label {
+      min-width : 5em;
+      @include tanj-input-widget-font();
+    }
+
+    .tanj-mode-configure {
+    }
+    .tanj-choose-duration-fields-container {
+      margin-left : 1em;
+      .mat-checkbox-label {
+        min-width  : 8em;
+        text-align : left;
+      }
+    }
+    .tanj-disabled, .mat-checkbox-disabled .mat-checkbox-label {
+      color : $textColorDisabled;
+    }
+  }
+}

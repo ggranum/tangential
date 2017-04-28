@@ -1,0 +1,150 @@
+@mixin tanj-home-theme($theme) {
+
+  $accent_500 : mat-color(map-get($theme, accent), 500);
+
+  $text : mat-color(map-get($theme, primary), 400);
+  $subText : mat-color(map-get($theme, primary), 50);
+
+  tanj-home-page {
+
+    .tanj-above-the-fold {
+      min-height : 100vh;
+      max-height : 100vh;
+      min-width  : 100%;
+    }
+
+    .tanj-below-the-fold {
+      min-height : 85vh;
+      max-height : 85vh;
+      min-width  : 100%;
+    }
+
+
+    .tanj-title {
+      color          : $text;
+      padding        : 0;
+      margin         : 1em 0 0;
+      letter-spacing : .25em;
+      font-size      : 3em;
+      sup {
+        font-family    : 'Kaushan Script', cursive;
+        font-size      : 50%;
+        letter-spacing : 0;
+        margin-left    : 0;
+      }
+    }
+    .tanj-sub-title {
+      margin-top     : 1em;
+      margin-bottom  : 1em;
+      font-size      : 1.5em;
+      letter-spacing : .1em;
+      &.tanj-center {
+        text-align : center;
+      }
+    }
+
+    .tanj-wall-of-text {
+      margin-bottom  : 1em;
+      max-width: 50em;
+      text-align: center;
+      h4 {
+        margin-bottom: .25em;
+
+      }
+      h3 {
+        font-weight: bold;
+      }
+      .tanj-this-is-the-demo {
+        margin-top: 1.5em;
+      }
+    }
+
+    .tanj-auth-buttons-container {
+      height : 7em;
+    }
+    .tanj-anonymous-login-link {
+      margin-top : 1em;
+    }
+    .tanj-button {
+      height : 3em;
+    }
+
+    .tanj-home-look-down > tanj-icon {
+      font-size     : 24px;
+      opacity       : .1;
+      text-align    : center;
+      transition    : 0.3s ease-in-out;
+      transform     : scale(2, 1);
+    }
+
+    .tanj-home-look-down:hover > tanj-icon {
+      transform : scale(3, 2);
+      opacity   : .2;
+    }
+
+  }
+
+  .tanj-homepage-section-group {
+    background-color : $accent_500;
+
+    span {
+      margin-top     : .5em;
+      letter-spacing : .01em;
+    }
+
+    .tanj-callout-section.tanj-copyright {
+      font-size     : 75%;
+      color         : #999999;
+      width         : 100%;
+      margin-bottom : .5em;
+
+    }
+
+  }
+
+  .tanj-callout-section {
+    max-width    : 30em;
+    margin-top   : 1em;
+    margin-left  : .5em;
+    margin-right : .5em;
+  }
+
+  .tanj-callout-section {
+    > p.tanj-section-header {
+      margin-left : 0;
+    }
+    > p {
+      margin-left : .5em;
+    }
+  }
+
+  .tanj-section-header, .tanj-section-header > a {
+    font-size   : 24px;
+    font-weight : 600;
+    transition  : 0.3s ease-in-out;
+  }
+
+  .tanj-section-header > a:hover > i {
+    padding-left : .8em;
+  }
+
+  .tanj-section-header > a > i {
+    padding-left : .4em;
+  }
+
+  .tanj-section-header, .tanj-section-header > a > i {
+    transition : 0.3s ease-in-out;
+  }
+
+  .tanj-angle-right {
+    display                 : inline-block;
+    font                    : normal normal normal 14px/1 FontAwesome;
+    font-size               : inherit;
+    text-rendering          : auto;
+    -webkit-font-smoothing  : antialiased;
+    -moz-osx-font-smoothing : grayscale;
+    transform               : translate(0, 0);
+  }
+
+
+}

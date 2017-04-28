@@ -1,0 +1,16 @@
+@mixin tanj-input-label() {
+  font-size    : 16px;
+  font-weight  : 400;
+  font-family  : 'Kaushan Script', cursive;
+  margin-right : 0.5em
+}
+
+@mixin tanj-input-widget-font() {
+  letter-spacing : .1em;
+  font-family    : 'Kaushan Script', cursive;
+}
+
+@mixin tanj-fancy-font() {
+  letter-spacing : .2em;
+  font-family    : 'Kaushan Script', cursive;
+}

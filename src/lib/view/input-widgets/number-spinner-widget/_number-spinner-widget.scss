@@ -1,0 +1,66 @@
+@mixin tanj-input_widgets-number_spinner_widget($theme) {
+
+  $background : map-get($theme, background);
+  $backgroundColor : mat-color($background, background);
+  $textColor : mat-color(map-get($theme, foreground), text);
+  $textColorDisabled : mat-color(map-get($theme, foreground), disabled-text);
+  $iconColor : mat-color(map-get($theme, foreground), icon);
+  $iconColorDisabled : mat-color(map-get($theme, foreground), disabled-button);
+  $spinnerDividerColor : #039BE5;
+
+  .tanj-example-widget tanj-number-spinner-widget md-spinner {
+    max-width : 70%;
+  }
+
+  tanj-number-spinner-widget {
+    text-align : left;
+
+    .tanj-label {
+      min-width : 5em;
+      @include tanj-input-widget-font();
+    }
+
+    .tanj-input-spinner-field {
+      min-width        : 3em;
+      padding-left     : .5em;
+      padding-right    : .5em;
+      background-color : $backgroundColor;
+      color            : $textColor;
+      overflow         : hidden;
+      text-align       : center;
+
+      md-icon {
+        color : $iconColor;
+      }
+    }
+
+    .tanj-previous, .tanj-next {
+      color : $textColorDisabled;
+    }
+
+    .tanj-spinner-value {
+      min-height : 1em;
+      height     : 1em;
+      max-height : 1em;
+      &.tanj-current {
+        border-top     : 2px solid $spinnerDividerColor;
+        border-bottom  : 2px solid $spinnerDividerColor;
+        margin-top     : .25em;
+        margin-bottom  : .25em;
+        padding-top    : .25em;
+        padding-bottom : .25em;
+      }
+    }
+
+    .tanj-disabled {
+      color : $textColorDisabled;
+      .tanj-input-spinner-field {
+        color : $textColorDisabled;
+        md-icon {
+          color : $iconColorDisabled;
+        }
+      }
+
+    }
+  }
+}

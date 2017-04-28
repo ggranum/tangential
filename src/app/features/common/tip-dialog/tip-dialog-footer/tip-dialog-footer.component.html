@@ -1,0 +1,13 @@
+<div flex class="tanj-tip-dialog-footer-body" layout="row" layout-align="start">
+  <md-checkbox
+    *ngIf="offerToSuppress"
+    labelPosition="after"
+    (change)="doNotShowAgain = !doNotShowAgain; doNotShowAgainChange.emit(doNotShowAgain)">
+    Do not show this tip again
+  </md-checkbox>
+  <div flex layout="row" layout-align="end">
+    <a md-mini-fab (click)="closeRequest.emit(doNotShowAgain)">
+      <md-icon>close</md-icon>
+    </a>
+  </div>
+</div>

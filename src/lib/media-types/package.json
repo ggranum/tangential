@@ -1,31 +1,23 @@
 {
   "name": "@tangential/media-types",
-  "description": "Media Types - base functionality and a number of common/shared or just generally useful media types.",
+  "description": "Base functionality for reusable, persistent data types.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.0.1-beta.20",
-  "license": "MIT",
+  "version": "0.1.1-beta.0",
+  "license": "GPLv3",
   "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/ggranum/tangential.git"
   },
   "keywords": [
-    "MIME Types",
     "Content Types",
-    "Type Definitions",
-    "angular",
-    "angular2",
-    "components",
-    "widgets",
-    "authentication",
-    "auth",
-    "firebase"
+    "Type Definitions"
   ],
   "bugs": {
     "url": "https://github.com/ggranum/tangential/issues"
   },
   "engines": {
-    "node": ">= 5 < 6"
+    "node": ">= 6 < 8"
   },
   "dependencies": {},
   "devDependencies": {},

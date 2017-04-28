@@ -1,0 +1,23 @@
+@import 'checkbox-widget/checkbox-widget';
+@import 'date-time-widget/date-time-widget';
+@import 'duration-picker-widget/duration-picker';
+@import 'icon-rating-widget/icon-rating-widget';
+@import 'number-slider-widget/number-slider-widget';
+@import 'number-spinner-widget/number-spinner-widget';
+@import 'number-widget/number-widget';
+@import 'slide-toggle-widget/slide-toggle-widget';
+@import 'text-widget/text-widget';
+
+@mixin tanj-input_widgets-index($theme) {
+
+  @include tanj-input_widgets-checkbox_widget($theme);
+  @include tanj-input_widgets-date_time_widget($theme);
+  @include tanj-input_widgets-duration_picker($theme);
+  @include tanj-input_widgets-icon_rating_widget($theme);
+  @include tanj-input_widgets-number_slider_widget($theme);
+  @include tanj-input_widgets-number_spinner_widget($theme);
+  @include tanj-input_widgets-number_widget($theme);
+  @include tanj-input_widgets-slide_toggle_widget($theme);
+  @include tanj-input_widgets-text_widget($theme);
+
+}
