@@ -242,5 +242,11 @@ As mentioned, this project build structure was cloned from the https://github.co
 If you wish to release multiple components, but develop in a single project, this project would certainly be a good place to start. You will want to take a look at https://docs.npmjs.com/getting-started/scoped-packages[the procedures for 'scoped projects'] in NPM, and create a user account that has the name you want to use for the parent project. For example, our project paths here are like '@tangential/scopedProjectNames', where 'tangential' is the npm 'user' name.
 
 
+== Other notes
+
+=== Favicon and Home Screen Icons
+
+http://www.favicon-generator.org/ is a pretty nifty tool to help you take your high-quality png or jpg images and turn them into icons for various devices.
+
 
 
