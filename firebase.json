@@ -1,6 +1,6 @@
 {
   "database": {
-    "rules": "./config/firebase/database.rules.json"
+    "rules": "./config/common/firebase/database.rules.json"
   },
   "hosting": {
     "public": "dist",
@@ -10,18 +10,25 @@
         "destination": "/index.html"
       }
     ],
-    "headers": [ {
-      "source" : "**/*.@(jpg|jpeg|gif|png|ico|woff)",
-      "headers" : [ {
-        "key" : "Cache-Control",
-        "value" : "max-age=2592000"
-      } ]
-    }, {
-      "source" : "**/*.@(chunk.js|bundle.js|bundle.css)",
-      "headers" : [ {
-        "key" : "Cache-Control",
-        "value" : "max-age=2592000"
-      } ]
-    } ]
+    "headers": [
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png|ico|woff)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=2592000"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(chunk.js|bundle.js|bundle.css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=2592000"
+          }
+        ]
+      }
+    ]
   }
 }
