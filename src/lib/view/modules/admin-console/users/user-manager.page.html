@@ -1,23 +1,22 @@
-<div flex layout="column" layout-align="start">
+<tanj-page-body>
+  <div flex layout="column" layout-align="start">
 
-  <p-dataTable [value]="rows" [(selection)]="selected" dataKey="$key">
-    <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
-    <p-column field="$key" header="Key" sortable="true"></p-column>
-    <p-column field="displayName" header="Name" sortable="true"></p-column>
-    <p-column field="email" header="Email" sortable="true"></p-column>
-    <p-column field="lastSignInMils" header="Last Sign in" sortable="true">
-      <ng-template let-col let-row="rowData" pTemplate="body">
-        <span>{{row[col.field] | date:'yyyy-MM~dd, HH:mm:ss' }}</span>
-      </ng-template>
-    </p-column>
-    <p-footer>
-      <ul>
-        <li *ngFor="let car of selected" style="text-align: left">{{car.$key + ' - ' + car.email}}</li>
-      </ul>
-    </p-footer>
-  </p-dataTable>
+    <p-dataTable [value]="rows" [(selection)]="selected" dataKey="$key">
+      <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+      <p-column field="$key" header="Key" sortable="true"></p-column>
+      <p-column field="displayName" header="Name" sortable="true"></p-column>
+      <p-column field="email" header="Email" sortable="true"></p-column>
+      <p-column field="lastSignInMils" header="Last Sign in" sortable="true">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <span>{{row[col.field] | date:'yyyy-MM~dd, HH:mm:ss' }}</span>
+        </ng-template>
+      </p-column>
+      <p-footer>
+        <ul>
+          <li *ngFor="let car of selected" style="text-align: left">{{car.$key + ' - ' + car.email}}</li>
+        </ul>
+      </p-footer>
+    </p-dataTable>
 
-</div>
-
-
-
+  </div>
+</tanj-page-body>
