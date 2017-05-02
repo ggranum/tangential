@@ -54,6 +54,22 @@ export class FireBlanket {
     })
   }
 
+  static push<T>(ref: firebase.database.Reference, value: T): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      try {
+        ref.push(value, (e: Error) => {
+          if (e) {
+            reject(e)
+          } else {
+            resolve()
+          }
+        })
+      } catch (e) {
+        reject(e)
+      }
+    })
+  }
+
   static update<T>(ref: firebase.database.Reference, value: T): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       try {

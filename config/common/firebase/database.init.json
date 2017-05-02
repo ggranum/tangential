@@ -199,6 +199,33 @@
     }
   },
   "data": {
-    "byUser": {}
+    "byUser": {
+      "Administrator": {
+        "events": {
+          "signIn": {
+            "l1CrQE3p8YXmjyIvT6AYLuoTEoX2": "300542400000"
+          }
+        },
+        "prefs": {
+          "hideCookieWarnings": false
+        }
+      }
+    }
+  },
+  "system": {
+    "events": {
+      "signIn": {
+          "l1CrQE3p8YXmjyIvT6AYLuoTEoX2": {
+            "uid": "Administrator",
+            "whenMils": "300542400000",
+            "ipAddress": "192.168.1.1",
+            "city": "edinburgh",
+            "cityLatLong": "55.953252,-3.188267",
+            "country": "ZZ",
+            "region": "sct"
+          }
+        }
+      }
+    }
   }
 }

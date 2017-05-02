@@ -322,6 +322,12 @@ export class FirebaseUserService implements UserService {
     return Promise.all(promises).then(() => null)
   }
 
+  addSignInEvent(subject: AuthUser): Promise<void> {
+
+
+    return null
+  }
+
 
   destroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe())

@@ -1,6 +1,4 @@
 const functions = require('firebase-functions');
-
-
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
@@ -26,3 +24,5 @@ exports.addMessage = functions.https.onRequest((req, res) => {
     res.redirect(303, snapshot.ref);
   });
 });
+
+exports.visitorInfoEndpoint = require('./visitorInfoEndpoint')

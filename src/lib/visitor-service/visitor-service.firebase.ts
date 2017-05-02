@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core'
 import {AuthService, AuthUser, EmailPasswordCredentials, SignInState, SignInStates} from '@tangential/authorization-service'
 import {Logger, MessageBus} from '@tangential/core'
 import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util'
-import {Visitor, VisitorPreferences, VisitorPreferencesJson} from '@tangential/visitor-service'
+import {Visitor, VisitorPreferencesCdm, VisitorPreferencesDocModel} from '@tangential/visitor-service'
 import * as firebase from 'firebase/app'
 import {Observable, BehaviorSubject} from 'rxjs/Rx'
 import {VisitorService} from './visitor-service'
 import DataSnapshot = firebase.database.DataSnapshot;
 import Reference = firebase.database.Reference
 
-const PlaceholderVisitor = new Visitor(null, VisitorPreferences.forGuest(), SignInStates.unknown)
+const PlaceholderVisitor = new Visitor(null, VisitorPreferencesCdm.forGuest(), SignInStates.unknown)
 
 @Injectable()
 export class FirebaseVisitorService extends VisitorService {
@@ -42,15 +42,15 @@ export class FirebaseVisitorService extends VisitorService {
         this.getVisitor(authUser).then(visitor => this.subject.next(visitor))
       } else {
         Logger.trace(this.bus, this, 'Auth user changed', 'SignInState:', this.currentSignInState)
-        this.subject.next(new Visitor(null, VisitorPreferences.forGuest(), this.currentSignInState))
+        this.subject.next(new Visitor(null, VisitorPreferencesCdm.forGuest(), this.currentSignInState))
       }
     })
   }
 
   setVisitorPreferences(visitor: Visitor): Promise<void> {
-    const prefs: VisitorPreferences = visitor.prefs
+    const prefs: VisitorPreferencesCdm = visitor.prefs
     const ref = this.db.ref(this.path)
-    return FireBlanket.set(ref, prefs.toJson(false))
+    return FireBlanket.set(ref, prefs.toDocModel())
   }
 
   visitor$(): Observable<Visitor> {
@@ -78,7 +78,7 @@ export class FirebaseVisitorService extends VisitorService {
 
   getVisitor(authUser): Promise<Visitor> {
     return FireBlanket.value(this.ref).then((snap: DataSnapshot) => {
-      const prefs = new VisitorPreferences(snap.val())
+      const prefs = VisitorPreferencesCdm.from(snap.val())
       const visitor = new Visitor(authUser, prefs, this.currentSignInState)
       if (!snap.exists()) {
         this.setVisitorPreferences(visitor)
@@ -89,7 +89,7 @@ export class FirebaseVisitorService extends VisitorService {
   }
 
   updateVisitorPreferences(visitor: Visitor): Promise<void> {
-    const prefs: VisitorPreferencesJson = visitor.prefs.toJson(false)
+    const prefs: VisitorPreferencesDocModel = visitor.prefs.toDocModel()
     const ref = this.db.ref(this.path)
     return FireBlanket.update(ref, prefs).catch((e) => {
       console.error('FirebaseVisitorService', 'Error updating visitor', e)

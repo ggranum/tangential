@@ -1,7 +1,8 @@
-import {Jsonified, ObjectUtil, ObjMap} from '@tangential/core'
-import {StampedMediaType, StampedMediaTypeJson} from '@tangential/media-types'
-import {AuthPermission} from './auth-permission'
-import {AuthRole} from './auth-role'
+import {Jsonified, ObjectUtil, ObjMap} from '@tangential/core';
+import {StampedMediaType, StampedMediaTypeJson} from '@tangential/media-types';
+import {AuthPermission} from './auth-permission';
+import {AuthRole} from './auth-role';
+import {SessionInfoCdm} from '../cdm/session-info';
 
 export interface SignInEvent {
   ipAddress: string
@@ -21,15 +22,15 @@ export interface AuthSubjectDocModel extends StampedMediaTypeJson {
 }
 
 const Model: AuthSubjectDocModel = {
-  email:          null,
-  displayName:    null,
-  emailVerified:  false,
-  disabled:       false,
-  isAnonymous:    true,
+  email: null,
+  displayName: null,
+  emailVerified: false,
+  disabled: false,
+  isAnonymous: true,
   lastSignInMils: null,
-  lastSignInIp:   null,
-  photoURL:       null,
-  signInEvents:   null,
+  lastSignInIp: null,
+  photoURL: null,
+  signInEvents: null,
 }
 /**
  * An AuthUser is not a Visitor!  Visitor refers to the person on the page _at the moment they are on the page_.
@@ -52,15 +53,21 @@ export class AuthUser extends StampedMediaType implements Jsonified<AuthUser, Au
 
   private $roles?: AuthRole[]
   private $effectivePermissions?: AuthPermission[]
+  $sessionInfo: SessionInfoCdm;
 
 
-  constructor(config: AuthSubjectDocModel, key?: string, roles?: AuthRole[], effectivePermissions?: AuthPermission[]) {
+  constructor(config: AuthSubjectDocModel,
+              key?: string,
+              roles?: AuthRole[],
+              effectivePermissions?: AuthPermission[],
+              sessionInfo?: SessionInfoCdm) {
     super(config, key)
     if (!this.displayName) {
       this.displayName = this.isAnonymous ? 'Anonymous' : this.email.substr(0, this.email.indexOf('@'))
     }
     this.$roles = roles || []
     this.$effectivePermissions = effectivePermissions || []
+    this.$sessionInfo = sessionInfo
   }
 
   addSignInEvent(ipAddresses: string[]) {
@@ -69,7 +76,6 @@ export class AuthUser extends StampedMediaType implements Jsonified<AuthUser, Au
     const when = Date.now()
     this.signInEvents[when] = {ipAddress: ipAddresses.join(', ')}
   }
-
 
   public isAdministrator(): boolean {
     return this.hasRole('Administrator')
@@ -82,7 +88,6 @@ export class AuthUser extends StampedMediaType implements Jsonified<AuthUser, Au
   public hasPermission(permissionKey: string): boolean {
     return this.$effectivePermissions.some(role => role.$key === permissionKey)
   }
-
 
   static guard(value: AuthUser | string): value is AuthUser {
     return !(typeof value === 'string') && (<AuthUser>value).$key !== undefined;

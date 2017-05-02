@@ -2,37 +2,16 @@
   "rules": {
     ".read": "auth.uid === 'gulp-service-worker'",
     ".write": "auth.uid === 'gulp-service-worker'",
-    "data": {
-      "system": {
-        ".read": false,
-        ".write": false
-      },
-      "byUser": {
-        "$userKey": {
-          ".read": "auth.uid == $userKey",
-          ".write": "auth.uid === $userKey",
-          "captures": {
-            ".indexOn": "name",
-            "$captureKey": {
-              ".indexOn": "createdMils"
-            }
-          },
-          "points": {
-            "$pointKey": {
-              ".indexOn": [
-                "createdMils",
-                "when"
-              ]
-            }
-          },
-          "prefs": {
-          }
-        }
-      }
-    },
     "auth": {
       ".read": "root.child('auth/ep/' + auth.uid + '/VIEW USERS').exists()",
       ".write": "auth.uid === 'gulp-service-worker'",
+      "ep": {
+        ".read": "root.child('auth/ep/' + auth.uid + '/VIEW USERS').exists()",
+        ".write": "root.child('auth/ep/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' PERMISSION').exists()",
+        "$uid": {
+          ".read": "auth.uid == $uid"
+        }
+      },
       "settings": {
         ".read": "root.child('auth/ep/' + auth.uid + '/VIEW USERS').exists()",
         ".write": "(root.child('auth/ep/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' PERMISSION').exists())  &&  (root.child('auth/ep/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' ROLE').exists()) &&  (root.child('auth/ep/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' PERMISSION').exists())",
@@ -51,13 +30,6 @@
           }
         }
       },
-      "ep": {
-        ".read": "root.child('auth/ep/' + auth.uid + '/VIEW USERS').exists()",
-        ".write": "root.child('auth/ep/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' PERMISSION').exists()",
-        "$uid": {
-          ".read": "auth.uid == $uid"
-        }
-      },
       "subjects": {
         ".read": "root.child('auth/ep/' + auth.uid + '/VIEW USERS').exists()",
         ".write": "root.child('auth/ep/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' USER').exists()",
@@ -74,6 +46,25 @@
         ".read": "auth != null",
         "$uid": {
           ".write": "root.child('auth/ep/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' ROLE').exists()"
+        }
+      }
+    },
+    "data": {
+      "byUser": {
+        "$userKey": {
+          ".read": "auth.uid == $userKey",
+          ".write": "auth.uid === $userKey"
+        }
+      },
+      "system": {
+        "events": {
+          "signIn": {
+            ".read": "root.child('auth/ep/' + auth.uid + '/VIEW USERS').exists()",
+            "$eventKey": {
+              ".read": "auth.uid == data.child('uid').val()",
+              ".write": "auth.uid == newData.child('uid').val() && !data.exists()"
+            }
+          }
         }
       }
     }
