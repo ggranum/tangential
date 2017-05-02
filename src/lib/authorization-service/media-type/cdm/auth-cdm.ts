@@ -19,17 +19,17 @@ export class AuthCdmTransform {
   static fromDocModel(docModel: AuthDocModel): AuthCdm {
 
     const cdm = new AuthCdm()
-    cdm.permissions = ObjectUtil.entries(docModel.permissions).map(entry => PermissionCdm.fromDocModel(entry.key, entry.value))
+    cdm.permissions = ObjectUtil.entries(docModel.settings.permissions).map(entry => PermissionCdm.fromDocModel(entry.key, entry.value))
     const permMap = ObjMapUtil.fromKeyedEntityArray(cdm.permissions)
-    cdm.roles = ObjectUtil.entries(docModel.roles).map(
-      entry => RoleCdm.fromDocModel(entry.key, entry.value, docModel.role_permissions[entry.key], permMap))
+    cdm.roles = ObjectUtil.entries(docModel.settings.roles).map(
+      entry => RoleCdm.fromDocModel(entry.key, entry.value, docModel.settings.rolePermissions[entry.key], permMap))
     const roleMap = ObjMapUtil.fromKeyedEntityArray(cdm.roles)
 
-    cdm.users = ObjectUtil.entries(docModel.users).map(
+    cdm.users = ObjectUtil.entries(docModel.subjects).map(
       userEntry => UserCdm.fromDocModel(userEntry.key,
         userEntry.value,
-        docModel.user_permissions[userEntry.key],
-        docModel.user_roles[userEntry.key],
+        docModel.subjectGrantedPermissions[userEntry.key],
+        docModel.subjectRoles[userEntry.key],
         permMap,
         roleMap))
 

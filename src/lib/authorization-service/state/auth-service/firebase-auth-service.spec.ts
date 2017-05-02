@@ -1,12 +1,10 @@
 /* tslint:disable:no-unused-variable */
 import {inject, TestBed} from '@angular/core/testing'
 import {
-  AuthorizationDefaultsProvider,
   AuthPermission,
   AuthRole,
   AuthService,
   AuthUser,
-  DefaultAuthorizationDefaultsProvider,
   FirebaseAuthService,
   FirebasePermissionService,
   FirebaseRoleService,
@@ -32,7 +30,6 @@ describe('Authorization.state.auth-service', () => {
       providers:    [
         {provide: TestConfiguration, useClass: TestConfiguration},
         {provide: FirebaseConfig, useValue: environment.firebaseConfig},
-        {provide: AuthorizationDefaultsProvider, useClass: DefaultAuthorizationDefaultsProvider},
         {provide: FirebaseProvider, useClass: FirebaseProvider},
         {provide: RoleService, useClass: FirebaseRoleService},
         {provide: PermissionService, useClass: FirebasePermissionService},

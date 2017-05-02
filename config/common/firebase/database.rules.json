@@ -1,0 +1,81 @@
+{
+  "rules": {
+    ".read": "auth.uid === 'gulp-service-worker'",
+    ".write": "auth.uid === 'gulp-service-worker'",
+    "data": {
+      "system": {
+        ".read": false,
+        ".write": false
+      },
+      "byUser": {
+        "$userKey": {
+          ".read": "auth.uid == $userKey",
+          ".write": "auth.uid === $userKey",
+          "captures": {
+            ".indexOn": "name",
+            "$captureKey": {
+              ".indexOn": "createdMils"
+            }
+          },
+          "points": {
+            "$pointKey": {
+              ".indexOn": [
+                "createdMils",
+                "when"
+              ]
+            }
+          },
+          "prefs": {
+          }
+        }
+      }
+    },
+    "auth": {
+      ".read": "root.child('auth/ep/' + auth.uid + '/VIEW USERS').exists()",
+      ".write": "auth.uid === 'gulp-service-worker'",
+      "settings": {
+        ".read": "root.child('auth/ep/' + auth.uid + '/VIEW USERS').exists()",
+        ".write": "(root.child('auth/ep/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' PERMISSION').exists())  &&  (root.child('auth/ep/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' ROLE').exists()) &&  (root.child('auth/ep/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' PERMISSION').exists())",
+        "permissions": {
+          ".read": "true",
+          ".write": "root.child('auth/ep/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' PERMISSION').exists()"
+        },
+        "roles": {
+          ".read": "true",
+          ".write": "root.child('auth/ep/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' ROLE').exists()"
+        },
+        "rolePermissions": {
+          ".read": "auth != null",
+          "$uid": {
+            ".write": "root.child('auth/ep/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' PERMISSION').exists()"
+          }
+        }
+      },
+      "ep": {
+        ".read": "root.child('auth/ep/' + auth.uid + '/VIEW USERS').exists()",
+        ".write": "root.child('auth/ep/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' PERMISSION').exists()",
+        "$uid": {
+          ".read": "auth.uid == $uid"
+        }
+      },
+      "subjects": {
+        ".read": "root.child('auth/ep/' + auth.uid + '/VIEW USERS').exists()",
+        ".write": "root.child('auth/ep/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' USER').exists()",
+        "$uid": {
+          ".read": "auth.uid == $uid",
+          ".write": "auth.uid == $uid && (!data.exists() || !newData.exists() || !data.child('email').exists() || newData.child('email').val() == data.child('email').val())"
+        }
+      },
+      "subjectGrantedPermissions": {
+        ".read": "true",
+        ".write": "root.child('auth/ep/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE')  + ' PERMISSION').exists()"
+      },
+      "subjectRoles": {
+        ".read": "auth != null",
+        "$uid": {
+          ".write": "root.child('auth/ep/' + auth.uid + '/'  + ( newData.exists() ? 'GRANT' : 'REVOKE') + ' ROLE').exists()"
+        }
+      }
+    }
+  }
+}

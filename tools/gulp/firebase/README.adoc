@@ -1,0 +1,97 @@
+= Firebase Console Utilities
+
+== Purpose
+As with any database, our Firebase db needs to be initialized. As with any application, we need user accounts for doing things like testing, developing, and deploying to production. These scripts help with that.
+
+There are three major stages to using these scripts. The first is setting up all your Firebase related accounts, key files and the like. The second is initializing your local user files; the files that we can't commit to github because they contain passwords and such.
+
+(If you've forked the project into a private repo, by all means commit them if you want - but we don't recommend committing production passwords. Ever.)
+
+The third stage is deployment. These gulp tasks cover steps two and three. Step one is manual.
+
+== Stage 0: That which should already be done
+You will need to have created your two Firebase projects already. One is for production, the other for development.
+
+If you are reading this in an editor you can find and replace '${projectId-dev}' and '${projectId-prod}' with their respective values to make links work, etc.
+
+== Stage 1: Configuration
+
+=== Save your Firebase admin private keys locally
+
+Download the api key for each Firebase project into the respective directory configuration directory ( `/config/prod/firebase/`, `/config/dev/firebase/`) and rename the file to `firebaseAdmin.service-account-key.local.json`. The `.local.*` extension is set to be ignored by the .gitignore file for this project.
+
+You can find your api key under Project Settings, in the Service Accounts tab:
+
+* Development Private Key: https://console.firebase.google.com/project/${projectId-dev}/settings/serviceaccounts/adminsdk.
+* Production Private Key: https://console.firebase.google.com/project/${projectId-prod}/settings/serviceaccounts/adminsdk.
+
+
+=== Save your Firebase configuration to environments.local.ts
+
+If you haven't already done so, create the file `/src/environments/environments.local.ts`. This should contain the configurations for production and development:
+
+```js
+export const development = {
+  suppressAds: true,
+  production: false,
+  googleAnalytics: {
+    enabled:true,
+    trackingId: 'UA-????????-2',
+  },
+  firebaseConfig: {
+    apiKey: "...",
+    authDomain: "${projectId-dev}.firebaseapp.com",
+    databaseURL: "https://${projectId-dev}.firebaseio.com",
+    projectId: "${projectId-dev}",
+    storageBucket: "${projectId-dev}.appspot.com",
+    messagingSenderId: "0000"
+  }
+}
+
+
+export const production = {
+
+  suppressAds: false,
+  production: true,
+  googleAnalytics: {
+    enabled:true,
+    trackingId: 'UA-????????-1',
+  },
+  firebaseConfig: {
+    apiKey: ...',
+    authDomain: '${projectId-prod}.firebaseapp.com',
+    databaseURL: 'https://${projectId-prod}.firebaseio.com',
+    projectId: '${projectId-prod}',
+    storageBucket: '${projectId-prod}.appspot.com',
+    messagingSenderId: '632473874847'
+  }
+}
+```
+
+You can find these settings in your Firebase Hosting settings:
+
+* Development Config: https://console.firebase.google.com/project/${projectId-dev}/overview
+* Production Config: https://console.firebase.google.com/project/${projectId-prod}/overview
+
+You will need to click on the `Add Firebase to your web app` button, which will display a popup.
+
+
+=== Configure your default user accounts
+
+
+
+== Stage 2:
+
+
+== Stage 3: Deploy to current Firebase project
+
+
+== Other
+
+=== Deleting remote users
+
+If you wish to delete all (or some) of the users in your database, you will first need to populate a file with the list of users to work with. Thankfully, you can now use the firebase cli tool to export your auth table:
+
+```bash
+> firebase auth:export users-export.local.json
+```

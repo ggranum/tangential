@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, ViewEncapsulation} from '@angular/core'
-import {AuthPermission, AuthRole, AuthUser, AuthUserIF} from '@tangential/authorization-service'
+import {AuthPermission, AuthRole, AuthUser, AuthSubjectDocModel} from '@tangential/authorization-service'
 import {Observable} from 'rxjs/Observable'
 
 @Component({
@@ -19,7 +19,7 @@ export class UserComponent implements OnChanges {
   @Input() selected: boolean = false
   @Input() expanded: boolean = false
 
-  @Output() change: Observable<AuthUserIF>;
+  @Output() change: Observable<AuthSubjectDocModel>;
   @Output() selectionChange: EventEmitter<boolean> = new EventEmitter<boolean>(false)
   @Output() removeUser: EventEmitter<AuthUser> = new EventEmitter<AuthUser>(false)
   @Output() addUserRole: EventEmitter<{ user: AuthUser, role: AuthRole }> = new EventEmitter<{ user: AuthUser, role: AuthRole }>(false)

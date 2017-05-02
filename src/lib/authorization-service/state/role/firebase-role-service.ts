@@ -19,8 +19,8 @@ export class FirebaseRoleService implements RoleService {
   valueRemoved$: EventEmitter<string> = new EventEmitter<string>(true)
 
 
-  private path: string = '/auth/roles'
-  private rolePermissionsPath: string = '/auth/role_permissions'
+  private path: string = '/auth/settings/roles'
+  private rolePermissionsPath: string = '/auth/settings/rolePermissions'
   private db: firebase.database.Database
   private ref: firebase.database.Reference
   private roleToPermissionsRef: firebase.database.Reference

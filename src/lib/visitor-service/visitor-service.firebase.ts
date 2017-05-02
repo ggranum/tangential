@@ -37,7 +37,7 @@ export class FirebaseVisitorService extends VisitorService {
     this.authService.authUser$().subscribe((authUser: AuthUser) => {
       if (authUser) {
         Logger.trace(this.bus, this, 'Auth user changed', authUser)
-        this.path = `/data/by_user/${authUser.$key}/prefs/`
+        this.path = `/data/byUser/${authUser.$key}/prefs/`
         this.ref = this.db.ref(this.path)
         this.getVisitor(authUser).then(visitor => this.subject.next(visitor))
       } else {

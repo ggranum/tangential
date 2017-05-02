@@ -23,10 +23,10 @@ import DataSnapshot = firebase.database.DataSnapshot;
 export class FirebaseUserService implements UserService {
   valueRemoved$: EventEmitter<string> = new EventEmitter<string>(true)
 
-  private path: string = '/auth/users'
-  private userGrantedPermissionsPath: string = '/auth/user_granted_permissions'
-  private userEffectivePermissionsPath: string = '/auth/user_effective_permissions'
-  private userRolesMappingPath = '/auth/user_roles'
+  private path: string = '/auth/subjects'
+  private userGrantedPermissionsPath: string = '/auth/subjectGrantedPermissions'
+  private userEffectivePermissionsPath: string = '/auth/ep'
+  private userRolesMappingPath = '/auth/subjectRoles'
 
   private ref: Reference
   private userGrantedPermissionsRef: Reference
@@ -47,7 +47,6 @@ export class FirebaseUserService implements UserService {
     this.userGrantedPermissionsRef = db.ref(this.userGrantedPermissionsPath)
     this.userEffectivePermissionsRef = db.ref(this.userEffectivePermissionsPath)
     this.userRolesMappingRef = db.ref(this.userRolesMappingPath)
-
     this.engagePermissionsSynchronization()
   }
 

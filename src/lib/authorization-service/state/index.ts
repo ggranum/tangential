@@ -8,6 +8,5 @@ export * from './permission/permission-service'
 export * from './permission/firebase-permission-service'
 
 export * from './user/user-service'
-export * from './user/user-service.firebase'
+export * from './user/firebase-user-service'
 
-export * from './authorization-defaults'

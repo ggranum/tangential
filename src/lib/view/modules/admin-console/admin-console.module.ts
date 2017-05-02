@@ -10,7 +10,6 @@ import {
   MdInputModule,
   MdListModule,
   MdMenuModule,
-  MdTabsModule,
   MdToolbarModule
 } from '@angular/material'
 import {TanjComponentsModule} from '@tangential/components'
@@ -20,7 +19,6 @@ import {AdminConsoleParentPage} from './_parent/admin-console-parent.page'
 import {AdminConsoleRoutingModule} from './admin-console.routing.module'
 
 
-import {AdminPage} from './admin.page'
 //noinspection TypeScriptPreferShortImport
 import {PermissionManagerPage} from './permissions/permission-manager.page'
 import {PermissionComponent} from './permissions/permission.component'
@@ -44,7 +42,6 @@ import 'rxjs/add/operator/distinctUntilChanged';
 @NgModule({
   declarations: [
     AdminConsoleParentPage,
-    AdminPage,
     RoleAvatarComponent,
     UserPermissionEditorComponent,
     UserListItemDemo,
@@ -67,8 +64,6 @@ import 'rxjs/add/operator/distinctUntilChanged';
     MdToolbarModule,
     MdCheckboxModule,
     MdButtonToggleModule,
-    MdTabsModule,
-
 
     TanjComponentsModule,
     DataTableModule,

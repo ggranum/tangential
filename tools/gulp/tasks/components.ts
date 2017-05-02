@@ -5,7 +5,7 @@ import {SOURCE_ROOT, DIST_COMPONENTS_ROOT, PROJECT_ROOT} from '../constants';
 import {sassBuildTask, tsBuildTask, execNodeTask, copyTask} from '../task_helpers';
 
 // No typings for this.
-const inlineResources = require('../../../scripts/release/inline-resources');
+const inlineResources = require('../release/inline-resources');
 
 const componentsDir = path.join(SOURCE_ROOT, 'lib');
 

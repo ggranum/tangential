@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 
 import {ObjMap} from '@tangential/core'
-import {defaultUsers} from '../../../../config/dev/firebase/users.local'
+import {defaultUsers} from '../../../../config/common/firebase/users.local'
 import {EmailPasswordCredentials} from '@tangential/authorization-service'
 
 const userMap: ObjMap<any> = {}

@@ -1,5 +1,5 @@
 import {ObjectUtil, ObjMap} from '@tangential/core'
-import {AuthUserIF} from '../auth/auth-user'
+import {AuthSubjectDocModel} from '../auth/auth-user'
 import {PermissionCdm} from './permission-cdm'
 import {RoleCdm} from './role-cdm'
 export class UserCdm {
@@ -22,7 +22,7 @@ export class UserCdm {
   }
 
   static fromDocModel(key: string,
-                      dm: AuthUserIF,
+                      dm: AuthSubjectDocModel,
                       userPermissions: { [permKey: string]: boolean },
                       userRoles: { [roleKey: string]: boolean },
                       allPermissions: ObjMap<PermissionCdm>,

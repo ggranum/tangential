@@ -13,7 +13,7 @@ import DataSnapshot = firebase.database.DataSnapshot;
 export class FirebasePermissionService implements PermissionService {
   valueRemoved$: EventEmitter<string> = new EventEmitter<string>(true)
 
-  private path: string = '/auth/permissions'
+  private path: string = '/auth/settings/permissions'
   private db: firebase.database.Database
   private ref: firebase.database.Reference
 

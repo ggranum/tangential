@@ -7,7 +7,7 @@ export interface SignInEvent {
   ipAddress: string
 }
 
-export interface AuthUserIF extends StampedMediaTypeJson {
+export interface AuthSubjectDocModel extends StampedMediaTypeJson {
   email?: string
   displayName?: string
   emailVerified?: boolean
@@ -20,7 +20,7 @@ export interface AuthUserIF extends StampedMediaTypeJson {
 
 }
 
-const Model: AuthUserIF = {
+const Model: AuthSubjectDocModel = {
   email:          null,
   displayName:    null,
   emailVerified:  false,
@@ -32,14 +32,14 @@ const Model: AuthUserIF = {
   signInEvents:   null,
 }
 /**
- * An AuthUser is not a Visitor!  Visitor refers to the person on the page _at the momemnt they are on the page_.
+ * An AuthUser is not a Visitor!  Visitor refers to the person on the page _at the moment they are on the page_.
  * An AuthUser can be hydrated at anytime. For example, when using the admin console, 'user list' page will show
- * all the AuthUser's in your database. Some of those users might be logged in, but they aren't the current visitor,
+ * all the AuthUsers in your database. Some of those users might be logged in, but they aren't the current visitor,
  * relative to the current browser session.
  *
  */
-export class AuthUser extends StampedMediaType implements Jsonified<AuthUser, AuthUserIF>, AuthUserIF {
-  static $model: AuthUserIF = ObjectUtil.assignDeep({}, StampedMediaType.$model, Model)
+export class AuthUser extends StampedMediaType implements Jsonified<AuthUser, AuthSubjectDocModel>, AuthSubjectDocModel {
+  static $model: AuthSubjectDocModel = ObjectUtil.assignDeep({}, StampedMediaType.$model, Model)
   email?: string
   displayName?: string
   emailVerified?: boolean
@@ -54,7 +54,7 @@ export class AuthUser extends StampedMediaType implements Jsonified<AuthUser, Au
   private $effectivePermissions?: AuthPermission[]
 
 
-  constructor(config: AuthUserIF, key?: string, roles?: AuthRole[], effectivePermissions?: AuthPermission[]) {
+  constructor(config: AuthSubjectDocModel, key?: string, roles?: AuthRole[], effectivePermissions?: AuthPermission[]) {
     super(config, key)
     if (!this.displayName) {
       this.displayName = this.isAnonymous ? 'Anonymous' : this.email.substr(0, this.email.indexOf('@'))

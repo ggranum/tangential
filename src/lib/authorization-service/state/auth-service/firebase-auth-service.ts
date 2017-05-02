@@ -10,7 +10,7 @@ import {AuthDocModel} from '../../media-type/auth/auth-doc-model'
 //noinspection TypeScriptPreferShortImport
 import {AuthPermission} from '../../media-type/auth/auth-permission'
 import {AuthRole} from '../../media-type/auth/auth-role'
-import {AuthUser, AuthUserIF} from '../../media-type/auth/auth-user'
+import {AuthUser, AuthSubjectDocModel} from '../../media-type/auth/auth-user'
 //noinspection TypeScriptPreferShortImport
 import {EmailPasswordCredentials} from '../../media-type/auth/email-password-credentials'
 import {SignInState, SignInStates} from '../../sign-in-state'
@@ -57,7 +57,7 @@ export class FirebaseAuthService extends AuthService {
     if (authUser) {
       this.setSignInState(authUser.isAnonymous ? SignInStates.signedInAnonymous : SignInStates.signedIn)
     } else {
-      this.setSignInState(SignInStates.signedOut)
+      this.setSignInState(SignInStates.guest)
     }
   }
 
@@ -68,8 +68,7 @@ export class FirebaseAuthService extends AuthService {
 
   private initSubscriptions() {
     this.auth.onAuthStateChanged((fbAuthState: FirebaseAuthResponse) => {
-      Logger.trace(this.bus, this, '#initSubscriptions', 'authStateChanged',
-        fbAuthState, fbAuthState ? fbAuthState.uid + ':' + fbAuthState.email : '-')
+      Logger.trace(this.bus, this, '#initSubscriptions', 'authStateChanged', fbAuthState ? fbAuthState.uid + ':' + fbAuthState.email : '-')
       this.handleAuthStateChanged(fbAuthState)
     })
   }
@@ -80,7 +79,8 @@ export class FirebaseAuthService extends AuthService {
     } else {
       if (firebaseAuthResponse && firebaseAuthResponse.uid) {
         Logger.trace(this.bus, this, '#handleAuthStateChanged', 'SignedIn', firebaseAuthResponse.uid, firebaseAuthResponse.email)
-        this.handleUserSignedIn(firebaseAuthResponse.uid).then(authUser => {
+        let updatedUserInfo:AuthSubjectDocModel = this.userFromFirebaseResponse(firebaseAuthResponse)
+        this.handleUserSignedIn(updatedUserInfo).then(authUser => {
           Logger.trace(this.bus, this, '#handleAuthStateChanged', 'User Resolved', firebaseAuthResponse.uid, firebaseAuthResponse.email)
           this.setCurrentUser(authUser)
         })
@@ -89,16 +89,20 @@ export class FirebaseAuthService extends AuthService {
         throw new Error('Unexpected state.')
       } else {
         Logger.trace(this.bus, this, '#handleAuthStateChanged', 'Guest/Signed Out')
-        this.setSignInState(SignInStates.guest)
+
         this.setCurrentUser(null)
       }
     }
   }
 
-  private handleUserSignedIn(userKey: string): Promise<AuthUser> {
+  private handleUserSignedIn(updatedSubjectInfo: AuthSubjectDocModel): Promise<AuthUser> {
+    let userKey: string = updatedSubjectInfo.$key
+
+
     return this.userService.value(userKey).then((authUser) => {
       let roles: AuthRole[]
       let effectivePermissions: AuthPermission[]
+      Object.assign(authUser, updatedSubjectInfo)
       return Promise.all([
         this.userService.getRolesForUser(authUser).then(r => roles = r),
         this.userService.getEffectivePermissionsForUser(authUser).then(ep => effectivePermissions = ep),
@@ -111,6 +115,7 @@ export class FirebaseAuthService extends AuthService {
 
   private setSignInState(newState: SignInState) {
     if (this.signInStateValue !== newState) {
+      Logger.trace(this.bus, this, '#setSignInState', 'old => new', this.signInStateValue, newState)
       this.signInStateValue = newState
       this.signInStateSubject.next(this.signInStateValue)
     }
@@ -229,7 +234,7 @@ export class FirebaseAuthService extends AuthService {
           const authUser = new AuthUser(this.userFromFirebaseResponse(fbAuthState));
           return this.userService.create(authUser).then(() => {
             Logger.trace(this.bus, this, 'created user', authUser.email)
-            this.handleUserSignedIn(authUser.$key).then(hydratedUser => {
+            this.handleUserSignedIn(authUser).then(hydratedUser => {
               this.setCurrentUser(hydratedUser)
               resolve(hydratedUser)
             })
@@ -283,7 +288,7 @@ export class FirebaseAuthService extends AuthService {
         const newAuthUser = new AuthUser(this.userFromFirebaseResponse(fbAuthState));
         return this.userService.update(newAuthUser).then(() => {
           Logger.trace(this.bus, this, '#linkAnonymousAccount', 'updated linked user data', newAuthUser.email)
-          return this.handleUserSignedIn(newAuthUser.$key).then(hydratedUser => {
+          return this.handleUserSignedIn(newAuthUser).then(hydratedUser => {
             this.setCurrentUser(hydratedUser)
           })
         })
@@ -301,8 +306,8 @@ export class FirebaseAuthService extends AuthService {
   }
 
 
-  private userFromFirebaseResponse(fbResponse: FirebaseAuthResponse): AuthUserIF {
-    const user: AuthUserIF = {}
+  private userFromFirebaseResponse(fbResponse: FirebaseAuthResponse): AuthSubjectDocModel {
+    const user: AuthSubjectDocModel = {}
     user.$key = fbResponse.uid
     user.displayName = fbResponse.displayName
     user.email = fbResponse.email

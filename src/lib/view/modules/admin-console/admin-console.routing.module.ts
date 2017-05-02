@@ -6,7 +6,6 @@ import {
 import {HasRoleGuard} from '@tangential/authorization-service'
 import {VisitorResolver} from '@tangential/visitor-service'
 import {AdminConsoleParentPage} from './_parent/admin-console-parent.page'
-import {AdminPage} from './admin.page'
 //noinspection TypeScriptPreferShortImport
 import {PermissionManagerPage} from './permissions/permission-manager.page'
 import {RoleManagerPage} from './roles/role-manager.page'
@@ -28,13 +27,6 @@ export const AdminRoutes = {
     }
   },
   children: {
-    list:        {
-      path:       '',
-      component:  AdminPage,
-      navTargets: {
-        absSelf: ['/', 'admin']
-      },
-    },
     permissions: {
       path:       'permissions',
       component:  PermissionManagerPage,
@@ -70,7 +62,6 @@ const routes: Route[] = [
       {
         path:     '',
         children: [
-          AdminRoutes.children.list,
           AdminRoutes.children.permissions,
           AdminRoutes.children.roles,
           AdminRoutes.children.users,

@@ -62,7 +62,7 @@ export class Visitor implements VisitorIF {
     this.signInState = signInState
   }
 
-  isPlaceholder(): boolean {
+  public isPlaceholder(): boolean {
     return this.signInState === SignInStates.unknown
   }
 
@@ -75,6 +75,7 @@ export class Visitor implements VisitorIF {
   }
 
   public isAnonymous(): boolean {
+    console.log("SignInState: ", this.signInState)
     return this.signInState === SignInStates.signedInAnonymous
   }
 

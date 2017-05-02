@@ -11,7 +11,7 @@ import {
 } from '@angular/router'
 import {
   AuthService,
-  AuthUserIF,
+  AuthSubjectDocModel,
   SignInState,
   SignInStates
 } from '@tangential/authorization-service'
@@ -30,7 +30,7 @@ export class SignInPanelPage implements OnInit {
   private redirectTo: string
 
   signInState$: Observable<SignInState>
-  visitor$: Observable<AuthUserIF>
+  visitor$: Observable<AuthSubjectDocModel>
 
   constructor(private route: ActivatedRoute, private router: Router, private _visitorService: AuthService) {
   }
