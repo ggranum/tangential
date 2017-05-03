@@ -3,6 +3,7 @@ import {task} from 'gulp';
 import {firebaseEnv} from './firebase-env';
 import crypto = require('crypto')
 import minimist = require('minimist')
+import {Env} from '../env';
 const readline = require('readline');
 
 
@@ -42,14 +43,14 @@ task('firebase:take-database-backup', (done: any) => {
 });
 
 task('firebase:push-database-template', (done: any) => {
-  firebaseEnv.pushDatabaseTemplate().then((written: boolean) => {
+  firebaseEnv.pushDatabaseTemplate(Env.force).then((written: boolean) => {
     if (written) {
       console.log(`Remote data was successfully written: https://console.firebase.google.com/project/${firebaseEnv.projectId}/database/data`)
     } else {
       console.log(`Remote data was not written. See previous log messages.`)
     }
     done()
-  }, (e: any) => {
+  }).catch((e: any) => {
     console.log('error', e)
   })
 });

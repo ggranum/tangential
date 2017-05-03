@@ -1,4 +1,5 @@
 import {ObjMap} from '@tangential/core'
+//noinspection TypeScriptPreferShortImport
 import {VisitorPreferencesDocModel} from '../doc-model/visitor-preferences-dm';
 
 export class VisitorPreferencesCdm {
@@ -29,7 +30,7 @@ export class VisitorPreferencesCdm {
 
   static from(json:VisitorPreferencesDocModel):VisitorPreferencesCdm {
     let prefs = new VisitorPreferencesCdm()
-    prefs.hideCookieWarnings = json.hideCookieWarnings
+    prefs.hideCookieWarnings = json.hideCookieWarnings || false
     prefs.hiddenTips = json.hiddenTips || {}
     return prefs
   }

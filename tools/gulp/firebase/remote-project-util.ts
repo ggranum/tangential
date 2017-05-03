@@ -1,5 +1,4 @@
 import fs = require('fs');
-import {FirebaseProjectConfig} from './project-config';
 import {FirebaseEnvironment} from './firebase-env';
 import {JSON_FILE_WRITE_CONFIG} from './constants';
 
@@ -41,7 +40,6 @@ export class RemoteProjectUtil {
 
   static pushDatabase(env: FirebaseEnvironment, force: boolean = false): Promise<boolean> {
     const db = RemoteProjectUtil.getApp(env).database()
-
     return new Promise<boolean>((resolve, reject) => {
       const ref = db.ref('/');
       let data: string = env.databaseTemplateData
@@ -49,23 +47,28 @@ export class RemoteProjectUtil {
         if (snapshot.exists()) {
           if (force) {
             console.log('Database already populated. Taking backup and forcing overwrite.')
-            resolve(env.takeBackup().then(() => RemoteProjectUtil.overwriteDatabaseWithTemplate(env)))
+            env.takeBackup().then(() => {
+              RemoteProjectUtil.overwriteDatabaseWithTemplate(env).then(() => {
+                db.goOffline()
+                resolve(true)
+              })
+            })
           } else {
-            console.log('Database already populated.')
+            console.log('Database already populated, aborting. To force re-initialization use the --force option.')
             db.goOffline()
             resolve(false)
           }
         } else {
-
+          console.log('Database is empty. Initializing...')
           ref.set(data, (error: any) => {
             if (error) {
               this.logError(data, error)
               reject(error)
             } else {
               console.log(`   pushed data to remote Firebase project.`)
+              resolve(true)
             }
             db.goOffline()
-            resolve(true)
           })
         }
       }, (error: any) => {
@@ -78,26 +81,21 @@ export class RemoteProjectUtil {
 
   static overwriteDatabaseWithTemplate(env: FirebaseEnvironment): Promise<boolean> {
     const db = RemoteProjectUtil.getApp(env).database()
-
     return new Promise<boolean>((resolve, reject) => {
-      const ref = db.ref('/');
-      let data: FirebaseProjectConfig
-      data = jsonFile.readFileSync(env.databaseTemplateData)
-      ref.set(data, (error: any) => {
+      let data = env.databaseTemplateData
+      console.log('Attempting to initialize database: ')
+      db.goOnline()
+      db.ref('/').set(data, (error: any) => {
         if (error) {
           this.logError(data, error)
           reject(error)
         } else {
           console.log(`   pushed data to remote Firebase project.`)
+          resolve(true)
         }
-        db.goOffline()
-        resolve(true)
-      }, (error: any) => {
-        this.logError(data, error)
-        db.goOffline()
-        reject(error)
       })
     });
+
   }
 
 
@@ -127,13 +125,13 @@ export class RemoteProjectUtil {
     return new Promise((resolve, reject) => {
       const ref = db.ref('/');
       console.log(`Requesting data from server: https://${env.projectId}.firebaseio.com`)
-      ref.on('value', (snapshot: any) => {
+      ref.once('value', (snapshot: any) => {
         if (snapshot.exists()) {
           if (!fs.existsSync(backupDirPath)) {
             fs.mkdirSync(backupDirPath);
           }
           let path = `${backupDirPath}/full_${Date.now()}.json`
-          console.log(`Database is populated. Writing data to ${path}`)
+          console.log(`Database is populated. Backing up data to ${path}`)
           jsonFile.writeFileSync(path, snapshot.val(), JSON_FILE_WRITE_CONFIG)
           resolve(true)
         }

@@ -66,7 +66,7 @@ export class FirebaseEnvironment {
   projectUserTemplatesTSPath: string
   databaseTemplateDataPath: string
   projectConfigPath: string
-  databaseTemplateData: string;
+  databaseTemplateData: any;
 
 
   constructor(envKey: string) {

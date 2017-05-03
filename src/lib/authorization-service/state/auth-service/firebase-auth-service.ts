@@ -33,9 +33,8 @@ interface FirebaseAuthResponse {
 @Injectable()
 export class FirebaseAuthService extends AuthService {
 
-
   private auth: firebase.auth.Auth
-  private signInStateValue: SignInState
+  signInStateValue: SignInState
   private signInStateSubject: BehaviorSubject<SignInState>
   private authUserSubject: BehaviorSubject<AuthUser>
 
@@ -50,17 +49,13 @@ export class FirebaseAuthService extends AuthService {
   }
 
   private setCurrentUser(authUser: AuthUser) {
-    if (authUser) {
-      Logger.trace(this.bus, this, '#setCurrentUser', authUser.$key, authUser.email)
-    } else {
-      Logger.trace(this.bus, this, '#setCurrentUser', 'null user')
-    }
-    this.authUserSubject.next(authUser)
+    Logger.trace(this.bus, this, '#setCurrentUser', authUser ? authUser.$key : 'null')
     if (authUser) {
       this.setSignInState(authUser.isAnonymous ? SignInStates.signedInAnonymous : SignInStates.signedIn)
     } else {
       this.setSignInState(SignInStates.guest)
     }
+    this.authUserSubject.next(authUser)
   }
 
   private initSubjects() {

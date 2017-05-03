@@ -1,4 +1,4 @@
 export * from './media-type'
 export * from './visitor-service'
-export * from './visitor-service.firebase'
+export * from './firebase-visitor-service'
 export * from './util/visitor-resolver'

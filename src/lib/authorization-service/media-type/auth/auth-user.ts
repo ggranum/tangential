@@ -3,6 +3,7 @@ import {StampedMediaType, StampedMediaTypeJson} from '@tangential/media-types';
 import {AuthPermission} from './auth-permission';
 import {AuthRole} from './auth-role';
 import {SessionInfoCdm} from '../cdm/session-info';
+import {SignInState} from '@tangential/authorization-service';
 
 export interface SignInEvent {
   ipAddress: string
@@ -53,7 +54,7 @@ export class AuthUser extends StampedMediaType implements Jsonified<AuthUser, Au
 
   private $roles?: AuthRole[]
   private $effectivePermissions?: AuthPermission[]
-  $sessionInfo: SessionInfoCdm;
+  $sessionInfo: SessionInfoCdm
 
 
   constructor(config: AuthSubjectDocModel,

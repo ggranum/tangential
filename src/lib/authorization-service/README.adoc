@@ -36,7 +36,7 @@ const root = {
     settings: {
       permissions: { permission:AuthPermission, ...},
       roles: { role:AuthRole, ...},
-      role_permissions: { roleKey: { permissionKey:boolean}, ...},
+      rolePermissions: { roleKey: { permissionKey:boolean}, ...},
     },
     subject_granted_roles: { userKey: {roleKey: boolean}, ...},
     subject_granted_permissions: { userKey: {permissionKey: boolean}, ...},

@@ -4,12 +4,13 @@ import minimist = require('minimist')
 export type Options = {
   prod: boolean,
   dev: boolean,
+  force: boolean,
   env: string
 }
 let knownOptions = {
-  string:    'env',
-  boolean:   ['dev', 'prod'],
-  'default': {dev: false, prod: false, env: 'dev'}
+  string: 'env',
+  boolean: ['dev', 'prod', 'force'],
+  'default': {dev: false, prod: false, force: false, env: 'dev'}
 };
 
 
@@ -24,13 +25,17 @@ export class Environment {
       } else if (this.options.prod) {
         this.options.env = 'prod'
       } else {
-        throw new Error("Environment not specified. Provide flag --prod, --dev, or specify with --env='foo'")
+        throw new Error('Environment not specified. Provide flag --prod, --dev, or specify with --env=\'foo\'')
       }
     }
   }
 
-  env():string {
+  env(): string {
     return this.options.env
+  }
+
+  get force() {
+    return this.options.force
   }
 }
 

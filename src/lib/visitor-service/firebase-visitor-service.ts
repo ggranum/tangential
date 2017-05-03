@@ -31,17 +31,16 @@ export class FirebaseVisitorService extends VisitorService {
     this.authService.signInState$().subscribe({
       next: (state) => {
         this.currentSignInState = state
-        Logger.trace(this.bus, this, 'Sign-in state changed', state)
+        Logger.trace(this.bus, this, '#initSubscriptions', 'Sign-in state changed', state)
       }
     })
     this.authService.authUser$().subscribe((authUser: AuthUser) => {
+      Logger.trace(this.bus, this, '#initSubscriptions', 'Auth user changed', authUser)
       if (authUser) {
-        Logger.trace(this.bus, this, 'Auth user changed', authUser)
         this.path = `/data/byUser/${authUser.$key}/prefs/`
         this.ref = this.db.ref(this.path)
         this.getVisitor(authUser).then(visitor => this.subject.next(visitor))
       } else {
-        Logger.trace(this.bus, this, 'Auth user changed', 'SignInState:', this.currentSignInState)
         this.subject.next(new Visitor(null, VisitorPreferencesCdm.forGuest(), this.currentSignInState))
       }
     })
@@ -56,7 +55,6 @@ export class FirebaseVisitorService extends VisitorService {
   visitor$(): Observable<Visitor> {
     return this.subject
   }
-
 
   /**
    * Waits for the first non-placeholder visitor (e.g. not the default value provided to the behaviour subject).
@@ -78,7 +76,7 @@ export class FirebaseVisitorService extends VisitorService {
 
   getVisitor(authUser): Promise<Visitor> {
     return FireBlanket.value(this.ref).then((snap: DataSnapshot) => {
-      const prefs = VisitorPreferencesCdm.from(snap.val())
+      const prefs = VisitorPreferencesCdm.from(snap.exists() ? snap.val() : {})
       const visitor = new Visitor(authUser, prefs, this.currentSignInState)
       if (!snap.exists()) {
         this.setVisitorPreferences(visitor)
