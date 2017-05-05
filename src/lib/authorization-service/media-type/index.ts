@@ -1,1 +1,2 @@
-export * from './auth'
+export * from './cdm/'
+export * from './doc-model/'

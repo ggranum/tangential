@@ -1,6 +1,6 @@
-export * from './cdm/visitor-cdm'
-export * from './cdm/visitor-preferences-cdm'
+export * from './cdm/visitor'
+export * from './cdm/visitor-preferences'
 
-export * from './doc-model/visitor-data-dm'
-export * from './doc-model/visitor-events-dm'
-export * from './doc-model/visitor-preferences-dm'
+export * from './doc-model/visitor-data'
+export * from './doc-model/visitor-events'
+export * from './doc-model/visitor-preferences'

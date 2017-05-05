@@ -24,7 +24,7 @@ export class SideNavMenuComponent implements OnChanges {
 
   constructor(private bus: MessageBus,
               private router: Router,
-              private visitorService: AuthService,
+              private authService: AuthService,
               private changeDetectorRef: ChangeDetectorRef) {
     this.subscribe()
   }
@@ -48,13 +48,13 @@ export class SideNavMenuComponent implements OnChanges {
   }
 
   onSignOutRequest() {
-    this.visitorService.signOut().then(() => {
+    this.authService.signOut().then(() => {
       this.router.navigate(AppRoutes.home.navTargets.absSelf)
     })
   }
 
   onTryoutRequest() {
-    this.visitorService.signInAnonymously().then(() => {
+    this.authService.signInAnonymously().then(() => {
       this.router.navigate(AppRoutes.home.navTargets.absTryoutWelcome())
     })
   }

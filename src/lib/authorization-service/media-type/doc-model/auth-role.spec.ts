@@ -1,16 +1,18 @@
-import {AuthRole, AuthRoleJson} from '@tangential/authorization-service'
+import {AuthRoleDm} from './auth-role';
 /* tslint:disable:no-unused-variable */
-import {generatePushID} from '@tangential/core'
+import {generatePushID} from '@tangential/core';
+import {AuthRole, AuthRoleTransform} from '@tangential/authorization-service';
 
-describe('media-types.role', () => {
+describe('tanj.media-types.role', () => {
 
   it('Loads role from a config object', (done) => {
     const key = generatePushID()
-    const config: AuthRoleJson = {
+    const config: AuthRoleDm = {
+      $key: key,
       description: 'Test Description',
       orderIndex:  101
     }
-    const perm = new AuthRole(config, key)
+    const perm = AuthRole.from(config)
     expect(perm.$key).toEqual(key)
     expect(perm.createdMils).toBeLessThan(Date.now() + 1)
     expect(perm.editedMils).toBeLessThan(Date.now() + 1)
@@ -22,14 +24,15 @@ describe('media-types.role', () => {
 
   it('Exports role instance to Json', (done) => {
     const key = generatePushID()
-    const config: AuthRoleJson = {
+    const config: AuthRoleDm = {
+      $key: key,
       createdMils: Date.now() - 100,
       editedMils:  Date.now(),
       description: 'Test Description',
       orderIndex:  101
     }
-    const perm = new AuthRole(config, key)
-    const json: AuthRoleJson = perm.toJson(false)
+    const role = AuthRole.from(config)
+    const json: AuthRoleDm = AuthRoleTransform.toDocModel(role)
 
     expect(json.$key).toBeUndefined()
     expect(json.createdMils).toBe(config.createdMils)

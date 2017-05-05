@@ -4,7 +4,7 @@ import {ObjMapUtil} from '../lang/obj-map-util'
 import {generatePushID} from './generate-push-id'
 
 
-fdescribe('tanj.util.common.core.generate-push-id', () => {
+describe('tanj.util.common.core.generate-push-id', () => {
 
   it('Generates 20 char long identifiers', () => {
     const key = generatePushID()

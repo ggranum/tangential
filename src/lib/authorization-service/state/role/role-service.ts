@@ -1,7 +1,11 @@
 import {Observable} from 'rxjs/Observable'
 //noinspection TypeScriptPreferShortImport
-import {AuthPermission} from '../../media-type/auth/auth-permission'
-import {AuthRole} from '../../media-type/auth/auth-role'
+import {AuthRole} from '../../media-type/cdm/auth-role';
+//noinspection TypeScriptPreferShortImport
+import {AuthPermission} from '../../media-type/cdm/auth-permission';
+import {AuthRoleKey} from '../../media-type/doc-model/auth-role';
+//noinspection TypeScriptPreferShortImport
+import {AuthPermissionKey} from '../../media-type/doc-model/auth-permission';
 
 export abstract class RoleService {
 
@@ -11,19 +15,19 @@ export abstract class RoleService {
 
   abstract create(entity: AuthRole): Promise<void>
 
-  abstract value(entityKey: string): Promise<AuthRole>
+  abstract value(roleKey: AuthRoleKey): Promise<AuthRole>
 
   abstract update(current: AuthRole, previous: AuthRole): Promise<void>
 
-  abstract remove(entityKey: string): Promise<void>
+  abstract remove(roleKey: AuthRoleKey): Promise<void>
 
   abstract destroy(): void
 
-  abstract grantPermission(role: AuthRole | string, permission: AuthPermission | string): Promise<void>
+  abstract grantPermission(roleKey: AuthRoleKey, permissionKey: AuthPermissionKey): Promise<void>
 
-  abstract revokePermission(role: AuthRole | string, permission: AuthPermission | string): Promise<void>
+  abstract revokePermission(roleKey: AuthRoleKey, permissionKey: AuthPermissionKey): Promise<void>
 
-  abstract getPermissionsForRole(role: AuthRole): Promise<AuthPermission[]>
+  abstract getPermissionsForRole(roleKey: AuthRoleKey): Promise<AuthPermission[]>
 
-  abstract getPermissionsForRole$(role: AuthRole): Observable<AuthPermission[]>
+  abstract getPermissionsForRole$(roleKey: AuthRoleKey): Observable<AuthPermission[]>
 }

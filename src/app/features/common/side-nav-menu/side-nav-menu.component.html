@@ -1,8 +1,8 @@
 <div class="tanj-side-nav-menu-hero-container">
   <div class="tanj-side-nav-menu-hero-background"></div>
   <div class="tanj-side-nav-menu-hero-content" layout="column" layout-align="end start">
-    <div class="tanj-visitor-display-name" layout="row" layout-align="start">{{visitor?.authUser?.displayName}}</div>
-    <div class="tanj-visitor-username" layout="row" layout-align="start">{{visitor?.authUser?.email}}</div>
+    <div class="tanj-visitor-display-name" layout="row" layout-align="start">{{visitor?.subject?.displayName}}</div>
+    <div class="tanj-visitor-username" layout="row" layout-align="start">{{visitor?.subject?.email}}</div>
   </div>
 </div>
 <div class="tanj-side-nav-content" layout="column" layout-align="start">
@@ -12,7 +12,7 @@
         <tanj-icon ligature="home" label="Home" i18n-label></tanj-icon>
       </a>
     </div>
-    <ng-container *ngIf="visitor?.isAdministrator()">
+    <ng-container *ngIf="visitor?.subject.isAdministrator()">
       <div class="tanj-fading-line"></div>
       <div flex layout="row" layout-align="start">
         <a flex md-button layout="row" layout-align="start" [routerLink]="['/admin']">
@@ -56,8 +56,8 @@
       </div>
     </ng-container>
     <div class="tanj-fading-line"></div>
-    <ng-container *ngIf="visitor?.isSignedIn()">
-      <ng-container *ngIf="visitor?.isAnonymous()">
+    <ng-container *ngIf="visitor?.subject?.isSignedIn()">
+      <ng-container *ngIf="visitor?.subject.isAnonymous">
         <div flex layout="row" layout-align="start">
           <a flex md-button layout="row" layout-align="start" [routerLink]="appRoutes.home.navTargets.absSignUp()">
             <tanj-icon ligature="person_add" label="Register and save trial account" i18n-label></tanj-icon>
@@ -69,15 +69,14 @@
           </a>
         </div>
       </ng-container>
-      <div flex *ngIf="!visitor?.isAnonymous()" layout="row" layout-align="start">
+      <div flex *ngIf="!visitor?.subject.isAnonymous" layout="row" layout-align="start">
         <a flex md-button layout="row" layout-align="start" [routerLink]="appRoutes.home.navTargets.absSignOut()">
           <tanj-icon font="fa" ligature="fa-sign-out" label="Sign Out" i18n-label></tanj-icon>
         </a>
       </div>
-
     </ng-container>
 
-    <ng-container *ngIf="!visitor?.isSignedIn()">
+    <ng-container *ngIf="!visitor?.subject.isSignedIn()">
       <div flex layout="row" layout-align="start">
         <a flex md-button layout="row" layout-align="start" [routerLink]="appRoutes.home.navTargets.absSignIn()">
           <tanj-icon ligature="verified_user" label="Sign In" i18n-label></tanj-icon>

@@ -1,59 +1,51 @@
 import {Injectable} from '@angular/core'
-import {AuthService, AuthUser, EmailPasswordCredentials, SignInState, SignInStates} from '@tangential/authorization-service'
+import {AuthService, SignInState, SignInStates} from '@tangential/authorization-service'
 import {Logger, MessageBus} from '@tangential/core'
 import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util'
-import {Visitor, VisitorPreferencesCdm, VisitorPreferencesDocModel} from '@tangential/visitor-service'
+import {Visitor, VisitorPreferencesCdm, VisitorPreferencesDm, VisitorPreferencesFbPath} from '@tangential/visitor-service'
 import * as firebase from 'firebase/app'
 import {Observable, BehaviorSubject} from 'rxjs/Rx'
 import {VisitorService} from './visitor-service'
 import DataSnapshot = firebase.database.DataSnapshot;
 import Reference = firebase.database.Reference
 
-const PlaceholderVisitor = new Visitor(null, VisitorPreferencesCdm.forGuest(), SignInStates.unknown)
+import {AuthSubject} from '@tangential/authorization-service';
+
 
 @Injectable()
 export class FirebaseVisitorService extends VisitorService {
 
   private db: firebase.database.Database
   private ref: Reference
-  private currentSignInState: SignInState
-  private path: string
-  private subject: BehaviorSubject<Visitor>
+  private visitorObserver: BehaviorSubject<Visitor>
 
   constructor(private bus: MessageBus, private fb: FirebaseProvider, private authService: AuthService) {
     super()
     this.db = fb.app.database()
-    this.subject = new BehaviorSubject(PlaceholderVisitor)
+    this.visitorObserver = new BehaviorSubject(null)
     this.initSubscriptions()
   }
 
   private initSubscriptions() {
-    this.authService.signInState$().subscribe({
-      next: (state) => {
-        this.currentSignInState = state
-        Logger.trace(this.bus, this, '#initSubscriptions', 'Sign-in state changed', state)
-      }
-    })
-    this.authService.authUser$().subscribe((authUser: AuthUser) => {
-      Logger.trace(this.bus, this, '#initSubscriptions', 'Auth user changed', authUser)
-      if (authUser) {
-        this.path = `/data/byUser/${authUser.$key}/prefs/`
-        this.ref = this.db.ref(this.path)
-        this.getVisitor(authUser).then(visitor => this.subject.next(visitor))
+    Logger.trace(this.bus, this, '#initSubscriptions')
+    this.authService.awaitKnownAuthSubject$().subscribe((subject: AuthSubject) => {
+      Logger.trace(this.bus, this, '#initSubscriptions', 'Auth user changed', subject)
+      if (subject.isSignedIn()) {
+        this.ref = VisitorPreferencesFbPath(this.db, subject.$key)
+        this.getCurrentVisitor(subject).then(visitor => this.visitorObserver.next(visitor))
       } else {
-        this.subject.next(new Visitor(null, VisitorPreferencesCdm.forGuest(), this.currentSignInState))
+        this.visitorObserver.next(new Visitor(subject, VisitorPreferencesCdm.forGuest()))
       }
     })
   }
 
   setVisitorPreferences(visitor: Visitor): Promise<void> {
     const prefs: VisitorPreferencesCdm = visitor.prefs
-    const ref = this.db.ref(this.path)
-    return FireBlanket.set(ref, prefs.toDocModel())
+    return FireBlanket.set(this.ref, prefs.toDocModel())
   }
 
   visitor$(): Observable<Visitor> {
-    return this.subject
+    return this.visitorObserver.skipWhile(v => v === null)
   }
 
   /**
@@ -64,20 +56,21 @@ export class FirebaseVisitorService extends VisitorService {
    * @param timeoutMils
    * @returns {Observable<R>}
    */
-  awaitVisitor$(timeoutMils: number = 5000): Observable<Visitor> {
+  awaitVisitor$(timeoutMils: number = 10000): Observable<Visitor> {
     /* Wait up to timeout millis for the Firebase Auth to comeback with a response. */
-    return this.visitor$().first(v => !v.isPlaceholder()).timeout(timeoutMils).catch((e) => {
+    Logger.trace(this.bus, this, '#awaitVisitor$')
+    return this.visitor$().timeout(timeoutMils).catch((e) => {
       Logger.trace(this.bus, this, 'Timed out')
       return this.visitor$().first().do(v => {
         Logger.trace(this.bus, this, 'providing alternate: ', v)
       })
-    }).flatMap(x => this.visitor$())
+    })
   }
 
-  getVisitor(authUser): Promise<Visitor> {
+  getCurrentVisitor(subject:AuthSubject): Promise<Visitor> {
     return FireBlanket.value(this.ref).then((snap: DataSnapshot) => {
       const prefs = VisitorPreferencesCdm.from(snap.exists() ? snap.val() : {})
-      const visitor = new Visitor(authUser, prefs, this.currentSignInState)
+      const visitor = new Visitor(subject, prefs)
       if (!snap.exists()) {
         this.setVisitorPreferences(visitor)
       }
@@ -87,51 +80,12 @@ export class FirebaseVisitorService extends VisitorService {
   }
 
   updateVisitorPreferences(visitor: Visitor): Promise<void> {
-    const prefs: VisitorPreferencesDocModel = visitor.prefs.toDocModel()
-    const ref = this.db.ref(this.path)
-    return FireBlanket.update(ref, prefs).catch((e) => {
+    const prefs: VisitorPreferencesDm = visitor.prefs.toDocModel()
+    return FireBlanket.update(this.ref, prefs).catch((e) => {
       console.error('FirebaseVisitorService', 'Error updating visitor', e)
       console.log('     ', prefs)
     })
   }
 
-
-  public createUserWithEmailAndPassword(payload: EmailPasswordCredentials): Promise<Visitor> {
-    Logger.trace(this.bus, this, '#createUserWithEmailAndPassword', 'enter', payload.email)
-    return this.authService.createUserWithEmailAndPassword(payload).then((authUser: AuthUser) => {
-      return this.awaitVisitor$().first(v => !v.isGuest()).do((v) => {
-        Logger.trace(this.bus, this, '#createUserWithEmailAndPassword', 'signed in', v.authUser.email)
-      }).toPromise()
-    })
-  }
-
-  public signInWithEmailAndPassword(authInfo: EmailPasswordCredentials): Promise<Visitor> {
-    return this.authService.signInWithEmailAndPassword(authInfo).then(() => {
-      return this.awaitVisitor$().first(v => !v.isGuest()).do((v) => {
-        Logger.trace(this.bus, this, '#signInWithEmailAndPassword', 'signed in', v.authUser.email)
-      }).toPromise()
-    })
-  }
-
-  public signInAnonymously(): Promise<Visitor> {
-    return this.authService.signInAnonymously().then(() => {
-      return this.awaitVisitor$().first(v => !v.isGuest()).do((v) => {
-        Logger.trace(this.bus, this, '#signInAnonymously', 'signed in', v.authUser.email)
-      }).toPromise()
-    })
-  }
-
-  public signOut(): Promise<void> {
-    return this.authService.signOut()
-  }
-
-  public linkAnonymousAccount(authUser: AuthUser, newCredentials: EmailPasswordCredentials): Promise<Visitor> {
-    Logger.trace(this.bus, this, '#linkAnonymousAccount', 'enter', authUser.$key, newCredentials.email)
-    return this.authService.linkAnonymousAccount(authUser, newCredentials).then(() => {
-      return this.awaitVisitor$().first(v => !v.isGuest()).do((v) => {
-        Logger.trace(this.bus, this, '#linkAnonymousAccount', 'signed in', v.authUser.email)
-      }).toPromise()
-    })
-  }
 }
 

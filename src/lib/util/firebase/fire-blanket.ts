@@ -1,5 +1,4 @@
-import {BehaviorSubject} from 'rxjs/BehaviorSubject'
-import {Observable} from 'rxjs/Observable'
+import {Observable, BehaviorSubject} from 'rxjs/Rx'
 import {Placeholder} from './placeholder'
 import DataSnapshot = firebase.database.DataSnapshot;
 import Query = firebase.database.Query;

@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, ViewEncapsulation} from '@angular/core'
 import {MessageBus} from '@tangential/core'
 import {Observable} from 'rxjs/Observable'
-import {AuthCdm} from '../../../../authorization-service/media-type/cdm/auth-cdm'
-import {AdminService} from '../../../../authorization-service/state/admin-service/admin-service'
+import {Auth} from '@tangential/authorization-service'
+import {AdminService} from '@tangential/authorization-service'
 
 @Component({
   selector:        'tanj-admin-console-parent-page',
@@ -15,8 +15,8 @@ export class AdminConsoleParentPage {
   @HostBinding('class') clazz = 'tanj-page-component'
 
 
-  authCdm: AuthCdm
-  authCdm$: Observable<AuthCdm>
+  authCdm: Auth
+  authCdm$: Observable<Auth>
 
   constructor(private bus: MessageBus,
               private adminService: AdminService,

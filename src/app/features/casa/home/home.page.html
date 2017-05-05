@@ -22,7 +22,7 @@
         </div>
       </div>
       <div flex
-           *ngIf="visitor && !visitor.isPlaceholder() && visitor.isGuest()"
+           *ngIf="visitor && visitor.subject.isGuest()"
            class="tanj-auth-buttons-container"
            layout="column"
            layout-align="start center">

@@ -14,10 +14,10 @@ import {
   NavigationRequiresRoleMessage,
   NgUtil
 } from '@tangential/core'
-import {Visitor} from '@tangential/visitor-service'
 import {Observable} from 'rxjs/Observable'
 //noinspection TypeScriptPreferShortImport
-import {VisitorService} from '../../visitor-service/visitor-service'
+import {AuthService} from '../state/auth-service/auth-service';
+import {AuthSubject} from '@tangential/authorization-service';
 
 
 /**
@@ -26,7 +26,7 @@ import {VisitorService} from '../../visitor-service/visitor-service'
 @Injectable()
 export class HasRoleGuard implements CanActivate, CanLoad, CanActivateChild {
 
-  constructor(private bus: MessageBus, private router: Router, private visitorService: VisitorService) {
+  constructor(private bus: MessageBus, private router: Router, private authService: AuthService) {
   }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
@@ -54,7 +54,7 @@ export class HasRoleGuard implements CanActivate, CanLoad, CanActivateChild {
   private doCheck(activeRoute: ActivatedRouteSnapshot, route?: Route): Observable<boolean> {
     const path = activeRoute ? activeRoute.toString() : route.path
     const roles = this.requiredRoles(activeRoute, route)
-    return this.visitorService.awaitVisitor$().first().map(v => {
+    return this.authService.awaitKnownAuthSubject$().first().map(v => {
       let canDo: boolean
       if (!v.isSignedIn()) {
         canDo = false
@@ -71,10 +71,10 @@ export class HasRoleGuard implements CanActivate, CanLoad, CanActivateChild {
     })
   }
 
-  private firstMissingRole(visitor: Visitor, roles: string[]): string {
+  private firstMissingRole(subject: AuthSubject, roles: string[]): string {
     let role: string
     for (let i = 0; i < roles.length; i++) {
-      if (!visitor.hasRole(roles[i])) {
+      if (!subject.hasRole(roles[i])) {
         role = roles[i]
         break
       }

@@ -10,8 +10,7 @@ import {
   Router
 } from '@angular/router'
 import {
-  AuthService,
-  AuthSubjectDocModel,
+  AuthService, AuthSubject,
   SignInState,
   SignInStates
 } from '@tangential/authorization-service'
@@ -29,23 +28,21 @@ import {Observable} from 'rxjs/Observable'
 export class SignInPanelPage implements OnInit {
   private redirectTo: string
 
-  signInState$: Observable<SignInState>
-  visitor$: Observable<AuthSubjectDocModel>
+  authSubject$: Observable<AuthSubject>
 
-  constructor(private route: ActivatedRoute, private router: Router, private _visitorService: AuthService) {
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService) {
   }
 
 
   ngOnInit() {
-    this.signInState$ = this._visitorService.signInState$()
-    this.visitor$ = this._visitorService.authUser$()
+    this.authSubject$ = this.authService.authSubject$()
 
     this.route.params.forEach((params: Params) => {
       this.redirectTo = params['redirect']
     });
 
-    const sub = this.signInState$.subscribe((signInState: SignInState) => {
-      if (signInState === SignInStates.signedIn) {
+    const sub = this.authSubject$.subscribe(subject => {
+      if (subject.signInState === SignInStates.signedIn) {
         if (sub) {
           sub.unsubscribe()
         }

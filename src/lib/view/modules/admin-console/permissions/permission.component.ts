@@ -1,13 +1,13 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChange, ViewEncapsulation} from '@angular/core'
-import {AuthPermission} from '@tangential/authorization-service'
-import {Observable} from 'rxjs/Observable'
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChange, ViewEncapsulation} from '@angular/core';
+import {AuthPermission} from '@tangential/authorization-service';
+import {Observable} from 'rxjs/Observable';
 
 
 @Component({
-  selector:        'tanj-permission',
-  templateUrl:     './permission.component.html',
+  selector: 'tanj-permission',
+  templateUrl: './permission.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation:   ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class PermissionComponent implements OnChanges {
 
@@ -40,9 +40,9 @@ export class PermissionComponent implements OnChanges {
       .map(() => {
         const change = {
           previous: this._previous,
-          current:  this.permission
+          current: this.permission
         }
-        this._previous = new AuthPermission(this.permission)
+        this._previous = AuthPermission.from(this.permission)
         this._changed = false
         return change
       })
@@ -54,7 +54,7 @@ export class PermissionComponent implements OnChanges {
 
   ngOnChanges(changes: { permission: SimpleChange }) {
     if (changes.permission) {
-      this._previous = new AuthPermission(this.permission)
+      this._previous = AuthPermission.from(this.permission)
       this._changed = false
     }
   }

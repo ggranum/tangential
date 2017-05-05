@@ -7,6 +7,7 @@ import {Visitor, VisitorService} from '@tangential/visitor-service';
 import {Observable} from 'rxjs/Observable';
 import {AppRoutes} from '../../../app.routing.module';
 import {NotificationIF, NotificationMessage} from '../../common/notification-bar-component/notification';
+import {AuthService} from '@tangential/authorization-service';
 
 @Component({
   selector: 'tanj-sign-in-page',
@@ -47,21 +48,22 @@ export class SignInPage extends Page implements OnInit {
 
   constructor(protected bus: MessageBus,
               private router: Router,
+              private authService: AuthService,
               private visitorService: VisitorService) {
     super(bus)
   }
 
   ngOnInit() {
     this.signedOut$ = this.visitorService.visitor$().map((visitor) => {
-      return visitor.isGuest()
+      return visitor.subject.isGuest()
     })
     this.visitorName$ = this.visitorService.awaitVisitor$().map((visitor: Visitor) => {
-      return visitor.displayName()
+      return visitor.subject.displayName
     })
   }
 
   onSignIn(authInfo: AuthInfo) {
-    this.visitorService.signInWithEmailAndPassword({
+    this.authService.signInWithEmailAndPassword({
       email: authInfo.username,
       password: authInfo.password
     }).then(() => {

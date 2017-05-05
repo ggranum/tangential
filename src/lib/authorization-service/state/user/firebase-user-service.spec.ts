@@ -1,10 +1,7 @@
 /* tslint:disable:no-unused-variable */
-import {inject, TestBed} from '@angular/core/testing'
+import {inject, TestBed} from '@angular/core/testing';
 import {
-  AuthPermission,
-  AuthRole,
-  AuthService,
-  AuthUser,
+  AuthPermission, AuthRole, AuthService, AuthUser,
   FirebaseAuthService,
   FirebasePermissionService,
   FirebaseRoleService,
@@ -12,14 +9,14 @@ import {
   PermissionService,
   RoleService,
   UserService
-} from '@tangential/authorization-service'
-import {ObjMapUtil} from '@tangential/core'
+} from '@tangential/authorization-service';
+import {ObjMapUtil} from '@tangential/core';
 
 
-import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util'
-import {environment} from '../../../../environments/environment.dev'
-import {TestConfiguration} from '../test-config.spec'
-import {cleanupPermissions, cleanupRoles, cleanupUsers} from '../test-setup.spec'
+import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util';
+import {environment} from '../../../../environments/environment.dev';
+import {TestConfiguration} from '../test-config.spec';
+import {cleanupPermissions, cleanupRoles, cleanupUsers} from '../test-setup.spec';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
 
@@ -40,8 +37,8 @@ describe('Auth-services.user.state', () => {
       ]
     })
 
-    inject([TestConfiguration, AuthService, UserService], (testConfig: TestConfiguration, visitorService: AuthService) => {
-      visitorService.signInWithEmailAndPassword(testConfig.adminCredentials).then(done)
+    inject([TestConfiguration, AuthService, UserService], (testConfig: TestConfiguration, authService: AuthService) => {
+      authService.signInWithEmailAndPassword(testConfig.adminCredentials).then(done)
     })()
   })
 
@@ -65,7 +62,7 @@ describe('Auth-services.user.state', () => {
 
   it('load users from User Service', (done) => {
     inject([UserService], (service: UserService) => {
-      service.values().subscribe((users) => {
+      service.awaitUsers$().subscribe((users) => {
         let count = 0
         users.forEach(() => {
           count++
@@ -82,7 +79,7 @@ describe('Auth-services.user.state', () => {
     inject([UserService], (service: UserService) => {
 
       const key = 'SPEC_RANDOM_USER' + Math.round((100000 * Math.random()))
-      const user = new AuthUser({
+      const user = AuthUser.from({
         $key:        key,
         displayName: key
       })
@@ -101,17 +98,17 @@ describe('Auth-services.user.state', () => {
       const updatedDisplayName = 'updated'
       const changeCount = 0
 
-      const primary = new AuthUser({
+      const primary = AuthUser.from({
         $key:        key,
         displayName: key,
       })
-      const updated = new AuthUser(primary)
+      const updated = AuthUser.from(primary)
       updated.displayName = updatedDisplayName
 
       service.create(primary)
         .then(() => expect(primary.$key).toBe(key)).catch((e) => fail())
-        .then(() => service.update(updated, primary)).catch((e) => fail())
-        .then(() => service.value(key)).catch((e) => <any>fail())
+        .then(() => service.update(updated)).catch((e) => fail())
+        .then(() => service.getUserFragment(key)).catch((e) => <any>fail())
         .then((updatedUser) => {
           expect(updatedUser.displayName).toBe(updatedDisplayName, 'Should have updated the User.')
         }).catch((e) => fail())
@@ -127,13 +124,13 @@ describe('Auth-services.user.state', () => {
   it('removes a User', (done) => {
     inject([UserService], (service: UserService) => {
       const key = 'SPEC_RANDOM_USER' + Math.round((100000 * Math.random()))
-      const testUser = new AuthUser({
+      const testUser = AuthUser.from({
         $key:        key,
         displayName: key,
       })
       service.create(testUser).then(() => expect(testUser.$key).toBe(key))
         .then(() => service.remove(key))
-        .then((removedKey) => service.value(key))
+        .then((removedKey) => service.getUserFragment(key))
         .then((removed) => {
           expect(removed).toBeFalsy('Removed values should be null on read.')
           done()
@@ -149,11 +146,11 @@ describe('Auth-services.user.state', () => {
       const userKey = 'SPEC_RANDOM_USER' + Math.round((100000 * Math.random()))
       const permKey = 'SPEC_RANDOM_PERM' + Math.round((100000 * Math.random()))
 
-      const user = new AuthUser({
+      const user = AuthUser.from({
         $key:        userKey,
         displayName: userKey
       })
-      const permission = new AuthPermission({
+      const permission = AuthPermission.from({
         $key:        permKey,
         description: 'A spec permission.'
       })
@@ -161,7 +158,7 @@ describe('Auth-services.user.state', () => {
       permissionService.create(permission)
         .then(() => userService.create(user))
         .then(() => userService.grantPermission(user, permission))
-        .then(() => userService.getEffectivePermissionsForUser(user))
+        .then(() => userService.getUser(user.$key)).then(user => user.effectivePermissions)
         .then((perms: AuthPermission[]) => {
           expect(perms.filter(perm => perm.$key === permission.$key)[0]).toBeTruthy()
         })
@@ -181,11 +178,11 @@ describe('Auth-services.user.state', () => {
       const userKey = 'SPEC_RANDOM_USER' + Math.round((100000 * Math.random()))
       const permKey = 'SPEC_RANDOM_PERM' + Math.round((100000 * Math.random()))
 
-      const user = new AuthUser({
+      const user = AuthUser.from({
         $key:        userKey,
         displayName: userKey
       })
-      const permission = new AuthPermission({
+      const permission = AuthPermission.from({
         $key:        permKey,
         description: 'A spec permission.'
       })
@@ -193,12 +190,12 @@ describe('Auth-services.user.state', () => {
       permissionService.create(permission)
         .then(() => userService.create(user))
         .then(() => userService.grantPermission(user, permission))
-        .then(() => userService.getEffectivePermissionsForUser(user))
+        .then(() => userService.getUser(user.$key)).then(result => result.effectivePermissions)
         .then((perms: AuthPermission[]) => {
           expect(perms.some(perm => perm.$key === permission.$key)).toBeTruthy()
         })
         .then(() => userService.revokePermission(user, permission))
-        .then(() => userService.getEffectivePermissionsForUser(user))
+        .then(() => userService.getUser(user.$key)).then(result => result.effectivePermissions)
         .then((perms: AuthPermission[]) => {
           expect(perms.some(perm => perm.$key === permission.$key)).toBeFalsy()
         })
@@ -220,26 +217,26 @@ describe('Auth-services.user.state', () => {
       const permKey = 'SPEC_RANDOM_PERM_' + Math.round((100000 * Math.random()))
       const permKey2 = permKey + '-2'
       const permKey3 = permKey + '-3'
-      const user = new AuthUser({
+      const user = AuthUser.from({
         $key:        userKey,
         displayName: userKey
       })
-      const permission = new AuthPermission({
+      const permission = AuthPermission.from({
         $key:        permKey,
         description: 'A spec permission - ' + permKey
       })
-      const permission2 = new AuthPermission({
+      const permission2 = AuthPermission.from({
         $key:        permKey2,
         description: 'A spec permission - ' + permKey2
       })
-      const permission3 = new AuthPermission({
+      const permission3 = AuthPermission.from({
         $key:        permKey3,
         description: 'A spec permission - ' + permKey3
       })
 
       let count = 0
       const start = () => {
-        userService.getGrantedPermissionsForUser(user).then((permissions: AuthPermission[]) => {
+        userService.getUser(user.$key).then(result => result.grantedPermissions).then((permissions: AuthPermission[]) => {
           const map = ObjMapUtil.fromKeyedEntityArray(permissions)
           if (count === 0) {
             expect(permissions.length).toBe(3)
@@ -275,11 +272,11 @@ describe('Auth-services.user.state', () => {
       const userKey = 'SPEC_RANDOM_USER' + Math.round((100000 * Math.random()))
       const roleKey = 'SPEC_RANDOM_ROLE' + Math.round((100000 * Math.random()))
 
-      const user = new AuthUser({
+      const user = AuthUser.from({
         $key:        userKey,
         displayName: userKey
       })
-      const testRole = new AuthRole({
+      const testRole = AuthRole.from({
         $key:        roleKey,
         description: 'A spec role.'
       })
@@ -287,9 +284,9 @@ describe('Auth-services.user.state', () => {
       roleService.create(testRole)
         .then(() => userService.create(user))
         .then(() => userService.grantRole(user, testRole))
-        .then(() => userService.getRolesForUser(user))
+        .then(() => userService.getUser(user.$key)).then(result => result.grantedRoles)
         .then((roles: AuthRole[]) => expect(roles.some(perm => perm.$key === testRole.$key)).toBeTruthy())
-        .then(() => userService.revokeRole(user, testRole))
+        .then(() => userService.revokeRole(user.$key, testRole.$key))
         .then(() => done())
         .catch((reason) => {
           fail(reason);
@@ -303,11 +300,11 @@ describe('Auth-services.user.state', () => {
       const userKey = 'SPEC_RANDOM_USER' + Math.round((100000 * Math.random()))
       const roleKey = 'SPEC_RANDOM_ROLE' + Math.round((100000 * Math.random()))
 
-      const user = new AuthUser({
+      const user = AuthUser.from({
         $key:        userKey,
         displayName: userKey
       })
-      const testRole = new AuthRole({
+      const testRole = AuthRole.from({
         $key:        roleKey,
         description: 'A spec role.'
       })
@@ -315,10 +312,10 @@ describe('Auth-services.user.state', () => {
       roleService.create(testRole)
         .then(() => userService.create(user))
         .then(() => userService.grantRole(user, testRole))
-        .then(() => userService.getRolesForUser(user))
+        .then(() => userService.getUser(user.$key)).then(result => result.grantedRoles)
         .then((roles: AuthRole[]) => expect(roles.some(perm => perm.$key === testRole.$key)).toBeTruthy())
-        .then(() => userService.revokeRole(user, testRole))
-        .then(() => userService.getRolesForUser(user))
+        .then(() => userService.revokeRole(user.$key, testRole.$key))
+        .then(() => userService.getUser(user.$key)).then(result => result.grantedRoles)
         .then((perms: AuthRole[]) => {
           expect(perms.some(perm => perm.$key === testRole.$key)).toBeFalsy()
         })
@@ -337,26 +334,26 @@ describe('Auth-services.user.state', () => {
       const roleKey = 'SPEC_RANDOM_ROLE_' + Math.round((100000 * Math.random()))
       const roleKey2 = roleKey + '-2'
       const roleKey3 = roleKey + '-3'
-      const user = new AuthUser({
+      const user = AuthUser.from({
         $key:        userKey,
         displayName: userKey
       })
-      const role = new AuthRole({
+      const role = AuthRole.from({
         $key:        roleKey,
         description: 'A spec role - ' + roleKey
       })
-      const role2 = new AuthRole({
+      const role2 = AuthRole.from({
         $key:        roleKey2,
         description: 'A spec role - ' + roleKey2
       })
-      const role3 = new AuthRole({
+      const role3 = AuthRole.from({
         $key:        roleKey3,
         description: 'A spec role - ' + roleKey3
       })
 
       let count = 0
       const start = () => {
-        userService.getRolesForUser(user).then((roles: AuthRole[]) => {
+        userService.getUser(user.$key).then(result => result.grantedRoles).then((roles: AuthRole[]) => {
           const map = ObjMapUtil.fromKeyedEntityArray(roles)
           if (count === 0) {
             expect(roles.length).toBe(3)

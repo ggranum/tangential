@@ -4,6 +4,8 @@ import {ObjMap} from '../lang/obj-map'
 export interface MapEntry<T> { key: string, value: T
 }
 
+export const ResolveVoid = undefined
+
 export class ObjectUtil {
 
 
@@ -66,6 +68,21 @@ export class ObjectUtil {
     return value === null || value === undefined
   }
 
+  static exists(value): boolean {
+    return value !== null && value !== undefined
+  }
+
+  static firstDefined(...obj: any[]) {
+    let result
+    for (let i = 0; i < obj.length; i++) {
+      if(ObjectUtil.exists(obj[i])){
+        result = obj[i]
+        break
+      }
+    }
+    return result
+  }
+
   static assignDeep(target: any, ...sources: any[]): any {
     target = target || {}
     const L = sources.length
@@ -105,6 +122,8 @@ export class ObjectUtil {
     })
     return cleanObj
   }
+
+
 }
 
 export const cleanFirebaseMap = function <T>(firebaseList: ObjMap<T>, deep?: boolean): ObjMap<T> {

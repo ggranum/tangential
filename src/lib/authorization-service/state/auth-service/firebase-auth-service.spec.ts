@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import {inject, TestBed} from '@angular/core/testing'
+import {inject, TestBed} from '@angular/core/testing';
 import {
   AuthPermission,
   AuthRole,
@@ -12,13 +12,13 @@ import {
   PermissionService,
   RoleService,
   UserService
-} from '@tangential/authorization-service'
-import {generatePushID} from '@tangential/core'
+} from '@tangential/authorization-service';
+import {generatePushID} from '@tangential/core';
 
-import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util'
-import {environment} from '../../../../environments/environment.dev'
-import {TestConfiguration} from '../test-config.spec'
-import {cleanupPermissions} from '../test-setup.spec'
+import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util';
+import {environment} from '../../../../environments/environment.dev';
+import {TestConfiguration} from '../test-config.spec';
+import {cleanupPermissions} from '../test-setup.spec';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
 
@@ -26,8 +26,8 @@ describe('Authorization.state.auth-service', () => {
   beforeEach((done) => {
     TestBed.configureTestingModule({
       declarations: [],
-      imports:      [],
-      providers:    [
+      imports: [],
+      providers: [
         {provide: TestConfiguration, useClass: TestConfiguration},
         {provide: FirebaseConfig, useValue: environment.firebaseConfig},
         {provide: FirebaseProvider, useClass: FirebaseProvider},
@@ -44,10 +44,9 @@ describe('Authorization.state.auth-service', () => {
 
 
   afterEach((done) => {
-    inject([PermissionService, RoleService, UserService, AuthService], (permissionService: PermissionService,
+    inject([PermissionService, RoleService, UserService], (permissionService: PermissionService,
                                                                         roleService: RoleService,
-                                                                        userService: UserService,
-                                                                        visitorService: AuthService) => {
+                                                                        userService: UserService) => {
       permissionService.destroy()
       roleService.destroy()
       userService.destroy()
@@ -57,10 +56,10 @@ describe('Authorization.state.auth-service', () => {
 
   afterAll((done) => {
     inject([PermissionService, AuthService, TestConfiguration],
-      (permissionService: PermissionService, visitorService: AuthService, testConfiguration: TestConfiguration) => {
-        visitorService.signOut().then(() => {
+      (permissionService: PermissionService, authService: AuthService, testConfiguration: TestConfiguration) => {
+        authService.signOut().then(() => {
           console.log('after signout')
-          visitorService.signInWithEmailAndPassword(testConfiguration.adminCredentials).then(() => {
+          authService.signInWithEmailAndPassword(testConfiguration.adminCredentials).then(() => {
             console.log('after sign in as admin')
             console.log('Before cleanupPermissions')
             cleanupPermissions(permissionService).then(() => {
@@ -84,7 +83,7 @@ describe('Authorization.state.auth-service', () => {
   it('initializes to \'signedOut\' state and null users.', (done) => {
     inject([AuthService], (service: AuthService) => {
       let count = 0
-      service.authUser$().subscribe((authUser) => {
+      service.authSubject$().subscribe((authUser) => {
         if (count === 0) {
           expect(authUser).toBeNull('State should start null.')
           done()
@@ -98,13 +97,15 @@ describe('Authorization.state.auth-service', () => {
   it('allows null visitor to sign in anonymously', (done) => {
     inject([AuthService], (service: AuthService) => {
       let count = 0
-      service.authUser$().subscribe((authUser) => {
+      service.authSubject$().subscribe((authUser) => {
         if (count === 0) {
           expect(authUser).toBeNull('State should start null.')
-          service.signInAnonymously().then((visitor: AuthUser) => {
-            expect(visitor).not.toBeFalsy('Visitor should not be nullish')
-            expect(visitor.isAnonymous).toBe(true, 'Visitor should be anonymous')
-            service.deleteAccount().then(done)
+          service.signInAnonymously().then(() => {
+            service.authSubject$().first().toPromise().then(visitor => {
+              expect(visitor).not.toBeFalsy('Visitor should not be nullish')
+              expect(visitor.isAnonymous).toBe(true, 'Visitor should be anonymous')
+              service.deleteAccount().then(done)
+            })
           })
         }
         count++
@@ -116,10 +117,12 @@ describe('Authorization.state.auth-service', () => {
     inject([AuthService], (service: AuthService) => {
       const username = 'spec.user.' + generatePushID().replace('-', '')
       const testUserCredentials = {email: username + '@example.com', password: 'abc123ABC$'}
-      service.createUserWithEmailAndPassword(testUserCredentials).then((visitor: AuthUser) => {
-        expect(visitor).not.toBeFalsy('Visitor should not be nullish')
-        expect(visitor.isAnonymous).toBe(false, 'Visitor should be anonymous')
-        service.deleteAccount().then(done)
+      service.createUserWithEmailAndPassword(testUserCredentials).then(() => {
+        service.authSubject$().first().toPromise().then(visitor => {
+          expect(visitor).not.toBeFalsy('Visitor should not be nullish')
+          expect(visitor.isAnonymous).toBe(false, 'Visitor should be anonymous')
+          service.deleteAccount().then(done)
+        })
       })
     })()
   })
@@ -128,12 +131,14 @@ describe('Authorization.state.auth-service', () => {
     inject([AuthService, UserService], (service: AuthService, userService: UserService) => {
       const username = 'spec.user.' + generatePushID().replace('-', '')
       const testUserCredentials = {email: username + '@example.com', password: 'abc123ABC$'}
-      service.createUserWithEmailAndPassword(testUserCredentials).then((visitor: AuthUser) => {
-        expect(visitor.isAnonymous).toBe(false, 'Visitor should be anonymous')
-        userService.value(visitor.$key).then((visitorUserData: AuthUser) => {
-          expect(visitorUserData).toBeTruthy('The new user should have been persisted to the data store')
-          expect(visitorUserData.displayName).toBeTruthy('The new user should have been given a temporary display name.')
-          service.deleteAccount().then(done)
+      service.createUserWithEmailAndPassword(testUserCredentials).then(() => {
+        service.authSubject$().first().toPromise().then(visitor => {
+          expect(visitor.isAnonymous).toBe(false, 'Visitor should be anonymous')
+          userService.getUserFragment(visitor.$key).then((visitorUserData: AuthUser) => {
+            expect(visitorUserData).toBeTruthy('The new user should have been persisted to the data store')
+            expect(visitorUserData.displayName).toBeTruthy('The new user should have been given a temporary display name.')
+            service.deleteAccount().then(done)
+          })
         })
       })
     })()
@@ -147,22 +152,23 @@ describe('Authorization.state.auth-service', () => {
     inject([AuthService, UserService], (service: AuthService, userService: UserService) => {
       const username = 'spec.user.' + generatePushID().replace('-', '')
       const testUserCredentials = {email: username + '@example.com', password: 'abc123ABC$'}
-      service.createUserWithEmailAndPassword(testUserCredentials).then((visitor: AuthUser) => {
-        expect(visitor).not.toBeFalsy('Visitor should not be nullish')
-        visitor.displayName = 'spec.test'
-        userService.update(visitor)
-          .then(() => service.signOut())
-          .then(() => service.signInWithEmailAndPassword(testUserCredentials))
-          .then((updatedVisitor: AuthUser) => {
-            expect(updatedVisitor.displayName).toBe(visitor.displayName)
-            service.deleteAccount().then(done).catch((reason) => {
-              console.log('Failed to delete account')
-              fail(reason)
-              done()
-            })
-          }).catch((reason) => {
-          fail(reason)
-          done()
+      service.createUserWithEmailAndPassword(testUserCredentials).then(() => {
+        service.authSubject$().first().toPromise().then(visitor => {
+          expect(visitor).not.toBeFalsy('Visitor should not be nullish')
+          visitor.displayName = 'spec.test'
+          userService.update(visitor)
+            .then(() => service.signOut())
+            .then(() => service.signInWithEmailAndPassword(testUserCredentials))
+            .then(() => {
+              service.deleteAccount().then(done).catch((reason) => {
+                console.log('Failed to delete account')
+                fail(reason)
+                done()
+              })
+            }).catch((reason) => {
+            fail(reason)
+            done()
+          })
         })
       }).catch((reason) => {
         console.log('Test failed', reason, JSON.stringify(testUserCredentials))
@@ -194,22 +200,24 @@ describe('Authorization.state.auth-service', () => {
     inject([AuthService], (service: AuthService) => {
       const username = 'spec.user.' + generatePushID().replace('-', '')
       const testUserCredentials = {email: username + '@example.com', password: 'abc123ABC$'}
-      service.createUserWithEmailAndPassword(testUserCredentials).then((visitor: AuthUser) => {
-        expect(visitor).not.toBeFalsy('Visitor should not be nullish')
-        service.signOut()
-          .then(() => {
-            const badCredentials: any = {}
-            badCredentials.password = testUserCredentials.password + 'bad'
-            badCredentials.email = testUserCredentials.email
-            service.signInWithEmailAndPassword(badCredentials).then(() => {
-              fail('Should not log user in.')
-            }).catch((reason) => {
-              expect(reason.code).toBe('auth/wrong-password')
-              service.signInWithEmailAndPassword(testUserCredentials).then(() => {
-                service.deleteAccount().then(done)
+      service.createUserWithEmailAndPassword(testUserCredentials).then(() => {
+        service.authSubject$().first().toPromise().then(visitor => {
+          expect(visitor).not.toBeFalsy('Visitor should not be nullish')
+          service.signOut()
+            .then(() => {
+              const badCredentials: any = {}
+              badCredentials.password = testUserCredentials.password + 'bad'
+              badCredentials.email = testUserCredentials.email
+              service.signInWithEmailAndPassword(badCredentials).then(() => {
+                fail('Should not log user in.')
+              }).catch((reason) => {
+                expect(reason.code).toBe('auth/wrong-password')
+                service.signInWithEmailAndPassword(testUserCredentials).then(() => {
+                  service.deleteAccount().then(done)
+                })
               })
             })
-          })
+        })
 
       }).catch((reason) => {
         console.log('Test failed', reason, JSON.stringify(testUserCredentials))
@@ -220,9 +228,9 @@ describe('Authorization.state.auth-service', () => {
 
   describe('.honorsAccessRules', () => {
     beforeEach((done) => {
-      inject([TestConfiguration, AuthService], (testConfiguration: TestConfiguration, visitorService: AuthService) => {
-        visitorService.signOut().then(() => {
-          visitorService.signInWithEmailAndPassword(testConfiguration.testUserCredentials).then(done)
+      inject([TestConfiguration, AuthService], (testConfiguration: TestConfiguration, authService: AuthService) => {
+        authService.signOut().then(() => {
+          authService.signInWithEmailAndPassword(testConfiguration.testUserCredentials).then(done)
         })
       })()
     })
@@ -233,10 +241,11 @@ describe('Authorization.state.auth-service', () => {
                                                                           roleService: RoleService,
                                                                           userService: UserService) => {
         roleService.valuesOnce().then((roles: AuthRole[]) => {
-          const visitor = new AuthUser(testConfiguration.testUserCredentials)
+          const visitor = new AuthUser()
+          visitor.email = testConfiguration.testUserCredentials.email
           userService.grantRole(visitor, roles[0]).then(() => {
             fail('granted role but shouldn\'t have.')
-            userService.revokeRole(visitor, roles[0]).then(done).catch(() => {
+            userService.revokeRole(visitor.$key, roles[0].$key).then(done).catch(() => {
               console.error('couldn\'t revoke role, be sure to reset for further testing')
               done()
             })
@@ -257,8 +266,9 @@ describe('Authorization.state.auth-service', () => {
                                                                                 service: AuthService,
                                                                                 permissionService: PermissionService,
                                                                                 userService: UserService) => {
-        permissionService.valuesOnce().then((permissions: AuthPermission[]) => {
-          const visitor = new AuthUser(testConfiguration.testUserCredentials)
+        permissionService.permissions$().first().toPromise().then((permissions: AuthPermission[]) => {
+          const visitor = new AuthUser()
+          visitor.email = testConfiguration.testUserCredentials.email
           userService.grantPermission(visitor, permissions[0]).then(() => {
             fail('granted permission but shouldn\'t have.')
             userService.revokePermission(visitor, permissions[0]).then(done).catch(() => {

@@ -1,11 +1,9 @@
 import {Observable} from 'rxjs/Observable'
 //noinspection TypeScriptPreferShortImport
-import {AuthPermission} from '../../media-type/auth/auth-permission'
+import {AuthPermission} from '../../media-type/cdm/auth-permission';
 
 export abstract class PermissionService {
   abstract permissions$(): Observable<AuthPermission[]>
-
-  abstract valuesOnce(): Promise<AuthPermission[]>
 
   abstract create(entity: AuthPermission): Promise<void>
 

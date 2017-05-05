@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core'
 import {AuthPermission, AuthRole, RoleService} from '@tangential/authorization-service'
 import {NameGenerator} from '@tangential/core'
-import {RoleCdm} from '../../../../authorization-service/media-type/cdm/role-cdm'
 import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
 
 
@@ -13,7 +12,7 @@ import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
 })
 export class RoleManagerPage implements OnInit {
 
-  rows: RoleCdm[] = [];
+  rows: AuthRole[] = [];
   selected: any[] = [];
 
 
@@ -40,19 +39,19 @@ export class RoleManagerPage implements OnInit {
   }
 
   grantPermission(role: AuthRole, permission: AuthPermission) {
-    this.roleService.grantPermission(role, permission).catch((reason) => {
+    this.roleService.grantPermission(role.$key, permission.$key).catch((reason) => {
       console.error('RoleManagerComponent', 'could not grant permission', reason)
     })
   }
 
   revokePermission(role: AuthRole, permission: AuthPermission) {
-    this.roleService.revokePermission(role, permission).catch((reason) => {
+    this.roleService.revokePermission(role.$key, permission.$key).catch((reason) => {
       console.error('RoleManagerComponent', 'could not revoke permission', reason)
     })
   }
 
   onAddItemAction() {
-    const role = new AuthRole({
+    const role = AuthRole.from({
       $key:       NameGenerator.generate(),
       orderIndex: this.nextItemIndex
     })

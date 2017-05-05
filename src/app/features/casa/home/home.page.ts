@@ -67,7 +67,7 @@ export class HomePage extends Page implements AfterViewInit, OnDestroy {
   }
 
   onAnonymousLoginRequest() {
-    this.authService.signInAnonymously().then(authVisitor => {
+    this.authService.signInAnonymously().then(() => {
       this.router.navigate(AppRoutes.home.navTargets.absTryoutWelcome())
     })
   }

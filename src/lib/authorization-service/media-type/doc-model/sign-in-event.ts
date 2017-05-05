@@ -1,4 +1,6 @@
-export interface SignInEventDocModel {
+
+
+export interface SignInEventDm {
   uid:string
   whenMils: number
   ipAddress: string

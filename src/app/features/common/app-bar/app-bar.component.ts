@@ -20,11 +20,11 @@ export class AppBarComponent {
 
   constructor(private router: Router,
               private bus: MessageBus,
-              private visitorService: AuthService) {
+              private authService: AuthService) {
   }
 
   onSignOut() {
-    this.visitorService.signOut().then(() => {
+    this.authService.signOut().then(() => {
       this.router.navigate(AppRoutes.home.navTargets.absSelf)
     })
   }

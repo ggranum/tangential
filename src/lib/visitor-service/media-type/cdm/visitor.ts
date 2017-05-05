@@ -1,0 +1,30 @@
+import {AuthSubject, SignInState} from '@tangential/authorization-service';
+import {VisitorPreferencesCdm} from './visitor-preferences';
+import {VisitorEvents} from './visitor-events';
+
+
+/**
+ *
+ * "Current User" would perhaps be a better term.
+ *
+ * This is a stub that will be expanded into something more akin to an 'AppUser' class, and a 'CurrentAppUser' subclass.
+ * CurrentAppUser (this class) will have a subject, while AppUser will not.
+ *
+ * As of this moment there is no way to explore all the application data for all users in the system. Which is fair, because consumers
+ * of Tangential will need to write their own application data model, and Tangential really has very little to offer 'out of the box',
+ * since we have no idea what the shape of that data model will be.
+ *
+ */
+export class Visitor {
+
+  subject: AuthSubject
+  events: VisitorEvents
+  prefs: VisitorPreferencesCdm
+
+  constructor(subject: AuthSubject, prefs: VisitorPreferencesCdm) {
+    this.subject = subject;
+    this.prefs = prefs || new VisitorPreferencesCdm();
+  }
+
+
+}

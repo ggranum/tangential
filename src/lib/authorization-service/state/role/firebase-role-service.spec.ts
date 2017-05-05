@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import {inject, TestBed} from '@angular/core/testing'
+import {inject, TestBed} from '@angular/core/testing';
 import {
   AuthPermission,
   AuthRole,
@@ -11,12 +11,12 @@ import {
   PermissionService,
   RoleService,
   UserService
-} from '@tangential/authorization-service'
-import {ObjMapUtil} from '@tangential/core'
-import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util'
-import {environment} from '../../../../environments/environment.dev'
-import {TestConfiguration} from '../test-config.spec'
-import {cleanupPermissions, cleanupRoles} from '../test-setup.spec'
+} from '@tangential/authorization-service';
+import {ObjMapUtil} from '@tangential/core';
+import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util';
+import {environment} from '../../../../environments/environment.dev';
+import {TestConfiguration} from '../test-config.spec';
+import {cleanupPermissions, cleanupRoles} from '../test-setup.spec';
 
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
@@ -39,8 +39,8 @@ describe('Auth-services.role.state', () => {
     })
 
     inject([TestConfiguration, AuthService, RoleService],
-      (testConfig: TestConfiguration, visitorService: AuthService, roleService: RoleService) => {
-        visitorService.signInWithEmailAndPassword(testConfig.adminCredentials, true).then(() => {
+      (testConfig: TestConfiguration, authService: AuthService, roleService: RoleService) => {
+        authService.signInWithEmailAndPassword(testConfig.adminCredentials, true).then(() => {
           done()
         })
       })()
@@ -78,7 +78,7 @@ describe('Auth-services.role.state', () => {
     inject([RoleService], (service: RoleService) => {
 
       const key = 'SPEC_RANDOM_' + Math.round((100000 * Math.random()))
-      const role = new AuthRole({
+      const role = AuthRole.from({
         $key:        key,
         description: 'Using firebaseRole Service in spec. ',
         orderIndex:  -1
@@ -98,12 +98,12 @@ describe('Auth-services.role.state', () => {
       const description = 'Using firebaseRole Service in spec.'
       const updatedDescription = 'Using firebaseRole Service in spec - updated.'
 
-      const primary = new AuthRole({
+      const primary = AuthRole.from({
         $key:        key,
         description: description,
         orderIndex:  -1
       })
-      const updated = new AuthRole(primary)
+      const updated = AuthRole.from(primary)
       updated.description = updatedDescription
 
       service.create(primary)
@@ -121,7 +121,7 @@ describe('Auth-services.role.state', () => {
     inject([RoleService], (service: RoleService) => {
       const key = 'SPEC_RANDOM_' + Math.round((100000 * Math.random()))
 
-      const testRole = new AuthRole({
+      const testRole = AuthRole.from({
         $key:        key,
         description: 'Using firebaseRole Service in spec. ',
         orderIndex:  -1
@@ -145,23 +145,23 @@ describe('Auth-services.role.state', () => {
       const roleKey = 'SPEC_RANDOM_ROLE' + Math.round((100000 * Math.random()))
       const permKey = 'SPEC_RANDOM_PERM' + Math.round((100000 * Math.random()))
 
-      const role = new AuthRole({
+      const role = AuthRole.from({
         $key:        roleKey,
         description: 'A spec role.'
       })
-      const permission = new AuthPermission({
+      const permission = AuthPermission.from({
         $key:        permKey,
         description: 'A spec permission.'
       })
       permissionService.create(permission)
         .then(() => roleService.create(role)).catch((e) => fail())
-        .then(() => roleService.grantPermission(role, permission)).catch((e) => fail())
-        .then(() => roleService.getPermissionsForRole(role)).catch((e) => fail())
+        .then(() => roleService.grantPermission(role.$key, permission.$key)).catch((e) => fail())
+        .then(() => roleService.getPermissionsForRole(role.$key)).catch((e) => fail())
         .then((perms: AuthPermission[]) => {
           const map = ObjMapUtil.fromKeyedEntityArray(perms)
           expect(map[permission.$key]).toBeTruthy()
         }).catch((e) => fail())
-        .then(() => roleService.revokePermission(role, permission)).catch((e) => fail())
+        .then(() => roleService.revokePermission(role.$key, permission.$key)).catch((e) => fail())
         .then(() => done())
         .catch((e) => {
           console.log('Error', e)
@@ -175,83 +175,27 @@ describe('Auth-services.role.state', () => {
       const roleKey = 'SPEC_RANDOM_ROLE' + Math.round((100000 * Math.random()))
       const permKey = 'SPEC_RANDOM_PERM' + Math.round((100000 * Math.random()))
 
-      const role = new AuthRole({
+      const role = AuthRole.from({
         $key:        roleKey,
         description: 'A spec role.'
       })
-      const permission = new AuthPermission({
+      const permission = AuthPermission.from({
         $key:        permKey,
         description: 'A spec permission.'
       })
 
       permissionService.create(permission)
         .then(() => roleService.create(role)).catch((e) => fail())
-        .then(() => roleService.grantPermission(role, permission)).catch((e) => fail())
-        .then(() => roleService.revokePermission(role, permission)).catch((e) => fail())
-        .then(() => roleService.getPermissionsForRole(role)).catch((e) => fail())
+        .then(() => roleService.grantPermission(role.$key, permission.$key)).catch((e) => fail())
+        .then(() => roleService.revokePermission(role.$key, permission.$key)).catch((e) => fail())
+        .then(() => roleService.getPermissionsForRole(role.$key)).catch((e) => fail())
         .then((perms: AuthPermission[]) => {
           const map = ObjMapUtil.fromKeyedEntityArray(perms)
           expect(map[permission.$key]).toBeFalsy()
         }).catch((e) => fail())
-        .then(() => roleService.revokePermission(role, permission)).catch((e) => fail())
+        .then(() => roleService.revokePermission(role.$key, permission.$key)).catch((e) => fail())
         .then(() => done()).catch((e) => fail())
     })()
   })
 
-  xit('removes a permission from a role when the permission is deleted', (done) => {
-    inject([RoleService, PermissionService], (roleService: RoleService, permissionService: PermissionService) => {
-
-      const roleKey = 'SPEC_RANDOM_ROLE_' + Math.round((100000 * Math.random()))
-      const permKey = 'SPEC_RANDOM_PERM_' + Math.round((100000 * Math.random()))
-      const permKey2 = permKey + '-2'
-      const permKey3 = permKey + '-3'
-      const role = new AuthRole({
-        $key:        roleKey,
-        description: 'A spec role.'
-      })
-      const permission = new AuthPermission({
-        $key:        permKey,
-        description: 'A spec permission - ' + permKey
-      })
-      const permission2 = new AuthPermission({
-        $key:        permKey2,
-        description: 'A spec permission - ' + permKey2
-      })
-      const permission3 = new AuthPermission({
-        $key:        permKey3,
-        description: 'A spec permission - ' + permKey3
-      })
-
-      let count = 0
-      const start = () => {
-        roleService.getPermissionsForRole$(role).subscribe((permissions: AuthPermission[]) => {
-          const map = ObjMapUtil.fromKeyedEntityArray(permissions)
-          if (count === 0) {
-            expect(permissions.length).toBe(3)
-            expect(map[permKey]).toBeTruthy('Perm1 should be assigned')
-            expect(map[permKey2].description).toBe(permission2.description)
-            permissionService.remove(permKey).then(() => {
-              expect(permKey).toBe(permKey)
-            })
-          }
-          if (count === 1) {
-            expect(permissions.length).toBe(2)
-            expect(map[permKey]).toBeFalsy('Perm1 should NOT be assigned')
-            expect(map[permKey2].description).toBe(permission2.description)
-            permissionService.remove(permKey2).then(() => permissionService.remove(permKey3)).then(() => done())
-          }
-          count++
-        })
-      }
-
-      permissionService.create(permission)
-        .then(() => permissionService.create(permission2))
-        .then(() => permissionService.create(permission3))
-        .then(() => roleService.create(role))
-        .then(() => roleService.grantPermission(role, permission))
-        .then(() => roleService.grantPermission(role, permission2))
-        .then(() => roleService.grantPermission(role, permission3))
-        .then(start)
-    })()
-  })
 });

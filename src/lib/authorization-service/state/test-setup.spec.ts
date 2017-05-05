@@ -1,16 +1,18 @@
-import {AuthPermission, AuthRole, AuthUser} from '@tangential/authorization-service'
-import {PermissionService} from './permission/permission-service'
-import {RoleService} from './role/role-service'
-import {UserService} from './user/user-service'
+import {AuthPermission, AuthRole, AuthUser, UserService} from '@tangential/authorization-service';
+import {PermissionService} from './permission/permission-service';
+import {RoleService} from './role/role-service';
 
 export const cleanupPermissions = function (permissionService: PermissionService): Promise<AuthPermission[]> {
-  return permissionService.valuesOnce().then((permissions: AuthPermission[]) => {
+  return permissionService.permissions$().first().toPromise().then((permissions: AuthPermission[]) => {
     const promises = []
+    const toDelete = []
     permissions.forEach((permission) => {
       if (permission.$key.startsWith('SPEC_RANDOM')) {
+        toDelete.push(permission.$key)
         promises.push(permissionService.remove(permission.$key))
       }
     })
+    console.log('cleanupPermissions', 'Remove permissions: ', "\n\t" + toDelete.join(",\n\t"))
     return Promise.all(promises)
   })
 }
@@ -28,7 +30,7 @@ export const cleanupRoles = function (roleService: RoleService) {
 }
 
 export const cleanupUsers = function (userService: UserService) {
-  return userService.valuesOnce().then((users: AuthUser[]) => {
+  return userService.awaitUsers$().toPromise().then((users: AuthUser[]) => {
     const promises = []
     users.forEach((user) => {
       if (user.$key.startsWith('SPEC_RANDOM')) {

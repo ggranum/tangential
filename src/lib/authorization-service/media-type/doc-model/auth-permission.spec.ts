@@ -1,16 +1,17 @@
-import {AuthPermission, AuthPermissionJson} from '@tangential/authorization-service'
+import { AuthPermissionDm} from './auth-permission';
 /* tslint:disable:no-unused-variable */
-import {generatePushID} from '@tangential/core'
+import {generatePushID} from '@tangential/core';
+import {AuthPermission, AuthPermissionTransform} from '@tangential/authorization-service';
 
-describe('media-types.permission', () => {
+describe('tanj.media-types.permission', () => {
 
   it('Loads permission from a config object', (done) => {
     const key = generatePushID()
-    const config: AuthPermissionJson = {
+    const config: AuthPermissionDm = {
       description: 'Test Description',
       orderIndex:  101
     }
-    const perm = new AuthPermission(config, key)
+    const perm = AuthPermission.from(config, key)
     expect(perm.$key).toEqual(key)
     expect(perm.createdMils).toBeLessThan(Date.now() + 1)
     expect(perm.editedMils).toBeLessThan(Date.now() + 1)
@@ -20,16 +21,16 @@ describe('media-types.permission', () => {
   })
 
 
-  it('Exports permission instance to Json', (done) => {
+  it('Exports permission instance to doc model', (done) => {
     const key = generatePushID()
-    const config: AuthPermissionJson = {
+    const config: AuthPermissionDm = {
       createdMils: Date.now() - 100,
       editedMils:  Date.now(),
       description: 'Test Description',
       orderIndex:  101
     }
-    const perm = new AuthPermission(config, key)
-    const json: AuthPermissionJson = perm.toJson(false)
+    const perm = AuthPermission.from(config, key)
+    const json: AuthPermissionDm = AuthPermissionTransform.toDocModel(perm)
 
     expect(json.$key).toBeUndefined()
     expect(json.createdMils).toBe(config.createdMils)

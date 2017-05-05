@@ -14,7 +14,7 @@ import {
 } from '@angular/material'
 import {TanjComponentsModule} from '@tangential/components'
 import {DataTableModule} from 'primeng/primeng'
-import {AdminService} from '../../../authorization-service/state/admin-service/admin-service'
+import {AdminService} from '@tangential/authorization-service'
 import {AdminConsoleParentPage} from './_parent/admin-console-parent.page'
 import {AdminConsoleRoutingModule} from './admin-console.routing.module'
 

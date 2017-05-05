@@ -5,6 +5,7 @@ import {Visitor, VisitorService} from '@tangential/visitor-service';
 import {Observable} from 'rxjs/Observable';
 import {AppRoutes} from '../../../app.routing.module';
 import {DefaultPageAnalytics, MessageBus, Page, RouteInfo} from '@tangential/core';
+import {AuthService} from '@tangential/authorization-service';
 
 @Component({
   selector: 'tanj-sign-up-page',
@@ -44,18 +45,18 @@ export class SignUpPage extends Page implements OnInit {
 
   constructor(protected bus:MessageBus,
               private router: Router,
+              private authService: AuthService,
               private visitorService: VisitorService) {
     super(bus)
   }
 
   ngOnInit() {
     this.showForm$ = this.visitorService.visitor$().map((visitor) => {
-      return visitor.isGuest() || visitor.isAnonymous()
+      return visitor.subject.isGuest() || visitor.subject.isAnonymous
     })
     this.visitorName$ = this.visitorService.awaitVisitor$().map((visitor: Visitor) => {
-      return visitor.displayName()
+      return visitor.subject.displayName
     })
-
   }
 
   onSignUp(authInfo: AuthInfo) {
@@ -66,17 +67,16 @@ export class SignUpPage extends Page implements OnInit {
     this.visitorService.awaitVisitor$().first().subscribe({
       next: (visitor) => {
         let promise: Promise<null>
-        if (visitor.isAnonymous()) {
-          promise = this.visitorService.linkAnonymousAccount(visitor.authUser, credentials)
+        if (visitor.subject.isAnonymous) {
+          promise = this.authService.linkAnonymousAccount(credentials)
         } else {
-          promise = this.visitorService.createUserWithEmailAndPassword(credentials)
+          promise = this.authService.createUserWithEmailAndPassword(credentials)
         }
         promise.then(() => {
           this.router.navigate(['/'])
         }).catch((e) => {
           console.log('SignUpPageComponent', 'sign-up failed', e)
         })
-
       }
     })
   }
@@ -84,7 +84,6 @@ export class SignUpPage extends Page implements OnInit {
   onShowSignInRequest() {
     this.router.navigate(AppRoutes.signUp.navTargets.absToSignIn())
   }
-
 
 }
 

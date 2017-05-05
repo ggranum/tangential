@@ -60,7 +60,7 @@ export class RoleComponent implements OnChanges {
           previous: this._previous,
           current:  this.role
         }
-        this._previous = new AuthRole(this.role)
+        this._previous = AuthRole.from(this.role)
         this._changed = false
         return change
       })
@@ -68,7 +68,7 @@ export class RoleComponent implements OnChanges {
 
   ngOnChanges(changes: { role: SimpleChange, permissions: SimpleChange }) {
     if (changes.role) {
-      this._previous = new AuthRole(this.role)
+      this._previous = AuthRole.from(this.role)
       this._changed = false
     }
   }

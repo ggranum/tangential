@@ -69,17 +69,15 @@ export class UserManagerPage implements OnInit {
   }
 
   revokeRole(user: AuthUser, role: AuthRole) {
-    this.userService.revokeRole(user, role).catch((reason) => {
+    this.userService.revokeRole(user.$key, role.$key).catch((reason) => {
       console.error('UserManagerComponent', 'could not revoke role', reason)
     })
   }
 
 
   onAddItemAction() {
-    const user = new AuthUser({
-      $key:        generatePushID(),
-      displayName: 'New User ',
-    })
+    const user = new AuthUser(generatePushID())
+    user.displayName = 'New User '
     this.userService.create(user).catch((reason) => {
       console.error('UserManagerComponent', 'error adding user', reason)
       throw new Error(reason)
@@ -104,7 +102,7 @@ export class UserManagerPage implements OnInit {
 
 
   onItemChange(user: AuthUser) {
-    this.userService.update(user, user).catch((reason) => {
+    this.userService.update(user).catch((reason) => {
       console.error('UserManagerComponent', 'error updating user', reason)
       throw new Error(reason)
     })

@@ -1,3 +1,5 @@
+export * from './admin-service/admin-service'
+
 export * from './auth-service/firebase-auth-service'
 export * from './auth-service/auth-service'
 

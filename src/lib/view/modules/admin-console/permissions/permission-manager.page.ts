@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core'
 import {AuthPermission, PermissionService} from '@tangential/authorization-service'
 import {NameGenerator} from '@tangential/core'
-import {PermissionCdm} from '../../../../authorization-service/media-type/cdm/permission-cdm'
 import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
 
 @Component({
@@ -12,7 +11,7 @@ import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
 })
 export class PermissionManagerPage implements OnInit {
 
-  rows: PermissionCdm[] = [];
+  rows: AuthPermission[] = [];
   selected: any[] = [];
 
   constructor(private permissionService: PermissionService,
@@ -38,7 +37,7 @@ export class PermissionManagerPage implements OnInit {
   }
 
   onAddItemAction() {
-    const permission = new AuthPermission({
+    const permission = AuthPermission.from({
       $key:       NameGenerator.generate(),
       orderIndex: this.nextItemIndex
     })

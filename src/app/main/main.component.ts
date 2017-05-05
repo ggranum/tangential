@@ -78,10 +78,10 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.visitorWatch = this.visitorService.visitor$().filter(v => v !== Placeholder).subscribe((visitor) => {
-      Logger.trace(this.bus, this, '#ngOnInit:visitor$', 'Visitor changed', visitor ? visitor.displayName() : 'null')
+      Logger.trace(this.bus, this, '#ngOnInit:visitor$', 'Visitor changed', visitor ? visitor.subject.displayName : 'null')
       this.visitor = visitor
       this.sendStandardNotifications()
-      if (visitor.isSignedIn()) {
+      if (visitor.subject.isSignedIn()) {
         // Initialize things, redirect, whatever.
       }
       this.changeDetectorRef.markForCheck()
