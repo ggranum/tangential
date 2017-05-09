@@ -16,7 +16,6 @@ export class Page implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('Page', 'ngOnInit', this.routeInfo)
   }
 
 }

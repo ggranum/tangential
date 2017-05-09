@@ -22,12 +22,6 @@ export class ObjectUtil {
    * Provide a map of keys such that 'map[key]' provides a literal true value if the key is present, even if the value
    * on the source map is falsy.
    */
-  static asTruthMap<T>(map: ObjMap<T>): ObjMap<boolean> {
-    const result: ObjMap<boolean> = {}
-    ObjectUtil.keys(map).forEach(key => result[key] = true)
-    return result
-  }
-
   static toTruthMap(ary: string[]): ObjMap<boolean> {
     const map = {}
     ary.forEach(value => map[value] = true)
@@ -72,17 +66,6 @@ export class ObjectUtil {
     return value !== null && value !== undefined
   }
 
-  static firstDefined(...obj: any[]) {
-    let result
-    for (let i = 0; i < obj.length; i++) {
-      if(ObjectUtil.exists(obj[i])){
-        result = obj[i]
-        break
-      }
-    }
-    return result
-  }
-
   static assignDeep(target: any, ...sources: any[]): any {
     target = target || {}
     const L = sources.length
@@ -111,18 +94,6 @@ export class ObjectUtil {
     })
     return cleanObj
   }
-
-  static removeIllegalFirebaseKeys<T>(obj: T): T {
-    const cleanObj: T = <T>{}
-    Object.keys(obj).forEach((key) => {
-      const v = obj[key]
-      if (v !== null && v !== undefined && !key.startsWith('$')) {
-        cleanObj[key] = v
-      }
-    })
-    return cleanObj
-  }
-
 
 }
 

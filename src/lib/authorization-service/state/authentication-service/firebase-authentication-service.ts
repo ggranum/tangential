@@ -6,26 +6,22 @@ import * as firebase from 'firebase/app';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 //noinspection TypeScriptPreferShortImport
-import {AuthDm} from '../../media-type/doc-model/auth';
-//noinspection TypeScriptPreferShortImport
 import {EmailPasswordCredentials} from '../../media-type/doc-model/email-password-credentials';
 import {SignInState, SignInStates} from '../../sign-in-state';
 import {UserService} from '../user/user-service';
-import {AuthService} from './auth-service';
+import {AuthenticationService} from './authentication-service';
 import {SessionInfoCdm} from '../../media-type/cdm/session-info';
-import {AuthSubject} from '../../media-type/cdm/auth-subject';
-import {Auth, AuthTransform} from '../../media-type/cdm/auth';
+import {AuthSubject, AuthSubjectTransform} from '../../media-type/cdm/auth-subject';
 //noinspection TypeScriptPreferShortImport
-import {AuthUserDm} from '../../media-type/doc-model/auth-user';
+import {AuthUserDm, AuthUserKey, AuthUsersFirebaseRef} from '../../media-type/doc-model/auth-user';
 import {AuthUser, AuthUserTransform} from '../../media-type/cdm/auth-user';
 //noinspection TypeScriptPreferShortImport
-import {SignInEventTransform} from '../../media-type/cdm/sign-in-event';
-import EmailAuthProvider = firebase.auth.EmailAuthProvider
-import {AuthSubjectTransform} from '../../media-type/cdm/auth-subject';
+import {SignInEvent, SignInEventTransform} from '../../media-type/cdm/sign-in-event';
 //noinspection TypeScriptPreferShortImport
-import {AuthSettingsFirebaseRef} from '../../media-type/doc-model/auth-settings';
 import {AuthSignInEventsByUserFirebaseRef, AuthSignInEventsFirebaseRef} from '../../media-type/doc-model/auth-events';
-import {SignInEvent} from '@tangential/authorization-service';
+//noinspection TypeScriptPreferShortImport
+import EmailAuthProvider = firebase.auth.EmailAuthProvider
+
 
 interface FirebaseAuthResponse {
   uid: string
@@ -36,20 +32,18 @@ interface FirebaseAuthResponse {
   photoURL: string
 }
 
-
 @Injectable()
-export class FirebaseAuthService extends AuthService {
+export class FirebaseAuthenticationService extends AuthenticationService {
 
   private auth: firebase.auth.Auth
   private db: firebase.database.Database
   signInStateValue: SignInState
   private authSubjectObserver: BehaviorSubject<AuthSubject>
-  private authSettingsObserver: Observable<Auth>
 
   constructor(protected bus: MessageBus,
               private fb: FirebaseProvider,
               protected userService: UserService) {
-    super(bus, userService)
+    super()
     this.auth = fb.app.auth()
     this.db = this.fb.app.database()
     this.init()
@@ -57,9 +51,6 @@ export class FirebaseAuthService extends AuthService {
 
   private init() {
     this.authSubjectObserver = new BehaviorSubject(AuthSubject.UnknownSubject)
-    this.authSettingsObserver = FireBlanket.awaitValue$(AuthSettingsFirebaseRef(this.db))
-      .map(snap => snap.val())
-      .map(docModel => AuthTransform.fragmentFromDocModel(docModel))
     this.auth.onAuthStateChanged((fbAuthState: FirebaseAuthResponse) => {
       this.handleAuthStateChanged(fbAuthState)
     })
@@ -83,7 +74,7 @@ export class FirebaseAuthService extends AuthService {
     }
   }
 
-  private setCurrentUser(subject: AuthSubject):void {
+  private setCurrentUser(subject: AuthSubject): void {
     Logger.trace(this.bus, this, '#setCurrentUser', subject ? subject.$key : 'null')
     this.setSignInState(subject.signInState)
     this.authSubjectObserver.next(subject)
@@ -139,7 +130,7 @@ export class FirebaseAuthService extends AuthService {
     return this.authSubjectObserver
   }
 
-  awaitKnownAuthSubject$():Observable<AuthSubject> {
+  awaitKnownAuthSubject$(): Observable<AuthSubject> {
     return this.authSubjectObserver.skipWhile(subject => subject.signInState === SignInStates.unknown)
   }
 
@@ -177,13 +168,12 @@ export class FirebaseAuthService extends AuthService {
 
   signInAnonymously(): Promise<void> {
     Logger.trace(this.bus, this, '#signInAnonymously')
-
     this.setSignInState(SignInStates.signingIn)
     return new Promise<void>((resolve, reject) => {
       this.auth.signInAnonymously()
         .then((fbAuthState) => {
           const userDm = this.subjectFromFirebaseResponse(fbAuthState)
-          return this.userService.create(AuthUserTransform.fragmentFromDocModel(userDm, userDm.$key)).then(() => {
+          return this.createOwnUserAccount(AuthUserTransform.fragmentFromDocModel(userDm, userDm.$key)).then(() => {
             Logger.trace(this.bus, this, '#signInAnonymously', 'created anonymous user')
             this.setSignInState(SignInStates.signedInAnonymous)
             resolve(ResolveVoid)
@@ -202,7 +192,7 @@ export class FirebaseAuthService extends AuthService {
       this.auth.createUserWithEmailAndPassword(payload.email, payload.password)
         .then((fbAuthState) => {
           const userDm = this.subjectFromFirebaseResponse(fbAuthState)
-          return this.userService.create(AuthUserTransform.fragmentFromDocModel(userDm, userDm.$key)).then(() => {
+          return this.createOwnUserAccount(AuthUserTransform.fragmentFromDocModel(userDm, userDm.$key)).then(() => {
             Logger.trace(this.bus, this, 'created user', userDm.email)
             this.handleUserSignedIn(userDm).then(hydratedUser => {
               this.setCurrentUser(hydratedUser)
@@ -217,12 +207,35 @@ export class FirebaseAuthService extends AuthService {
     })
   }
 
+  createOwnUserAccount(child: AuthUser): Promise<void> {
+    const cRef = AuthUsersFirebaseRef(this.db).child(child.$key)
+    const dm = AuthUserTransform.toDocModel(child)
+    return FireBlanket.set(cRef, dm)
+  }
+
+
+  updateOwnUserAccount(child: AuthUser): Promise<void> {
+    const cRef = AuthUsersFirebaseRef(this.db).child(child.$key)
+    const dm = AuthUserTransform.toDocModel(child)
+    Logger.trace(this.bus, this, '#update', JSON.stringify(dm))
+    return FireBlanket.update(cRef, dm).catch(e => {
+      Logger.error(this.bus, this, '#update:failed')
+      throw e
+    })
+  }
+
+
+  removeOwnUserAccount(childKey: AuthUserKey): Promise<void> {
+    const cRef = AuthUsersFirebaseRef(this.db).child(childKey)
+    return FireBlanket.remove(cRef)
+  }
+
   signOut(): Promise<void> {
-    Logger.info(this.bus, this, "#signOut", this.auth.currentUser ? this.auth.currentUser.uid : '{no user}')
-    if(this.signInStateValue === SignInStates.signedOut){
+    Logger.info(this.bus, this, '#signOut', this.auth.currentUser ? this.auth.currentUser.uid : '{no user}')
+    if (this.signInStateValue === SignInStates.signedOut) {
       throw new Error('Cannot sign out: No user is signed in.')
     }
-    if(this.signInStateValue === SignInStates.signingOut){
+    if (this.signInStateValue === SignInStates.signingOut) {
       throw new Error('Cannot sign out: User is already signing out.')
     }
     this.setSignInState(SignInStates.signingOut)
@@ -242,7 +255,7 @@ export class FirebaseAuthService extends AuthService {
     return new Promise<void>((resolve, reject) => {
       const _authUser = this.auth.currentUser
       if (_authUser) {
-        this.userService.remove(_authUser.uid).then(() => {
+        this.removeOwnUserAccount(_authUser.uid).then(() => {
           this.auth.currentUser.delete().then(resolve)
         }).catch((reason) => reject(reason))
       } else {
@@ -263,7 +276,7 @@ export class FirebaseAuthService extends AuthService {
         Logger.trace(this.bus, this, '#linkAnonymousAccount', 'linked user', fbAuthState.uid, fbAuthState.email)
         let dm = this.subjectFromFirebaseResponse(fbAuthState)
         const newAuthUser = AuthUserTransform.fragmentFromDocModel(dm, dm.$key);
-        return this.userService.update(newAuthUser).then(() => {
+        return this.updateOwnUserAccount(newAuthUser).then(() => {
           Logger.trace(this.bus, this, '#linkAnonymousAccount', 'updated linked user data', newAuthUser.email)
           return this.handleUserSignedIn(newAuthUser).then(hydratedUser => {
             this.setCurrentUser(hydratedUser)
@@ -275,16 +288,6 @@ export class FirebaseAuthService extends AuthService {
         throw reason
       })
   }
-
-  public authDocumentModel$(): Observable<AuthDm> {
-    const ref = this.db.ref('/auth')
-    return FireBlanket.awaitValue$(ref).map(snap => snap.val())
-  }
-
-  public authSettings$(): Observable<Auth> {
-    return this.authSettingsObserver
-  }
-
 
 
   private subjectFromFirebaseResponse(fbResponse: FirebaseAuthResponse): AuthUserDm {
@@ -299,23 +302,24 @@ export class FirebaseAuthService extends AuthService {
   }
 
   private handleUserSignedIn(iamServiceAuthDm: AuthUserDm): Promise<AuthSubject> {
-    return this.userService.getUser(iamServiceAuthDm.$key).then((user:AuthUser) => {
-      // Questionable choice, @revisit
-      let iamUser = AuthUserTransform.fragmentFromDocModel(iamServiceAuthDm)
-      AuthUser.copyTo(iamUser, user)
-      return this.obtainAcceptLanguageHeader().then((sessionInfo:SessionInfoCdm) => {
-        const subject = AuthSubjectTransform.from(user, SignInStates.signedIn, sessionInfo)
+    let user: AuthUser
+    return this.userService.getUser(iamServiceAuthDm.$key)
+      .then((u: AuthUser) => {
+        user = u
+        user = AuthUserTransform.applyDocModelTo(iamServiceAuthDm, user)
+        return this.obtainAcceptLanguageHeader()
+      }).then((sessionInfo: SessionInfoCdm) => {
+        const signInState = user.isAnonymous ? SignInStates.signedInAnonymous : SignInStates.signedIn
+        const subject = AuthSubjectTransform.from(user, signInState, sessionInfo)
         subject.lastSignInMils = Date.now()
         subject.lastSignInIp = sessionInfo.ipAddress
-        subject.signInState = subject.isAnonymous ? SignInStates.signedInAnonymous : SignInStates.signedIn
-        this.userService.update(subject).catch(e => {
-          /* By not waiting for this response we can cause problems in unit tests. In real use, however, waiting is a big waste
-          * of tens of milliseconds, minimum.  */
+        this.updateOwnUserAccount(subject).catch(e => {
+          /* By not waiting for this response we can cause problems in unit tests. In real use, however, waiting is a waste
+           * of at least tens of milliseconds.  */
           Logger.error(this.bus, this, '#updateUserAuthData', 'Could not update user data', subject.email, e.message)
         })
         return subject
       })
-    })
   }
 
 }

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core'
-import {AuthPermission, AuthRole, RoleService} from '@tangential/authorization-service'
+import {AuthPermission, AuthRole, AdminService} from '@tangential/authorization-service'
 import {NameGenerator} from '@tangential/core'
 import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
 
@@ -16,15 +16,15 @@ export class RoleManagerPage implements OnInit {
   selected: any[] = [];
 
 
-  constructor(private roleService: RoleService,
-              private parent: AdminConsoleParentPage,
+  constructor(private parent: AdminConsoleParentPage,
+              private adminService:AdminService,
               private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    this.parent.authCdm$.subscribe({
+    this.parent.auth$.subscribe({
       next: (v) => {
-        this.rows = v.roles
+        this.rows = v.settings.roles
         this.changeDetectorRef.markForCheck()
       }
     })
@@ -39,13 +39,13 @@ export class RoleManagerPage implements OnInit {
   }
 
   grantPermission(role: AuthRole, permission: AuthPermission) {
-    this.roleService.grantPermission(role.$key, permission.$key).catch((reason) => {
+    this.adminService.grantPermissionOnRole(role.$key, permission.$key).catch((reason) => {
       console.error('RoleManagerComponent', 'could not grant permission', reason)
     })
   }
 
   revokePermission(role: AuthRole, permission: AuthPermission) {
-    this.roleService.revokePermission(role.$key, permission.$key).catch((reason) => {
+    this.adminService.revokePermissionOnRole(role.$key, permission.$key).catch((reason) => {
       console.error('RoleManagerComponent', 'could not revoke permission', reason)
     })
   }
@@ -55,14 +55,14 @@ export class RoleManagerPage implements OnInit {
       $key:       NameGenerator.generate(),
       orderIndex: this.nextItemIndex
     })
-    this.roleService.create(role).catch((reason) => {
+    this.adminService.addRole(role).catch((reason) => {
       console.error('RoleManagerComponent', 'error adding role', reason)
       throw new Error(reason)
     })
   }
 
   onRemove(key: string) {
-    this.roleService.remove(key).catch((reason) => {
+    this.adminService.removeRole(key).catch((reason) => {
       console.error('RoleManagerComponent', 'error removing role', reason)
       throw new Error(reason)
     })
@@ -70,7 +70,7 @@ export class RoleManagerPage implements OnInit {
 
   onRemoveSelectedAction(keys: string[]) {
     keys.forEach((key) => {
-      this.roleService.remove(key).catch((reason) => {
+      this.adminService.removeRole(key).catch((reason) => {
         console.error('RoleManagerComponent', 'error removing role', reason)
         throw new Error(reason)
       })
@@ -78,8 +78,8 @@ export class RoleManagerPage implements OnInit {
   }
 
   onItemChange(role: AuthRole) {
-    this.roleService.update(role, role).catch((reason) => {
-      console.error('RoleManagerComponent', 'error updating role', reason)
+    this.adminService.updateRole(role).catch((reason) => {
+      console.log('RoleManagerComponent', 'error updating role', reason)
       throw new Error(reason)
     })
   }

@@ -37,6 +37,7 @@ import {UserListItemDemo} from './users/user.demo'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import {FirebaseAdminService} from '../../../authorization-service/state/admin-service/firebase-admin-service';
 
 
 @NgModule({
@@ -71,7 +72,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
     AdminConsoleRoutingModule
   ],
   providers:    [
-    AdminService
+    {provide: AdminService, useClass: FirebaseAdminService}
   ]
 
 })

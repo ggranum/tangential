@@ -5,7 +5,7 @@ import {Visitor, VisitorService} from '@tangential/visitor-service';
 import {Observable} from 'rxjs/Observable';
 import {AppRoutes} from '../../../app.routing.module';
 import {DefaultPageAnalytics, MessageBus, Page, RouteInfo} from '@tangential/core';
-import {AuthService} from '@tangential/authorization-service';
+import {AuthenticationService} from '@tangential/authorization-service';
 
 @Component({
   selector: 'tanj-sign-up-page',
@@ -45,14 +45,14 @@ export class SignUpPage extends Page implements OnInit {
 
   constructor(protected bus:MessageBus,
               private router: Router,
-              private authService: AuthService,
+              private authService: AuthenticationService,
               private visitorService: VisitorService) {
     super(bus)
   }
 
   ngOnInit() {
     this.showForm$ = this.visitorService.visitor$().map((visitor) => {
-      return visitor.subject.isGuest() || visitor.subject.isAnonymous
+      return visitor.subject.isGuest() || visitor.subject.isAnonymousAccount()
     })
     this.visitorName$ = this.visitorService.awaitVisitor$().map((visitor: Visitor) => {
       return visitor.subject.displayName
@@ -67,7 +67,7 @@ export class SignUpPage extends Page implements OnInit {
     this.visitorService.awaitVisitor$().first().subscribe({
       next: (visitor) => {
         let promise: Promise<null>
-        if (visitor.subject.isAnonymous) {
+        if (visitor.subject.isAnonymousAccount()) {
           promise = this.authService.linkAnonymousAccount(credentials)
         } else {
           promise = this.authService.createUserWithEmailAndPassword(credentials)

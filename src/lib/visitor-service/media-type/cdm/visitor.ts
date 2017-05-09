@@ -1,5 +1,5 @@
-import {AuthSubject, SignInState} from '@tangential/authorization-service';
-import {VisitorPreferencesCdm} from './visitor-preferences';
+import {AuthSubject, AuthUserKey} from '@tangential/authorization-service';
+import {VisitorPreferences} from './visitor-preferences';
 import {VisitorEvents} from './visitor-events';
 
 
@@ -19,12 +19,15 @@ export class Visitor {
 
   subject: AuthSubject
   events: VisitorEvents
-  prefs: VisitorPreferencesCdm
+  prefs: VisitorPreferences
 
-  constructor(subject: AuthSubject, prefs: VisitorPreferencesCdm) {
+  constructor(subject: AuthSubject, prefs: VisitorPreferences) {
     this.subject = subject;
-    this.prefs = prefs || new VisitorPreferencesCdm();
+    this.prefs = prefs || new VisitorPreferences();
   }
 
+  get $key():AuthUserKey {
+    return this.subject.$key
+  }
 
 }

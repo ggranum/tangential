@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService} from '@tangential/authorization-service';
+import {AuthenticationService} from '@tangential/authorization-service';
 import {Logger, MessageBus, Page, RouteInfo} from '@tangential/core';
 import {AppRoutes} from '../../../app.routing.module';
 
@@ -30,7 +30,7 @@ export class SignOutPage extends Page implements AfterViewInit {
 
   constructor(protected bus: MessageBus,
               private router: Router,
-              private authService: AuthService) {
+              private authService: AuthenticationService) {
     super(bus)
   }
 

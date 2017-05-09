@@ -7,14 +7,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AdsenseModule, GoogleAnalytics} from '@tangential/analytics';
 
 import {
-  AuthService,
-  FirebaseAuthService,
-  FirebasePermissionService,
-  FirebaseRoleService,
+  AuthenticationService, AuthSettingsService,
+  FirebaseAuthenticationService, FirebaseAuthSettingsService,
   FirebaseUserService,
   HasRoleGuard,
-  PermissionService,
-  RoleService,
   UserService
 } from '@tangential/authorization-service';
 import {SignInPanelModule, TanjComponentsModule} from '@tangential/components';
@@ -118,12 +114,11 @@ if (!environment || !appEnvironment['firebaseConfig']) {
     Logger,
     EagerServiceLoader,
     VisitorResolver,
+    FirebaseProvider,
     {provide: FirebaseConfig, useValue: appEnvironment.firebaseConfig},
-    {provide: FirebaseProvider, useClass: FirebaseProvider},
-    {provide: PermissionService, useClass: FirebasePermissionService},
-    {provide: RoleService, useClass: FirebaseRoleService},
     {provide: UserService, useClass: FirebaseUserService},
-    {provide: AuthService, useClass: FirebaseAuthService},
+    {provide: AuthSettingsService, useClass: FirebaseAuthSettingsService},
+    {provide: AuthenticationService, useClass: FirebaseAuthenticationService},
 
     HasRoleGuard,
 

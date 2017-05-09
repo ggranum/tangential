@@ -15,11 +15,6 @@
     <ng-container *ngIf="visitor?.subject.isAdministrator()">
       <div class="tanj-fading-line"></div>
       <div flex layout="row" layout-align="start">
-        <a flex md-button layout="row" layout-align="start" [routerLink]="['/admin']">
-          <tanj-icon ligature="security" label="Admin Console" i18n-label></tanj-icon>
-        </a>
-      </div>
-      <div flex layout="row" layout-align="start">
         <a flex md-button layout="row" layout-align="start" [routerLink]="['/admin/permissions']">
           <tanj-icon ligature="security" label="Permissions" i18n-label></tanj-icon>
         </a>
@@ -57,7 +52,7 @@
     </ng-container>
     <div class="tanj-fading-line"></div>
     <ng-container *ngIf="visitor?.subject?.isSignedIn()">
-      <ng-container *ngIf="visitor?.subject.isAnonymous">
+      <ng-container *ngIf="visitor?.subject.isAnonymousAccount()">
         <div flex layout="row" layout-align="start">
           <a flex md-button layout="row" layout-align="start" [routerLink]="appRoutes.home.navTargets.absSignUp()">
             <tanj-icon ligature="person_add" label="Register and save trial account" i18n-label></tanj-icon>
@@ -69,7 +64,7 @@
           </a>
         </div>
       </ng-container>
-      <div flex *ngIf="!visitor?.subject.isAnonymous" layout="row" layout-align="start">
+      <div flex *ngIf="!visitor?.subject.isAnonymousAccount()" layout="row" layout-align="start">
         <a flex md-button layout="row" layout-align="start" [routerLink]="appRoutes.home.navTargets.absSignOut()">
           <tanj-icon font="fa" ligature="fa-sign-out" label="Sign Out" i18n-label></tanj-icon>
         </a>

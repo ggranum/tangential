@@ -1,10 +1,11 @@
 import {AuthUserDm, AuthUserKey} from '../doc-model/auth-user';
 import {generatePushID, ObjectUtil, ObjMap} from '@tangential/core';
 import {UserPermissionGrantsDm, UserRoleGrantsDm} from '../doc-model/auth';
-import {Auth} from './auth';
 import {AuthRole} from './auth-role';
 import {AuthPermission} from './auth-permission';
-import {SignInEvent} from '@tangential/authorization-service';
+import {AuthSettings} from './auth-settings';
+import {SignInEvent} from './sign-in-event';
+import {TransformUtil as TUtil} from '../../../core/util/transform-util';
 
 export interface AuthUserCfg {
   $key?: string
@@ -80,11 +81,11 @@ export class AuthUser {
    * @param target
    * @returns {AuthUser|AuthUserCfg} The populated target argument.
    */
-  static copyTo<T extends AuthUser| AuthUserCfg>(source:AuthUser | AuthUserCfg, target:T):T{
+  static copyTo<T extends AuthUser | AuthUserCfg>(source: AuthUser | AuthUserCfg, target: T): T {
     target.$key = source.$key || target.$key
     target.email = source.email || target.email
     target.displayName = source.displayName || target.displayName
-    target.isAnonymous = ObjectUtil.firstDefined(source.isAnonymous, target.isAnonymous)
+    target.isAnonymous = TUtil.firstExisting(source.isAnonymous, target.isAnonymous)
     target.lastSignInMils = source.lastSignInMils || target.lastSignInMils
     target.lastSignInIp = source.lastSignInIp || target.lastSignInIp
     target.emailVerified = source.emailVerified || target.emailVerified
@@ -99,7 +100,7 @@ export class AuthUser {
     return target
   }
 
-  static from(cfg: AuthUser | AuthUserCfg, key?:AuthUserKey):AuthUser {
+  static from(cfg: AuthUser | AuthUserCfg, key?: AuthUserKey): AuthUser {
     cfg = cfg || {}
     key = key || cfg.$key || generatePushID()
     const user = new AuthUser(key)
@@ -111,7 +112,7 @@ export class AuthUser {
 export class AuthUserTransform {
 
   static toDocModel(authUser: AuthUser): AuthUserDm {
-    return {
+    let dm = {
       email: authUser.email,
       displayName: authUser.displayName,
       isAnonymous: authUser.isAnonymous,
@@ -122,15 +123,17 @@ export class AuthUserTransform {
       editedMils: authUser.editedMils,
       disabled: authUser.disabled,
     }
+
+    return ObjectUtil.removeNullish(dm)
   }
 
   static fromDocModels(subjects: ObjMap<AuthUserDm>,
                        effectivePermissions: UserPermissionGrantsDm,
                        grantedPermissions: UserPermissionGrantsDm,
                        grantedRoles: UserRoleGrantsDm,
-                       authCdm: Auth): AuthUser[] {
-    const permMap = authCdm.permissionsMap()
-    const roleMap = authCdm.rolesMap()
+                       authSettings: AuthSettings): AuthUser[] {
+    const permMap = authSettings.permissionsMap()
+    const roleMap = authSettings.rolesMap()
     return ObjectUtil.entries(subjects).map(
       subjectEntry => AuthUserTransform.fromDocModel(subjectEntry.key,
         subjectEntry.value,
@@ -167,7 +170,7 @@ export class AuthUserTransform {
 
     cdm.effectivePermissions = effectivePermissions
     cdm.grantedPermissions = grantedPermissions
-    cdm.grantedRoles= roles
+    cdm.grantedRoles = roles
     return cdm
   }
 
@@ -175,15 +178,29 @@ export class AuthUserTransform {
     dm = dm || {}
     key = key || dm.$key || generatePushID()
     const cdm = new AuthUser(key)
-    cdm.email = dm.email
-    cdm.displayName = dm.displayName
-    cdm.isAnonymous = dm.isAnonymous
-    cdm.lastSignInMils = dm.lastSignInMils
-    cdm.lastSignInIp = dm.lastSignInIp
-    cdm.emailVerified = dm.emailVerified
-    cdm.createdMils = dm.createdMils
-    cdm.editedMils = dm.editedMils
-    cdm.disabled = dm.disabled
+    cdm.email = TUtil.firstExisting(dm.email, cdm.email)
+    cdm.displayName = TUtil.firstExisting(dm.displayName, cdm.displayName)
+    cdm.isAnonymous = TUtil.firstExisting(dm.isAnonymous, cdm.isAnonymous)
+    cdm.lastSignInMils = TUtil.firstExisting(dm.lastSignInMils, cdm.lastSignInMils)
+    cdm.lastSignInIp = TUtil.firstExisting(dm.lastSignInIp, cdm.lastSignInIp)
+    cdm.emailVerified = TUtil.firstExisting(dm.emailVerified, cdm.emailVerified)
+    cdm.createdMils = TUtil.firstExisting(dm.createdMils, cdm.createdMils)
+    cdm.editedMils = TUtil.firstExisting(dm.editedMils, cdm.editedMils)
+    cdm.disabled = TUtil.firstExisting(dm.disabled, cdm.disabled, false)
     return cdm
+  }
+
+  static applyDocModelTo(source:AuthUserDm, target:AuthUser):AuthUser {
+    target.email = TUtil.firstExisting(source.email, target.email)
+    target.displayName = TUtil.firstExisting(source.displayName, target.displayName)
+    target.isAnonymous = TUtil.firstExisting(source.isAnonymous, target.isAnonymous)
+    target.lastSignInMils = TUtil.firstExisting(source.lastSignInMils, target.lastSignInMils)
+    target.lastSignInIp = TUtil.firstExisting(source.lastSignInIp, target.lastSignInIp)
+    target.emailVerified = TUtil.firstExisting(source.emailVerified, target.emailVerified)
+    target.createdMils = TUtil.firstExisting(source.createdMils, target.createdMils)
+    target.editedMils = TUtil.firstExisting(source.editedMils, target.editedMils)
+    target.disabled = TUtil.firstExisting(source.disabled, target.disabled, false)
+
+    return target
   }
 }

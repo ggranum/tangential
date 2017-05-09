@@ -55,4 +55,8 @@ export class AuthPermissionTransform {
       orderIndex: authPermission.orderIndex,
     }
   }
+
+  static toDocModels(permissions: AuthPermission[]) {
+    return permissions.map(cm => AuthPermissionTransform.toDocModel(cm))
+  }
 }

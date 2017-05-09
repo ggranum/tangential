@@ -16,7 +16,7 @@ import {
 } from '@tangential/core'
 import {Observable} from 'rxjs/Observable'
 //noinspection TypeScriptPreferShortImport
-import {AuthService} from '../state/auth-service/auth-service';
+import {AuthenticationService} from '../state/authentication-service/authentication-service';
 import {AuthSubject} from '@tangential/authorization-service';
 
 
@@ -26,7 +26,7 @@ import {AuthSubject} from '@tangential/authorization-service';
 @Injectable()
 export class HasRoleGuard implements CanActivate, CanLoad, CanActivateChild {
 
-  constructor(private bus: MessageBus, private router: Router, private authService: AuthService) {
+  constructor(private bus: MessageBus, private router: Router, private authService: AuthenticationService) {
   }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {

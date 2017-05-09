@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core'
-import {AuthPermission, AuthRole, AuthUser, UserService} from '@tangential/authorization-service'
+import {AdminService, AuthPermission, AuthRole, AuthUser, UserService} from '@tangential/authorization-service'
 import {generatePushID} from '@tangential/core'
 import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
 
@@ -22,13 +22,13 @@ export class UserManagerPage implements OnInit {
   ]
 
 
-  constructor(private userService: UserService,
+  constructor(private adminService: AdminService,
               private parent: AdminConsoleParentPage,
               private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    this.parent.authCdm$.subscribe({
+    this.parent.auth$.subscribe({
       next: (v) => {
         this.rows = v.users
         this.changeDetectorRef.markForCheck()
@@ -50,26 +50,26 @@ export class UserManagerPage implements OnInit {
 
 
   grantPermission(user: AuthUser, permission: AuthPermission) {
-    this.userService.grantPermission(user, permission).catch((reason) => {
+    this.adminService.grantPermissionOnUser(user, permission).catch((reason) => {
       console.error('UserManagerComponent', 'could not grant permission', reason)
     })
   }
 
   revokePermission(user: AuthUser, permission: AuthPermission) {
     console.log('UserManagerComponent', 'revokePermission')
-    this.userService.revokePermission(user, permission).catch((reason) => {
+    this.adminService.revokePermissionOnUser(user, permission).catch((reason) => {
       console.error('UserManagerComponent', 'could not revoke permission', reason)
     })
   }
 
   grantRole(user: AuthUser, role: AuthRole) {
-    this.userService.grantRole(user, role).catch((reason) => {
+    this.adminService.grantRoleOnUser(user, role).catch((reason) => {
       console.error('UserManagerComponent', 'could not grant role', reason)
     })
   }
 
   revokeRole(user: AuthUser, role: AuthRole) {
-    this.userService.revokeRole(user.$key, role.$key).catch((reason) => {
+    this.adminService.revokeRoleOnUser(user.$key, role.$key).catch((reason) => {
       console.error('UserManagerComponent', 'could not revoke role', reason)
     })
   }
@@ -78,14 +78,14 @@ export class UserManagerPage implements OnInit {
   onAddItemAction() {
     const user = new AuthUser(generatePushID())
     user.displayName = 'New User '
-    this.userService.create(user).catch((reason) => {
+    this.adminService.addUser(user).catch((reason) => {
       console.error('UserManagerComponent', 'error adding user', reason)
       throw new Error(reason)
     })
   }
 
   onRemove(key: string) {
-    this.userService.remove(key).catch((reason) => {
+    this.adminService.removeUser(key).catch((reason) => {
       console.error('UserManagerComponent', 'error removing user', reason)
       throw new Error(reason)
     })
@@ -93,7 +93,7 @@ export class UserManagerPage implements OnInit {
 
   onRemoveSelectedAction(keys: string[]) {
     keys.forEach((key) => {
-      this.userService.remove(key).catch((reason) => {
+      this.adminService.removeUser(key).catch((reason) => {
         console.error('UserManagerComponent', 'error removing user', reason)
         throw new Error(reason)
       })
@@ -102,7 +102,7 @@ export class UserManagerPage implements OnInit {
 
 
   onItemChange(user: AuthUser) {
-    this.userService.update(user).catch((reason) => {
+    this.adminService.updateUser(user).catch((reason) => {
       console.error('UserManagerComponent', 'error updating user', reason)
       throw new Error(reason)
     })

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService} from '@tangential/authorization-service';
+import {AuthenticationService} from '@tangential/authorization-service';
 import {AuthInfo} from '@tangential/components';
 import {MessageBus} from '@tangential/core';
 import {AppRoutes} from '../../../app.routing.module';
@@ -37,7 +37,7 @@ export class PasswordResetPage {
 
   constructor(private router: Router,
               private bus: MessageBus,
-              private authService: AuthService) {
+              private authService: AuthenticationService) {
   }
 
   onShowSignInRequest() {

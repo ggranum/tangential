@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core'
 import {Router} from '@angular/router'
-import {AuthService} from '@tangential/authorization-service'
+import {AuthenticationService} from '@tangential/authorization-service'
 import {MessageBus} from '@tangential/core'
 import {Visitor} from '@tangential/visitor-service'
 import {AppRoutes} from '../../../app.routing.module'
@@ -20,7 +20,7 @@ export class AppBarComponent {
 
   constructor(private router: Router,
               private bus: MessageBus,
-              private authService: AuthService) {
+              private authService: AuthenticationService) {
   }
 
   onSignOut() {

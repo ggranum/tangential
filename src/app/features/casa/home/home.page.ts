@@ -8,7 +8,7 @@ import {
   ViewEncapsulation
 } from '@angular/core'
 import {Router} from '@angular/router'
-import {AuthService} from '@tangential/authorization-service'
+import {AuthenticationService} from '@tangential/authorization-service'
 import {DefaultPageAnalytics, Logger, MessageBus, Page, RouteInfo} from '@tangential/core'
 import {Visitor, VisitorService} from '@tangential/visitor-service'
 import {Subscription} from 'rxjs/Subscription'
@@ -40,7 +40,7 @@ export class HomePage extends Page implements AfterViewInit, OnDestroy {
 
   constructor(protected bus: MessageBus,
               private router: Router,
-              private authService: AuthService,
+              private authService: AuthenticationService,
               private visitorService: VisitorService,
               private changeDetectorRef: ChangeDetectorRef) {
     super(bus)

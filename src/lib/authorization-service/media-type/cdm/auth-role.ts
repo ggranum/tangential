@@ -2,6 +2,7 @@ import {generatePushID, ObjectUtil, ObjMap} from '@tangential/core';
 import {AuthRoleDm} from '../doc-model/auth-role';
 import {AuthPermission} from './auth-permission';
 import {AuthRoleKey} from '../doc-model/auth-role';
+import {RolePermissionsDm} from '@tangential/authorization-service';
 
 export interface AuthRoleCfg {
   $key ?: string
@@ -75,5 +76,19 @@ export class AuthRoleTransform {
       createdMils: role.createdMils,
       editedMils: role.editedMils,
     }
+  }
+
+  static toDocModels(roles: AuthRole[]):AuthRoleDm[] {
+    return roles.map(cm => AuthRoleTransform.toDocModel(cm))
+  }
+
+  static toRolePermissionDocModels(roles: AuthRole[]):RolePermissionsDm {
+    let rpDm:RolePermissionsDm = {}
+    roles.forEach(role => {
+      const permTruthMap = {}
+      role.permissions.forEach(perm => permTruthMap[perm.$key] = true)
+      rpDm[role.$key] = permTruthMap
+    })
+    return rpDm
   }
 }

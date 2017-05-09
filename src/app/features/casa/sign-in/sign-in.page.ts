@@ -7,7 +7,7 @@ import {Visitor, VisitorService} from '@tangential/visitor-service';
 import {Observable} from 'rxjs/Observable';
 import {AppRoutes} from '../../../app.routing.module';
 import {NotificationIF, NotificationMessage} from '../../common/notification-bar-component/notification';
-import {AuthService} from '@tangential/authorization-service';
+import {AuthenticationService} from '@tangential/authorization-service';
 
 @Component({
   selector: 'tanj-sign-in-page',
@@ -48,7 +48,7 @@ export class SignInPage extends Page implements OnInit {
 
   constructor(protected bus: MessageBus,
               private router: Router,
-              private authService: AuthService,
+              private authService: AuthenticationService,
               private visitorService: VisitorService) {
     super(bus)
   }

@@ -12,6 +12,9 @@ export const OnRefKeys = {
 }
 
 
+/**
+ * Prevent typescript casting issues while maintaining/enhancing type safety.
+ */
 export class FireBlanket {
 
   static value(query: Query, onErrorOrCancelCallback?: (error: any) => any): Promise<DataSnapshot> {

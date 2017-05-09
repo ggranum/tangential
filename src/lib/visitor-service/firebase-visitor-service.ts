@@ -1,25 +1,28 @@
-import {Injectable} from '@angular/core'
-import {AuthService, SignInState, SignInStates} from '@tangential/authorization-service'
-import {Logger, MessageBus} from '@tangential/core'
-import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util'
-import {Visitor, VisitorPreferencesCdm, VisitorPreferencesDm, VisitorPreferencesFbPath} from '@tangential/visitor-service'
-import * as firebase from 'firebase/app'
-import {Observable, BehaviorSubject} from 'rxjs/Rx'
-import {VisitorService} from './visitor-service'
+import {Injectable} from '@angular/core';
+import {AuthenticationService, AuthSubject, AuthUserKey} from '@tangential/authorization-service';
+import {Logger, MessageBus, ResolveVoid} from '@tangential/core';
+import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util';
+import * as firebase from 'firebase/app';
+import {BehaviorSubject, Observable} from 'rxjs/Rx';
+import {VisitorService} from './visitor-service';
+
+import {Visitor} from './media-type/cdm/visitor';
+//noinspection TypeScriptPreferShortImport
+//noinspection TypeScriptPreferShortImport
+import {VisitorPreferences, VisitorPreferencesTransform} from './media-type/cdm/visitor-preferences';
+//noinspection TypeScriptPreferShortImport
+import {VisitorPreferencesFbPath} from './media-type/doc-model/visitor-preferences';
 import DataSnapshot = firebase.database.DataSnapshot;
 import Reference = firebase.database.Reference
-
-import {AuthSubject} from '@tangential/authorization-service';
 
 
 @Injectable()
 export class FirebaseVisitorService extends VisitorService {
 
   private db: firebase.database.Database
-  private ref: Reference
   private visitorObserver: BehaviorSubject<Visitor>
 
-  constructor(private bus: MessageBus, private fb: FirebaseProvider, private authService: AuthService) {
+  constructor(private bus: MessageBus, private fb: FirebaseProvider, private authService: AuthenticationService) {
     super()
     this.db = fb.app.database()
     this.visitorObserver = new BehaviorSubject(null)
@@ -31,18 +34,13 @@ export class FirebaseVisitorService extends VisitorService {
     this.authService.awaitKnownAuthSubject$().subscribe((subject: AuthSubject) => {
       Logger.trace(this.bus, this, '#initSubscriptions', 'Auth user changed', subject)
       if (subject.isSignedIn()) {
-        this.ref = VisitorPreferencesFbPath(this.db, subject.$key)
         this.getCurrentVisitor(subject).then(visitor => this.visitorObserver.next(visitor))
       } else {
-        this.visitorObserver.next(new Visitor(subject, VisitorPreferencesCdm.forGuest()))
+        this.visitorObserver.next(new Visitor(subject, VisitorPreferences.forGuest()))
       }
     })
   }
 
-  setVisitorPreferences(visitor: Visitor): Promise<void> {
-    const prefs: VisitorPreferencesCdm = visitor.prefs
-    return FireBlanket.set(this.ref, prefs.toDocModel())
-  }
 
   visitor$(): Observable<Visitor> {
     return this.visitorObserver.skipWhile(v => v === null)
@@ -67,24 +65,46 @@ export class FirebaseVisitorService extends VisitorService {
     })
   }
 
-  getCurrentVisitor(subject:AuthSubject): Promise<Visitor> {
-    return FireBlanket.value(this.ref).then((snap: DataSnapshot) => {
-      const prefs = VisitorPreferencesCdm.from(snap.exists() ? snap.val() : {})
-      const visitor = new Visitor(subject, prefs)
-      if (!snap.exists()) {
-        this.setVisitorPreferences(visitor)
-      }
-      return visitor
-    })
-
+  getCurrentVisitor(subject: AuthSubject): Promise<Visitor> {
+    let result: Promise<Visitor>
+    let visitor:Visitor
+    if(subject.isGuest()){
+      visitor = new Visitor(subject, VisitorPreferences.forGuest())
+      result = Promise.resolve(visitor)
+    } else {
+      result = this.getVisitorPreferences(subject.$key).then(prefs => {
+        visitor = new Visitor(subject, prefs)
+        if (prefs === null) {
+          this.setVisitorPreferences(visitor.$key, visitor.prefs)
+        }
+        return visitor
+      }).catch(this.doCatch('#getCurrentVisitor'))
+    }
+    return result
   }
 
-  updateVisitorPreferences(visitor: Visitor): Promise<void> {
-    const prefs: VisitorPreferencesDm = visitor.prefs.toDocModel()
-    return FireBlanket.update(this.ref, prefs).catch((e) => {
-      console.error('FirebaseVisitorService', 'Error updating visitor', e)
-      console.log('     ', prefs)
-    })
+  getVisitorPreferences(key: AuthUserKey): Promise<VisitorPreferences> {
+    let ref = VisitorPreferencesFbPath(this.db, key)
+    return FireBlanket.value(ref).then((snap: DataSnapshot) => {
+      return VisitorPreferencesTransform.fromDocModel(snap.exists() ? snap.val() : null)
+    }).catch(this.doCatch('#getVisitorPreferences'))
+  }
+
+  setVisitorPreferences(key: AuthUserKey, prefs: VisitorPreferences): Promise<void> {
+    let ref = VisitorPreferencesFbPath(this.db, key)
+    return FireBlanket.set(ref, prefs.toDocModel()).catch(this.doCatch('#setVisitorPreferences'))
+  }
+
+  updateVisitorPreferences(key: AuthUserKey, prefs: VisitorPreferences): Promise<void> {
+    let ref = VisitorPreferencesFbPath(this.db, key)
+    return FireBlanket.update(ref, prefs.toDocModel()).catch(this.doCatch('#updateVisitorPreferences'))
+  }
+
+  private doCatch(msg: string) {
+    return (e) => {
+      console.log('FirebaseVisitorService', msg, e && e.message ? e.message : '')
+      return Promise.reject(e)
+    }
   }
 
 }

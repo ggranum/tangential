@@ -10,7 +10,7 @@ import {
   Router
 } from '@angular/router'
 import {
-  AuthService, AuthSubject,
+  AuthenticationService, AuthSubject,
   SignInState,
   SignInStates
 } from '@tangential/authorization-service'
@@ -30,7 +30,7 @@ export class SignInPanelPage implements OnInit {
 
   authSubject$: Observable<AuthSubject>
 
-  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService) {
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthenticationService) {
   }
 
 

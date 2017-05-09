@@ -43,7 +43,8 @@
   }
 
   /**
-   * I really hate doing this. But damn it material design team, what the hell do you do to test?
+   * I really hate doing this, but the Material Design team doesn't really seem to care about the address bar
+   * hiding on mobile.
    */
   md-dialog-container.mat-dialog-container {
     overflow: hidden;

@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core'
-import {AuthPermission, PermissionService} from '@tangential/authorization-service'
-import {NameGenerator} from '@tangential/core'
-import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {AdminService, AuthPermission} from '@tangential/authorization-service';
+import {NameGenerator} from '@tangential/core';
+import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page';
 
 @Component({
   selector:        'tanj-permission-manager',
@@ -14,15 +14,15 @@ export class PermissionManagerPage implements OnInit {
   rows: AuthPermission[] = [];
   selected: any[] = [];
 
-  constructor(private permissionService: PermissionService,
+  constructor(private adminService: AdminService,
               private parent: AdminConsoleParentPage,
               private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    this.parent.authCdm$.subscribe({
+    this.parent.auth$.subscribe({
       next: (v) => {
-        this.rows = v.permissions
+        this.rows = v.settings.permissions
         this.changeDetectorRef.markForCheck()
       }
     })
@@ -41,14 +41,14 @@ export class PermissionManagerPage implements OnInit {
       $key:       NameGenerator.generate(),
       orderIndex: this.nextItemIndex
     })
-    this.permissionService.create(permission).catch((reason) => {
+    this.adminService.addPermission(permission).catch((reason) => {
       console.error('PermissionManagerPage', 'error adding permission', reason)
       throw new Error(reason)
     })
   }
 
   onRemove(key: string) {
-    this.permissionService.remove(key).catch((reason) => {
+    this.adminService.removePermission(key).catch((reason) => {
       console.error('PermissionManagerPage', 'error removing permission', reason)
       throw new Error(reason)
     })
@@ -56,7 +56,7 @@ export class PermissionManagerPage implements OnInit {
 
   onRemoveSelectedAction(keys: string[]) {
     keys.forEach((key) => {
-      this.permissionService.remove(key).catch((reason) => {
+      this.adminService.removePermission(key).catch((reason) => {
         console.error('PermissionManagerPage', 'error removing permission', reason)
         throw new Error(reason)
       })
@@ -65,7 +65,7 @@ export class PermissionManagerPage implements OnInit {
 
 
   onItemChange(permission: AuthPermission) {
-    this.permissionService.update(permission, permission).catch((reason) => {
+    this.adminService.updatePermission(permission).catch((reason) => {
       console.error('PermissionManagerPage', 'error updating permission', reason)
       throw new Error(reason)
     })

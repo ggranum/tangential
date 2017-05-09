@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChange, ViewEncapsulation} from '@angular/core'
 import {Router} from '@angular/router'
-import {AuthService} from '@tangential/authorization-service'
+import {AuthenticationService} from '@tangential/authorization-service'
 import {MessageBus} from '@tangential/core'
 import {Visitor} from '@tangential/visitor-service'
 import {AppRoutes} from '../../../app.routing.module'
@@ -24,7 +24,7 @@ export class SideNavMenuComponent implements OnChanges {
 
   constructor(private bus: MessageBus,
               private router: Router,
-              private authService: AuthService,
+              private authService: AuthenticationService,
               private changeDetectorRef: ChangeDetectorRef) {
     this.subscribe()
   }

@@ -116,7 +116,7 @@ export class MainComponent implements OnInit, OnDestroy {
     })
     notice.response(this.bus).subscribe(() => {
       this.visitor.prefs.hideCookieWarnings = true
-      this.visitorService.updateVisitorPreferences(this.visitor)
+      this.visitorService.updateVisitorPreferences(this.visitor.$key, this.visitor.prefs)
     })
   }
 

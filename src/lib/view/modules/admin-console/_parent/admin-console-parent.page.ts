@@ -15,14 +15,14 @@ export class AdminConsoleParentPage {
   @HostBinding('class') clazz = 'tanj-page-component'
 
 
-  authCdm: Auth
-  authCdm$: Observable<Auth>
+  auth: Auth
+  auth$: Observable<Auth>
 
   constructor(private bus: MessageBus,
               private adminService: AdminService,
               private changeDetectorRef: ChangeDetectorRef) {
-    this.authCdm$ = this.adminService.conceptualDataModel$().do((v) => {
-      this.authCdm = v
+    this.auth$ = this.adminService.auth$().do((v) => {
+      this.auth = v
       this.changeDetectorRef.markForCheck()
     })
   }

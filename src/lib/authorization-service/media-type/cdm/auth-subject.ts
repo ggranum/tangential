@@ -29,7 +29,7 @@ export class AuthSubject extends AuthUser {
   }
 
   public isSignedIn(): boolean {
-    return this.signInState === SignInStates.signedIn || this.isAnonymous || this.isNewAccount()
+    return this.signInState === SignInStates.signedIn || this.isAnonymousAccount() || this.isNewAccount()
   }
 
   public isNewAccount(): boolean {
@@ -43,6 +43,10 @@ export class AuthSubject extends AuthUser {
    */
   public isGuest(): boolean {
     return this.signInState === SignInStates.guest
+  }
+
+  public isAnonymousAccount(): boolean {
+    return this.signInState === SignInStates.signedInAnonymous
   }
 
   public isUnknown(): boolean {
@@ -74,6 +78,10 @@ export class AuthSubjectTransform {
     subject.signInState = signInState
     subject.sessionInfo = sessionInfo
     AuthUser.copyTo(user, subject)
+    if(subject.signInState === SignInStates.signedInAnonymous){
+      subject.displayName = 'Anonymous'
+    }
+
     return subject
   }
 }
