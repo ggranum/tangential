@@ -2,9 +2,9 @@
 
 Live demo available https://tangential-a8ee8.firebaseapp.com/[here].
 
-====== The framework you use is orthogonal to the problem you're trying to solve.
+== The framework you use is orthogonal to the problem you're trying to solve.
 
-Developers love their frameworks, there's definitely passion in the arena. But, at the end of the day, a framework is just another hammer in the toolbox. If it doesn't let you build your app, it's worthless - or worse. And if it does let you build your app, neither end-users nor management is going to care much which framework you used to do it.
+We developers love our frameworks. But, at the end of the day, a framework is just another hammer in the toolbox. If it doesn't let us build our app, it's worthless - or worse. And if it does let us build the app, neither end-users nor management is going to care much which framework we use to do it.
 
 Tangential works to bootstrap you past that horrible, boring, re-write the wheel new-project phase. No need to write Yet Another IAM package. Easy to follow steps for connecting analytics, and even advertising. After that, we stay out of your way. You shouldn't have to care learn the guts and nuances of yet another framework just to get set up. Tangential provides examples for all the major functionality you are ever likely to require in an app. And if you do get into a corner, the Angular community is incredibly active. We'll get you sorted.
 
@@ -15,7 +15,7 @@ If you have never built a site with advertising before, Tangential can introduce
 We'd love your feedback - and your contributions if you're up for it.
 
 == Features and highlights
-Tangential is still very much in early phases. It is growing as we use it to build out our 'proof of concept' cum validation project, https://SnapLog.io[SnapLog.io], which is a fully featured, ad-supported, analytics-enabled, mobile-oriented 'Life Journal'. SnapLog combines a purpose-driven form builder with long term tracking and correlation features (aka 'charts and graphs'), letting users track, for example, their mood and medication use, and correlate the two over time.
+Tangential is still very much in early phases. It is growing as we use it to build out our 'proof of concept' slash validation project, https://SnapLog.io[SnapLog.io], which is a fully featured, ad-supported, analytics-enabled, mobile-oriented 'Life Journal'. SnapLog combines a purpose-driven form builder with long term tracking and correlation features (aka 'charts and graphs'), letting users track, for example, their mood and medication use, and correlate the two over time.
 
 Tangential is already a great way to bootstrap your next personal project, or even something slightly larger in scale. For small sites that need to deploy a single web site or web application, but don't want to deal with hosting or implementing user management from scratch, you'll have a hard time finding anything more powerful.
 

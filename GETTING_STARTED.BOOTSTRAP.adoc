@@ -2,7 +2,7 @@
 
 == Getting started
 
-This project was bootstrapped from the combination of the Angular Material 2 and an Angular2-cli created project. The build system and file layout in particular are inherited from the https://docs.npmjs.com/getting-started/scoped-packages[Angular Material2] project.
+This project was bootstrapped from the combination of the Angular Material 2 and an Angular-cli created project. The build system and file layout in particular are inherited from the https://docs.npmjs.com/getting-started/scoped-packages[Angular Material2] project.
 
 To start hacking, perform a clone-install-build:
 
