@@ -2,15 +2,28 @@
   "name": "@tangential/core",
   "description": "Core types and support code for Tangential",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.1.1-beta.0",
+  "version": "0.1.1-beta.1",
   "license": "GPLv3",
   "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/ggranum/tangential.git"
   },
+  "contributors": [
+    {
+      "email": "geoff.granum@gmail.com",
+      "name": "Geoff M. Granum"
+    }
+  ],
   "keywords": [
-    "tangential"
+    "tangential",
+    "angular",
+    "angular2",
+    "components",
+    "widgets",
+    "authentication",
+    "auth",
+    "firebase"
   ],
   "bugs": {
     "url": "https://github.com/ggranum/tangential/issues"

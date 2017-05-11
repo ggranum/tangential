@@ -2,17 +2,27 @@
   "name": "@tangential/components",
   "description": "Various view components.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.1.1-beta.0",
+  "version": "0.1.1-beta.1",
   "license": "GPLv3",
   "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/ggranum/tangential.git"
   },
+  "contributors": [
+    {
+      "email": "geoff.granum@gmail.com",
+      "name": "Geoff M. Granum"
+    }
+  ],
   "keywords": [
     "angular",
     "components",
-    "widgets"
+    "widgets",
+    "angular2",
+    "authentication",
+    "auth",
+    "firebase"
   ],
   "bugs": {
     "url": "https://github.com/ggranum/tangential/issues"
@@ -23,13 +33,13 @@
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
-    "@angular/core": "4.0.1 ",
-    "@angular/common": "4.0.1 ",
-    "@angular/forms": "4.0.1 ",
-    "@angular/router": "4.0.1 ",
-    "@angular/material": "4.0.1 ",
-    "@tangential/common": "0.0.0",
-    "@tangential/authorization-service": "0.0.0"
+    "@angular/core": "4.0.3",
+    "@angular/common": "4.0.3",
+    "@angular/forms": "4.0.3",
+    "@angular/router": "4.0.3",
+    "@angular/material": "2.0.0-beta.3",
+    "@tangential/core": "0.1.1-beta.1",
+    "@tangential/authorization-service": "0.1.1-beta.1"
   },
   "main": "./index.js",
   "typings": "./index.d.ts"

@@ -1,3 +1,32 @@
+<a name="0.1.1-beta.1"></a>
+## [0.1.1-beta.1](https://github.com/ggranum/tangential/compare/v0.0.1-beta.20...v0.1.1-beta.1) (2017-05-11)
+
+
+### Features
+
+* **all:** Improvements from development of https://SnapLog.io ([ad262ec](https://github.com/ggranum/tangential/commit/ad262ec))
+* **analytics:** Add 'page' super class for managing analytics. ([1019152](https://github.com/ggranum/tangential/commit/1019152))
+* **authorization-service:** Record Sign in events ([fe3c2b7](https://github.com/ggranum/tangential/commit/fe3c2b7))
+* **firebase:** Improve Auth document layout ([f8a7366](https://github.com/ggranum/tangential/commit/f8a7366))
+* **firebase-functions:** Add demo Firebase functions ([bce1a9b](https://github.com/ggranum/tangential/commit/bce1a9b))
+* **firebase-functions:** Add watch for setting new user Role ([dfe1858](https://github.com/ggranum/tangential/commit/dfe1858))
+* **mobile:** Add favicons and homescreen icons ([fe64723](https://github.com/ggranum/tangential/commit/fe64723))
+* **mobile:** Update home screen icon ([8ae4a11](https://github.com/ggranum/tangential/commit/8ae4a11))
+
+
+### BREAKING CHANGES
+
+* **all:** Basically everything. Please consider this a clean start. We
+won't be making such large changes in the future. Promise.
+* **all:** The tg- prefix is now tanj-. This should be amenable to
+global search and replace.
+* **database:** This release reorganizes the structure of the
+auth table in firebase. As there is no DB Migration feature yet,
+you will need to manually move you auth child documents around
+to match. See '/config/common/firebase/databse.init.json' for the
+new structure.
+
+
 <a name="0.0.1-beta.20"></a>
 ## [0.0.1-beta.20](https://github.com/ggranum/tangential/compare/v0.0.1-beta.19...v0.0.1-beta.20) (2017-04-09)
 

@@ -2,7 +2,7 @@
   "name": "tangential",
   "description": "Angular + Firebase bootstrap project / widget library, complete with authorization.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.1.1-beta.0",
+  "version": "0.1.1-beta.1",
   "license": "GPL",
   "private": false,
   "repository": {
@@ -16,8 +16,8 @@
     }
   ],
   "keywords": [
-    "angular",
-    "angular2",
+    "Angular",
+    "Angular2",
     "components",
     "widgets",
     "authentication",

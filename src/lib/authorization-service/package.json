@@ -2,20 +2,26 @@
   "name": "@tangential/authorization-service",
   "description": "Angular based, Firebase-hosted Authorization Module",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.1.1-beta.0",
+  "version": "0.1.1-beta.1",
   "license": "GPLv3",
   "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/ggranum/tangential.git"
   },
+  "contributors": [
+    {
+      "email": "geoff.granum@gmail.com",
+      "name": "Geoff M. Granum"
+    }
+  ],
   "keywords": [
     "angular",
     "components",
     "widgets",
     "authentication",
     "auth",
-    "firebase"
+    "firebase",
   ],
   "bugs": {
     "url": "https://github.com/ggranum/tangential/issues"
@@ -26,10 +32,10 @@
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
-    "@angular/core": "4.0.1 ",
-    "@angular/common": "4.0.1 ",
-    "@tangential/media-types": "0.1.1-beta.0",
-    "@tangential/common": "0.1.1-beta.0"
+    "@angular/core": "4.0.3",
+    "@angular/common": "4.0.3",
+    "@tangential/core": "0.1.1-beta.1",
+    "@tangential/media-types": "0.1.1-beta.1"
   },
   "main": "./index.js",
   "typings": "./index.d.ts"
