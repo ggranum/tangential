@@ -1,0 +1,41 @@
+@mixin tanj-input_widgets-icon_rating_widget($theme) {
+
+  $background : map-get($theme, background);
+  $backgroundColor : mat-color($background, background);
+  $textColor : mat-color(map-get($theme, foreground), text);
+  $iconColor : mat-color(map-get($theme, foreground), icon);
+
+  $spinnerDividerColor : #039BE5;
+
+  tanj-icon-rating-widget {
+    text-align : left;
+    .tanj-label {
+      min-width : 5em;
+      @include tanj-input-widget-font($theme);
+    }
+
+    .tanj-icon-rating-stars {
+      min-width     : 5em;
+      padding-left  : .5em;
+      padding-right : .5em;
+      color         : $textColor;
+      overflow      : hidden;
+      text-align    : center;
+
+    }
+
+    .tanj-icon-rating-icons-container {
+      tanj-icon {
+        font-size : 36px;
+      }
+    }
+
+    .tanj-label.tanj-below {
+      margin-top    : -.2em;
+      margin-right  : 0;
+      margin-bottom : .5em;
+      text-align    : center;
+    }
+
+  }
+}

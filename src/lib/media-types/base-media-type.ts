@@ -1,10 +1,10 @@
-import {generatePushID, Jsonified, JsonUtil} from "@tangential/common";
+import {generatePushID, Jsonified, JsonUtil} from '@tangential/core'
 
 export interface BaseMediaTypeJson {
   $key?: string
 }
 
-const Model:BaseMediaTypeJson = {
+const Model: BaseMediaTypeJson = {
   $key: null
 }
 
@@ -17,7 +17,7 @@ export class BaseMediaType implements Jsonified<BaseMediaType, BaseMediaTypeJson
     this.$key = key || config.$key || generatePushID()
   }
 
-  getModel(){
+  getModel() {
     return this.constructor['$model']
   }
 

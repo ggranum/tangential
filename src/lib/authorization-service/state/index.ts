@@ -1,13 +1,11 @@
-export * from './visitor/firebase-visitor-service'
-export * from './visitor/visitor-service'
+export * from './admin-service/admin-service'
+export * from './admin-service/firebase-admin-service'
 
-export * from './role/role-service'
-export * from './role/firebase-role-service'
+export * from './authentication-service/authentication-service'
+export * from './authentication-service/firebase-authentication-service'
 
-export * from './permission/permission-service'
-export * from './permission/firebase-permission-service'
+export * from './settings-service/settings-service'
+export * from './settings-service/firebase-settings-service'
 
 export * from './user/user-service'
 export * from './user/firebase-user-service'
-
-export * from './authorization-defaults'

@@ -1,0 +1,38 @@
+<div flex
+     *ngIf="inputConfig"
+     class="tanj-themed"
+     layout="column"
+     layout-align="space-between">
+  <fieldset class="tanj-input-preview" layout="row" layout-align="start">
+    <legend>Preview</legend>
+    <tanj-input-template-container [inputConfig]="inputTemplate.config"
+                                  [inputIval]="inputTemplate.ival"
+                                  [mode]="'EDIT'"></tanj-input-template-container>
+    <div layout="row" layout-align="end">
+      <button class="tanj-choose-widget-button"
+              md-raised-button
+              color="primary"
+              [disabled]="!canChangeWidget()"
+              (click)="showChooseInputDialog()">
+        <tanj-icon ligature="edit" label="Choose Widget" i18n-label></tanj-icon>
+      </button>
+    </div>
+  </fieldset>
+
+
+  <div flex class="tanj-inputs-configuration-container" layout="column" layout-align="start">
+    <div flex="70"
+         *ngIf="inputTemplate"
+         class="tanj-input-configuration-inner"
+         layout="column"
+         layout-align="start">
+      <div layout="row" layout-align="start start">
+        <tanj-input-template-container flex
+                                      [inputConfig]="inputTemplate.config"
+                                      [inputIval]="inputTemplate.ival"
+                                      [mode]="inputTemplate.mode"
+                                      (change)="onTemplateChanged(inputTemplate)"></tanj-input-template-container>
+      </div>
+    </div>
+  </div>
+</div>

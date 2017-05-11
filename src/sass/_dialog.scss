@@ -1,0 +1,26 @@
+.tanj-dialog-title {
+  margin-top    : .5em;
+  margin-bottom : .5em;
+  font-size     : 24px;
+}
+
+.tanj-dialog-content-container {
+  -webkit-overflow-scrolling : touch;
+  overflow-y                 : auto;
+  max-height                 : 100%;
+}
+
+.tanj-dialog-content {
+  margin : 1em .25em 1em .25em;
+  &.tanj-centered {
+    text-align : center;
+  }
+}
+
+.tanj-dialog-footer {
+  margin     : 0 .5em .1em .5em;
+  min-height : 3em;
+  .tanj-separator-vertical {
+    border-left : 1px solid rgba(black, .4);
+  }
+}

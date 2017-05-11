@@ -1,0 +1,26 @@
+<div class="tanj-dialog-title" layout="row" layout-align="center">
+  <h2 i18n>Choose a widget</h2>
+</div>
+
+<div class="tanj-dialog-content-container">
+  <div flex="grow" class="tanj-dialog-content" layout="column" layout-align="center">
+    <div md-dialog-actions class="tanj-widget-list tanj-example-widget" flex layout="column" layout-align="start">
+
+      <div *ngFor="let inputTemplate of filteredTemplates"
+           class="tanj-widget-container"
+           flex="grow"
+           layout="row"
+           layout-align="start center">
+        <tanj-input-template-container flex
+                                      [inputConfig]="inputTemplate.config"
+                                      [inputIval]="inputTemplate.ival"
+                                      [mode]="inputTemplate.mode"></tanj-input-template-container>
+        <div class="tanj-widget-button-container" layout="row" layout-align="end center">
+          <a md-mini-fab (click)="onWidgetClicked(inputTemplate)">
+            <tanj-icon ligature="done"></tanj-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

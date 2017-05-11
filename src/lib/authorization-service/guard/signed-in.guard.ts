@@ -1,6 +1,9 @@
-import { Injectable }     from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router}    from '@angular/router';
-import {VisitorService} from "../state/visitor/visitor-service";
+import {Injectable} from '@angular/core'
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router'
+import {Observable} from 'rxjs/Observable'
+//noinspection TypeScriptPreferShortImport
+import {VisitorService} from '../../visitor-service/visitor-service'
+
 
 /**
  * Register this class as a Provider in your module before using it on a route.
@@ -8,23 +11,21 @@ import {VisitorService} from "../state/visitor/visitor-service";
 @Injectable()
 export class SignedInGuard implements CanActivate {
 
-  constructor(private _router: Router, private _visitorService:VisitorService) {}
+  constructor(private router: Router, private visitorService: VisitorService) {
+  }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.isSignedIn(state.url)
   }
 
-  private isSignedIn(url:string):boolean {
-    let signedIn = true
-    if(this._visitorService.isVisitorSignedIn()){
-      signedIn = true
-    } else {
-      signedIn = false
-      // Store the attempted URL for redirecting
-      this._visitorService.redirectUrl = url
-      this._router.navigate(['/sign-in'])
-    }
+  private isSignedIn(url: string): Observable<boolean> {
 
-    return signedIn
+    return this.visitorService.awaitVisitor$().first().map(v => {
+      const signedIn = v != null
+      if (!signedIn) {
+        this.router.navigate(['/sign-in'])
+      }
+      return signedIn
+    })
   }
 }

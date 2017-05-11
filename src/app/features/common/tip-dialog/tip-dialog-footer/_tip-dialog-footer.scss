@@ -1,0 +1,9 @@
+@mixin tanj-tip-dialog-footer-theme($theme) {
+  $text : mat-color(map-get($theme, primary), 400);
+  $subText : mat-color(map-get($theme, primary), 50);
+
+  tanj-tip-dialog-footer {
+    margin-top : 2em;
+
+  }
+}

@@ -1,0 +1,72 @@
+= Auth-Service
+
+== About the data types
+An authentication and authorization service built on Firebase and NgStore. Provides roles, permissions and user management, with plans for future asset-level Access Control Lists (ACLs).
+
+
+=== Permissions
+
+Permissions are simple objects, essentially just a key and an optional description. The list of all system permissions are stored in an object map, using the permission "name" as the key. This map is found at the root of the auth-system state object.
+
+A typical system is expected to have no more than a few hundred permissions.
+
+=== Roles
+
+A Role is also a simple 'key-description' tuple, and all system roles are stored in a single object map at the root of the auth-system state object.
+
+Because "a role has permissions", there is also a role-permissions map. This map is stored at the root of the auth-system state object, and contains an entry for each role that has any permissions assigned to it. That entry is itself a map, keyed by a permission name.
+
+
+=== Users
+
+Users have roles, and users have permissions. Roles also have permissions. What this means in practice is that users have both directly assigned permissions, and permissions indirectly assigned via their roles.
+
+
+== Tangential is Permissions-oriented
+
+Role based authorization is great, but it isn't actually supported by Firebase Rules in a generalizable way. So our Auth-Service will update a 'flattened' view of a user's permissions table when a permission is granted to or revoked from a role that is already assigned to a user. From a permission and rule management perspective it's fairly transparent, while also allowing Firebase Rules to match one-to-one with  run-time permission checks.
+
+Technically one could use *pure* Role based authorization using Firebase Rules. Doing so would make creating permissions absolutely pointless however.
+
+== Data Structure
+
+```js
+const root = {
+  auth: {
+    settings: {
+      permissions: { permission:AuthPermission, ...},
+      roles: { role:AuthRole, ...},
+      rolePermissions: { roleKey: { permissionKey:boolean}, ...},
+    },
+    subject_granted_roles: { userKey: {roleKey: boolean}, ...},
+    subject_granted_permissions: { userKey: {permissionKey: boolean}, ...},
+    // ep stand for 'Subject Effective Permissions' We discuss the reason for
+    // the abbreviation below.
+    ep: { userKey: {permissionKey: boolean}, ...}
+    subjects: userKey: { user:AuthUser, ...},
+  },
+}
+```
+
+A permission lookup will always be based on the 'ep' mapping table. This is to say, in your Firebase Rules.json file, you will create a read or write rule using something like:
+
+```json
+"rules": {
+    ".read": "auth.uid === 'gulp-service-worker'",
+    ".write": "auth.uid === 'gulp-service-worker'",
+    "auth": {
+      ".read": "root.child('auth/ep/' + auth.uid + '/VIEW USERS').exists()",
+      "permissions": {
+              ".read": "true",
+              ".write": "root.child('auth/ep/' + auth.uid + '/' + ( newData.exists() ? (data.exists() ? 'MODIFY' : 'ADD' ) : 'DELETE') + ' PERMISSION').exists()"
+            },
+    }
+  }
+
+```
+
+As is perhaps obvious by now, the shortened name helps keep your rules from becoming absurdly long. It also presumably makes things a bit faster than, say 'subject_effective_permission', when Firebase is performing rule checks, but that would depend greatly on their implementation. Probably somewhat. In any event, the readability of the Rules is of sufficient importance to make it worth the loss in obviousness.
+
+
+
+

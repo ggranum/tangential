@@ -1,0 +1,14 @@
+@import 'home/home';
+@import 'about/about';
+@import 'contact/contact';
+@import 'privacy/privacy';
+@import 'tryout-welcome/tryout-welcome';
+
+@mixin tanj-themed-features-casa($theme) {
+  @include tanj-home-theme($theme);
+  @include tanj-about-theme($theme);
+  @include tanj-contact-theme($theme);
+  @include tanj-privacy-theme($theme);
+  @include tanj-casa-tryout-welcome-theme($theme);
+
+}

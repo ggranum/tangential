@@ -1,8 +1,5 @@
-import {
-  BaseMediaTypeJson,
-  BaseMediaType
-} from "./base-media-type";
-import {Jsonified, ObjectUtil} from "@tangential/common";
+import {Jsonified, ObjectUtil} from '@tangential/core'
+import {BaseMediaType, BaseMediaTypeJson} from './base-media-type'
 
 
 export interface StampedMediaTypeJson extends BaseMediaTypeJson {
@@ -10,9 +7,9 @@ export interface StampedMediaTypeJson extends BaseMediaTypeJson {
   editedMils?: number
 }
 
-const Model:StampedMediaTypeJson = {
+const Model: StampedMediaTypeJson = {
   createdMils: null,
-  editedMils: null
+  editedMils:  null
 }
 
 export class StampedMediaType extends BaseMediaType implements Jsonified<StampedMediaType, StampedMediaTypeJson>, StampedMediaTypeJson {
@@ -21,7 +18,7 @@ export class StampedMediaType extends BaseMediaType implements Jsonified<Stamped
   editedMils?: number
 
 
-  constructor(config: any, key?:string) {
+  constructor(config: any, key?: string) {
     super(config, key)
     this.createdMils = config.createdMils || Date.now()
     this.editedMils = config.editedMils || this.createdMils

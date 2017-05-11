@@ -1,0 +1,19 @@
+@mixin tanj-view-components-page_body($theme) {
+
+  $background : map-get($theme, background);
+  $foreground : map-get($theme, foreground);
+  $appBar: map-get($theme, app-bar);
+
+  tanj-page-body {
+    min-height: 100vh;
+    background-color: mat-color($background, background);
+
+    .tanj-header-shim {
+      min-height: map-get($appBar, height);
+    }
+  }
+
+
+}
+
+

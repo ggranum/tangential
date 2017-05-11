@@ -1,0 +1,31 @@
+a, a:visited, a:active, a:focus {
+  text-decoration : none;
+  outline         : none;
+  text-underline  : none;
+  cursor          : pointer;
+  color           : black;
+  user-select     : none;
+  * {
+    user-select : none;
+    outline     : none;
+
+  }
+}
+
+p {
+  margin : .5em 0 0 0;
+}
+
+h1, h2, h3, h4, h5 {
+  display               : inline-block;
+  font-size             : inherit;
+  margin                : 0;
+  font-weight           : inherit;
+  -webkit-margin-before : 0;
+  -webkit-margin-after  : 0;
+}
+
+fieldset {
+  margin  : 0;
+  padding : 0;
+}

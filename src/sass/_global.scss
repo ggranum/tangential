@@ -1,0 +1,90 @@
+@import url('~font-awesome/css/font-awesome.min.css');
+
+@import 'clear_styles';
+@import 'mixins';
+@import 'material_hacks';
+@import 'dialog';
+
+html {
+  height: 100%;
+}
+
+.tanj-button-icon {
+  margin-right: .4em;
+}
+
+ng2-adsense div {
+  text-align: center;
+
+  .adsbygoogle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.no-select {
+  user-select: none;
+}
+
+@mixin tanj-global-app-theme($theme) {
+  @include tanj-material_hacks-theme($theme);
+
+  $foreground: map-get($theme, foreground);
+
+  $text: mat-color(map-get($theme, primary), 400);
+  $textColorDisabled: mat-color(map-get($theme, foreground), disabled-text);
+
+  a, a:visited, a:hover, a:active {
+    color: map-get($foreground, link);
+    &[md-button], &[md-raised-button] {
+      color: map-get($foreground, icon);
+    }
+  }
+
+  a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    &[md-button], &[md-raised-button] {
+      text-decoration: none;
+    }
+  }
+
+  .tanj-disabled {
+    background-color: rgba(0, 0, 0, 0.12);
+    color: $textColorDisabled;
+    .tanj-input-spinner-field {
+      color: $textColorDisabled;
+      md-icon {
+        color: mat-color(map-get($theme, foreground), disabled-button);
+      }
+    }
+
+  }
+
+  .tanj-raw-input {
+    -webkit-appearance: inherit;
+    background-color: inherit;
+    user-select: text;
+    cursor: auto;
+    padding: 0;
+    border: none;
+
+    text-rendering: auto;
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0;
+    text-shadow: none;
+    display: inherit;
+    text-align: inherit;
+    margin: 0 0 0 0;
+    font: inherit;
+  }
+
+  .tanj-fading-line {
+    height: 2px;
+    background: radial-gradient(50% 100%, #000, transparent);
+  }
+}
+

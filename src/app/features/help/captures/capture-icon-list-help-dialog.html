@@ -1,0 +1,35 @@
+<div class="tanj-dialog-title">
+  <h1>{{heading}}</h1>
+</div>
+
+<div class="tanj-dialog-content-container">
+  <div flex="grow" class="tanj-dialog-content" layout="column" layout-align="start start">
+    <div class="tanj-asciidoctor-container">
+      <div class="tanj-asciidoctor-body"><h2>Captures</h2>
+        <div class="paragraph">
+          <p>This is a list of all your captures. If you have none, you can click on the
+            <code class="material-icons">add</code> button to add one.</p>
+        </div>
+        <div class="imageblock">
+          <div class="content">
+            <img src="/assets//help_wheel-menu.png" alt="help wheel menu.png" width="100">
+          </div>
+          <div class="title">Figure 1. menu</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="tanj-fading-line"></div>
+
+
+<div class="tanj-dialog-footer" layout="row" layout-align="start">
+  <div flex></div>
+  <div class="tanj-separator-vertical"></div>
+  <div flex (click)="onCloseRequest()" layout="row" layout-align="center center"><a md-button i18n>close</a></div>
+</div>
+
+
+
+
+

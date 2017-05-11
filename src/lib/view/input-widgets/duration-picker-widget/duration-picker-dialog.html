@@ -1,0 +1,19 @@
+<div flex class="tanj-duration-picker-dialog-body" layout="column" layout-align="start">
+  <div flex class="" layout="row" layout-align="space-around">
+
+    <tanj-number-spinner-widget flex *ngFor="let field of state.selectedFields()"
+                               [(ngModel)]="field.value"
+                               [label]="field.label"
+                               [labelPosition]="'below'"
+                               [max]="field.max"
+                               [min]="0"
+                               (change)="onValueChange(field)"></tanj-number-spinner-widget>
+  </div>
+</div>
+<div layout="column" layout-align="end">
+  <div flex class='tanj-button-footer' layout="row" layout-align="center">
+    <a flex md-raised-button color="accent" class="tanj-cancel" (click)="onCancelRequest()">Cancel</a>
+    <a flex md-raised-button color="primary" class="tanj-ok" (click)="onOkRequest()">Set</a>
+  </div>
+</div>
+

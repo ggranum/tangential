@@ -1,0 +1,11 @@
+@import 'data-list/data-list.component';
+@import 'page-body/page-body.component';
+@import 'pagination-bar/pagination-bar';
+@import 'sign-in-panel/sign-in-panel.component';
+
+@mixin tanj-view-components-index($theme) {
+  @include tanj-view-components-data_list($theme);
+  @include tanj-view-components-page_body($theme);
+  @include tanj-view-components-pagination_bar($theme);
+  @include tanj-view-components-sign_in_panel($theme);
+}

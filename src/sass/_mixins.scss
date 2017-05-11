@@ -1,0 +1,12 @@
+@mixin tanj-input-label($theme) {
+  font-size    : 16px;
+  font-weight  : 400;
+  font-family  : map-get(map-get($theme, forms), label-font-family);
+  margin-right : 0.5em
+}
+
+@mixin tanj-input-widget-font($theme) {
+  letter-spacing : .1em;
+  font-family  : map-get(map-get($theme, forms), label-font-family);
+}
+

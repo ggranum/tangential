@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="fca34bee95bd321e4af6a8ceef5f2e1a8fac62ff" datatype="html">
+        <source>Sign In / Sign Up</source>
+        <target/>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -10,8 +10,8 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('karma-spec-reporter'),
-      require('@angular/cli/plugins/karma')
+      require('@angular/cli/plugins/karma'),
+      require('karma-mocha-reporter'),
     ],
     client:{
       clearContext: false // leave Jasmine Spec Runner output visible in browser
@@ -34,26 +34,30 @@ module.exports = function (config) {
       environment: 'dev'
     },
 
-    reporters: config.angularCli && config.angularCli.codeCoverage
-      ? ['progress', 'coverage-istanbul']
-      : ['progress', 'kjhtml'],
+    reporters: ['mocha'],
+    // reporters: config.angularCli && config.angularCli.codeCoverage ? ['mocha', 'coverage-istanbul'] : ['mocha', 'kjhtml'],
+    mochaReporter: {
+      output: 'full',
+      colors: {
+        success: 'blue',
+        info: 'gray',
+        warning: 'cyan',
+        error: 'bgRed'
+      },
+      symbols: {
+        success: '+',
+        info: '#',
+        warning: '!',
+        error: 'x'
+      }
+    },
     specReporter: {
-      maxLogLines: 5,         // limit number of lines logged per test
+      maxLogLines: 50,         // limit number of lines logged per test
       suppressErrorSummary: true,  // do not print error summary
       suppressFailed: false,  // do not print information about failed tests
       suppressPassed: false,  // do not print information about passed tests
       suppressSkipped: false,  // do not print information about skipped tests
-      showSpecTiming: false // print the time elapsed for each spec
-    },
-    htmlReporter: {
-      outputFile: 'dist/test-output.html',
-
-      // Optional
-      pageTitle: 'Unit Tests',
-      subPageTitle: 'A sample project description',
-      groupSuites: true,
-      useCompactStyle: true,
-      useLegacyStyle: true
+      showSpecTiming: true // print the time elapsed for each spec
     },
     port: 9876,
     colors: true,

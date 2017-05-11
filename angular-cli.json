@@ -8,29 +8,25 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "demo/favicon.ico",
-        { "glob": "asciidoctor.js", "input": "../node_modules/asciidoctor.js/dist/", "output": "./demo/assets/" },
-        { "glob": "asciidoctor.css", "input": "../node_modules/asciidoctor.js/dist/css", "output": "./demo/assets/" }
+        "assets",
+        "favicon.ico"
       ],
-      "index": "demo/index.html",
-      "main": "demo/main.ts",
+      "index": "index.html",
+      "main": "main.ts",
       "polyfills": "polyfills.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
-      "prefix": "demo",
+      "prefix": "app",
       "styles": [
-        "demo/theme.scss",
-        "demo/angular-material.layouts.min.css",
-        "../node_modules/primeng/resources/themes/omega/theme.css",
-        "../node_modules/primeng/resources/primeng.min.css"
+        "theme.scss",
+        "angular-material.layouts.min.css"
       ],
       "scripts": [],
-
-      "environmentSource": "demo/environments/environment.ts",
+      "environmentSource": "environments/environment.ts",
       "environments": {
-        "dev": "demo/environments/environment.dev.ts",
-        "prod": "demo/environments/environment.prod.ts"
+        "dev": "environments/environment.dev.ts",
+        "prod": "environments/environment.prod.ts"
       }
     }
   ],

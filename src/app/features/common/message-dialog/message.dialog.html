@@ -1,0 +1,19 @@
+<div class="tanj-dialog-title" layout="row" layout-align="center">
+  <h2>{{config.title}}</h2>
+</div>
+
+
+<div flex class="tanj-dialog-content-container">
+  <div flex="grow" class="tanj-dialog-content tanj-centered" layout="column" layout-align="center">
+    <div layout="row" layout-align="center">{{config.content}}</div>
+  </div>
+</div>
+
+<div class="tanj-fading-line"></div>
+
+
+<div *ngIf="config.type == 'yesNo'" class="tanj-dialog-footer" layout="row" layout-align="start">
+  <a flex md-button (click)="onRejectClick($event)">{{leftButtonText}}</a>
+  <div class="tanj-separator-vertical"></div>
+  <a flex md-button (click)="onConfirmClick($event)">{{rightButtonText}}</a>
+</div>

@@ -1,16 +1,16 @@
-import {Injectable} from "@angular/core";
-import * as firebase from "firebase"
-import {FirebaseConfig} from "./firebase-config";
+import {Injectable} from '@angular/core'
+import * as firebase from 'firebase'
+import {FirebaseConfig} from './firebase-config'
 
 @Injectable()
 export class FirebaseProvider {
 
-  public app:firebase.app.App
+  public app: firebase.app.App
 
   constructor(private config: FirebaseConfig) {
-    if(!config || !config.apiKey){
+    if (!config || !config.apiKey) {
       console.log('FirebaseProvider', 'constructor', config)
-      throw new Error("FirebaseProvider requires an instance of FirebaseConfig to be set as a provider in your module.")
+      throw new Error('FirebaseProvider requires an instance of FirebaseConfig to be set as a provider in your module.')
     }
     try {
       this.app = firebase.initializeApp(config)

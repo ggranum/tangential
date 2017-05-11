@@ -1,10 +1,10 @@
-import {Injectable} from "@angular/core";
-import {EmailPasswordCredentials} from "@tangential/media-types";
+import {Injectable} from '@angular/core';
 
-import {defaultUsers} from '../config/users.local'
-import {ObjMap} from "@tangential/common";
+import {ObjMap} from '@tangential/core';
+import {defaultUsers} from '../../../../config/common/firebase/users.local';
+import {EmailPasswordCredentials} from '@tangential/authorization-service';
 
-let userMap: ObjMap<any> = {}
+const userMap: ObjMap<any> = {}
 
 defaultUsers.forEach((user: any) => {
   userMap[user.uid] = user

@@ -1,0 +1,48 @@
+
+.tanj-help-dialog-component {
+  width      : 100%;
+  max-height : 70vh;
+  max-width  : 100%;
+  font-size  : 12px;
+  overflow   : hidden;
+  text-align : left;
+
+  .tanj-dialog-content {
+    overflow-y                 : auto;
+    -webkit-overflow-scrolling : touch;
+    margin-top                 : 0;
+    min-height                 : 70vh;
+
+  }
+
+  .tanj-dialog-title {
+    text-align    : center;
+    font-size     : 12px;
+    margin-top    : 0;
+    margin-bottom : 0;
+  }
+
+  /* Restore the H2 styling for asciidoctor */
+  h1 {
+    display     : block;
+    font-size   : 200%;
+    margin      : .67em 0 .67em 0;
+    font-weight : bold;
+  }
+
+  h2 {
+    display     : block;
+    font-size   : 150%;
+    margin      : .83em 0 .83em 0;
+    font-weight : bold;
+  }
+
+  h3 {
+    display     : block;
+    font-size   : 117%;
+    margin      : 1em 0 1em 0;
+    font-weight : bold;
+  }
+
+}
+

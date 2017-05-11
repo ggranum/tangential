@@ -1,173 +1,54 @@
 = Tangential
 
-Live demo available https://tangential-demo.firebaseapp.com/[here].
+Live demo available https://tangential-a8ee8.firebaseapp.com/[here].
 
-== About
+== The framework you use is orthogonal to the problem you're trying to solve.
 
-This project uses https://angular.io[Angular] (version "2") and https://firebase.google.com[Firebase] to create modules that can be dropped into projects that make use of similar features.
+We developers love our frameworks. But, at the end of the day, a framework is just another hammer in the toolbox. If it doesn't let us build our app, it's worthless - or worse. And if it does let us build the app, neither end-users nor management is going to care much which framework we use to do it.
 
-The flagship module is the Authentication & Authorization Module - AKA User Management. Check it out https://tangentialdemo.firebaseapp.com/sign-in[here]
+Tangential works to bootstrap you past that horrible, boring, re-write the wheel new-project phase. No need to write Yet Another IAM package. Easy to follow steps for connecting analytics, and even advertising. After that, we stay out of your way. You shouldn't have to care learn the guts and nuances of yet another framework just to get set up. Tangential provides examples for all the major functionality you are ever likely to require in an app. And if you do get into a corner, the Angular community is incredibly active. We'll get you sorted.
 
-Visual components are (or will be) consumable without needing to include unnecessary functionality. For example, using the `asciidoctor-panel` component in your project will not introduce a dependency on Firebase.
+If you have never tracked user interactions across your site, Tangential can show you how the way using Google Analytics.
 
+If you have never built a site with advertising before, Tangential can introduce you to displaying ads served by Google AdSense. We'll even link AdSense to Analytics and help you figure out what, exactly, a 'conversion' means to you.
 
-===== As a template for component-library projects
+We'd love your feedback - and your contributions if you're up for it.
 
-This project's build system was adopted from the Material Design team's Material2 project, prior to their merging all their components into a single namespace. Aside from offering a number of useful components, you may find this project to be a useful template to follow if you are attempting to create a component library of your own.
+== Features and highlights
+Tangential is still very much in early phases. It is growing as we use it to build out our 'proof of concept' slash validation project, https://SnapLog.io[SnapLog.io], which is a fully featured, ad-supported, analytics-enabled, mobile-oriented 'Life Journal'. SnapLog combines a purpose-driven form builder with long term tracking and correlation features (aka 'charts and graphs'), letting users track, for example, their mood and medication use, and correlate the two over time.
 
-== Getting Started: Using Tangential widgets in your project
+Tangential is already a great way to bootstrap your next personal project, or even something slightly larger in scale. For small sites that need to deploy a single web site or web application, but don't want to deal with hosting or implementing user management from scratch, you'll have a hard time finding anything more powerful.
 
-If you are interested is using this project as a template for your own component library, check out the DEVELOPER.md readme.
+Once we've hit release candidate we will update the project with licensing information. We have chosen to dual license Tangential because we would like to continue to grow it. As donation schemes are rarely successful, this is the only option we know of that has the potential to fund Tangential in the long term. Should some anonymous, glorious, benefactors wish to commit to funding the project for a significant duration we'd gladly shift to MIT licensing.
 
-For developing with the components in this library, take a look at the https://github.com/ggranum/tangential-demo[Tangential Demo project] to see how to import, configure and consume Tangential components.
+Below is a list of major features. Do note that many of the widgets and components you find in the Tangential demo are actually available as separate NPM packages. E.g. the Admin Console can be used without committing to using the entire bootstrap.
 
-Each component has it's own readme file, which should (eventually) contain the required install steps specific to that component.
+Firebase Hosted::  One server hosting. With Firebase Functions and some good Firebase Rule hygiene, you don't need a separate authentication server. How nice is that?
 
-If you have not started your project yet we very much recommend using the Angular-CLI to create your project, then follow the docs below.
+Angular Goodness:: Angular 4+, at the moment. We'll keep the project dependencies up to date
 
-If you only wish to consume Tangential widgets and modules you might find it easier to reference the Tangential Demo (linked above). Doing so might reduce the chance of you stumbling into documentation or source code that is only of interest for those developing new widgets for this project.
+Built in IAM console::  Create and assign new roles and permissions. It's basic at the moment, but growing.
 
-With that out of the way, let's get stated installing widgets into our new project.
+Themed:: Customizable Material Design themes.
 
-=== Install all the things
+Logging:: Log to the browser console - you can see the output in the demo if you open your console
 
-Install any of the components you wish to use. Be sure to check the dependencies of the components you do install if you chose not to install them all.
+Google Analytics:: Connect your Google Analytics account and get clean, easy to follow page and event tracking. don't have an Analytics account yet? We'll walk you through how to create one.
 
-[source, bash]
-npm install --save @tangential/admin-ui
-npm install --save @tangential/asciidoctor-panel
-npm install --save @tangential/authorization-service
-npm install --save @tangential/drawer
-npm install --save @tangential/common
-npm install --save @tangential/sign-in-component
+Google AdSense:: We're still creating ad widgets, but connecting AdSense is as easy as adding your AdSense campaign id to the environments.ts file. No idea what we mean? AdSense is Google's ad serving service, and if you want to display ads in your web site or web app, we'll walk you through how to get started.
 
+AoT Compilation:: There are things you can't do if you want AoT to work in an Angular project. We don't do those things, so your project can benefit from pre-compiled code.
 
-All components require Angular2. Some also require firebase. If you don't have all that installed, do take a look at https://github.com/ggranum/tangential-demo/blob/master/package.json[TangentialDemo/project.json] to get the most up to date copy of all the dependencies and their versions.
+Lazy Loaded Modules:: If only administrators can access the Admin Console, shouldn't it only load if the current visitor is an administrator? Exactly.
 
 
-==== Global Tools
+== Getting Started
 
-There are a handful of tools that are usually installed globally included in the devDependencies of the Tangential Demo. Global NPM installs should be discouraged, as keeping versions in sync is a pain. It is better to create aliases to locally installed versions of tool libraries, or reference them via scripts in the package.json file. We realize this opinion is not universal, but experience leads us to prefer the use of aliases over global installs.
+If you are interested is using this project as a template for your own component library, check out the link:GETTING_STARTED.BOOTSTRAP.adoc readme.
 
+If you would like to consume Tangential components / widgets in your project, take a look at link:GETTING_STARTED.LIBRARY.adoc
 
-To create aliases for the tools used by this project, execute the following:
+=== As a template for component-library projects
 
-[source, bash]
-echo source ~/.bash_aliases >> ~/.bashrc
-echo alias firebase="./node_modules/.bin/firebase" >> ~/.bash_aliases
-echo alias ng="./node_modules/.bin/ng"  >> ~/.bash_aliases
-source ~/.bash_aliases
-
-
-The use of a bash_aliases file is optional, but often calling `source` on ~/.bashrc repeatedly isn't completely side effect free (e.g. `path` becoming very, very, very long), and who has the energy to fix that?
-
-The above use of aliases does restrict the use of these tools to the base directory of active projects. In practice this is rarely a problem.
-
-This can also be solved via NPM scripts, which are provided in the package.json for the Tangential Demo project. To call `ng serve` via the script you need to instead call the npm script we've provided (see 'scripts' in link:package.json[]):
-
-[source, bash]
-npm run ng -- serve
-
-Note the `--` before `serve`. This is how you pass arguments to an NPM script.
-
-Generally speaking, adding an alias is more developer friendly. But when that's not possible npm scripts are there to fall back on.
-
-== Firebase Components
-
-The 'fully functional' components (e.g. Auth) require a https://firebase.google.com/[Firebase] backend.
-
-=== Create and configure your firebase project
-
-The backend is provided by Firebase. So you'll need a firebase project. Create one here: https://console.firebase.google.com/.
-
-You may want to find and replace '${YourProject}' in this document with the *identity* of your new project. If you are using WebStorm, set search options to 'Ignore case', and set 'Preserve Case' to true and you can take care of it all in one go.
-
-Once you've created the project, open it to the overview page (if it wasn't opened for you: https://console.firebase.google.com/project/${yourproject}/overview) and click 'Add Firebase to your web app'. You'll be given a popup that contains your Firebase configuration.
-
-You will also need to enable email/password authentication. Do so here: https://console.firebase.google.com/project/${YourProject}/authentication/providers
-
-
-==== Initialize your Firebase project
-
-Right now you have no data stored in your firebase project (*NOTE* if this is not the case, make backups or go start a new project!). The User Management console has a bit of a boot-strap issue, as you need certain permissions in order to assign permissions to User's... but if you don't have any user's with those rights... Exactly. So we will bypass the Tangential-Demo admin panel for this first bit of configuration. *Which WILL DELETE ALL YOUR EXISTING CONTENT*.
-
-===== The Firebase CLI
-
-One of the 3rd party tools installed by NPM is the https://firebase.google.com/docs/cli/#administrative_commands[Firebase CLI] tool. We added an alias for it above.  We're going to use it here to push our initial data into our firebase project directly. But first you need to update the .firebaserc file with the name of your firebase project.
-
-First, list your firebase projects:
-
-[source, bash]
-> firebase list
-
-You'll probably be told to login. And once you do (and re-run 'list') you'll get something that looks like this:
-
-[source, bash]
-┌────────────────────────┬────────────────────────────┬─────────────┐
-│ Name                   │ Project ID / Instance      │ Permissions │
-├────────────────────────┼────────────────────────────┼─────────────┤
-│ TangentialDemo         │ tangentialdemo             │ Owner       │
-└────────────────────────┴────────────────────────────┴─────────────┘
-
-Now open link:.firebaserc[] and replace 'tangentialdemo' with the *Project ID* of your project.
-
-With that done, we should now be ready to push our initial data:
-
-[source, bash]
-> firebase database:update "/" ./src/environments/database.init.json
-
-We could have used either push or set, but chose update to reduce the risk of frying you existing data for those readers who may rush through docs without reading carefully :~)
-
-
-==== Building and deploying: Production
-
-_If you don't use Angular2-CLI, you will need to modify the various `ng *` commands to match your own build tools versions thereof._
-
-We're going straight to the production build first, then we'll walk back to the development builds. This is partly to be certain that the production build works before you change any code. A lot of the supporting tools, such as Angular 2 and the Angular CLI, are only recently starting to settle down into stable libraries, so breakage is quite possible.
-
-To deploy your project to Firebase hosting we just need to run two commands:
-
-[source, bash]
-> ng build -prod
-> firebase deploy
-
-
-Magic, no?
-
-==== Building and deploying: Development
-
-There are two development builds that will watch your code for changes by default. Well, two that we use. You can read up on the https://github.com/angular/angular-cli[Angular CLI] for more details if you wish (hint: you should probably do this eventually - it's really very powerful and it will save you a TONNE of time creating new components and routes!)
-
-===== ng serve
-
-When you're working on UI widgets, you'll probably want this build:
-
-[source, bash]
-> ng serve
-
-It starts builds your project and starts a server, then watches for changes. It includes live-reload, so your browser will update in the background each time the build completes (which is to say, after each change you make).
-
-===== ng test
-
-For editing service oriented code, ng test is where it's at:
-
-[source, bash]
-> ng test
-
-Builds your code and runs your unit tests (using Karma). Rebuilds on changes and runs the tests again. Does development get any better?
-
-== Contributing
-
-We'd love your bug reports, fixes, widgets, ideas. Take a look at 'DEVELOPER.MD' to get started hacking on the project, or add an issue.
-
-
-=== Running unit tests
-
-[source, bash]
-ng test
-
-=== Running end-to-end tests
-
-Work in progress.
-
+Tangential's build system was adopted from the Material Design team's Material2 project, prior to their merging all their components into a single namespace. Aside from offering a number of useful components, you may find this project to be a useful template to follow if you are attempting to create a component library of your own.
 

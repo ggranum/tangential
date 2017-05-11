@@ -1,0 +1,47 @@
+@mixin tanj-input_widgets-date_time_widget($theme) {
+
+  $background : map-get($theme, background);
+  $backgroundColor : mat-color($background, background);
+  $textColor : mat-color(map-get($theme, foreground), text);
+  $textColorDisabled : mat-color(map-get($theme, foreground), disabled-text);
+  $iconColor : mat-color(map-get($theme, foreground), icon);
+  $iconColorDisabled : mat-color(map-get($theme, foreground), disabled-button);
+  $spinnerDividerColor : #039BE5;
+
+  .tanj-example-widget tanj-date-time-widget {
+    margin-right : .75em;
+  }
+
+  tanj-date-time-widget {
+    text-align : left;
+    .tanj-label {
+      min-width : 5em;
+      @include tanj-input-widget-font($theme);
+    }
+
+    .tanj-date-time-input-field {
+      margin-left : 1em;
+    }
+
+    .tanj-label .tanj-before {
+      text-align : left;
+    }
+    .tanj-label.tanj-below {
+      margin-top    : -.75em;
+      margin-right  : 0;
+      margin-bottom : .5em;
+      text-align    : center;
+    }
+
+    .tanj-disabled {
+      color : $textColorDisabled;
+      .tanj-input-spinner-field {
+        color : $textColorDisabled;
+        md-icon {
+          color : $iconColorDisabled;
+        }
+      }
+
+    }
+  }
+}

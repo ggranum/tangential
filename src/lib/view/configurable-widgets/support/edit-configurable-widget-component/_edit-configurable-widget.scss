@@ -1,0 +1,31 @@
+@mixin tanj-configurable_widgets-edit_configurable_widget($theme) {
+  tanj-input-type-edit-page {
+    .tanj-input-preview {
+      margin  : 1em .5em .5em .5em;
+      border  : 2px solid darkgrey;
+      padding : 0 .5em .5em .5em;
+
+      .tanj-choose-widget-button {
+        text-align : right;
+
+      }
+    }
+
+    .tanj-inputs-configuration-container {
+      margin-left                : 1em;
+      margin-right               : 1em;
+      overflow                   : scroll;
+      -webkit-overflow-scrolling : touch;
+      .tanj-input-configuration-inner {
+        min-height : 125%;
+      }
+
+    }
+
+    .tanj-inputs-edit {
+      margin-top : 1em;
+    }
+
+  }
+
+}

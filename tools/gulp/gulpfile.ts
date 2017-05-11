@@ -7,4 +7,4 @@ import './tasks/lint';
 import './tasks/release';
 import './tasks/version-bump';
 import './tasks/serve';
-import './firebase/firebase-admin';
+import './firebase/firebase-tasks';

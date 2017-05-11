@@ -1,5 +1,5 @@
-import {NgModule, SkipSelf, Optional} from "@angular/core";
-import {CommonModule} from "@angular/common";
+import {CommonModule} from '@angular/common'
+import {NgModule, Optional, SkipSelf} from '@angular/core'
 
 /**
  * State management (including persistence) for Authentication and Authorization.
@@ -9,11 +9,11 @@ import {CommonModule} from "@angular/common";
  */
 @NgModule({
   declarations: [],
-  imports: [
+  imports:      [
     CommonModule,
   ],
-  providers: [ ],
-  exports: []
+  providers:    [],
+  exports:      []
 })
 export class AuthorizationServiceModule {
 
