@@ -21,7 +21,7 @@
     "widgets",
     "authentication",
     "auth",
-    "firebase",
+    "firebase"
   ],
   "bugs": {
     "url": "https://github.com/ggranum/tangential/issues"

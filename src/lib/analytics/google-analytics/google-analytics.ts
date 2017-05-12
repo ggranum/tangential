@@ -34,7 +34,7 @@ export interface GoogleAnalyticsFields {
   eventLabel?: string
 }
 
-declare type GaFunction = (action: string, fields?: GoogleAnalyticsFields | string, other?: string) => void
+export type GaFunction = (action: string, fields?: GoogleAnalyticsFields | string, other?: string) => void
 //noinspection ES6ConvertVarToLetConst
 declare var ga: (action: string, fields?: GoogleAnalyticsFields | string, other?: string) => void;
 declare const window

@@ -53,7 +53,7 @@ import {
 import {InputTemplateIF} from './template-components/input-template-component/input-template.component'
 
 
-class InputSet {
+export class InputSet {
   inputCtor: Type<InputConfig>
 
   view: Type<InputTemplateIF>

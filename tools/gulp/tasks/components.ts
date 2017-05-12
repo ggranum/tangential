@@ -7,21 +7,21 @@ import {sassBuildTask, tsBuildTask, execNodeTask, copyTask} from '../task_helper
 // No typings for this.
 const inlineResources = require('../release/inline-resources');
 
-const componentsDir = path.join(SOURCE_ROOT, 'lib');
+const libDir = path.join(SOURCE_ROOT, 'lib');
 
 
 task(':watch:components', () => {
-  watch(path.join(componentsDir, '**/*.ts'), [':build:components:ts']);
-  watch(path.join(componentsDir, '**/*.scss'), [':build:components:scss']);
-  watch(path.join(componentsDir, '**/*.html'), [':build:components:assets']);
+  watch(path.join(libDir, '**/*.ts'), [':build:components:ts']);
+  watch(path.join(libDir, '**/*.scss'), [':build:components:scss']);
+  watch(path.join(libDir, '**/*.html'), [':build:components:assets']);
 });
 
 
-task(':build:components:ts', tsBuildTask(componentsDir));
+task(':build:components:ts', tsBuildTask(libDir, path.join(libDir, 'tsconfig.lib.json')));
 task(':build:components:assets',
-     copyTask(path.join(componentsDir, '*/**/*.!(ts|spec.ts)'), DIST_COMPONENTS_ROOT));
+     copyTask(path.join(libDir, '*/**/*.!(ts|spec.ts)'), DIST_COMPONENTS_ROOT));
 task(':build:components:scss', sassBuildTask(
-  DIST_COMPONENTS_ROOT, componentsDir, [path.join(componentsDir, 'core/style')]
+  DIST_COMPONENTS_ROOT, libDir, [path.join(libDir, 'core/style')]
 ));
 
 task('build:components', [
@@ -31,5 +31,5 @@ task('build:components', [
 ], () => inlineResources([DIST_COMPONENTS_ROOT]));
 
 task(':build:components:ngc', ['build:components'], execNodeTask(
-  '@angular/compiler-cli', 'ngc', ['-p', path.relative(PROJECT_ROOT, componentsDir)]
+  '@angular/compiler-cli', 'ngc', ['-p', path.relative(PROJECT_ROOT, libDir)]
 ));

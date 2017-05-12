@@ -23,26 +23,21 @@ function _globify(maybeGlob: string, suffix = '**/*') {
   return maybeGlob.indexOf('*') != -1 ? maybeGlob : path.join(maybeGlob, suffix);
 }
 
-
-/** Create a TS Build Task, based on the options. */
-export function tsBuildTask(tsConfigPath: string) {
-  const tsConfigDir = tsConfigPath;
-  if (fs.existsSync(path.join(tsConfigDir, 'tsconfig.json'))) {
-    // Append tsconfig.json
-    tsConfigPath = path.join(tsConfigDir, 'tsconfig.json');
-  }
+/** Create a TS Build Task, based on the options found in the specified tsconfig file. */
+export function tsBuildTask(taskDir: string, tsconfigFilePath:string) {
+  console.log('#tsBuildTask', 'taskDir =', taskDir)
 
   return () => {
-    const tsConfig: any = JSON.parse(fs.readFileSync(tsConfigPath, 'utf-8'));
-    const dest: string = path.join(tsConfigDir, tsConfig['compilerOptions']['outDir']);
+    const tsConfig: any = JSON.parse(fs.readFileSync(tsconfigFilePath, 'utf-8'));
+    const dest: string = path.join(PROJECT_ROOT, tsConfig['compilerOptions']['outDir']);
 
-    const tsProject = gulpTs.createProject(tsConfigPath, {
+    const tsProject = gulpTs.createProject(tsconfigFilePath, {
       typescript: require('typescript')
     });
 
     let pipe = tsProject.src()
       .pipe(gulpSourcemaps.init())
-      .pipe(gulpTs(tsProject));
+      .pipe(tsProject(gulpTs.reporter.longReporter()));
     let dts = pipe.dts.pipe(gulp.dest(dest));
 
     return gulpMerge([
@@ -57,7 +52,7 @@ export function tsBuildTask(tsConfigPath: string) {
 
 /** Create a SASS Build Task. */
 export function sassBuildTask(dest: string, root: string, includePaths: string[]) {
-  const sassOptions = { includePaths };
+  const sassOptions = {includePaths};
 
   return () => {
     return gulp.src(_globify(root, '**/*.scss'))
@@ -119,7 +114,7 @@ export function execNodeTask(packageName: string, executable: string | string[],
   }
 
   return (done: (err: any) => void) => {
-    resolveBin(packageName, { executable: executable }, (err: any, binPath: string) => {
+    resolveBin(packageName, {executable: executable}, (err: any, binPath: string) => {
       if (err) {
         done(err);
       } else {
@@ -141,7 +136,7 @@ export function copyTask(srcGlobOrDir: string, outRoot: string) {
 
 /** Delete files. */
 export function cleanTask(glob: string) {
-  return () => gulp.src(glob, { read: false }).pipe(gulpClean(null));
+  return () => gulp.src(glob, {read: false}).pipe(gulpClean(null));
 }
 
 
@@ -199,7 +194,7 @@ export function sequenceTask(...args: any[]) {
 }
 
 
-export const listDirectories =  function(dirPath: string): string[] {
+export const listDirectories = function (dirPath: string): string[] {
   let dirs: string[] = []
   let childPaths: string[] = readdirSync(dirPath)
   childPaths.forEach((childName) => {

@@ -23,7 +23,7 @@ task(':watch:e2eapp', () => {
 
 
 task(':build:e2eapp:vendor', vendorTask());
-task(':build:e2eapp:ts', [':build:components:ts'], tsBuildTask(appDir));
+task(':build:e2eapp:ts', [':build:components:ts'], tsBuildTask(appDir, path.join(appDir, 'tsconfig.e2e.json')));
 task(':build:e2eapp:scss', [':build:components:scss'], sassBuildTask(outDir, appDir, []));
 task(':build:e2eapp:assets', copyTask(appDir, outDir));
 

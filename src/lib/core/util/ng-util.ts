@@ -1,8 +1,11 @@
-import {ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router'
+import {ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+
+
+
 export class NgUtil {
 
-
-  static data$(route: ActivatedRoute) {
+  static data$(route: ActivatedRoute):Observable<{}> {
     return route.data.map((data: any) => {
       return NgUtil.collectFromRoute(route.snapshot, true)
     })

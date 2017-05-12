@@ -1,16 +1,19 @@
 import {BusMessage, MessageBus} from '../message-bus'
+//noinspection ES6UnusedImports
+import {GaFunction} from '@tangential/analytics';
+import {Observable} from 'rxjs/Observable';
+
 
 
 export class NavigationMessage extends BusMessage {
   static Key = 'nav:'
   path: string
-
   constructor(public subKey: string, path: string) {
     super(NavigationMessage.Key + subKey)
     this.path = path
   }
 
-  static filter(bus: MessageBus) {
+  static filter(bus: MessageBus):Observable<BusMessage> {
     return bus.all.filter(m => m.type.startsWith(NavigationMessage.Key))
   }
 

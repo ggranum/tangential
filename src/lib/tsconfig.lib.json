@@ -1,0 +1,71 @@
+{
+  "angularCompilerOptions": {
+    "genDir": "../../dist",
+    "skipTemplateCodegen": true,
+    "debug": true
+  },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "inlineSources": true,
+    "lib": [
+      "es6",
+      "es2015",
+      "dom"
+    ],
+    "mapRoot": "",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "outDir": "../../dist/@tangential",
+    "rootDir": ".",
+    "sourceMap": true,
+    "stripInternal": true,
+    "skipLibCheck": true,
+    "target": "es5",
+    "typeRoots": [
+      "../../node_modules/@types"
+    ],
+    "types": [
+      "jasmine"
+    ],
+    "paths": {
+      "@tangential/firebase-util": [
+        "./util/firebase"
+      ],
+      "@tangential/media-types": [
+        "./media-types"
+      ],
+      "@tangential/authorization-service": [
+        "./authorization-service"
+      ],
+      "@tangential/visitor-service": [
+        "./visitor-service"
+      ],
+      "@tangential/core": [
+        "./core"
+      ],
+      "@tangential/components": [
+        "./view/components"
+      ],
+      "@tangential/input-widgets": [
+        "./view/input-widgets"
+      ],
+      "@tangential/configurable-widgets": [
+        "./view/configurable-widgets"
+      ],
+      "@tangential/admin-console": [
+        "./view/modules/admin-console"
+      ],
+      "@tangential/analytics": [
+        "./analytics"
+      ]
+    }
+  },
+  "exclude": [
+    "**/*.spec.*"
+  ]
+}

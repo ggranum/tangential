@@ -38,7 +38,8 @@
     "@angular/forms": "4.0.3",
     "@angular/material": "2.0.0-beta.3",
     "@tangential/core": "0.1.1-beta.1",
-    "@tangential/components": "0.1.1-beta.1"
+    "@tangential/components": "0.1.1-beta.1",
+    "@tangential/input-widgets": "0.1.1-beta.1"
   },
   "main": "./index.js",
   "typings": "./index.d.ts"

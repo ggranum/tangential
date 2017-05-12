@@ -32,8 +32,6 @@
   },
   "scripts": {
     "start": "ng serve",
-    "build": "gulp build:components",
-    "build.release": "gulp build:release",
     "lint": "tslint \"src/**/*.ts\"",
     "firebase.init-project": "gulp firebase:init-project",
     "firebase.init-database": "gulp firebase:init-database",
@@ -45,6 +43,7 @@
     "e2e": "protractor",
     "deploy": "firebase deploy",
     "ng": "ng",
+    "tsc": "tsc",
     "firebase": "firebase",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
