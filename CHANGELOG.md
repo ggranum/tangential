@@ -1,3 +1,11 @@
+<a name="0.1.1-beta.4"></a>
+## [0.1.1-beta.4](https://github.com/ggranum/tangential/compare/v0.1.1-beta.3...v0.1.1-beta.4) (2017-05-13)
+
+### Bug Fixes
+
+* **Build:** Must run ngc to provide metadata for modules.
+
+
 <a name="0.1.1-beta.3"></a>
 ## [0.1.1-beta.3](https://github.com/ggranum/tangential/compare/v0.1.1-beta.2...v0.1.1-beta.3) (2017-05-13)
 
