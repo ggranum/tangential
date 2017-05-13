@@ -29,7 +29,7 @@ export function tsBuildTask(taskDir: string, tsconfigFilePath:string) {
 
   return () => {
     const tsConfig: any = JSON.parse(fs.readFileSync(tsconfigFilePath, 'utf-8'));
-    const dest: string = path.join(PROJECT_ROOT, tsConfig['compilerOptions']['outDir']);
+    const dest: string = path.join(taskDir, tsConfig['compilerOptions']['outDir']);
 
     const tsProject = gulpTs.createProject(tsconfigFilePath, {
       typescript: require('typescript')
@@ -73,9 +73,9 @@ export interface ExecTaskOptions {
 }
 
 /** Create a task that executes a binary as if from the command line. */
-export function execTask(binPath: string, args: string[], options: ExecTaskOptions = {}) {
+export function execTask(binPath: string, args: string[], options: ExecTaskOptions = {}, spawnOpts={}) {
   return (done: (err?: string) => void) => {
-    const childProcess = child_process.spawn(binPath, args);
+    const childProcess = child_process.spawn(binPath, args, spawnOpts);
 
     if (!options.silent) {
       childProcess.stdout.on('data', (data: string) => {

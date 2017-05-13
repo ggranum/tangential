@@ -1,82 +1,284 @@
 = Tangential Developer Docs
 
-== Getting started
+This document describes how to use this project as a bootstrap for your own application. We'll walk through cloning the Tangential Demo repo into your own working directory, initializing your own git repo, and then configuring the project.
 
-This project was bootstrapped from the combination of the Angular Material 2 and an Angular-cli created project. The build system and file layout in particular are inherited from the https://docs.npmjs.com/getting-started/scoped-packages[Angular Material2] project.
+*Be aware* that you should be cloning the https://github.com/ggranum/tangential-demo[Tangential-Demo] project, NOT https://github.com/ggranum/tangential[Tangential] itself. The demo project is esentially this project, except everything living under 'src/libs' is imported via NPM. Which makes updating your code with Tangential's changes quite easy, as opposed to nearly impossible. You'll note that the following steps we break the connection between the Tangential repository and your new project - this is intentional, as we'd rather avoid issues associated with upstream merges.
 
-To start hacking, perform a clone-install-build:
+== Prerequisites:
+
+Before we get started, you'll need to create a few accounts and gather some 'stuff'.
+
+=== The obvious: YourProjectName
+
+Obviously you'll need a name, but we've kindly templatized this document, so you can make your life just a little bit easier by doing a find and replace on '${yourProjectName}' (no quotes). This will make any web links actually work and any bash commands (etc) execute, assuming you follow along and name your external projects and such in line with our suggestions. There are actually two replacement strings, one for snake-case and one for CamelCase.
+
+* Find and replace ${yourProjectName} with your actual camelCased project name.
+* Find and replace ${your-project-name} with your actual snake-cased project name.
+
+=== Global Tools
+
+You'll need git installed, as well as Node (version 7+), Gulp and firebase tools:
+
+Given the sophistication of this project, we're going to assume you already have Git, and Node installed.
+
+There are a handful of tools that are usually installed globally included in the devDependencies of the Tangential Demo. Global NPM installs should be discouraged, as keeping versions in sync is a pain. It is better to create aliases to locally installed versions of tool libraries, or reference them via scripts in the package.json file. We realize this opinion is not universal, but experience leads us to prefer the use of aliases over global installs.
+
+To create aliases for the tools used by this project, execute the following:
 
 ```bash
-> git clone git@github.com:ggranum/tangential.git
-> cd tangential
-> npm install
-> firebase init
-# Copy your firebase admin cert to {projectRoot}/firebase.service-account-key.local.json
-# See https://console.firebase.google.com/project/${youProjectName}/settings/serviceaccounts/adminsdk
-> npm run firebase.init-project
-> npm run firebase.init-database
-> npm run serve
-
+echo source ~/.bash_aliases >> ~/.bashrc
+echo alias firebase="./node_modules/.bin/firebase" >> ~/.bash_aliases
+echo alias ng="./node_modules/.bin/ng"  >> ~/.bash_aliases
+source ~/.bash_aliases
 ```
 
+The use of a bash_aliases file is optional, but often calling `source` on ~/.bashrc repeatedly isn't completely side effect free (e.g. `path` becoming very, very, very long), and who has the energy to fix that?
 
+The above use of aliases does restrict the use of these tools to the base directory of active projects. In practice this is rarely a problem.
 
-== Project structure
+This can also be solved via NPM scripts, which are provided in the package.json for the Tangential Demo project. To call `ng serve` via the script you need to instead call the npm script we've provided (see 'scripts' in link:package.json[]):
 
-=== That which you must Do First
+[source, bash]
+npm run ng -- serve
 
-1. Clone the repo: `git clone git@github.com:ggranum/tangential.git`
-1. `npm install`
+Note the `--` before `serve`. This is how you pass arguments to an NPM script.
 
-Cloning the repository provides the code and scripts, but you'll need to prepare the environment.
+Generally speaking, adding an alias is more developer friendly. But when that's not possible npm scripts are there to fall back on.
 
-If you're developing with the intention of pushing code back to the Tangential project (Thanks!), or simply hacking on the code to gain experience with the model, 'preparing the environment' just means creating and initializing a Firebase repository of your own.
-
-If you are using this project as a bootstrap for your own "component library" project, you have options. Specifically, if you don't care if your widgets are available via NPM (e.g. 'npm install @myshinystuff/unicorns'), then you are also able to get going with just a Firebase project to call your own. Woohoo! If you want to distribute your components via NPM however, you'll need to create an NPM account.
-
-==== Firebase!
-
-If you haven't signed up to Firebase yet, https://firebase.google.com/[do so]. Then navigate to your console at https://console.firebase.google.com/. Hit 'Create Project', provide a cool name (hereafter '${projectName}') and hit enter.
-
-*(Note: If you're reading this file in an editor, you can simplify the links by doing a global search-and-destroy on '${projectName}', replacing it with your actual project name. Then you can actually follow links without modification.)*
-
-After some wait-spinner action you should be dropped into your project page. Now, your project _id_ probably won't be exactly what you typed. Firebase appends a unique token to it. This is so that we can all have our own project _Phoenix_ one day. For many things you'll be able to use the name you typed, but just remember that for everything important, you'll need your REAL project name. It's pretty easy to spot - just look at the URL you were directed to when your project was created. It should look like:  https://console.firebase.google.com/project/${projectName}/overview
-
-You will also need to enable email/password, and, if you like, anonymous authentication. Do so here: https://console.firebase.google.com/project/${projectName}/authentication/providers
-
-With your project created, you now need to initialize firebase in your development project directory. First, from your project root, run the `firebase` command.
+If you prefer, you can install the tools required by Tangential globally with the following:
 
 ```bash
-> firebase
-Usage: firebase [options] [command]
-...
-
+npm install -g firebase-tools
+npm install -g @angular/cli
 ```
 
-If you get 'command not found' or your OS equivalent, then you either need to install the Firebase Tools globally or set up an alias to your local node_modules.
+==== But, Gulp
 
-With the Firebase Tools successfully installed, run `firebase init`:
+Because Gulp is big and doesn't typically cause issues, we do install that Globally:
 
 ```bash
-> firebase init
+npm install -g gulp-cli
 ```
 
-Firebase Tools will ask you which features to setup. Select both 'Database' and 'Hosting' and hit enter to continue.
+Re-running global installs won't typically hurt anything - or, more specifically, it *shouldn't*, as it will just update you to the most recent release version. However, do keep in mind any global tools you upgrade, in case something breaks when you go back to working on other projects on your current machine.
 
-Firebase will then ask you to select a default project. Choose the one you created above.
 
-Next, firebase will prompt you with 'What file should be used for Database Rules? (database.rules.json)'. Do **NOT** choose the default. Enter 'firebase.rules.json' instead, and hit enter. Now choose 'N' for NO, do not overwrite the file (it's default, so just hit enter).
+=== Github
+Totally optional. Create the github repo '${your-project-name}'.
 
-Choose the default ('public') for your public directory, and then choose '(Y)es' for 'Configure as a single-page app'.  It should then write your configuration to two files: 'firebase.json' and '.firebaserc'. The first file is part of the project (committed to git); it should not show any differences, and unless you really know what your doing, it never change. The `.firebaserc` file is ignored, and contains your firebase project name.
+=== Firebase
 
-Now push your firebase rules (and a stub for your firebase hosting) by running:
+Not optional, unless you plan on writing alternate backend services that match our interfaces - and if you do, we really hope you contribute them back to Tangential! But we'll assume not :~)
+
+We'll be creating two Firebase projects. One for development and one for production.
+
+
+==== Create your projects
+
+Navigate to https://console.firebase.google.com/. If you've never signed up, you'll need to do so.
+
+. Create your first project using the name: ${your-project-name}-prod.
+. Create your second, dev project using the name: ${your-project-name}-dev.
+
+
+==== Configure the projects
+
+. Navigate to https://console.firebase.google.com/project/${your-project-name}-prod/authentication/providers
+. Enable 'Email/Password' and 'Anonymous' login methods.
+. If you wish to allow other login methods, enable them now. As of the time of writing, Tangential does not provide out of the box support for any of the other methods, but we certainly plan to.
+. This is where you'll add authorized OATH domains as well - e.g. if you're testing on a device that connects to your development machine via the address https://192.168.1.88:4200, you'll need to add that host here.
+
+Same steps for your development account:
+
+. Navigate to https://console.firebase.google.com/project/${your-project-name}-dev/authentication/providers
+. Enable 'Email/Password' and 'Anonymous' login methods.
+
+
+==== Heads up on Firebase names versus identities
+
+On your Firebase Project's General Settings https://console.firebase.google.com/project/${your-project-name}-prod/settings/general/[page], you'll see a list of 'names'. Three of them: `Project name , `Public-facing name` and `Project ID`.
+
+If your `Project ID` differs from your `Project name`, you will notice that the links we're providing here in these directions don't quite match up. That's because Firebase, for obvious reasons, uses the Project ID and not the name for links and whatnot. If you want to make the links 'look right' and you're viewing this file in an editor, you can fix it with find and replace:
+
+* replace `${your-project-name}-prod` with your actual production Firebase Project ID
+* replace `${your-project-name}-dev` with your actual production Firebase Project ID
+
+If you've already done the find and replace suggested above you *might* run into issues with the find and replace matching more than you want it to, but it's fairly unlikely, and in any event we're going to assume you can fix it if it happens.
+
+==== More to come
+Once we have the project checked out we will be revisiting the firebase admin console to obtain some authentication keys, and our database connection settings.
+
+So let's move on to cloning the project.
+
+
+== Moving right along
+
+=== Create your project
+
+Clone the project and then make it your own:
 
 ```bash
-> firebase deploy
+git clone git@github.com:ggranum/tangential-demo.git ${yourProjectName}
+cd ${yourProjectName}
+
+# Kill off the connection to tangential-demo and initialize your own repo:
+rm -rf .git
+git init
+git add .
+git commit -m "Bootstrapping from Tangential Demo (https://github.com/ggranum/tangential-demo)"
+
+# Optional: Go create a repo on github so you can push:
+# git remote add origin git@github.com:${you}/${yourProjectName}.git
+# git push -u origin master
+```
+
+=== Mandatory NPM dependency install step:
+
+Standard all the way:
+
+```bash
+# Install all the things
+npm install
+```
+
+===  Firebase configuration
+
+==== Aliases - Creating the .firebaserc file
+
+First, we initialize Firebase for this project directory. Normally one would use the `firebase init` command, but that will overwrite our firebase.json file with settings we don't like. On the off chance you do this, just revert to the old firebase.json.
+
+Instead of `firebase init`, we're going to add aliases manually, which will automatically create our .firebaserc file.
+
+```bash
+firebase use ${your-project-name}-prod --alias prod
+firebase use ${your-project-name}-dev --alias default
+firebase use ${your-project-name}-dev --alias dev
+```
+
+The order above is moderately important, as it causes 'dev' to become the active environment. But for fun and education, you can set the active environment whenever you want with the command `firebase use dev`.
+
+These aliases *are* used by the build system, and it is important that you have aliases that match your Angular "environments" - AKA build targets. By default, Angular provides 'dev' and 'prod', hence why we've created those firebase projects and aliases.
+
+
+==== Firebase database settings
+
+We will need a couple of different Firebase configuration files. For each project there are web application settings, which point your web app to the correct database and storage locations, and a private key for use with administrative commands, such as deploying rules and such.
+
+We're going to save our firebase configurations into the `${projectRoot}/config/${env}/firebase/` directories. So let's get to downloading them.
+
+===== The admin cert file (you Firebase private key)
+
+Navigate to https://console.firebase.google.com/project/${your-project-name}-dev/settings/serviceaccounts/adminsdk and download your private key by clicking on 'Generate New Private Key'. Save the file to `${projectRoot}/config/dev/firebase` and rename it `firebase-admin.service-account-key.local.json`.
+
+Do the same for the production project: Navigate to https://console.firebase.google.com/project/${your-project-name}-prod/settings/serviceaccounts/adminsdk and download your private key by clicking on 'Generate New Private Key'. Save the file to `${projectRoot}/config/dev/firebase` and, again, rename it `firebase-admin.service-account-key.local.json`.
+
+===== Firebase web application configuration
+
+Create an empty JSON file named `firebase-config.local.json` in `${projectRoot}/config/dev/firebase/` and another in `${projectRoot}/config/prod/firebase/`:
+
+```bash
+touch config/dev/firebase/firebase-config.local.json
+touch config/prod/firebase/firebase-config.local.json
+```
+Navigate to https://console.firebase.google.com/project/${your-project-name}-dev/overview and click the red 'Add Firebase to your web app' button. Copy the 'var config = {...}' block (everything between the '{' brackets, including the brackets themselves) and paste it into `${projectRoot}/config/dev/firebase/firebase-config.local.json`
+
+You will need to quote the keys to make it valid JSON. When you're done the file should look like:
+
+```json
+{
+  "apiKey": "sdkfjaskdfo3u83uro93rkAKHKhfaikh",
+  "authDomain": "${your-project-name}-dev.firebaseapp.com",
+  "databaseURL": "https://${your-project-name}-dev.firebaseio.com",
+  "projectId": "${your-project-name}-dev",
+  "storageBucket": "${your-project-name}-dev.appspot.com",
+  "messagingSenderId": "1234567890"
+}
+```
+
+And, of course, do this once again for production: https://console.firebase.google.com/project/${your-project-name}-prod/overview and  `${projectRoot}/config/prod/firebase/firebase-config.local.json`
+
+=== Google Analytics
+
+Setting up Analytics is optional, and can be performed at a later time as well, if you change your mind.
+
+Navigate to https://analytics.google.com/analytics/web/?authuser=0#management/Settings/. If you don't have an account, go ahead and create one. Once you're signed in, make sure you're on the above page - it is the Account Administration page.
+
+Choose 'Create new account' from the account dropdown.
+
+In the New Account page, create your Account Name. If you are planning to host multiple _related_ sites, this account name will become the 'parent' of each of those sites.
+
+We're going to start by creating a Google Analytics 'Property' for the dev site.
+
+Set the Website Name input to `${your-project-name}-firebase-dev`. We add the `-firebase` to the name because you will (potentially) have two URLs for each site: the default firebase hosting URL (https://${your-project-name}-dev.firebaseapp.com/) and your own custom domain, such as `https://dev.${your-project-name}.com`.
+
+Set the Website URL to `https://${your-project-name}-dev.firebaseapp.com`.
+
+You will need to determine which additional settings make sense to you. When done configuring the 'property', click 'Get Tracking ID'. Accept the terms (if you agree, of course) and copy the provided tracking number to the clipboard - it should look something like 'UA-12345678-1'. Don't close this browser window yet, you'll need it in a bit.
+
+Back in your project, open the `${projectRoot}/src/environments/environments.local.ts` file and paste your new tracking ID as the value for `development.googleAnalytics.trackingId`.
+
+==== Add Another GA Property for Prod
+
+Your production site will obviously get it's own custom domain in the future, but for now we'll set the property up using the Firebase hosting domain.
+
+Returning to the browser window with your Google Analytics Tracking ID, click on the 'PROPERTY' dropdown near the top left - directly to the left of the Tracking ID, and under your Project Name. Choose 'Create new Property. Set the Website name to `${your-project-name}-firebase-prod`, and the Website URL to `https://${your-project-name}-prod.firebaseapp.com`. Set the industry however you wish, and click 'Get Tracking ID'.
+
+Copy the resulting Tracking ID into the environments.local.ts file as the value for `production.googleAnalytics.trackingId`
+
+As you may have noted, the Tracking IDs within an account are sequential in the last digit.
+
+=== User account configuration
+
+Open up the `users.json` file in `${projectRoot}/config/common/firebase`. This file stores 'public safe' information about your users. Now, *technically* you shouldn't even publicly share your account user names. Our assumption here at tangential is that if the GitHub repo that you store this project in is public, then consumers will have need of some nice default user accounts, which they will then change and store in a private repository, because that's good IAM hygiene.
+
+This users.json file is used by a build task (which we'll run shortly) to generate a local - one that *won't* be committed to git - which takes the user names and email addresses stored in users.json and adds passwords to them, and then ultimately pushes them into your Firebase db.
+
+You might notice that we're in the common directory. Each environment get's it's own set of users. However, for the time being you'll need to copy the generated files manually - we'll get there in a bit, but we wanted to provide a bit of a heads up.
+
+==== Edit your user accounts
+
+If you choose to modify the UID values (e.g. 'Administrator') you will need to make adjustments to the sibling 'database.rules.json' and `database.init.json` files. So, don't do that yet. In fact, we'd recommend you just don't do it at all, and once you're up and running you use the Admin console to create new accounts and delete the ones you don't want. However, adding new users *is* an option, and if you want more users, it's probably for testing purposes, so you'll probably want to grant them rights in the database template (`database.init.json`) as well. So, now you know what to look for later - for now, let's just give our existing users valid email addresses.
+
+Firebase email/password login credentials don't require any email validation, but we'd still like to use real email addresses. Of course, getting a handful of email addresses can be annoying. Thankfully, if you have a Gmail account, you can just add a `yourEmail+whatever@gmail.com` and viola, all the additional free email addresses you could ever dream of. All of them redirected to yourEmail@gmail.com, of course. Usually good, but sometimes possibly bad, if you use your personal email and then start testing your password resets or somesuch.
+
+So, to finally do something here, go ahead and provide valid email addresses for each of these accounts. Don't worry about anything else - the password field will be populated automatically in the next step, and not in a file that gets pushed to git.
+
+
+==== Generate local user config files, initialize users and database
+
+
+```bash
+# Make sure we're using the Dev project:
+firebase use dev
+
+# Create and push the users
+npm run firebase:create-project-users
+
+# Use our admin script to push the users into the active Firebase project
+npm run firebase:push-project-users
+
+# And now initialize the Firebase database with our initial data, which includes Roles, Permissions and
+# our default User accounts:
+npm run firebase:push-database-template
+
 ```
 
 You can see your site at the URL that the command writes to the console. You can also check out your database rules by following the 'Project Console' link and clicking on 'Database' (in the left navigation pane) followed by clicking on the 'Rules' tab. The link is https://console.firebase.google.com/project/${projectName}/database/rules
 
+
+==== Deploy and test!
+
+```bash
+# Build ( --aot == Ahead of time compile, -oh=all == Hash strategy 'all')
+ng build --aot -dev -oh=all
+
+
+# Push your Firebase rules and Functions:
+firebase deploy
+
+# Run the app
+ng serve --host 0.0.0.0
+```
 
 
 

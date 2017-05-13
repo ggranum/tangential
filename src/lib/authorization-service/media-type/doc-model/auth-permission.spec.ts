@@ -1,7 +1,7 @@
 import { AuthPermissionDm} from './auth-permission';
 /* tslint:disable:no-unused-variable */
 import {generatePushID} from '@tangential/core';
-import {AuthPermission, AuthPermissionTransform} from '@tangential/authorization-service';
+import {AuthPermission, AuthPermissionTransform} from '../cdm/auth-permission';
 
 describe('tanj.media-types.permission', () => {
 

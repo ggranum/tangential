@@ -35,9 +35,9 @@ import {UserComponent} from './users/user.component'
 import {UserListItemDemo} from './users/user.demo'
 
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import {FirebaseAdminService} from '../../../authorization-service/state/admin-service/firebase-admin-service';
+import 'rxjs/add/operator/debounceTime'
+import 'rxjs/add/operator/distinctUntilChanged'
+import {FirebaseAdminService} from '@tangential/authorization-service'
 
 
 @NgModule({

@@ -8,9 +8,8 @@ import {
   ViewEncapsulation
 } from '@angular/core'
 import {Router} from '@angular/router'
-import {AuthenticationService} from '@tangential/authorization-service'
+import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service'
 import {DefaultPageAnalytics, Logger, MessageBus, Page, RouteInfo} from '@tangential/core'
-import {Visitor, VisitorService} from '@tangential/visitor-service'
 import {Subscription} from 'rxjs/Subscription'
 import {AppRoutes} from '../../../app.routing.module'
 

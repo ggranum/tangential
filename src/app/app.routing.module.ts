@@ -1,17 +1,17 @@
-import {NgModule} from '@angular/core'
-import {RouterModule, Routes} from '@angular/router'
-import {GoogleAnalyticsFields} from '@tangential/analytics'
-import {AboutPage} from './features/casa/about/about.page'
-import {ContactPage} from './features/casa/contact/contact.page'
-import {HomePage} from './features/casa/home/home.page'
-import {PrivacyPage} from './features/casa/privacy/privacy.page'
-import {PasswordResetPage} from './features/casa/sign-in/password-reset.page'
-import {SignInPage} from './features/casa/sign-in/sign-in.page'
-import {SignOutPage} from './features/casa/sign-in/sign-out.page'
-import {SignUpPage} from './features/casa/sign-in/sign-up.page'
-import {TryoutWelcomePage} from './features/casa/tryout-welcome/tryout-welcome.page'
-import {PageNotFoundComponent} from './features/common/page-not-found/page-not-found.component'
-import {VisitorResolver} from '@tangential/visitor-service'
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {GoogleAnalyticsFields} from '@tangential/analytics';
+import {AboutPage} from './features/casa/about/about.page';
+import {ContactPage} from './features/casa/contact/contact.page';
+import {HomePage} from './features/casa/home/home.page';
+import {PrivacyPage} from './features/casa/privacy/privacy.page';
+import {PasswordResetPage} from './features/casa/sign-in/password-reset.page';
+import {SignInPage} from './features/casa/sign-in/sign-in.page';
+import {SignOutPage} from './features/casa/sign-in/sign-out.page';
+import {SignUpPage} from './features/casa/sign-in/sign-up.page';
+import {TryoutWelcomePage} from './features/casa/tryout-welcome/tryout-welcome.page';
+import {PageNotFoundComponent} from './features/common/page-not-found/page-not-found.component';
+import {VisitorResolver} from '@tangential/authorization-service';
 import {PageInfo} from '@tangential/core';
 
 

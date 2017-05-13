@@ -7,9 +7,11 @@ import {Observable} from 'rxjs/Observable';
 //noinspection TypeScriptPreferShortImport
 import {AuthSettingsService} from './settings-service';
 //noinspection TypeScriptPreferShortImport
-import {AuthSettings} from '../../media-type/cdm/auth-settings';
+import {AuthSettings, AuthSettingsTransform} from '../../media-type/cdm/auth-settings';
+//noinspection TypeScriptPreferShortImport
+import {AuthSettingsDm, AuthSettingsFirebaseRef} from '../../media-type/doc-model/auth-settings';
 import EmailAuthProvider = firebase.auth.EmailAuthProvider
-import {AuthSettingsDm, AuthSettingsFirebaseRef, AuthSettingsTransform} from '@tangential/authorization-service';
+
 
 @Injectable()
 export class FirebaseAuthSettingsService extends AuthSettingsService {

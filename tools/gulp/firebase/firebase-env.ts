@@ -1,9 +1,9 @@
 import fs = require('fs');
-import {join} from 'path';
+import * as path from 'path';
+
 import {PROJECT_ROOT} from '../constants';
 import {Env} from '../env';
-import {JSON_FILE_WRITE_CONFIG} from './constants';
-import {LocalProjectUtil} from './local-project-util';
+import {JSON_FILE_WRITE_CONFIG, PASSWORD_LENGTH} from './constants';
 import {FirebaseProjectConfig, ProjectUserAuth} from './project-config';
 import {RemoteProjectUtil} from './remote-project-util';
 import crypto = require('crypto')
@@ -11,7 +11,17 @@ const jsonFile = require('jsonfile');
 const readline = require('readline');
 
 
-const FirebaseRcPath = join(PROJECT_ROOT, '.firebaserc')
+
+
+export interface ProjectUser {
+  uid: string
+  email: string
+  password: string
+  displayName: string
+  disabled: boolean
+}
+
+const FirebaseRcPath = path.join(PROJECT_ROOT, '.firebaserc')
 
 
 const DefaultProjectUserTemplates: ProjectUserAuth[] = [
@@ -38,7 +48,7 @@ const DefaultProjectUserTemplates: ProjectUserAuth[] = [
   }
 ]
 
-
+const accountCertFileName = 'firebase-admin.service-account-key.local.json';
 const BlankFirebaseConfig: FirebaseProjectConfig = {
   apiKey: '',
   authDomain: '',
@@ -63,7 +73,7 @@ export class FirebaseEnvironment {
   accountCertKeyFilePath: string
   projectUserTemplatesPath: string
   projectUsersPath: string
-  projectUserTemplatesTSPath: string
+  projectUsersTSPath: string
   databaseTemplateDataPath: string
   projectConfigPath: string
   databaseTemplateData: any;
@@ -73,18 +83,33 @@ export class FirebaseEnvironment {
     this.envKey = envKey
     this.basePath = `${PROJECT_ROOT}/config/${envKey}/firebase`
     this.commonBasePath = `${PROJECT_ROOT}/config/common/firebase/`
-    this.accountCertKeyFilePath = `${this.basePath}/firebaseAdmin.service-account-key.local.json`
-    this.projectUserTemplatesPath = `${this.basePath}/users.json`
-    this.projectUsersPath = `${this.basePath}/users.local.json`
-    this.projectUserTemplatesTSPath = `${this.basePath}/users.local.ts`
-    this.databaseTemplateDataPath = `${this.basePath}/database.init.json`
 
-    this.projectConfigPath = `${this.basePath}/firebase-config.local.json`
+    this.accountCertKeyFilePath = this.explicitPath(accountCertFileName)
+    this.projectConfigPath = this.explicitPath('firebase-config.local.json')
+
+    this.projectUserTemplatesPath = this.fallThroughPath('users.json')
+    this.projectUsersPath = this.fallThroughPath('users.local.json')
+    this.projectUsersTSPath = this.fallThroughPath('users.local.ts')
+    this.databaseTemplateDataPath = this.fallThroughPath('database.init.json')
+
+
     this.readProjectId();
     this.checkAccountCertKey()
     this.readProjectUserTemplates()
     this.readFirebaseConfiguration()
     this.readDatabaseTemplate()
+  }
+
+  explicitPath(fileName:string):string {
+    return path.join(this.basePath, fileName)
+  }
+
+  fallThroughPath(fileName:string):string{
+    let result:string = path.join(this.basePath, fileName)
+    if(!fs.existsSync(result)){
+      result = path.join(this.commonBasePath, fileName)
+    }
+    return result
   }
 
 
@@ -99,29 +124,38 @@ export class FirebaseEnvironment {
     })
   }
 
-  populateProjectUsers(force: boolean = false): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      if (!force && firebaseEnv.projectUsersReady()) {
-        console.log(`==== Skipping: Found existing firebase users at ${firebaseEnv.projectUsersPath} ====`)
-        resolve()
-      } else {
-        console.log('=== Initializing Firebase Users ==== ')
-        const populateUsersPromise = LocalProjectUtil.transformUsers(this.projectUserTemplates)
-        populateUsersPromise.then((validAuthUsersAry: any[]) => {
-          try {
-            jsonFile.writeFileSync(this.projectUserTemplatesPath, validAuthUsersAry, JSON_FILE_WRITE_CONFIG)
-            const output = 'export const defaultUsers = ' + JSON.stringify(validAuthUsersAry, null, 2)
-            fs.writeFileSync(this.projectUserTemplatesTSPath, output)
-            console.log('    wrote users as JSON to: ', this.projectUserTemplatesPath)
-            console.log('    wrote users as TypeScript to: ', this.projectUserTemplatesTSPath)
-            resolve()
-          } catch (e) {
-            console.log('Error writing users to file.', e)
-            reject(e)
-          }
-        })
+  populateProjectUsers(force: boolean = false): void {
+    if (!force && firebaseEnv.projectUsersReady()) {
+      console.log(`==== Skipping: Found existing firebase users at ${firebaseEnv.projectUsersPath} ====`)
+    } else {
+      console.log('=== Initializing Firebase Users ==== ')
+      const validAuthUsersAry:ProjectUser[] = FirebaseEnvironment.generatePasswordsForUsers(this.projectUserTemplates)
+      try {
+        jsonFile.writeFileSync(this.projectUsersPath, validAuthUsersAry, JSON_FILE_WRITE_CONFIG)
+        const output = 'export const defaultUsers = ' + JSON.stringify(validAuthUsersAry, null, 2)
+        fs.writeFileSync(this.projectUsersTSPath, output)
+        console.log('    wrote users as JSON to: ', this.projectUsersPath)
+        console.log('    wrote users as TypeScript to: ', this.projectUsersTSPath)
+      } catch (e) {
+        console.log('Error writing users to file.', e)
       }
-    })
+    }
+  }
+
+  static generatePasswordsForUsers(authUsersAry: ProjectUser[]): ProjectUser[] {
+    const validAuthUsersAry: any[] = []
+    for (let i = 0; i < authUsersAry.length; i++) {
+      let user = authUsersAry[i]
+      console.log('\tGenerating password for', user)
+      user.password = user.password || FirebaseEnvironment.generateRandomPassword(PASSWORD_LENGTH)
+      validAuthUsersAry.push(user)
+    }
+    return validAuthUsersAry
+  }
+
+  static generateRandomPassword(length: number = 12): string {
+    const password = crypto.randomBytes(length * 2).toString('base64')
+    return password.substring(0, length)
   }
 
 

@@ -9,7 +9,7 @@
 /bower_components
 
 # IDEs and editors
-/.idea
+/.idea/*
 .project
 .classpath
 *.launch
@@ -38,3 +38,8 @@ Thumbs.db
 *.local.*
 .chrome
 .firebaserc
+
+# Explicitly allowed
+!/.idea/codeStyleSettings.xml
+!/.idea/misc.xml
+!/.idea/inspectionProfiles

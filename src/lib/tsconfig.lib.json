@@ -42,9 +42,6 @@
       "@tangential/authorization-service": [
         "./authorization-service"
       ],
-      "@tangential/visitor-service": [
-        "./visitor-service"
-      ],
       "@tangential/core": [
         "./core"
       ],

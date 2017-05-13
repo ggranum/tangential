@@ -3,7 +3,7 @@
   "description": "Angular + Firebase bootstrap project / widget library, complete with authorization.",
   "homepage": "https://github.com/ggranum/tangential#readme",
   "version": "0.1.1-beta.1",
-  "license": "GPL",
+  "license": "GPL-3.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -33,8 +33,8 @@
   "scripts": {
     "start": "ng serve",
     "lint": "tslint \"src/**/*.ts\"",
-    "firebase.init-project": "gulp firebase:init-project",
-    "firebase.init-database": "gulp firebase:init-database",
+    "firebase:create-project-users": "gulp firebase:create-project-users",
+    "firebase:push-project-users": "gulp firebase:push-project-users",
     "publish": "gulp publish",
     "serve": "ng serve",
     "test": "ng test",

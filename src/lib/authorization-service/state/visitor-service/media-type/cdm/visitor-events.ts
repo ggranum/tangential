@@ -1,5 +1,5 @@
 import {ObjMap} from '@tangential/core';
-import {VisitorEventsDocModel} from '@tangential/visitor-service';
+import {VisitorEventsDocModel} from '../doc-model/visitor-events';
 
 export class VisitorEvents {
   signIn: ObjMap<number>

@@ -22,9 +22,6 @@
       "@tangential/authorization-service": [
         "src/lib/authorization-service"
       ],
-      "@tangential/visitor-service": [
-        "src/lib/visitor-service"
-      ],
       "@tangential/core": [
         "src/lib/core"
       ],
