@@ -1,3 +1,13 @@
+<a name="0.1.1-beta.2"></a>
+## [0.1.1-beta.2](https://github.com/ggranum/tangential/compare/v0.1.1-beta.1...v0.1.1-beta.2) (2017-05-13)
+
+
+### Features
+
+* **authorization-service:** Move Visitor Service into Auth service ([51c0bcc](https://github.com/ggranum/tangential/commit/51c0bcc))
+
+
+
 <a name="0.1.1-beta.1"></a>
 ## [0.1.1-beta.1](https://github.com/ggranum/tangential/compare/v0.0.1-beta.20...v0.1.1-beta.1) (2017-05-11)
 

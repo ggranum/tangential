@@ -2,7 +2,7 @@
   "name": "@tangential/firebase-util",
   "description": "Utility classes and shared functionality for Tangential services that use Firebase.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.1.1-beta.1",
+  "version": "0.1.1-beta.2",
   "license": "GPL-3.0",
   "private": false,
   "repository": {
@@ -22,7 +22,9 @@
     "angular2",
     "components",
     "widgets",
-    "authentication"
+    "authentication",
+    "Angular",
+    "Angular2"
   ],
   "bugs": {
     "url": "https://github.com/ggranum/tangential/issues"

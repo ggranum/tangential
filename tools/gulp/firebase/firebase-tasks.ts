@@ -16,7 +16,8 @@ task('firebase:init-local-config', (done: any) => {
 
 
 task('firebase:create-project-users', (done: any) => {
-  firebaseEnv.populateProjectUsers(true).then(() => done())
+  firebaseEnv.populateProjectUsers(true)
+  done()
 })
 
 
