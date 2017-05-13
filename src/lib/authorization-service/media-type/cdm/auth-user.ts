@@ -5,7 +5,7 @@ import {AuthRole} from './auth-role';
 import {AuthPermission} from './auth-permission';
 import {AuthSettings} from './auth-settings';
 import {SignInEvent} from './sign-in-event';
-import {TransformUtil as TUtil} from '../../../core/util/transform-util';
+import {TransformUtil as TUtil} from '@tangential/core';
 
 export interface AuthUserCfg {
   $key?: string

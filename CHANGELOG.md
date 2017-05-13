@@ -1,3 +1,10 @@
+<a name="0.1.1-beta.3"></a>
+## [0.1.1-beta.3](https://github.com/ggranum/tangential/compare/v0.1.1-beta.2...v0.1.1-beta.3) (2017-05-13)
+
+### Bug Fixes
+
+* **authorization-service:** Core not exporting TransformUtil
+
 <a name="0.1.1-beta.2"></a>
 ## [0.1.1-beta.2](https://github.com/ggranum/tangential/compare/v0.1.1-beta.1...v0.1.1-beta.2) (2017-05-13)
 

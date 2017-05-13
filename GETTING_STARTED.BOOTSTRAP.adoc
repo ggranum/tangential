@@ -433,6 +433,8 @@ The following require your npm user account credentials. Adding a local `.npmrc`
 > Password:
 > Email: (this IS public) (you@example.com)
 > Logged in as tangential on https://registry.npmjs.org/.
+> rm -rf ./dist && cd src/lib && tsc -p ./tsconfig.lib.json
+> cd ../../
 > npm run publish
 ```
 
