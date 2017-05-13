@@ -1,23 +1,10 @@
-import {Injectable} from '@angular/core'
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  CanLoad,
-  Route,
-  Router,
-  RouterStateSnapshot
-} from '@angular/router'
-import {
-  MessageBus,
-  NavigationRequiresAuthenticationMessage,
-  NavigationRequiresRoleMessage,
-  NgUtil
-} from '@tangential/core'
-import {Observable} from 'rxjs/Observable'
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot} from '@angular/router';
+import {MessageBus, NavigationRequiresAuthenticationMessage, NavigationRequiresRoleMessage, NgUtil} from '@tangential/core';
+import {Observable} from 'rxjs/Observable';
 //noinspection TypeScriptPreferShortImport
 import {AuthenticationService} from '../state/authentication-service/authentication-service';
-import {AuthSubject} from '@tangential/authorization-service';
+import {AuthSubject} from '../media-type/cdm/auth-subject';
 
 
 /**

@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Observable';
 //noinspection TypeScriptPreferShortImport
 import {EmailPasswordCredentials} from '../../media-type/doc-model/email-password-credentials';
 import {SignInState, SignInStates} from '../../sign-in-state';
-import {UserService} from '../user/user-service';
+import {UserService} from '../user-service/user-service';
 import {AuthenticationService} from './authentication-service';
 import {SessionInfoCdm} from '../../media-type/cdm/session-info';
 import {AuthSubject, AuthSubjectTransform} from '../../media-type/cdm/auth-subject';

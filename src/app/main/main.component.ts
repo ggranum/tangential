@@ -23,7 +23,7 @@ import {Placeholder} from '@tangential/firebase-util'
 import {
   Visitor,
   VisitorService
-} from '@tangential/visitor-service'
+} from '@tangential/authorization-service'
 import {Subscription} from 'rxjs/Subscription'
 import {AppRoutes} from '../app.routing.module'
 import {AppEventMessage} from '../core/bus-events/app-event'

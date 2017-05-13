@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core'
-import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router'
-import {Logger, MessageBus} from '@tangential/core'
-import {Visitor, VisitorService} from '@tangential/visitor-service'
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import {Logger, MessageBus} from '@tangential/core';
+import {Visitor} from '../media-type/cdm/visitor';
+import {VisitorService} from '../visitor-service';
 
 @Injectable()
 export class VisitorResolver implements Resolve<Visitor> {

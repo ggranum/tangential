@@ -1,6 +1,9 @@
-import {AuthSubject, AuthUserKey} from '@tangential/authorization-service';
 import {VisitorPreferences} from './visitor-preferences';
 import {VisitorEvents} from './visitor-events';
+//noinspection TypeScriptPreferShortImport
+import {AuthSubject} from '../../../../media-type/cdm/auth-subject';
+//noinspection TypeScriptPreferShortImport
+import {AuthUserKey} from '../../../../media-type/doc-model/auth-user';
 
 
 /**

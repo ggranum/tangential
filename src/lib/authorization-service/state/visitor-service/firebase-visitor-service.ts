@@ -1,13 +1,16 @@
 import {Injectable} from '@angular/core';
-import {AuthenticationService, AuthSubject, AuthUserKey} from '@tangential/authorization-service';
-import {Logger, MessageBus, ResolveVoid} from '@tangential/core';
+//noinspection TypeScriptPreferShortImport
+import {AuthenticationService} from '../authentication-service/authentication-service';
+//noinspection TypeScriptPreferShortImport
+import {AuthUserKey} from '../../media-type/doc-model/auth-user';
+import {AuthSubject} from '../../media-type/cdm/auth-subject';
+import {Logger, MessageBus} from '@tangential/core';
 import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util';
 import * as firebase from 'firebase/app';
 import {BehaviorSubject, Observable} from 'rxjs/Rx';
 import {VisitorService} from './visitor-service';
 
 import {Visitor} from './media-type/cdm/visitor';
-//noinspection TypeScriptPreferShortImport
 //noinspection TypeScriptPreferShortImport
 import {VisitorPreferences, VisitorPreferencesTransform} from './media-type/cdm/visitor-preferences';
 //noinspection TypeScriptPreferShortImport

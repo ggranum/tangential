@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
 import {Router} from '@angular/router'
 import {AuthenticationService} from '@tangential/authorization-service'
 import {MessageBus} from '@tangential/core'
-import {Visitor} from '@tangential/visitor-service'
+import {Visitor} from '@tangential/authorization-service'
 import {AppRoutes} from '../../../app.routing.module'
 import {ContextMenuItem, ContextMenuMessage} from './context-menu-message'
 

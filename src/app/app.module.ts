@@ -7,18 +7,22 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AdsenseModule, GoogleAnalytics} from '@tangential/analytics';
 
 import {
-  AuthenticationService, AuthSettingsService,
-  FirebaseAuthenticationService, FirebaseAuthSettingsService,
+  AuthenticationService,
+  AuthSettingsService,
+  FirebaseAuthenticationService,
+  FirebaseAuthSettingsService,
   FirebaseUserService,
+  FirebaseVisitorService,
   HasRoleGuard,
-  UserService
+  UserService,
+  VisitorResolver,
+  VisitorService
 } from '@tangential/authorization-service';
 import {SignInPanelModule, TanjComponentsModule} from '@tangential/components';
 import {InputRegistry} from '@tangential/configurable-widgets';
 import {AppEnvironment, Logger, MessageBus} from '@tangential/core';
 import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util';
 import {TanjInputWidgetModule} from '@tangential/input-widgets';
-import {FirebaseVisitorService, VisitorResolver, VisitorService} from '@tangential/visitor-service';
 // Our Components
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';

@@ -3,11 +3,10 @@ import {Router} from '@angular/router';
 import {AuthInfo} from '@tangential/components';
 import {CodedError, DefaultPageAnalytics, Logger, MessageBus, Page, RouteInfo} from '@tangential/core';
 import {FirebaseErrors} from '@tangential/firebase-util';
-import {Visitor, VisitorService} from '@tangential/visitor-service';
+import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service';
 import {Observable} from 'rxjs/Observable';
 import {AppRoutes} from '../../../app.routing.module';
 import {NotificationIF, NotificationMessage} from '../../common/notification-bar-component/notification';
-import {AuthenticationService} from '@tangential/authorization-service';
 
 @Component({
   selector: 'tanj-sign-in-page',

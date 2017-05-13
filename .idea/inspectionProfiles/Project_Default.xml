@@ -1,0 +1,64 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="29">
+            <item index="0" class="java.lang.String" itemvalue="label" />
+            <item index="1" class="java.lang.String" itemvalue="placeholder" />
+            <item index="2" class="java.lang.String" itemvalue="value" />
+            <item index="3" class="java.lang.String" itemvalue="name" />
+            <item index="4" class="java.lang.String" itemvalue="color" />
+            <item index="5" class="java.lang.String" itemvalue="field" />
+            <item index="6" class="java.lang.String" itemvalue="header" />
+            <item index="7" class="java.lang.String" itemvalue="visitor" />
+            <item index="8" class="java.lang.String" itemvalue="required" />
+            <item index="9" class="java.lang.String" itemvalue="mdinput" />
+            <item index="10" class="java.lang.String" itemvalue="dividercolor" />
+            <item index="11" class="java.lang.String" itemvalue="flex" />
+            <item index="12" class="java.lang.String" itemvalue="layout-align" />
+            <item index="13" class="java.lang.String" itemvalue="layout" />
+            <item index="14" class="java.lang.String" itemvalue="md-icon-button" />
+            <item index="15" class="java.lang.String" itemvalue="i18n" />
+            <item index="16" class="java.lang.String" itemvalue="i18n-caption" />
+            <item index="17" class="java.lang.String" itemvalue="caption" />
+            <item index="18" class="java.lang.String" itemvalue="md-raised-button" />
+            <item index="19" class="java.lang.String" itemvalue="suppressheadershim" />
+            <item index="20" class="java.lang.String" itemvalue="md-button" />
+            <item index="21" class="java.lang.String" itemvalue="ligature" />
+            <item index="22" class="java.lang.String" itemvalue="i18n-label" />
+            <item index="23" class="java.lang.String" itemvalue="font" />
+            <item index="24" class="java.lang.String" itemvalue="let-col" />
+            <item index="25" class="java.lang.String" itemvalue="let-row" />
+            <item index="26" class="java.lang.String" itemvalue="sortable" />
+            <item index="27" class="java.lang.String" itemvalue="selectionmode" />
+            <item index="28" class="java.lang.String" itemvalue="datakey" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="7">
+            <item index="0" class="java.lang.String" itemvalue="nobr" />
+            <item index="1" class="java.lang.String" itemvalue="noembed" />
+            <item index="2" class="java.lang.String" itemvalue="comment" />
+            <item index="3" class="java.lang.String" itemvalue="noscript" />
+            <item index="4" class="java.lang.String" itemvalue="embed" />
+            <item index="5" class="java.lang.String" itemvalue="script" />
+            <item index="6" class="java.lang.String" itemvalue="ng-content" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="JSMethodCanBeStatic" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PointlessBooleanExpressionJS" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="UnterminatedStatementJS" enabled="false" level="WARNING" enabled_by_default="false">
+      <option name="ignoreSemicolonAtEndOfBlock" value="true" />
+    </inspection_tool>
+  </profile>
+</component>

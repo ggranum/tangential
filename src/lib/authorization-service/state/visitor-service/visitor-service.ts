@@ -3,7 +3,8 @@ import {Visitor} from './media-type/cdm/visitor';
 import {VisitorPreferences} from './media-type/cdm/visitor-preferences';
 
 import {Observable} from 'rxjs/Observable';
-import {AuthUserKey} from '@tangential/authorization-service';
+//noinspection TypeScriptPreferShortImport
+import {AuthUserKey} from '../../media-type/doc-model/auth-user';
 
 export abstract class VisitorService {
 

@@ -4,7 +4,7 @@ import {
   RouterModule
 } from '@angular/router'
 import {HasRoleGuard} from '@tangential/authorization-service'
-import {VisitorResolver} from '@tangential/visitor-service'
+import {VisitorResolver} from '@tangential/authorization-service'
 import {AdminConsoleParentPage} from './_parent/admin-console-parent.page'
 //noinspection TypeScriptPreferShortImport
 import {PermissionManagerPage} from './permissions/permission-manager.page'

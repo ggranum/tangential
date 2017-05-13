@@ -7,5 +7,7 @@ export * from './authentication-service/firebase-authentication-service'
 export * from './settings-service/settings-service'
 export * from './settings-service/firebase-settings-service'
 
-export * from './user/user-service'
-export * from './user/firebase-user-service'
+export * from './user-service/user-service'
+export * from './user-service/firebase-user-service'
+
+export * from './visitor-service/'

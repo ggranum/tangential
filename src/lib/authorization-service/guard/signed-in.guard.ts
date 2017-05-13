@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core'
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router'
 import {Observable} from 'rxjs/Observable'
 //noinspection TypeScriptPreferShortImport
-import {VisitorService} from '../../visitor-service/visitor-service'
+import {VisitorService} from '../state/visitor-service/visitor-service';
+
 
 
 /**

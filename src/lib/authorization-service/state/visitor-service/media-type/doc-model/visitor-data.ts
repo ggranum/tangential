@@ -1,5 +1,7 @@
-import {VisitorEventsDocModel, VisitorPreferencesDm} from '@tangential/visitor-service';
-import {AuthUserKey} from '../../../authorization-service/media-type/doc-model/auth-user';
+import {VisitorEventsDocModel} from './visitor-events';
+import {VisitorPreferencesDm} from './visitor-preferences';
+//noinspection TypeScriptPreferShortImport
+import {AuthUserKey} from '../../../../media-type/doc-model/auth-user';
 
 
 export const VisitorDataFbPath = function (db: firebase.database.Database, key: AuthUserKey):firebase.database.Reference {

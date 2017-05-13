@@ -1,7 +1,7 @@
 import {AuthRoleDm} from './auth-role';
 /* tslint:disable:no-unused-variable */
 import {generatePushID} from '@tangential/core';
-import {AuthRole, AuthRoleTransform} from '@tangential/authorization-service';
+import {AuthRole, AuthRoleTransform} from '../cdm/auth-role';
 
 describe('tanj.media-types.role', () => {
 

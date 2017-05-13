@@ -2,7 +2,7 @@ import {generatePushID, ObjectUtil, ObjMap} from '@tangential/core';
 import {AuthRoleDm} from '../doc-model/auth-role';
 import {AuthPermission} from './auth-permission';
 import {AuthRoleKey} from '../doc-model/auth-role';
-import {RolePermissionsDm} from '@tangential/authorization-service';
+import {RolePermissionsDm} from '../doc-model/auth-role';
 
 export interface AuthRoleCfg {
   $key ?: string

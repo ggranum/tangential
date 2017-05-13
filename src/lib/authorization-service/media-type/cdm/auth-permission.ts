@@ -1,6 +1,6 @@
 import {AuthPermissionDm} from '../doc-model/auth-permission';
 import {generatePushID} from '@tangential/core';
-import {AuthPermissionKey} from '@tangential/authorization-service';
+import {AuthPermissionKey} from '../doc-model/auth-permission';
 
 export interface AuthPermissionCfg {
   $key?: string

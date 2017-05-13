@@ -37,11 +37,7 @@
       ],
       "@tangential/media-types": [
         "lib/media-types"
-      ],
-      "@tangential/visitor-service": [
-        "lib/visitor-service"
       ]
-
 
     }
   },

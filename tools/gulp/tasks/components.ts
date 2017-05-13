@@ -2,7 +2,7 @@ import {task, watch} from 'gulp';
 import * as path from 'path';
 
 import {SOURCE_ROOT, DIST_COMPONENTS_ROOT, PROJECT_ROOT} from '../constants';
-import {sassBuildTask, tsBuildTask, execNodeTask, copyTask} from '../task_helpers';
+import {sassBuildTask, tsBuildTask, execNodeTask, copyTask, execTask} from '../task_helpers';
 
 // No typings for this.
 const inlineResources = require('../release/inline-resources');
@@ -30,6 +30,9 @@ task('build:components', [
   ':build:components:scss'
 ], () => inlineResources([DIST_COMPONENTS_ROOT]));
 
-task(':build:components:ngc', ['build:components'], execNodeTask(
-  '@angular/compiler-cli', 'ngc', ['-p', path.relative(PROJECT_ROOT, libDir)]
-));
+task(':build:components:ngc', ['build:components'], (done) => {
+  done()
+  // execNodeTask(
+  //   '@angular/compiler-cli', 'ngc', ['-p', path.relative(PROJECT_ROOT, libDir)]
+  // )
+});
