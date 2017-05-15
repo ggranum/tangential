@@ -17,6 +17,8 @@ import {Placeholder} from '@tangential/firebase-util';
 })
 export class MainComponent implements OnInit, OnDestroy {
   visitor: Visitor
+  menu: Menu;
+
   dialogRef: MdDialogRef<any>
 
   title = 'Tangential'
@@ -31,7 +33,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private visitorWatch: Subscription
   private capturesWatch: Subscription
-  private menu: Menu;
 
 
   constructor(private router: Router,

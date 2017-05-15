@@ -1,3 +1,13 @@
+<a name="0.1.1-beta.6"></a>
+## [0.1.1-beta.6](https://github.com/ggranum/tangential/compare/v0.1.1-beta.5...v0.1.1-beta.6) (2017-05-15)
+
+
+
+<a name="0.1.1-beta.5"></a>
+## [0.1.1-beta.5](https://github.com/ggranum/tangential/compare/v0.1.1-beta.4...v0.1.1-beta.5) (2017-05-15)
+
+Bring the remaining components out of the 'app' and into the @tangential/components library.  
+
 <a name="0.1.1-beta.4"></a>
 ## [0.1.1-beta.4](https://github.com/ggranum/tangential/compare/v0.1.1-beta.3...v0.1.1-beta.4) (2017-05-13)
 

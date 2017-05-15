@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core';
 import {Menu} from '@tangential/components';
+import {Visitor} from '@tangential/authorization-service';
 
 @Component({
   selector:        'tanj-side-nav-menu',
@@ -9,6 +10,7 @@ import {Menu} from '@tangential/components';
 })
 export class SideNavMenuComponent{
 
+  @Input() visitor: Visitor = null
   @Input() menu: Menu = null
 
   constructor() {
