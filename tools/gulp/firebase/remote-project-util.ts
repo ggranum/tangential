@@ -1,6 +1,7 @@
 import fs = require('fs');
-import {FirebaseEnvironment} from './firebase-env';
-import {JSON_FILE_WRITE_CONFIG} from './constants';
+import {FirebaseEnvironment} from '../project/model/firebase/firebase-environement';
+import {JSON_FILE_WRITE_CONFIG} from '../constants';
+import {Project} from '../project/model/project';
 
 const jsonFile = require('jsonfile');
 const firebaseAdmin = require('firebase-admin');
@@ -13,10 +14,10 @@ let firebaseInitialized: boolean = false
 export class RemoteProjectUtil {
 
 
-  static pushAuthenticationUsersFromUsersFile(env: FirebaseEnvironment): Promise<boolean> {
+  static pushAuthenticationUsersFromUsersFile(project:Project, fbEnv: FirebaseEnvironment): Promise<boolean> {
     const promises: Promise<void>[] = []
-    const auth = RemoteProjectUtil.getApp(env).auth()
-    env.projectUsers.forEach((user: any) => {
+    const auth = RemoteProjectUtil.getApp(fbEnv).auth()
+    project.currentEnvironment().projectUsers.forEach((user: any) => {
       if (user.uid) {
         const promise: Promise<void> = new Promise<void>((resolve, reject) => {
           auth.getUser(user.uid).then(() => {
@@ -38,17 +39,17 @@ export class RemoteProjectUtil {
     return Promise.all(promises).then(() => true)
   }
 
-  static pushDatabase(env: FirebaseEnvironment, force: boolean = false): Promise<boolean> {
-    const db = RemoteProjectUtil.getApp(env).database()
+  static pushDatabase(project:Project, fbEnv: FirebaseEnvironment, force: boolean = false): Promise<boolean> {
+    const db = RemoteProjectUtil.getApp(fbEnv).database()
     return new Promise<boolean>((resolve, reject) => {
       const ref = db.ref('/');
-      let data: string = env.databaseTemplateData
+      let data: string = fbEnv.getDatabaseTemplate()
       ref.once('value', (snapshot: any) => {
         if (snapshot.exists()) {
           if (force) {
             console.log('Database already populated. Taking backup and forcing overwrite.')
-            env.takeBackup().then(() => {
-              RemoteProjectUtil.overwriteDatabaseWithTemplate(env).then(() => {
+            fbEnv.takeBackup(project.getBaseDir()).then(() => {
+              RemoteProjectUtil.overwriteDatabaseWithTemplate(fbEnv).then(() => {
                 db.goOffline()
                 resolve(true)
               })
@@ -79,10 +80,10 @@ export class RemoteProjectUtil {
     });
   }
 
-  static overwriteDatabaseWithTemplate(env: FirebaseEnvironment): Promise<boolean> {
-    const db = RemoteProjectUtil.getApp(env).database()
+  static overwriteDatabaseWithTemplate(fbEnv: FirebaseEnvironment): Promise<boolean> {
+    const db = RemoteProjectUtil.getApp(fbEnv).database()
     return new Promise<boolean>((resolve, reject) => {
-      let data = env.databaseTemplateData
+      let data = fbEnv.getDatabaseTemplate()
       console.log('Attempting to initialize database: ')
       db.goOnline()
       db.ref('/').set(data, (error: any) => {
@@ -105,11 +106,11 @@ export class RemoteProjectUtil {
     console.error('Native error: ', error)
   }
 
-  static  getApp(env: FirebaseEnvironment) {
+  static  getApp(fbEnv: FirebaseEnvironment) {
     if (!firebaseInitialized) {
       firebaseAdmin.initializeApp({
-        credential: firebaseAdmin.credential.cert(env.accountCertKeyFilePath),
-        databaseURL: 'https://' + env.projectId + '.firebaseio.com',
+        credential: firebaseAdmin.credential.cert(fbEnv.privateKeyPath),
+        databaseURL: 'https://' + fbEnv.config.projectId + '.firebaseio.com',
         databaseAuthVariableOverride: {
           uid: 'gulp-service-worker'
         }
@@ -119,20 +120,20 @@ export class RemoteProjectUtil {
     return firebaseAdmin
   }
 
-  static backupDatabase(env: FirebaseEnvironment, backupDirPath: string): Promise<boolean> {
-    const db = RemoteProjectUtil.getApp(env).database()
+  static backupDatabase(fbEnv: FirebaseEnvironment, backupDirPath: string): Promise<boolean> {
+    const db = RemoteProjectUtil.getApp(fbEnv).database()
     db.goOnline()
     return new Promise((resolve, reject) => {
       const ref = db.ref('/');
-      console.log(`Requesting data from server: https://${env.projectId}.firebaseio.com`)
+      console.log(`Requesting data from server: https://${fbEnv.config.projectId}.firebaseio.com`)
       ref.once('value', (snapshot: any) => {
         if (snapshot.exists()) {
           if (!fs.existsSync(backupDirPath)) {
             fs.mkdirSync(backupDirPath);
           }
-          let path = `${backupDirPath}/full_${Date.now()}.json`
-          console.log(`Database is populated. Backing up data to ${path}`)
-          jsonFile.writeFileSync(path, snapshot.val(), JSON_FILE_WRITE_CONFIG)
+          let backupPath = `${backupDirPath}/full_${Date.now()}.json`
+          console.log(`Database is populated. Backing up data to ${backupPath}`)
+          jsonFile.writeFileSync(backupPath, snapshot.val(), JSON_FILE_WRITE_CONFIG)
           resolve(true)
         }
         else {

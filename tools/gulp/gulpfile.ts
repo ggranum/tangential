@@ -6,4 +6,5 @@ import './tasks/lint';
 import './tasks/release';
 import './tasks/version-bump';
 import './tasks/serve';
-import './firebase/firebase-tasks';
+import './project/firebase.gulp';
+import './project/project.gulp';

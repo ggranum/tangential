@@ -1,0 +1,109 @@
+{
+  "__Comment__": [
+    "/**",
+    "*    This file is an example of what running 'gulp project:init' will create and save to 'project.local.json' ",
+    "*    You will need to replace the various settings with your own, preferably valid, values. ",
+    "*    If you wish you can rename this file to 'project.local.json' and edit it directly, but ",
+    "*    we'd recommend using the project:init target, as we are likely to add validation steps, etc.",
+    "*/"
+  ],
+  "name": "Tangential",
+  "configDirPath": "config",
+  "backupDirPath": "./backups",
+  "initialized": false,
+  "environments": {
+    "dev": {
+      "name": "dev",
+      "suppressAds": false,
+      "production": false,
+      "googleAnalytics": {
+        "enabled": true,
+        "trackingId": "UA-00000000-1"
+      },
+      "firebase": {
+        "privateKeyPath": "./firebase-adminsdk-private-key.local.json",
+        "databaseTemplatePath": "../database.init.json",
+        "databaseRulesPath": "../database.rules.json",
+        "backupDirName": "dev",
+        "config": {
+          "projectId": "${your-project-name}-dev",
+          "apiKey": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLM",
+          "authDomain": "${your-project-name}-dev.firebaseapp.com",
+          "databaseURL": "https://${your-project-name}-dev.firebaseio.com",
+          "storageBucket": "${your-project-name}-dev.appspot.com",
+          "messagingSenderId": "000000000000"
+        }
+      },
+      "projectUsers": [
+        {
+          "uid": "Administrator",
+          "email": "example+administrator@example.com",
+          "password": "SfBsaZ3Rc4WA",
+          "displayName": "Administrator",
+          "disabled": false
+        },
+        {
+          "uid": "TestUser",
+          "email": "example+testuser@example.com",
+          "password": "pn+pndUf+9xO",
+          "displayName": "Test User",
+          "disabled": false
+        },
+        {
+          "uid": "AssistantAdmin",
+          "email": "example+assistant@example.com",
+          "password": "jB9mJ31uZ3cJ",
+          "displayName": "Assistant Administrator",
+          "disabled": false
+        }
+      ]
+    },
+    "prod": {
+      "name": "prod",
+      "suppressAds": false,
+      "production": true,
+      "googleAnalytics": {
+        "enabled": true,
+        "trackingId": "US-00000000-2"
+      },
+      "firebase": {
+        "basePath": "./prod",
+        "privateKeyPath": "./firebase-adminsdk-private-key.local.json",
+        "databaseTemplatePath": "../database.init.json",
+        "databaseRulesPath": "../database.rules.json",
+        "backupDirName": "dev",
+        "config": {
+          "projectId": "${your-project-name}-dev",
+          "apiKey": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLM",
+          "authDomain": "${your-project-name}-dev.firebaseapp.com",
+          "databaseURL": "https://${your-project-name}-dev.firebaseio.com",
+          "storageBucket": "${your-project-name}-dev.appspot.com",
+          "messagingSenderId": "000000000000"
+        }
+      },
+      "projectUsers": [
+        {
+          "uid": "Administrator",
+          "email": "example+administrator@example.com",
+          "password": "CqgpEuZZ8NQE",
+          "displayName": "Administrator",
+          "disabled": false
+        },
+        {
+          "uid": "TestUser",
+          "email": "example+testuser@example.com",
+          "password": "3v3lhxtB0TIr",
+          "displayName": "Test User",
+          "disabled": false
+        },
+        {
+          "uid": "AssistantAdmin",
+          "email": "example+assistant@example.com",
+          "password": "kbQfvtKpe4N8",
+          "displayName": "Assistant Administrator",
+          "disabled": false
+        }
+      ]
+    }
+  }
+}

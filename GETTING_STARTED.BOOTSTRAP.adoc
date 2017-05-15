@@ -2,7 +2,9 @@
 
 This document describes how to use this project as a bootstrap for your own application. We'll walk through cloning the Tangential Demo repo into your own working directory, initializing your own git repo, and then configuring the project.
 
-*Be aware* that you should be cloning the https://github.com/ggranum/tangential-demo[Tangential-Demo] project, NOT https://github.com/ggranum/tangential[Tangential] itself. The demo project is esentially this project, except everything living under 'src/libs' is imported via NPM. Which makes updating your code with Tangential's changes quite easy, as opposed to nearly impossible. You'll note that the following steps we break the connection between the Tangential repository and your new project - this is intentional, as we'd rather avoid issues associated with upstream merges.
+*Be aware* that you should be cloning the https://github.com/ggranum/tangential-demo[Tangential-Demo] project, NOT https://github.com/ggranum/tangential[Tangential] itself. The demo project is esentially this project, except everything living under 'src/libs' is imported via NPM. Which makes updating your code with Tangential's changes quite easy, as opposed to nearly impossible.
+
+You might also note that the following steps we break the connection between the Tangential Demo repository and your new project - this is intentional, as we'd rather avoid issues associated with upstream merges - you'll receive updates to your Tangential-based app via NPM rather than attempting to merge a painfully large code base. This frees us here at Tangential from having to be as cautious with adding new features, allowing us to move faster, which allows you to get more sweet time saving tools.
 
 == Prerequisites:
 
