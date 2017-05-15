@@ -1,8 +1,8 @@
 @mixin tanj-home-theme($theme) {
 
   $accent_500 : mat-color(map-get($theme, accent), 500);
-
-  $text : mat-color(map-get($theme, primary), 400);
+  $primary_400 : mat-color(map-get($theme, primary), 400);
+  $text : map_get(map-get($theme, foreground), text);
   $subText : mat-color(map-get($theme, primary), 50);
 
   tanj-home-page {
@@ -21,7 +21,7 @@
 
 
     .tanj-title {
-      color          : $text;
+      color          : $primary_400;
       padding        : 0;
       margin         : 1em 0 0;
       letter-spacing : .25em;
@@ -116,6 +116,12 @@
     font-size   : 24px;
     font-weight : 600;
     transition  : 0.3s ease-in-out;
+  }
+
+  .tanj-section-header {
+    > a:visited {
+      color          : $text;
+    }
   }
 
   .tanj-section-header > a:hover > i {

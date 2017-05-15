@@ -1,6 +1,8 @@
-@import './common/side-nav-menu/side-nav-menu';
+@import './casa/casa-index';
+@import './common/common-index';
 
-@mixin tanj-themed-features-main($theme) {
 
-  @include tanj-themed-side-nav-menu($theme)
+@mixin tangential-app-features($theme) {
+  @include tangential-app-features-casa($theme);
+  @include tangential-app-features-common($theme);
 }

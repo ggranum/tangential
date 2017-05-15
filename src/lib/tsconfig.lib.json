@@ -33,32 +33,35 @@
       "jasmine"
     ],
     "paths": {
-      "@tangential/firebase-util": [
-        "./util/firebase"
+      "@tangential/admin-console": [
+        "./admin-console"
       ],
-      "@tangential/media-types": [
-        "./media-types"
+      "@tangential/analytics": [
+        "./analytics"
+      ],
+      "@tangential/asciidoctor-panel": [
+        "./asciidoctor-panel"
       ],
       "@tangential/authorization-service": [
         "./authorization-service"
       ],
+      "@tangential/components": [
+        "./components"
+      ],
+      "@tangential/configurable-widgets": [
+        "./configurable-widgets"
+      ],
       "@tangential/core": [
         "./core"
       ],
-      "@tangential/components": [
-        "./view/components"
+      "@tangential/firebase-util": [
+        "./firebase"
       ],
       "@tangential/input-widgets": [
-        "./view/input-widgets"
+        "./input-widgets"
       ],
-      "@tangential/configurable-widgets": [
-        "./view/configurable-widgets"
-      ],
-      "@tangential/admin-console": [
-        "./view/modules/admin-console"
-      ],
-      "@tangential/analytics": [
-        "./analytics"
+      "@tangential/media-types": [
+        "./media-types"
       ]
     }
   },

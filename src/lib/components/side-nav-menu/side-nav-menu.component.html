@@ -1,0 +1,23 @@
+<div class="tanj-side-nav-menu-hero-container">
+  <div class="tanj-side-nav-menu-hero-background"></div>
+  <div class="tanj-side-nav-menu-hero-content" layout="column" layout-align="end start">
+    <div class="tanj-visitor-display-name" layout="row" layout-align="start">{{visitor?.subject?.displayName}}</div>
+    <div class="tanj-visitor-username" layout="row" layout-align="start">{{visitor?.subject?.email}}</div>
+  </div>
+</div>
+<div class="tanj-side-nav-content" layout="column" layout-align="start">
+  <nav>
+    <ng-container *ngFor="let item of menu?.entries">
+      <div class="tanj-fading-line" *ngIf="item.isSeparator"></div>
+      <div  *ngIf="!item.isSeparator">
+        <a flex md-button layout="row"
+           layout-align="start"
+           [routerLink]="item.routerLink"
+           (click)="item.eventHandler($event)"
+           [disabled]="item.disabled">
+          <tanj-icon [font]="item.icon.font" [ligature]="item.icon.name" [label]="item.label" i18n-label></tanj-icon>
+        </a>
+      </div>
+    </ng-container>
+  </nav>
+</div>
