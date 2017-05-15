@@ -2,21 +2,23 @@ export class AppEnvironment {
   suppressAds: boolean
   production: boolean
   googleAnalytics?: {
-    enabled:boolean
+    enabled: boolean
     trackingId: string
   }
   googleAdWords?: {
-    enabled:boolean
+    enabled: boolean
     campaignId: string
     adClient: string
     adSlot: string
   }
-  firebaseConfig: {
-    apiKey: string
-    authDomain: string
-    databaseURL: string
-    projectId: string
-    storageBucket: string
-    messagingSenderId: string
+  firebase: {
+    config: {
+      apiKey: string
+      authDomain: string
+      databaseURL: string
+      projectId: string
+      storageBucket: string
+      messagingSenderId: string
+    }
   }
 }

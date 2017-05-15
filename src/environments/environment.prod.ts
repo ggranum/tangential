@@ -1,3 +1,3 @@
-import {production} from './environments.local'
+import {prodEnv} from './environments.local'
 
-export const environment = production
+export const environment = prodEnv

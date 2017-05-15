@@ -1,3 +1,3 @@
-import {development} from './environments.local'
+import {devEnv} from './environments.local'
 
-export const environment = development
+export const environment = devEnv

@@ -54,7 +54,7 @@ export class EagerServiceLoader {
 
 const appEnvironment: AppEnvironment = <AppEnvironment>environment
 
-if (!environment || !appEnvironment['firebaseConfig']) {
+if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config) {
   console.error('Missing environment or appConfig.firebaseConfig', environment, appEnvironment)
 }
 
@@ -117,7 +117,7 @@ if (!environment || !appEnvironment['firebaseConfig']) {
     EagerServiceLoader,
     VisitorResolver,
     FirebaseProvider,
-    {provide: FirebaseConfig, useValue: appEnvironment.firebaseConfig},
+    {provide: FirebaseConfig, useValue: appEnvironment.firebase.config},
     {provide: UserService, useClass: FirebaseUserService},
     {provide: AuthSettingsService, useClass: FirebaseAuthSettingsService},
     {provide: AuthenticationService, useClass: FirebaseAuthenticationService},

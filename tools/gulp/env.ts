@@ -1,14 +1,21 @@
 import minimist = require('minimist')
+import {DEFAULT_CONFIG_FILE_NAME, DEFAULT_CONFIG_ROOT} from './constants';
+import * as path from 'path';
 
 
 export type Options = {
   prod: boolean,
   dev: boolean,
   force: boolean,
+  p: string,
+  project: string,
   env: string
 }
 let knownOptions = {
-  string: 'env',
+  string: ['env', 'project'],
+  alias: {
+    'project': 'p'
+  },
   boolean: ['dev', 'prod', 'force'],
   'default': {dev: false, prod: false, force: false, env: 'dev'}
 };
@@ -28,10 +35,17 @@ export class Environment {
         throw new Error('Environment not specified. Provide flag --prod, --dev, or specify with --env=\'foo\'')
       }
     }
+    if(this.options.p){
+      this.options.project = this.options.p
+    }
   }
 
   env(): string {
     return this.options.env
+  }
+
+  projectFile():string {
+    return this.options.project || path.join(DEFAULT_CONFIG_ROOT, DEFAULT_CONFIG_FILE_NAME)
   }
 
   get force() {

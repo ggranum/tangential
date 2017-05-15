@@ -1,6 +1,7 @@
 <a name="0.1.1-beta.6"></a>
 ## [0.1.1-beta.6](https://github.com/ggranum/tangential/compare/v0.1.1-beta.5...v0.1.1-beta.6) (2017-05-15)
 
+Fix packaging issue.
 
 
 <a name="0.1.1-beta.5"></a>
