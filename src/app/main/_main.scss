@@ -1,4 +1,4 @@
-@mixin tanj-main-theme($theme) {
+@mixin tangential-app-main($theme) {
 
   $background : map-get($theme, background);
   $appBar : map-get($theme, app-bar);

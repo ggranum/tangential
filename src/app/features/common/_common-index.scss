@@ -1,18 +1,8 @@
-@import 'app-bar/app-bar';
-@import 'notification-bar-component/notification-bar';
-@import 'accordion/accordion';
-@import 'bottom-nav/bottom-nav';
 @import 'tip-dialog/tip-dialog';
 @import 'tip-dialog/tip-dialog-footer/tip-dialog-footer';
-@import 'side-nav/side-nav';
 
-@mixin tanj-themed-features-common($theme) {
+@mixin tangential-app-features-common($theme) {
 
-  @include tanj-app-bar-theme($theme);
-  @include tanj-notification-bar-theme($theme);
-  @include tanj-bottom-nav-theme($theme);
-  @include tanj-accordion-theme($theme);
   @include tanj-tip-dialog-theme($theme);
   @include tanj-tip-dialog-footer-theme($theme);
-  @include tanj-side-nav-theme($theme);
 }

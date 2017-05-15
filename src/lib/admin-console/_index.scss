@@ -1,0 +1,14 @@
+@import '~primeng/resources/themes/omega/theme.css';
+@import '~primeng/resources/primeng.min.css';
+@import '_parent/parent.component';
+@import 'permissions/permission.component';
+@import 'roles/role.component';
+@import 'users/user.component';
+
+@mixin tangential-admin_console($theme) {
+  @include tangential-admin_console-parent($theme);
+  @include tangential-admin_console-permission($theme);
+  @include tangential-admin_console-role($theme);
+  @include tangential-admin_console-user($theme);
+
+}

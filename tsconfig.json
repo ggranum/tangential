@@ -13,32 +13,35 @@
       "es2016", "dom"
     ],
     "paths": {
-      "@tangential/firebase-util": [
-        "src/lib/util/firebase"
+      "@tangential/admin-console": [
+        "src/lib/admin-console"
       ],
-      "@tangential/media-types": [
-        "src/lib/media-types"
+      "@tangential/analytics": [
+        "src/lib/analytics"
+      ],
+      "@tangential/asciidoctor-panel": [
+        "src/lib/asciidoctor-panel"
       ],
       "@tangential/authorization-service": [
         "src/lib/authorization-service"
       ],
+      "@tangential/components": [
+        "src/lib/components"
+      ],
+      "@tangential/configurable-widgets": [
+        "src/lib/configurable-widgets"
+      ],
       "@tangential/core": [
         "src/lib/core"
       ],
-      "@tangential/components": [
-        "src/lib/view/components"
+      "@tangential/firebase-util": [
+        "src/lib/firebase-util"
       ],
       "@tangential/input-widgets": [
-        "src/lib/view/input-widgets"
+        "src/lib/input-widgets"
       ],
-      "@tangential/configurable-widgets": [
-        "src/lib/view/configurable-widgets"
-      ],
-      "@tangential/admin-console": [
-        "src/lib/view/modules/admin-console"
-      ],
-      "@tangential/analytics": [
-        "src/lib/analytics"
+      "@tangential/media-types": [
+        "src/lib/media-types"
       ]
     }
   }

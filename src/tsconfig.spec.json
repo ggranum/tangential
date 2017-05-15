@@ -11,28 +11,31 @@
     ],
     "paths": {
       "@tangential/admin-console": [
-        "lib/view/modules/admin-console"
+        "lib/admin-console"
       ],
       "@tangential/analytics": [
         "lib/analytics"
+      ],
+      "@tangential/asciidoctor-panel": [
+        "lib/asciidoctor-panel"
       ],
       "@tangential/authorization-service": [
         "lib/authorization-service"
       ],
       "@tangential/components": [
-        "lib/view/components"
+        "lib/components"
       ],
       "@tangential/configurable-widgets": [
-        "lib/view/configurable-widgets"
+        "lib/configurable-widgets"
       ],
       "@tangential/core": [
         "lib/core"
       ],
       "@tangential/firebase-util": [
-        "lib/util/firebase"
+        "lib/firebase-util"
       ],
       "@tangential/input-widgets": [
-        "lib/view/input-widgets"
+        "lib/input-widgets"
       ],
       "@tangential/media-types": [
         "lib/media-types"

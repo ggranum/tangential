@@ -38,9 +38,8 @@ import {SignOutPage} from './features/casa/sign-in/sign-out.page';
 import {SignUpPage} from './features/casa/sign-in/sign-up.page';
 import {TryoutWelcomePage} from './features/casa/tryout-welcome/tryout-welcome.page';
 import {TanjCommonModule} from './features/common/common.module';
-import {HelpModule} from './features/help/help.module';
 import {MainComponent} from './main/main.component';
-import {TanjMaterialModule} from './routing/tanj-material-module';
+import {TanjMaterialModule} from './tanj-material-module';
 
 
 /**
@@ -89,7 +88,6 @@ if (!environment || !appEnvironment['firebaseConfig']) {
     TanjInputWidgetModule,
 
     TanjCommonModule,
-    HelpModule,
 
 
     /* Routing*/

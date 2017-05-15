@@ -1,12 +1,11 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthInfo} from '@tangential/components';
+import {AuthInfo, NotificationIF, NotificationMessage} from '@tangential/components';
 import {CodedError, DefaultPageAnalytics, Logger, MessageBus, Page, RouteInfo} from '@tangential/core';
 import {FirebaseErrors} from '@tangential/firebase-util';
 import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service';
 import {Observable} from 'rxjs/Observable';
 import {AppRoutes} from '../../../app.routing.module';
-import {NotificationIF, NotificationMessage} from '../../common/notification-bar-component/notification';
 
 @Component({
   selector: 'tanj-sign-in-page',

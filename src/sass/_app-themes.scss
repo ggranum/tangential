@@ -1,29 +1,14 @@
-@import '../lib/view/components/index';
-@import '../lib/view/input-widgets/index';
-@import '../lib/view/configurable-widgets/index';
-@import '../lib/view/modules/admin-console/index';
-@import '../app/features/help/help-dialog';
-@import '../app/features/casa/casa-index';
-@import '../app/features/common/common-index';
+@import 'global';
 @import '../app/features/features-index';
 @import '../app/main/main';
-@import 'global';
+@import '../lib/admin-console/index';
+@import '../lib/components/index';
 
 @mixin apply-theme-to-app($theme) {
-
-
-  @include tanj-view-components-index($theme);
-  @include tanj-input_widgets-index($theme);
-  @include tanj-configurable_widgets-index($theme);
-  @include tanj-view-modules-admin_console-index($theme);
-
-  @include tanj-global-app-theme($theme);
-
-  @include tanj-main-theme($theme);
-
-
-  @include tanj-themed-features-casa($theme);
-  @include tanj-themed-features-common($theme);
-  @include tanj-themed-features-main($theme);
+  @include tangential-app-global($theme);
+  @include tangential-app-main($theme);
+  @include tangential-app-features($theme);
+  @include tangential-admin_console($theme);
+  @include tangential-components($theme);
 
 }

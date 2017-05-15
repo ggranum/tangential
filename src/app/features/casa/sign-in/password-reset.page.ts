@@ -1,10 +1,9 @@
 import {ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '@tangential/authorization-service';
-import {AuthInfo} from '@tangential/components';
+import {AuthInfo, NotificationMessage} from '@tangential/components';
 import {MessageBus} from '@tangential/core';
 import {AppRoutes} from '../../../app.routing.module';
-import {NotificationMessage} from '../../common/notification-bar-component/notification';
 
 @Component({
   selector: 'tanj-password-reset-page',

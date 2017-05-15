@@ -187,13 +187,12 @@ export const AppRoutes = {
     path: '', redirectTo: '/home', pathMatch: 'full'
   },
   wildcard:      {path: '**', component: PageNotFoundComponent}
-
 }
 
 const appRoutesLocal: Routes = [
   {
     path: 'admin',
-    loadChildren: 'lib/view/modules/admin-console/admin-console.module#TanjAdminConsoleModule',
+    loadChildren: './lazy-modules/ext-admin-console.module#ExtTanjAdminConsoleModule',
   },
   AppRoutes.signIn,
   AppRoutes.signUp,

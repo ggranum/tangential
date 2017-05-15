@@ -1,0 +1,12 @@
+@mixin tangential-admin_console-role($theme) {
+  tanj-role-manager-page {
+    box-sizing      : border-box;
+    display         : flex;
+    flex            : 1;
+    flex-direction  : column;
+    justify-content : start;
+    align-items     : stretch;
+    min-height      : 80vh;
+  }
+
+}
