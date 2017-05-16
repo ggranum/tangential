@@ -1,3 +1,18 @@
+<a name="0.1.1-beta.7"></a>
+## [0.1.1-beta.7](https://github.com/ggranum/tangential/compare/v0.1.1-beta.6...v0.1.1-beta.7) (2017-05-16)
+
+
+### Bug Fixes
+
+* **build:** Package naming mismatch for configurable-input-widgets ([e3554cf](https://github.com/ggranum/tangential/commit/e3554cf))
+
+
+### Features
+
+* **build:** Add project:init gulp target ([d18d468](https://github.com/ggranum/tangential/commit/d18d468))
+
+
+
 <a name="0.1.1-beta.6"></a>
 ## [0.1.1-beta.6](https://github.com/ggranum/tangential/compare/v0.1.1-beta.5...v0.1.1-beta.6) (2017-05-15)
 
