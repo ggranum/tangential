@@ -48,8 +48,8 @@
       "@tangential/components": [
         "./components"
       ],
-      "@tangential/configurable-widgets": [
-        "./configurable-widgets"
+      "@tangential/configurable-input-widgets": [
+        "./configurable-input-widgets"
       ],
       "@tangential/core": [
         "./core"

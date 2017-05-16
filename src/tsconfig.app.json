@@ -26,8 +26,8 @@
       "@tangential/components": [
         "lib/components"
       ],
-      "@tangential/configurable-widgets": [
-        "lib/configurable-widgets"
+      "@tangential/configurable-input-widgets": [
+        "lib/configurable-input-widgets"
       ],
       "@tangential/core": [
         "lib/core"
