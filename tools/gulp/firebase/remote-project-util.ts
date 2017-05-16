@@ -8,13 +8,14 @@ const firebaseAdmin = require('firebase-admin');
 
 
 let firebaseInitialized: boolean = false
+
 /**
  *
  */
 export class RemoteProjectUtil {
 
 
-  static pushAuthenticationUsersFromUsersFile(project:Project, fbEnv: FirebaseEnvironment): Promise<boolean> {
+  static pushAuthenticationUsersFromUsersFile(project: Project, fbEnv: FirebaseEnvironment): Promise<boolean> {
     const promises: Promise<void>[] = []
     const auth = RemoteProjectUtil.getApp(fbEnv).auth()
     project.currentEnvironment().projectUsers.forEach((user: any) => {
@@ -39,16 +40,16 @@ export class RemoteProjectUtil {
     return Promise.all(promises).then(() => true)
   }
 
-  static pushDatabase(project:Project, fbEnv: FirebaseEnvironment, force: boolean = false): Promise<boolean> {
+  static pushDatabase(project: Project, fbEnv: FirebaseEnvironment, force: boolean = false): Promise<boolean> {
     const db = RemoteProjectUtil.getApp(fbEnv).database()
     return new Promise<boolean>((resolve, reject) => {
       const ref = db.ref('/');
-      let data: string = fbEnv.getDatabaseTemplate()
+      let data: string = fbEnv.readDatabaseTemplate()
       ref.once('value', (snapshot: any) => {
         if (snapshot.exists()) {
           if (force) {
             console.log('Database already populated. Taking backup and forcing overwrite.')
-            fbEnv.takeBackup(project.getBaseDir()).then(() => {
+            fbEnv.takeBackupFromRemote(project.getBasePath()).then(() => {
               RemoteProjectUtil.overwriteDatabaseWithTemplate(fbEnv).then(() => {
                 db.goOffline()
                 resolve(true)
@@ -83,7 +84,7 @@ export class RemoteProjectUtil {
   static overwriteDatabaseWithTemplate(fbEnv: FirebaseEnvironment): Promise<boolean> {
     const db = RemoteProjectUtil.getApp(fbEnv).database()
     return new Promise<boolean>((resolve, reject) => {
-      let data = fbEnv.getDatabaseTemplate()
+      let data = fbEnv.readDatabaseTemplate()
       console.log('Attempting to initialize database: ')
       db.goOnline()
       db.ref('/').set(data, (error: any) => {
@@ -106,10 +107,10 @@ export class RemoteProjectUtil {
     console.error('Native error: ', error)
   }
 
-  static  getApp(fbEnv: FirebaseEnvironment) {
+  static getApp(fbEnv: FirebaseEnvironment) {
     if (!firebaseInitialized) {
       firebaseAdmin.initializeApp({
-        credential: firebaseAdmin.credential.cert(fbEnv.privateKeyPath),
+        credential: firebaseAdmin.credential.cert(fbEnv.getPrivateKeyPath()),
         databaseURL: 'https://' + fbEnv.config.projectId + '.firebaseio.com',
         databaseAuthVariableOverride: {
           uid: 'gulp-service-worker'
@@ -135,8 +136,7 @@ export class RemoteProjectUtil {
           console.log(`Database is populated. Backing up data to ${backupPath}`)
           jsonFile.writeFileSync(backupPath, snapshot.val(), JSON_FILE_WRITE_CONFIG)
           resolve(true)
-        }
-        else {
+        } else {
           resolve(false)
         }
         db.goOffline()
