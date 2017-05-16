@@ -25,8 +25,6 @@ function _globify(maybeGlob: string, suffix = '**/*') {
 
 /** Create a TS Build Task, based on the options found in the specified tsconfig file. */
 export function tsBuildTask(taskDir: string, tsconfigFilePath:string) {
-  console.log('#tsBuildTask', 'taskDir =', taskDir)
-
   return () => {
     const tsConfig: any = JSON.parse(fs.readFileSync(tsconfigFilePath, 'utf-8'));
     const dest: string = path.join(taskDir, tsConfig['compilerOptions']['outDir']);

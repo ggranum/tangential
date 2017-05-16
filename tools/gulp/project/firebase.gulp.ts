@@ -1,24 +1,29 @@
 import {task} from 'gulp';
 import {Env} from '../env';
 import {Project} from './model/project';
+import {TangentialError} from './exception/tangential-error';
 
 task('firebase:push-project-users', (done: any) => {
   let p = Project.load(Env.projectFile())
   let pEnv = p.currentEnvironment()
 
-  pEnv.firebase.pushProjectUsersToRemote(p).then(() => {
+  pEnv.firebase.pushProjectUsersToRemote().then(() => {
     console.log(`Remote users pushed to firebase authentication table: `
       + `https://console.firebase.google.com/project/${pEnv.firebase.config.projectId}/authentication/users `)
     done()
-  }, (e: any) => {
-    console.log('error', e)
+  }).catch((e: any) => {
+    if (e.name == TangentialError.name) {
+      console.error(e.message)
+    } else {
+      console.error('Unhandled Error:', e)
+    }
   })
 });
 
 task('firebase:take-database-backup', (done: any) => {
   let p = Project.load(Env.projectFile())
   let pEnv = p.currentEnvironment()
-  pEnv.firebase.takeBackup(p.getBaseDir()).then((written: boolean) => {
+  pEnv.firebase.takeBackupFromRemote(p.getBasePath()).then((written: boolean) => {
     if (written) {
       console.log(`Remote data was successfully backed up.`)
     } else {
@@ -34,7 +39,7 @@ task('firebase:push-database-template', (done: any) => {
   let p = Project.load(Env.projectFile())
   let pEnv = p.currentEnvironment()
 
-  pEnv.firebase.pushDatabaseTemplate(p, Env.force).then((written: boolean) => {
+  pEnv.firebase.pushDatabaseTemplateToRemote(Env.force).then((written: boolean) => {
     if (written) {
       console.log(`Remote data was successfully written: `
         + `https://console.firebase.google.com/project/${pEnv.firebase.config.projectId}/database/data`)
@@ -43,7 +48,11 @@ task('firebase:push-database-template', (done: any) => {
     }
     done()
   }).catch((e: any) => {
-    console.log('error', e)
+    if (e.name == TangentialError.name) {
+      console.error(e.message)
+    } else {
+      console.error('Unhandled Error:', e)
+    }
   })
 });
 
