@@ -28,8 +28,8 @@
       "@tangential/components": [
         "src/lib/components"
       ],
-      "@tangential/configurable-widgets": [
-        "src/lib/configurable-widgets"
+      "@tangential/configurable-input-widgets": [
+        "src/lib/configurable-input-widgets"
       ],
       "@tangential/core": [
         "src/lib/core"

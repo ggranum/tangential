@@ -73,6 +73,7 @@ export class Project implements ProjectJson {
     this.writeUserTs()
     this.writeEnvironmentTs()
     jsonFile.writeFileSync(configPath, this.toJson(), JSON_FILE_WRITE_CONFIG)
+    console.log(`Wrote project configuration template to ${configPath}. Edit file to provide valid configuration for your project features.`)
   }
 
   writeUserTs():void {

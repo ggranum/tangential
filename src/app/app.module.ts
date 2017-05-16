@@ -19,7 +19,7 @@ import {
   VisitorService
 } from '@tangential/authorization-service';
 import {SignInPanelModule, TanjComponentsModule} from '@tangential/components';
-import {InputRegistry} from '@tangential/configurable-widgets';
+import {InputRegistry} from '@tangential/configurable-input-widgets';
 import {AppEnvironment, Logger, MessageBus} from '@tangential/core';
 import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util';
 import {TanjInputWidgetModule} from '@tangential/input-widgets';

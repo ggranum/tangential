@@ -39,8 +39,12 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
 
   constructor(cfg?: FirebaseEnvironmentJson | FirebaseEnvironment) {
     cfg = cfg || {}
-    this.basePath = cfg.basePath
-    this.basePath = cfg.basePath
+    this.basePath = cfg.basePath || this.basePath
+    this.privateKeyPath = cfg.privateKeyPath || this.privateKeyPath
+    this.databaseTemplatePath = cfg.databaseTemplatePath || this.databaseTemplatePath
+    this.databaseRulesPath= cfg.databaseRulesPath || this.databaseRulesPath
+    this.backupDirName= cfg.backupDirName || this.backupDirName
+    this.config = cfg.config || this.config
   }
 
   takeBackup(baseDir:string) {
