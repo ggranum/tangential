@@ -89,7 +89,7 @@ export class ProjectEnvironment implements ProjectEnvironmentJson {
       },
       projectUsers: DefaultUserTemplates.map(template => new ProjectUser(template, true))
     })
-    pe.firebase = FirebaseEnvironment.defaultProdEnv(pe)
+    pe.firebase = new FirebaseEnvironment(pe)
     return pe
   }
 

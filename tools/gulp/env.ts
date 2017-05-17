@@ -17,7 +17,7 @@ let knownOptions = {
     'project': 'p'
   },
   boolean: ['dev', 'prod', 'force'],
-  'default': {dev: false, prod: false, force: false, env: 'dev'}
+  'default': {dev: false, prod: false, force: false}
 };
 
 
@@ -27,17 +27,16 @@ export class Environment {
   constructor() {
     this.options = <any>minimist(process.argv.slice(2), knownOptions);
     if (!this.options.env) {
-      if (this.options.dev) {
-        this.options.env = 'dev'
-      } else if (this.options.prod) {
+      if (this.options.prod) {
         this.options.env = 'prod'
       } else {
-        throw new Error('Environment not specified. Provide flag --prod, --dev, or specify with --env=\'foo\'')
+        this.options.env = 'dev'
       }
     }
     if(this.options.p){
       this.options.project = this.options.p
     }
+    console.log('=info=', `Current environment set to ${this.options.env}`)
   }
 
   env(): string {

@@ -31,7 +31,7 @@ export class Project implements ProjectJson {
     this.backupPath = cfg.backupPath || this.backupPath
     this.initialized = cfg.initialized === true
     let environments = cfg.environments || {}
-        Object.keys(environments).forEach(envKey => {
+    Object.keys(environments).forEach(envKey => {
       this.environments[envKey] = new ProjectEnvironment(this, cfg.environments[envKey])
     })
   }
@@ -39,12 +39,6 @@ export class Project implements ProjectJson {
   get environmentsAry() {
     return Object.keys(this.environments).map(key => this.environments[key])
   }
-
-  getNameFromPath(): string {
-    console.log('Project', 'getNameFromPath', path.basename(PROJECT_ROOT))
-    return path.basename(PROJECT_ROOT)
-  }
-
 
   getBackupPath() {
     let p = path.join(this.getBasePath(), this.backupPath)
@@ -63,6 +57,11 @@ export class Project implements ProjectJson {
     return path.join(this.getBasePath(), DEFAULT_CONFIG_FILE_NAME)
   }
 
+  getNameFromPath(): string {
+    console.log('Project', 'getNameFromPath', path.basename(PROJECT_ROOT))
+    return path.basename(PROJECT_ROOT)
+  }
+
   initLocal() {
     let configPath = this.getConfigFilePath()
     if (this.verifyConfigFileExists()) {
@@ -78,6 +77,7 @@ export class Project implements ProjectJson {
     this.write()
     console.log(`Wrote project configuration template to ${configPath}.`
       + `Edit this file to provide valid configuration for your project features.`)
+    console.log(`    === ${path.basename(configPath)} contains sensitive information and should NOT be committed to version control ===`)
   }
 
   updateLocal() {
@@ -100,6 +100,7 @@ export class Project implements ProjectJson {
     this.initialized = true
     this.backup()
     this.write()
+    console.log("Project validated successfully. Setting initialized to true: project is now ready for remote operations.")
   }
 
   backup() {
