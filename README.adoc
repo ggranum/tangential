@@ -1,6 +1,6 @@
 = Tangential
 
-Live demo available https://tangential-a8ee8.firebaseapp.com/[here].
+Live demo available https://tangential-demo.firebaseapp.com/[here].
 
 == The framework you use is orthogonal to the problem you're trying to solve.
 
