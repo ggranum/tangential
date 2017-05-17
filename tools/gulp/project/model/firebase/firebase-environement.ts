@@ -1,14 +1,15 @@
 import * as path from 'path';
 
 import {FirebaseConfig} from './firebase-config';
-import {RemoteProjectUtil} from '../../../firebase/remote-project-util';
+import {RemoteProjectUtil} from '../../firebase/remote-project-util';
 import {JSON_FILE_WRITE_CONFIG, PROJECT_ROOT} from '../../../constants';
 import {Env} from '../../../env';
 import {Project} from '../project';
 import {FirebasePrivateKeyNotInitialized} from '../../exception/firebase-private-key-not-initialized';
 import {ProjectEnvironment} from '../project-environment';
-import {FirebasePrivateKeyTemplate} from './firebase-private-key-config';
+import {FirebasePrivateKeyConfig, FirebasePrivateKeyTemplate} from './firebase-private-key-config';
 import fs = require('fs');
+import {FirebasePrivateKeyMismatch} from '../../exception/firebase-private-key-mismatch';
 
 const jsonFile = require('jsonfile');
 const FirebaseRcPath = path.join(PROJECT_ROOT, '.firebaserc')
@@ -19,7 +20,7 @@ export interface FirebaseEnvironmentJson {
   privateKeyPath?: string
   dbTemplateFilePath?: string
   rulesFilePath?: string
-  backupDirName?: string
+  backupPath?: string
   config?: FirebaseConfig
 }
 
@@ -29,22 +30,22 @@ export interface FirebaseEnvironmentJson {
  */
 export class FirebaseEnvironment implements FirebaseEnvironmentJson {
 
-  backupDirName: string = './backups/dev'
-  basePath: string = './dev'
+  backupPath: string = 'backups/dev'
+  basePath: string = 'dev'
   config: FirebaseConfig = {
     apiKey: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLM',
     messagingSenderId: '000000000000'
   }
-  rulesFilePath: string = './database.rules.json'
-  dbTemplateFilePath: string = './database.init.json'
-  privateKeyPath: string = './dev/firebase-adminsdk-private-key.local.json'
+  dbTemplateFilePath: string = 'database.init.json'
+  privateKeyPath: string = 'dev/firebase-adminsdk-private-key.local.json'
+  rulesFilePath: string = 'database.rules.json'
   private project: Project
 
   constructor(private projectEnv: ProjectEnvironment, cfg?: FirebaseEnvironmentJson | FirebaseEnvironment) {
     cfg = cfg || {}
     this.project = projectEnv.project
-    this.basePath = cfg.basePath || `./${this.projectEnv.name}`
-    this.backupDirName = cfg.backupDirName || `./backups/${this.basePath}`
+    this.basePath = cfg.basePath || `${this.projectEnv.name}`
+    this.backupPath = cfg.backupPath || `backups/${this.basePath}`
     this.rulesFilePath = cfg.rulesFilePath || this.rulesFilePath
     this.dbTemplateFilePath = cfg.dbTemplateFilePath || this.dbTemplateFilePath
     this.privateKeyPath = cfg.privateKeyPath || `${this.basePath}/firebase-adminsdk-private-key.local.json`
@@ -61,16 +62,20 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
     return path.join(this.project.getBasePath(), this.basePath)
   }
 
+  getBackupPath(): string {
+    return path.join(this.project.getBasePath(), this.backupPath)
+  }
+
+  getDbTemplateFilePath(): string {
+    return path.join(this.project.getBasePath(), this.dbTemplateFilePath)
+  }
+
   getPrivateKeyPath(): string {
     return path.join(this.project.getBasePath(), this.privateKeyPath)
   }
 
   getRulesFilePath(): string {
     return path.join(this.project.getBasePath(), this.rulesFilePath)
-  }
-
-  getDbTemplateFilePath(): string {
-    return path.join(this.project.getBasePath(), this.dbTemplateFilePath)
   }
 
   initLocal() {
@@ -92,7 +97,7 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
 
   updateFirebaseRcFile() {
     let rcData = this.readFirebaseRc()
-    rcData[this.projectEnv.name] = this.config.projectId
+    rcData.projects[this.projectEnv.name] = this.config.projectId
     this.writeFirebaseRc(rcData)
   }
 
@@ -113,7 +118,9 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
   pushProjectUsersToRemote(): Promise<boolean> {
     try {
       this.project.checkInitialized('Cannot execute remote operations.')
-      return RemoteProjectUtil.pushAuthenticationUsersFromUsersFile(this.project, this)
+      this.project.checkValid()
+      console.log(`Attempting to push users for environment ${this.projectEnv.name}`)
+      return RemoteProjectUtil.pushAuthenticationUsersFromUsersFile(this.projectEnv, this)
     } catch (e) {
       return Promise.reject(e)
     }
@@ -122,16 +129,18 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
   pushDatabaseTemplateToRemote(force: boolean = false): Promise<boolean> {
     try {
       this.project.checkInitialized('Cannot execute remote operations.')
+      this.project.checkValid()
       return RemoteProjectUtil.pushDatabase(this.project, this, force)
     } catch (e) {
       return Promise.reject(e)
     }
   }
 
-  takeBackupFromRemote(baseDir: string): Promise<boolean> {
+  takeBackupFromRemote(b): Promise<boolean> {
     try {
       this.project.checkInitialized('Cannot execute remote operations.')
-      return RemoteProjectUtil.backupDatabase(this, `${path.join(baseDir, this.backupDirName)}`)
+      this.project.checkValid()
+      return RemoteProjectUtil.backupDatabase(this, `${path.join(this.getBackupPath(), this.backupPath)}`)
     } catch (e) {
       return Promise.reject(e)
     }
@@ -155,7 +164,9 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
       data = jsonFile.readFileSync(FirebaseRcPath)
     } else {
       data = {
-        'projects': {}
+        'projects': {
+          'default': this.project.environments['dev'].firebase.config.projectId
+        }
       }
     }
     return data
@@ -166,7 +177,7 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
   }
 
   checkValid() {
-    this.checkPrivateKeyFileExists()
+    this.checkPrivateKeyFileIsValid()
   }
 
   checkAccountCertKey() {
@@ -200,6 +211,18 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
     }
   }
 
+  checkPrivateKeyFileIsValid() {
+    this.checkPrivateKeyFileExists()
+    let keyData = this.readPrivateKeyFile()
+    if(keyData.project_id !== this.config.projectId){
+      throw new FirebasePrivateKeyMismatch(
+        "Your Firebase service account private key project_id does not match your current environment's project id."
+        + `\n     '${keyData.project_id}' != '${this.config.projectId}' `
+        + `['Service Key File value' != '${this.projectEnv.name} environment Firebase project id'.]`)
+    }
+
+  }
+
   verifyPrivateKeyFileExists() {
     return fs.existsSync(this.getPrivateKeyPath())
   }
@@ -210,31 +233,12 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
       privateKeyPath: this.privateKeyPath,
       dbTemplateFilePath: this.dbTemplateFilePath,
       rulesFilePath: this.rulesFilePath,
-      backupDirName: this.backupDirName,
+      backupPath: this.backupPath,
       config: this.config,
     }
   }
 
-  private readProjectId() {
-    if (!this.checkFirebaseRcFileIsValid()) {
-      throw new Error('You must configure a .firebaserc file with your project information in the root project directory')
-    }
-    // this.projectId = jsonFile.readFileSync(FirebaseRcPath).projects[Env.env()]
+  private readPrivateKeyFile(): FirebasePrivateKeyConfig {
+    return jsonFile.readFileSync(this.getPrivateKeyPath())
   }
-
-  static defaultDevEnv(projectEnv: ProjectEnvironment): FirebaseEnvironment {
-    return new FirebaseEnvironment(projectEnv, {
-      basePath: './dev',
-      backupDirName: 'prod'
-    })
-  }
-
-  static defaultProdEnv(projectEnv: ProjectEnvironment): FirebaseEnvironment {
-    return new FirebaseEnvironment(projectEnv, {
-      basePath: './prod',
-      backupDirName: 'prod'
-    })
-  }
-
-
 }
