@@ -11,7 +11,10 @@ task('firebase:push-project-users', (done: any) => {
       + `https://console.firebase.google.com/project/${pEnv.firebase.config.projectId}/authentication/users `)
   }).catch((e: any) => {
     TangentialError.handle(e)
-  }).then(() => done())
+  }).then(() => {
+    done()
+    process.exit(0)
+  })
 });
 
 task('firebase:take-database-backup', (done: any) => {
@@ -25,7 +28,10 @@ task('firebase:take-database-backup', (done: any) => {
     }
   }, (e: any) => {
     TangentialError.handle(e)
-  }).then(() => done())
+  }).then(() => {
+    done()
+    process.exit(0)
+  })
 });
 
 task('firebase:push-database-template', (done: any) => {
@@ -41,8 +47,8 @@ task('firebase:push-database-template', (done: any) => {
   }).catch((e: any) => {
     TangentialError.handle(e)
   }).then(() => {
-    console.log('Done?', 'Not done')
     done()
+    /* There was once a time where disconnecting from firebase admin was enough to let gulp exit normally. Alas, no longer. */
     process.exit(0)
   })
 });

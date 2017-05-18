@@ -50,7 +50,7 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
     this.dbTemplateFilePath = cfg.dbTemplateFilePath || this.dbTemplateFilePath
     this.privateKeyPath = cfg.privateKeyPath || `${this.basePath}/firebase-adminsdk-private-key.local.json`
     this.config = cfg.config || {
-        projectId: `${projectEnv.project.name}-${projectEnv.name}`,
+        projectId: `${projectEnv.project.name}` + (projectEnv.name == 'prod' ? '' : ('-' + projectEnv.name)),
         apiKey: this.config.apiKey,
         messagingSenderId: this.config.messagingSenderId,
       }
@@ -104,6 +104,10 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
   writePrivateKeyFileStub() {
     if (!this.verifyPrivateKeyFileExists()) {
       let keyPath = this.getPrivateKeyPath()
+      let keyDir = path.join(keyPath, '../')
+      if(!fs.existsSync(keyDir)) {
+        fs.mkdirSync(keyDir)
+      }
       jsonFile.writeFileSync(keyPath, FirebasePrivateKeyTemplate, JSON_FILE_WRITE_CONFIG)
       let msg = []
       msg.push(`Wrote Firebase Service Key stub file to ${keyPath}`)
@@ -140,7 +144,7 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
     try {
       this.project.checkInitialized('Cannot execute remote operations.')
       this.project.checkValid()
-      return RemoteProjectUtil.backupDatabase(this, `${path.join(this.getBackupPath(), this.backupPath)}`)
+      return RemoteProjectUtil.backupDatabase(this, this.getBackupPath());
     } catch (e) {
       return Promise.reject(e)
     }

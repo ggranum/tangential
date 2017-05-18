@@ -26,9 +26,8 @@ So obvious, right? In fact, there's a good chance you've already cloned this rep
 
 If not, try to pick a name that matches what you want your website to be named. Because we've kindly templatized this document, so you can make your life just a little bit easier by doing a find and replace on '${yourProjectName}' (no quotes).
 
-Doing this will make any web links actually work and any bash commands (etc) execute, assuming you follow along and name your external projects and such in line with our suggestions. There are actually two replacement strings, one for snake-case and one for CamelCase.
+Doing this will make any web links actually work and any bash commands (etc) execute, assuming you follow along and name your external projects and such in line with our suggestions.
 
-* Find and replace ${yourProjectName} with your actual camelCased project name.
 * Find and replace ${your-project-name} with your actual snake-cased project name.
 
 We will assume that you will be using `your-project-name` for your production environment, and `your-project-name-dev` for your test environment. These names relate to your analytics settings and your Firebase Database settings, so using names that can used consistently across services is helpful. This means straight-up ascii, no spaces, no leading numbers, etc. Generally, make it a url-safe string that doesn't require escape characters and you *should* be ok.
@@ -254,7 +253,7 @@ git add .
 git commit -m "Bootstrapping from Tangential Demo (https://github.com/ggranum/tangential-demo)"
 
 # Optional: Go create a repo on github so you can push:
-# git remote add origin git@github.com:${you}/${yourProjectName}.git
+# git remote add origin git@github.com:${you}/${your-project-name}.git
 # git push -u origin master
 ```
 
@@ -271,7 +270,7 @@ This step also uses the NPM `post-install` script to invoke an `npm install` in 
 
 
 === Initialize local configuration files
-There are a number of things you don't want committed to public source control. There are a smaller handful of things you don't want committed to source control, period, even if your using an internal repository specific to your company.
+There are a number of things you don't want committed to public source control. There are a smaller handful of things you don't want committed to source control, period, even if you're using an internal repository specific to your company.
 
 Most of the project configuration falls into the latter category. We've got passwords, we've got private keys, we've got... you get the idea.
 
@@ -376,10 +375,12 @@ firebase use prod && firebase deploy --only database
 Note that 'firebase deploy --only database' is somewhat misleading: It is deploying your database *rules*, not your database.
 
 The user accounts we pushed can be viewed here:
+
 * Development: https://console.firebase.google.com/project/${your-project-name}-dev/authentication/users
 * Production: https://console.firebase.google.com/project/${your-project-name}/authentication/users
 
 The rules we pushed can be found here:
+
 * Development: https://console.firebase.google.com/project/${your-project-name}-dev/database/rules
 * Production: https://console.firebase.google.com/project/${your-project-name}/database/rules
 
@@ -409,7 +410,7 @@ And open your browser to http://localhost:4200. After a moment or three, you sho
 
 Regarding the ng serve command, two things to note. We used --host 0.0.0.0 in order to "listen on all endpoints". With this setting, your computer is now listening for other computers on the same network for connections: you can (depending on firewall settings, of course) connect to your current dev environment with your smart phone or tablet, for example.
 
-Second, we specified the port number. Now, 4200 is actually the default port, so in this case, it did nothing. However, you can make your testing life a bit easier by using different port numbers for each environment, and for each Firebase App you develop. By using a separate port number, you can let your test browsers 'remember' your passwords, and you won't end up with a list of a dozen or more users, all registered to 'localhost:4200'.
+Second, we specified the port number. Now, 4200 is actually the default port, so in this case specifying it did nothing. However, you can make your testing life a bit easier by using different port numbers for each environment, and for each Firebase App you develop. By using a separate port number you can let your test browsers 'remember' your passwords, and you won't end up with a list of a dozen or more users all registered to 'localhost:4200'.
 
 One final note on running locally: We haven't deployed our 'Cloud Functions' to Firebase yet. This means a few of our 'database triggers' (in this case, yes, but Firebase Cloud Functions are much more than just triggers, generally speaking) won't be running in the background. If you do continue to use and develop against this bootstrap, then you will almost certainly find yourself writing new Cloud Functions - and you, too, will get so used to everything 'just updating on save' that you might very well forget to you have to deploy the Cloud Functions each time you change them!
 
@@ -452,18 +453,6 @@ ng build --aot -oh=all -prod
 firebase use prod && firebase deploy
 ```
 
-== Useful commands:
-
-You'll probably want to run unit tests, and it's nice to have a simple list of commands to jump to... so here it is!
-
-`ng serve --host 0.0.0.0 -p 4200`:: Also, `ng serve --help`. This is the command we tend to start our development day with. It will build in the background while you make code and style changes. Fair warning: like any compiler it can't always catch the full breadth of some code changes. You may occasionally need to stop and restart the server to 'fix' odd behavior created by such bad state. It's rare enough that, when it happens, you'll likely blame something else first!
-`ng build --aot -prod -oh=all`:: Pre-release build, also should be run occasionally to check for AoT build errors (especially if you're editing routes!). AoT builds will find bugs in your templates that you might not catch with just browsing your app in 'serve' or runtime-compile mode.
-`firebase list`:: Display a list of all your Firebase projects, and the one that's currently 'in use'.
-`firebase use dev` and `firebase use prod`:: We run these prior to a deploy, to ensure our artifacts land in the right firebase project.
-`firebase deploy`:: Also, `firebase deploy --help'. This command pushes all of your firebase artifacts to the 'in use' Firebase project. For Tangential, this means Hosting (contents of `./dist` directory), Database (*rules only!*), and Cloud Functions. Push your database template (when you want to destroy your data!) with:
-`gulp firebase:push-database-template --dev`:: DESTROY your current data and replace it with whatever is in `./config/database.init.json` (assuming you haven't changed defaults). There is also a --force flag, for overwriting data (yes, we exaggerate in our first sentence here - but you really shouldn't run this command unless you want to reset your database).
-
-
 
 == Your app awaits
 
@@ -480,6 +469,18 @@ You can sign in to your web app instance(s) using any of the user accounts found
 We will cover how to use the various Tangential features and widgets in more detail in the coming weeks. For now, we leave you with a set of links to the many, many great sites out there that exist to help with Angular and Firebase.
 
 Thanks, and Good luck!
+
+=== Some useful commands:
+
+You'll probably want to run unit tests, and it's nice to have a simple list of commands to jump to... so here it is!
+
+`ng serve --host 0.0.0.0 -p 4200`:: Also, `ng serve --help`. This is the command we tend to start our development day with. It will build in the background while you make code and style changes. Fair warning: like any compiler it can't always catch the full breadth of some code changes. You may occasionally need to stop and restart the server to 'fix' odd behavior created by such bad state. It's rare enough that, when it happens, you'll likely blame something else first!
+`ng build --aot -prod -oh=all`:: Pre-release build, also should be run occasionally to check for AoT build errors (especially if you're editing routes!). AoT builds will find bugs in your templates that you might not catch with just browsing your app in 'serve' or runtime-compile mode.
+`firebase list`:: Display a list of all your Firebase projects, and the one that's currently 'in use'.
+`firebase use dev` and `firebase use prod`:: We run these prior to a deploy, to ensure our artifacts land in the right firebase project.
+`firebase deploy`:: Also, `firebase deploy --help'. This command pushes all of your firebase artifacts to the 'in use' Firebase project. For Tangential, this means Hosting (contents of `./dist` directory), Database (*rules only!*), and Cloud Functions. Push your database template (when you want to destroy your data!) with:
+`gulp firebase:push-database-template --dev`:: DESTROY your current data and replace it with whatever is in `./config/database.init.json` (assuming you haven't changed defaults). There is also a --force flag, for overwriting data (yes, we exaggerate in our first sentence here - but you really shouldn't run this command unless you want to reset your database).
+
 
 === Link-y goodness
 

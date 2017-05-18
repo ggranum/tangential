@@ -30,7 +30,7 @@ export class ProjectEnvironment implements ProjectEnvironmentJson {
     cfg = cfg || {}
 
     this.name = cfg.name || this.name
-    this.suppressAds = cfg.suppressAds === true
+    this.suppressAds = cfg.suppressAds !== false
     this.production = cfg.production === true
     this.googleAnalytics = cfg.googleAnalytics || this.googleAnalytics
     this.firebase = new FirebaseEnvironment(this, cfg.firebase || this.firebase)
