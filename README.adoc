@@ -2,36 +2,32 @@
 
 Live demo available https://tangential-demo.firebaseapp.com/[here].
 
-== The framework you use is orthogonal to the problem you're trying to solve.
+== Angular, Firebase, Analytics, User Management, Advertising...
 
-We developers love our frameworks. But, at the end of the day, a framework is just another hammer in the toolbox. If it doesn't let us build our app, it's worthless - or worse. And if it does let us build the app, neither end-users nor management is going to care much which framework we use to do it.
+*Get it all in half an hour.* Live, on the web. Half an hour.
 
-Tangential works to bootstrap you past that horrible, boring, re-write the wheel new-project phase. No need to write Yet Another IAM package. Easy to follow steps for connecting analytics, and even advertising. After that, we stay out of your way. You shouldn't have to care learn the guts and nuances of yet another framework just to get set up. Tangential provides examples for all the major functionality you are ever likely to require in an app. And if you do get into a corner, the Angular community is incredibly active. We'll get you sorted.
+One server - provided by https://firebase.google.com/[Firebase]. No AWS, no Google Cloud. One server, massively scalable, free for development and low-traffic sites.
 
-If you have never tracked user interactions across your site, Tangential can show you how the way using Google Analytics.
+Don't want ads? Don't care about analytics? Disable them during setup and save yourself 15 minutes - and you can add them at any time in the future.
 
-If you have never built a site with advertising before, Tangential can introduce you to displaying ads served by Google AdSense. We'll even link AdSense to Analytics and help you figure out what, exactly, a 'conversion' means to you.
-
-We'd love your feedback - and your contributions if you're up for it.
+In just a few minutes you can have your site hosted by Firebase Hosting at a project-specific URL. If you have your own domain, you can point it to Firebase Hosting and - once your DNS changes propagate! - you're sorted. A fully bootstrapped web application, managed by you, backed by some of the best tools in the industry.
 
 == Features and highlights
-Tangential is still very much in early phases. It is growing as we use it to build out our 'proof of concept' slash validation project, https://SnapLog.io[SnapLog.io], which is a fully featured, ad-supported, analytics-enabled, mobile-oriented 'Life Journal'. SnapLog combines a purpose-driven form builder with long term tracking and correlation features (aka 'charts and graphs'), letting users track, for example, their mood and medication use, and correlate the two over time.
+Tangential is young. It is growing as we use it to build out our 'proof of concept' slash validation project, https://SnapLog.io[SnapLog.io], which is a fully featured, ad-supported, analytics-enabled, mobile-oriented 'Life Journal' application. SnapLog combines a purpose-driven form builder with long term tracking and correlation features (aka 'charts and graphs'), letting users track, for example, their mood and medication use, and correlate the two over time.
 
-Tangential is already a great way to bootstrap your next personal project, or even something slightly larger in scale. For small sites that need to deploy a single web site or web application, but don't want to deal with hosting or implementing user management from scratch, you'll have a hard time finding anything more powerful.
-
-Once we've hit release candidate we will update the project with licensing information. We have chosen to dual license Tangential because we would like to continue to grow it. As donation schemes are rarely successful, this is the only option we know of that has the potential to fund Tangential in the long term. Should some anonymous, glorious, benefactors wish to commit to funding the project for a significant duration we'd gladly shift to MIT licensing.
+Tangential is already a great way to bootstrap your next personal project, or even something larger in scale. For small sites that need to deploy a single web site or web application, but don't want to deal with hosting or implementing user management from scratch, you'll have a hard time finding anything more powerful.
 
 Below is a list of major features. Do note that many of the widgets and components you find in the Tangential demo are actually available as separate NPM packages. E.g. the Admin Console can be used without committing to using the entire bootstrap.
 
-Firebase Hosted::  One server hosting. With Firebase Functions and some good Firebase Rule hygiene, you don't need a separate authentication server. How nice is that?
+Firebase Hosted::  Single server hosting. With Firebase Functions and some good Firebase Rule hygiene, you don't need a separate authentication server. How nice is that?
 
 Angular Goodness:: Angular 4+, at the moment. We'll keep the project dependencies up to date
 
-Built in IAM console::  Create and assign new roles and permissions. It's basic at the moment, but growing.
+Built in IAM console:: View, create and assign new roles and permissions. (We revamped this feature area to use PrimeNg recently and are in the process of adding back the 'creation and assignment' functionality - soon!).
 
-Themed:: Customizable Material Design themes.
+Themed:: Customizable Material Design themes, using SCSS.
 
-Logging:: Log to the browser console - you can see the output in the demo if you open your console
+Logging:: Log to the browser console - you can see the output in the demo if you open your console.
 
 Google Analytics:: Connect your Google Analytics account and get clean, easy to follow page and event tracking. don't have an Analytics account yet? We'll walk you through how to create one.
 
@@ -39,16 +35,55 @@ Google AdSense:: We're still creating ad widgets, but connecting AdSense is as e
 
 AoT Compilation:: There are things you can't do if you want AoT to work in an Angular project. We don't do those things, so your project can benefit from pre-compiled code.
 
-Lazy Loaded Modules:: If only administrators can access the Admin Console, shouldn't it only load if the current visitor is an administrator? Exactly.
+Lazy Loaded Modules:: If only administrators can access the Admin Console, shouldn't it only load if the current visitor is an administrator? Exactly. We keep the landing page as small as possible.
 
+Patterns and Practices:: We strive to follow Angular recommendations, so that you pick up the best 'suggested practices' simply by borrowing from the Tangential code base. Where there's an absence of suggested or standard practice, we strive for consistency and compile-time 'traceability' - the ability to prove at compile time that a thing is correct - for an example, take note of how we added traceability to our navigation targets.
+
+== Goals
+
+Tangential exists to bootstrap new projects past the crufty nonsense that's so important... and so boring. Some of that "nonsense" gets ignored in our desire to get real things out the door, just so we feel like we're actually getting something useful done. Ever created a home page before you could authenticate users? Right. Wrote a page that couldn't be internationalized, even though you know that you'll be deploying across multiple languages?
+
+To be clear, Tangential doesn't have built in I18N *yet*. We're working on it. Alas, we suffer from the fear of never deploying as well - perhaps worse than most, which is why we are building Tangential in the first place!
+
+Aria, I18N and I10N are the 'only' remaining key features we wish to implement before targeting a 1.0.0 release. There is absolutely nothing preventing you from using the features provided by https://angular.io[Angular] to implement these yourself: Tangential does not, and will not, implement or encourage practices that prevent developers from using Angular the way it is meant to be used.
+
+
+== Real tools. Not toys.
+
+Bootstraps and demonstration projects are notorious for taking shortcuts. We don't. If you're new to developing against a document oriented database you will find real code here, not another instant messaging client. Tangential tackles the real problems inherent in attempting to provide security and permissions-based access against real data. Decisions must be made regarding request counts versus permissions fidelity. Do I add a CAN_VIEW_USER_EMAIL permission, so that I can create a 'Demo Administrator' account? If we do, then we must also reorganize our data such that user email addresses are stored in the UserAuthData as a reference. If we don't, then we'd have to request each field of the UserDocument in a separate request, or route the request through a Firebase Function.
 
 == Getting Started
 
-If you are interested is using this project as a template for your own component library, check out the link:GETTING_STARTED.BOOTSTRAP.adoc readme.
+Please see the https://github.com/ggranum/tangential-demo[Tangential Demo] project for the https://github.com/ggranum/tangential-demo#getting-started[Getting Started] guides.
 
-If you would like to consume Tangential components / widgets in your project, take a look at link:GETTING_STARTED.LIBRARY.adoc
+== Using this project as a bootstrap for deploying a 'Component Library'
 
-=== As a template for component-library projects
+This project's build structure was cloned from the https://github.com/angular/material2[Angular Material2]. The clone was made prior to the Material team updating their build to deliver a single, monolithic NPM project - when they aligned themselves with the Angular 'post-2.0' project structure.
 
-Tangential's build system was adopted from the Material Design team's Material2 project, prior to their merging all their components into a single namespace. Aside from offering a number of useful components, you may find this project to be a useful template to follow if you are attempting to create a component library of your own.
+If you wish to release multiple components, but develop in a single project, this project would certainly be a good place to start. You will want to take a look at https://docs.npmjs.com/getting-started/scoped-packages[the procedures for 'scoped projects'] in NPM, and create a user account that has the name you want to use for the parent project. For example, our project paths here are like '@tangential/scopedProjectNames', where 'tangential' is the npm 'user' name.
 
+
+== What's next for Tangential
+
+We'll be focusing on creating and improving the documentation for existing functionality, followed by improving that functionality itself (and rebuilding the test suite... sorry, we're really providing a bad example here! It's truly the highest priority, which will be performed in concert with improving the docs - it's always nice when the docs match the expected behaviour, right?).
+
+Sadly, unless we find additional funding, Tangential development is going to slow down significantly in the very near feature, as our lead developer (ok, ok, it's obvious by the git commit logs: our _only_ developer) is going to have to find a gig to pay the bills. You could of course help out by contributing, either code or https://www.patreon.com/tangential[resources].
+
+== Help us (me) help you (all)
+
+Dispensing with the 'Royal We' for a moment...
+
+With this release, I am officially seeking both additional committers, and funds. It is, perhaps, early, but developing this project to this point has been incredibly rewarding. With no advertising or posts, I'm seeing a surprising amount of activity, both here on Github, and via the analytics for https://tangential-demo.firebaseapp.com/[].
+
+Creating this set of tools has been very rewarding, and I hope to make this my full time gig. I would *vastly* prefer to be able to do so without having to deal with Dual Licensing - not because it's not worth what I will charge for it, but because I'm not shockingly greedy, and I truly enjoy knowing that my work has made other lives easier; that developers have managed to get more done than they otherwise would have, because of something I helped make.
+
+If you stand to benefit from this work, I implore you to show me how valuable it is to you by contributing to the project on https://www.patreon.com/tangential[Patreon], or contacting me directly.
+
+An open side note to Google: Considering how many Google technologies are in Tangential, and the income Google stands to earn if even one future million-user site chooses Firebase or Adsense because of Tangential, a sponsorship seems like some pretty affordable, advertising, no? :~)
+
+
+== Thanks
+
+Thank you for your interest in Tangential. Don't be shy about dropping questions or requests in the Issues.
+
+Caio,
