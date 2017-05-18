@@ -1,0 +1,59 @@
+= Release Process
+
+This is document is targeted to Tangential developers. It describes how to perform a release, and how to publish the libraries to NPM.
+
+If you have cloned Tangential in order to bootstrap your own 'Component Library' project, this will likely be of interest to you as well.
+
+== Publishing
+
+These steps have only been tested on OSX. It will probably work on any 'nix variant. Windows 10 with developer 'nix shell is a distinct 'maybe'.
+
+If you are cloning this project for your own devious purposes, see the **Using this project as a bootstrap** section, near the end.
+
+
+=== Do once (AKA 'setup steps')
+
+1) Create a github access token https://github.com/settings/tokens and save it in a file named `generate-changelog-token.local.txt`
+1) Clean and build the project successfully
+
+
+
+=== Do every release
+
+**Only perform a release from Master branch**
+
+===== Assumptions
+1) You have no uncommitted code.
+1) All changes intended for the release have already been merged to master.
+
+===== Release Process
+. Pull from origin/master
+. Run `gulp versionBump --bump=prerelease --beta && git add .`
+.. There's also a --alpha flag, and --bump can take any of the semver values that npm version accepts (note, however, this is NOT using 'npm version' to do the update.)
+. Verify the version number has been updated and that there are no other uncommitted changes. Version numbers should be consistent across modules prior to release. Pending further discussion (and build tooling), this includes even 'new' components that are in an alpha state.
+. Run `./generate-changelog.sh patch`
+.. This should only modify and `git add` the changelog file.
+.. Execute the additional steps that are printed out to the console.
+. Verify change log generated and that there are no uncommitted changes.
+. Run NPM publish steps, below.
+
+The following require your npm user account credentials. Adding a local `.npmrc` file with `username=foo` and `email=foo@example.com` can make this a bit nicer.
+
+```shell
+ # sign out of your normal account
+> npm logout
+ # Sign in to npm account
+> npm login
+> Username: (tangential)
+> Password:
+> Email: (this IS public) (you@example.com)
+> Logged in as tangential on https://registry.npmjs.org/.
+> npm run publish
+```
+
+
+== Using this project as a bootstrap
+
+As mentioned (somewhere), this project's build structure was cloned from the https://github.com/angular/material2[Angular Material2]. The clone was made prior to the Material team updating their build to deliver a single, monolithic NPM project, in line with the Angular2 project structure.
+
+If you wish to release multiple components, but develop in a single project, this project would certainly be a good place to start. You will want to take a look at https://docs.npmjs.com/getting-started/scoped-packages[the procedures for 'scoped projects'] in NPM, and create a user account that has the name you want to use for the parent project. For example, our project paths here are like '@tangential/scopedProjectNames', where 'tangential' is the npm 'user' name.
