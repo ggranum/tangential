@@ -2,7 +2,7 @@
   "name": "@tangential/configurable-input-widgets",
   "description": "Input Widgets with persistable, dynamic configuration.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.1.1-beta.7",
+  "version": "0.2.0-beta.0",
   "license": "GPL-3.0",
   "private": false,
   "repository": {
@@ -50,9 +50,9 @@
     "@angular/common": "4.0.3",
     "@angular/forms": "4.0.3",
     "@angular/material": "2.0.0-beta.3",
-    "@tangential/core": "0.1.1-beta.7",
-    "@tangential/components": "0.1.1-beta.7",
-    "@tangential/input-widgets": "0.1.1-beta.7"
+    "@tangential/core": "0.2.0-beta.0",
+    "@tangential/components": "0.2.0-beta.0",
+    "@tangential/input-widgets": "0.2.0-beta.0"
   },
   "main": "./index.js",
   "typings": "./index.d.ts"

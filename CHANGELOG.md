@@ -1,3 +1,19 @@
+<a name="0.2.0-beta.0"></a>
+# [0.2.0-beta.0](https://github.com/ggranum/tangential/compare/v0.1.1-beta.7...v0.2.0-beta.0) (2017-05-18)
+
+
+### Bug Fixes
+
+* **getting-started:** Various issues with getting started doc ([6b1083e](https://github.com/ggranum/tangential/commit/6b1083e))
+
+
+### Features
+
+* **build:** Provide intelligent defaults and improve project validation ([217a310](https://github.com/ggranum/tangential/commit/217a310))
+* **tools:** Intelligent defaults for project setup, more validation ([202cf88](https://github.com/ggranum/tangential/commit/202cf88))
+
+
+
 <a name="0.1.1-beta.7"></a>
 ## [0.1.1-beta.7](https://github.com/ggranum/tangential/compare/v0.1.1-beta.6...v0.1.1-beta.7) (2017-05-16)
 
