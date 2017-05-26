@@ -6,22 +6,30 @@ An Angular2 component for displaying embedded [AsciiDoctor](http://asciidoctor.o
 ## Installation
 
 ```shell
-> npm install --save asciidoctorjs-web-repack @tangential/asciidoctor-panel
+> npm install --save asciidoctor.js @tangential/asciidoctor-panel
 ```
 
 ## Dependencies
 
 + [Angular2 Core](https://angular.io/) 
-+ [AsciiDoctor Web Repack](https://www.npmjs.com/package/asciidoctorjs-web-repack) A web-packaged version of the [asciidoctor](https://github.com/asciidoctor/asciidoctor.js) project.
++ [AsciiDoctor](asciidoctor.js) The [asciidoctor](https://github.com/asciidoctor/asciidoctor.js) project.
 
 
 ## Use
 
-In your main app (e.g.app.module.ts):
+Somewhere in your code, prior to loading the Module, you will need to load the AsciiDoctor.js file:
+
+```html
+
+
+```
+
+
+In your module (e.g.app.module.ts):
 ```javascript
 
 // import the module
-import {AsciidoctorPanelModule} from '@tangential/asciidoctor-panel';
+import {TanjAsciidoctorPanelModule} from '@tangential/asciidoctor-panel';
 
 // and register it as an import: 
 @NgModule({

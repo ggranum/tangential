@@ -29,6 +29,7 @@ export class SignOutPage extends Page implements AfterViewInit {
   }
 
   constructor(protected bus: MessageBus,
+              protected logger: Logger,
               private router: Router,
               private authService: AuthenticationService) {
     super(bus)
@@ -36,7 +37,7 @@ export class SignOutPage extends Page implements AfterViewInit {
 
   ngAfterViewInit() {
     this.authService.signOut().then(() => {
-      Logger.debug(this.bus, this, 'Sign out successful.')
+      this.logger.debug(this, 'Sign out successful.')
       this.router.navigate(AppRoutes.home.navTargets.absSelf)
     })
   }

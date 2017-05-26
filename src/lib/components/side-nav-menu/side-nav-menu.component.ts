@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core';
-import {Menu} from '@tangential/components';
+import {Menu} from './menu';
 import {Visitor} from '@tangential/authorization-service';
 
 @Component({

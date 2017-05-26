@@ -45,13 +45,15 @@ export class GoogleAnalytics {
 
   private analytics: GaFunction = (a: string, fields: GoogleAnalyticsFields, other?: string) => {
     if (other) {
-      Logger.trace(this.bus, this, a, fields, other)
+      this.logger.trace(this, a, fields, other)
     } else {
-      Logger.trace(this.bus, this, a, fields)
+      this.logger.trace(this, a, fields)
     }
   }
 
-  constructor(private bus: MessageBus, private env: AppEnvironment) {
+  constructor(private bus: MessageBus,
+              protected logger: Logger,
+              private env: AppEnvironment) {
     let cfg = env.googleAnalytics
     if (cfg && cfg.enabled) {
       this.awaitGoogle(5000).then(windowGa => {

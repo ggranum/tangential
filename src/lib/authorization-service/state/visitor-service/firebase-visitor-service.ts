@@ -25,7 +25,9 @@ export class FirebaseVisitorService extends VisitorService {
   private db: firebase.database.Database
   private visitorObserver: BehaviorSubject<Visitor>
 
-  constructor(private bus: MessageBus, private fb: FirebaseProvider, private authService: AuthenticationService) {
+  constructor(private bus: MessageBus,
+              protected logger: Logger,
+              private fb: FirebaseProvider, private authService: AuthenticationService) {
     super()
     this.db = fb.app.database()
     this.visitorObserver = new BehaviorSubject(null)
@@ -33,9 +35,9 @@ export class FirebaseVisitorService extends VisitorService {
   }
 
   private initSubscriptions() {
-    Logger.trace(this.bus, this, '#initSubscriptions')
+    this.logger.trace(this, '#initSubscriptions')
     this.authService.awaitKnownAuthSubject$().subscribe((subject: AuthSubject) => {
-      Logger.trace(this.bus, this, '#initSubscriptions', 'Auth user changed', subject)
+      this.logger.trace(this, '#initSubscriptions', 'Auth user changed', subject)
       if (subject.isSignedIn()) {
         this.getCurrentVisitor(subject).then(visitor => this.visitorObserver.next(visitor))
       } else {
@@ -53,19 +55,26 @@ export class FirebaseVisitorService extends VisitorService {
    * Waits for the first non-placeholder visitor (e.g. not the default value provided to the behaviour subject).
    * This is basically saying 'wait for the Firebase auth server to respond.
    *
+   * Subsequent calls to this method will be provided the same observable instance as the initial call. The has the effect of
+   * making the timeoutMils argument effective only on the initial call to this method for the current client session.
+   *
    * The returned observable will never complete.
    * @param timeoutMils
    * @returns {Observable<R>}
    */
+  private awaitVisitorObserver:Observable<Visitor>
   awaitVisitor$(timeoutMils: number = 10000): Observable<Visitor> {
     /* Wait up to timeout millis for the Firebase Auth to comeback with a response. */
-    Logger.trace(this.bus, this, '#awaitVisitor$')
-    return this.visitor$().timeout(timeoutMils).catch((e) => {
-      Logger.trace(this.bus, this, 'Timed out')
-      return this.visitor$().first().do(v => {
-        Logger.trace(this.bus, this, 'providing alternate: ', v)
+    this.logger.trace(this, '#awaitVisitor$')
+    if(!this.awaitVisitorObserver){
+      this.awaitVisitorObserver = this.visitor$().timeout(timeoutMils).catch((e) => {
+        this.logger.trace(this, 'Timed out')
+        return this.visitor$().first().do(v => {
+          this.logger.trace(this, 'providing alternate: ', v)
+        })
       })
-    })
+    }
+    return this.awaitVisitorObserver
   }
 
   getCurrentVisitor(subject: AuthSubject): Promise<Visitor> {

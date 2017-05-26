@@ -8,7 +8,7 @@ import {SignInEvent} from './sign-in-event';
 import {TransformUtil as TUtil} from '@tangential/core';
 
 export interface AuthUserCfg {
-  $key?: string
+  $key?: AuthUserKey
   email?: string
   displayName?: string
   isAnonymous?: boolean
@@ -31,7 +31,7 @@ export interface AuthUserCfg {
  *
  */
 export class AuthUser {
-  $key: string
+  $key: AuthUserKey
   email: string = ''
   displayName: string = ''
   isAnonymous: boolean = true

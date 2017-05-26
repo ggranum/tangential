@@ -69,6 +69,7 @@ export class SideNavComponent {
 
 
   open() {
+    console.log('SideNavComponent', 'open')
     if (!this.opened) {
       this.opened = true
       this.notify()
@@ -96,6 +97,7 @@ export class SideNavComponent {
   }
 
   handleClick(event: any) {
+    console.log('SideNavComponent', 'handleClick')
     if (this.opened && !this.opening()) {
       this.close()
     }

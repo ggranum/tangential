@@ -1,4 +1,4 @@
-import {ObjectUtil} from '@tangential/core';
+import {ObjectUtil} from './core-util';
 export class TransformUtil {
 
 

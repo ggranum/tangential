@@ -45,6 +45,7 @@ export class SignInPage extends Page implements OnInit {
   }
 
   constructor(protected bus: MessageBus,
+              protected logger: Logger,
               private router: Router,
               private authService: AuthenticationService,
               private visitorService: VisitorService) {
@@ -65,7 +66,7 @@ export class SignInPage extends Page implements OnInit {
       email: authInfo.username,
       password: authInfo.password
     }).then(() => {
-      Logger.trace(this.bus, this, '#onSignIn', 'signed in, navigate to captures list.')
+      this.logger.trace(this, '#onSignIn', 'signed in, navigate to captures list.')
       this.router.navigate(['/'])
     }).catch((err: CodedError) => {
       const notice: NotificationIF = {}

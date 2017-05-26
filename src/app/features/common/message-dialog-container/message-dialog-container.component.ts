@@ -6,7 +6,7 @@ import {Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation} 
 })
 export class MessageDialogContainerComponent {
 
-  @HostBinding('class') clazz = 'tanj-themed tanj-tip-dialog'
+  @HostBinding('class') clazz = 'tanj-tip-dialog'
   @HostBinding('attr.flex') flex = '';
   @HostBinding('attr.layout') flexLayout = 'column';
   @HostBinding('attr.layout-align') flexLayoutAlign = 'start'

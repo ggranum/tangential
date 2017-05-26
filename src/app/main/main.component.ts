@@ -1,11 +1,14 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {ActivatedRouteSnapshot, Router} from '@angular/router';
-import {Logger, MessageBus} from '@tangential/core';
+import {
+  AppOpenNavRequest,
+  Logger,
+  MessageBus
+} from '@tangential/core';
 import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service';
 import {Subscription} from 'rxjs/Subscription';
 import {AppRoutes} from '../app.routing.module';
-import {AppEventMessage} from '@tangential/analytics';
 import {ContextMenuMessage, Icon, Menu, MenuItem, NotificationMessage, SideNavComponent} from '@tangential/components';
 import {Placeholder} from '@tangential/firebase-util';
 
@@ -37,13 +40,14 @@ export class MainComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private bus: MessageBus,
+              protected logger: Logger,
               private authService: AuthenticationService,
               private visitorService: VisitorService,
               private changeDetectorRef: ChangeDetectorRef,
               private dialog: MdDialog) {
-    bus.all.filter(msg => msg.type === AppEventMessage.OpenAppNavRequest).subscribe({
+    AppOpenNavRequest.filter(bus).subscribe({
       next: (v) => {
-        Logger.debug(this.bus, this, 'MainComponent opening side-nav')
+        this.logger.debug(this, 'MainComponent opening side-nav')
         this.sideNav.open()
       }
     })
@@ -60,7 +64,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.visitorWatch = this.visitorService.visitor$().filter(v => v !== Placeholder).subscribe((visitor) => {
-      Logger.trace(this.bus, this, '#ngOnInit:visitor$', 'Visitor changed', visitor ? visitor.subject.displayName : 'null')
+      this.logger.trace(this, '#ngOnInit:visitor$', 'Visitor changed', visitor ? visitor.subject.displayName : 'null')
       this.visitor = visitor
       this.buildMenu([])
       this.sendStandardNotifications()
