@@ -1,3 +1,13 @@
+<a name="0.2.0-beta.1"></a>
+# [0.2.0-beta.1](https://github.com/ggranum/tangential/compare/v0.2.0-beta.0...v0.2.0-beta.1) (2017-05-26)
+
+
+### Features
+
+* **core:** Logger should be injected, not static ([5a5f19f](https://github.com/ggranum/tangential/commit/5a5f19f))
+
+
+
 <a name="0.2.0-beta.0"></a>
 # [0.2.0-beta.0](https://github.com/ggranum/tangential/compare/v0.1.1-beta.7...v0.2.0-beta.0) (2017-05-18)
 
