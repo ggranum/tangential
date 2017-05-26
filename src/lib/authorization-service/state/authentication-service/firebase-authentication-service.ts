@@ -41,6 +41,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
   private authSubjectObserver: BehaviorSubject<AuthSubject>
 
   constructor(protected bus: MessageBus,
+              protected logger: Logger,
               private fb: FirebaseProvider,
               protected userService: UserService) {
     super()
@@ -60,22 +61,26 @@ export class FirebaseAuthenticationService extends AuthenticationService {
   private handleAuthStateChanged(firebaseAuthResponse: FirebaseAuthResponse) {
     if (this.signInStateValue === SignInStates.signingUp) {
       /* This state change will be handled by the '#createUserWithEmailAndPassword' method. */
-      Logger.trace(this.bus, this, '#handleAuthStateChanged:signingUp', 'User is signing up')
+      this.logger.trace(this, '#handleAuthStateChanged:signingUp', 'User is signing up')
     } else if (this.isSignedInResponse(firebaseAuthResponse)) {
-      Logger.trace(this.bus, this, '#handleAuthStateChanged:signedIn', firebaseAuthResponse.uid, firebaseAuthResponse.email, firebaseAuthResponse.isAnonymous)
+      this.logger.trace(this,
+        '#handleAuthStateChanged:signedIn',
+        firebaseAuthResponse.uid,
+        firebaseAuthResponse.email,
+        firebaseAuthResponse.isAnonymous)
       let firebaseResponse: AuthUserDm = this.subjectFromFirebaseResponse(firebaseAuthResponse)
       this.handleUserSignedIn(firebaseResponse).then(subject => {
-        Logger.trace(this.bus, this, '#handleAuthStateChanged:Subject Resolved', subject.$key, subject.email, subject.isAnonymous)
+        this.logger.trace(this, '#handleAuthStateChanged:Subject Resolved', subject.$key, subject.email, subject.isAnonymous)
         this.setCurrentUser(subject)
       })
     } else {
-      Logger.trace(this.bus, this, '#handleAuthStateChanged', 'Visitor is Guest or has signed out')
+      this.logger.trace(this, '#handleAuthStateChanged', 'Visitor is Guest or has signed out')
       this.setCurrentUser(AuthSubject.GuestSubject)
     }
   }
 
   private setCurrentUser(subject: AuthSubject): void {
-    Logger.trace(this.bus, this, '#setCurrentUser', subject ? subject.$key : 'null')
+    this.logger.trace(this, '#setCurrentUser', subject ? subject.$key : 'null')
     this.setSignInState(subject.signInState)
     this.authSubjectObserver.next(subject)
   }
@@ -89,16 +94,16 @@ export class FirebaseAuthenticationService extends AuthenticationService {
     let url = 'https://us-central1-' + this.fb.app.options['authDomain'].split('.')[0] + '.cloudfunctions.net/visitorInfoEndpoint/';
     return new Promise((resolve, reject) => {
       this.fb.app.auth().currentUser.getToken().then((token) => {
-        Logger.debug(this.bus, this, '#obtainAcceptLanguageHeader', 'Sending visitor info request.');
+        this.logger.debug(this, '#obtainAcceptLanguageHeader', 'Sending visitor info request.');
         const req = new XMLHttpRequest();
         req.onload = () => {
           let rawHeaders = JSON.parse(req.responseText) || {}
           let sessionInfo = SessionInfoCdm.fromHeaders(rawHeaders)
-          Logger.debug(this.bus, this, '#obtainAcceptLanguageHeader::onload', sessionInfo.city)
+          this.logger.debug(this, '#obtainAcceptLanguageHeader::onload', sessionInfo.city)
           resolve(sessionInfo)
         }
         req.onerror = (ev) => {
-          Logger.error(this.bus, this, '#obtainAcceptLanguageHeader::onerror', req.statusText)
+          this.logger.error(this, '#obtainAcceptLanguageHeader::onerror', req.statusText)
           reject(ev)
         }
         req.open('GET', url, true);
@@ -121,7 +126,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
 
   private setSignInState(newState: SignInState) {
     if (this.signInStateValue !== newState) {
-      Logger.trace(this.bus, this, '#setSignInState', newState)
+      this.logger.trace(this, '#setSignInState', newState)
       this.signInStateValue = newState
     }
   }
@@ -147,7 +152,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
    * @returns {Promise<T>}
    */
   signInWithEmailAndPassword(payload: EmailPasswordCredentials, suppressUserInfoSynchronization: boolean = false): Promise<void> {
-    Logger.trace(this.bus, this, '#signInWithEmailAndPassword', 'enter', payload.email)
+    this.logger.trace(this, '#signInWithEmailAndPassword', 'enter', payload.email)
     this.setSignInState(SignInStates.signingIn)
     const loginCfg = {
       email: payload.email,
@@ -156,7 +161,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
     return new Promise<void>((resolve, reject) => {
       let readyToResolve = true
       this.authSubjectObserver.skip(1).first().subscribe(() => {
-        Logger.trace(this.bus, this, '#signInWithEmailAndPassword:resolving', payload.email)
+        this.logger.trace(this, '#signInWithEmailAndPassword:resolving', payload.email)
         resolve(ResolveVoid)
       })
       this.auth.signInWithEmailAndPassword(loginCfg.email, loginCfg.password).catch((reason) => {
@@ -167,14 +172,14 @@ export class FirebaseAuthenticationService extends AuthenticationService {
   }
 
   signInAnonymously(): Promise<void> {
-    Logger.trace(this.bus, this, '#signInAnonymously')
+    this.logger.trace(this, '#signInAnonymously')
     this.setSignInState(SignInStates.signingIn)
     return new Promise<void>((resolve, reject) => {
       this.auth.signInAnonymously()
         .then((fbAuthState) => {
           const userDm = this.subjectFromFirebaseResponse(fbAuthState)
           return this.createOwnUserAccount(AuthUserTransform.fragmentFromDocModel(userDm, userDm.$key)).then(() => {
-            Logger.trace(this.bus, this, '#signInAnonymously', 'created anonymous user')
+            this.logger.trace(this, '#signInAnonymously', 'created anonymous user')
             this.setSignInState(SignInStates.signedInAnonymous)
             resolve(ResolveVoid)
           })
@@ -193,7 +198,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
         .then((fbAuthState) => {
           const userDm = this.subjectFromFirebaseResponse(fbAuthState)
           return this.createOwnUserAccount(AuthUserTransform.fragmentFromDocModel(userDm, userDm.$key)).then(() => {
-            Logger.trace(this.bus, this, 'created user', userDm.email)
+            this.logger.trace(this, 'created user', userDm.email)
             this.handleUserSignedIn(userDm).then(hydratedUser => {
               this.setCurrentUser(hydratedUser)
               resolve(undefined)
@@ -217,9 +222,9 @@ export class FirebaseAuthenticationService extends AuthenticationService {
   updateOwnUserAccount(child: AuthUser): Promise<void> {
     const cRef = AuthUsersFirebaseRef(this.db).child(child.$key)
     const dm = AuthUserTransform.toDocModel(child)
-    Logger.trace(this.bus, this, '#update', JSON.stringify(dm))
+    this.logger.trace(this, '#update', JSON.stringify(dm))
     return FireBlanket.update(cRef, dm).catch(e => {
-      Logger.error(this.bus, this, '#update:failed')
+      this.logger.error(this, '#update:failed')
       throw e
     })
   }
@@ -231,7 +236,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
   }
 
   signOut(): Promise<void> {
-    Logger.info(this.bus, this, '#signOut', this.auth.currentUser ? this.auth.currentUser.uid : '{no user}')
+    this.logger.info(this, '#signOut', this.auth.currentUser ? this.auth.currentUser.uid : '{no user}')
     if (this.signInStateValue === SignInStates.signedOut) {
       throw new Error('Cannot sign out: No user is signed in.')
     }
@@ -273,11 +278,11 @@ export class FirebaseAuthenticationService extends AuthenticationService {
     const credential = EmailAuthProvider.credential(payload.email, payload.password);
     return <Promise<void>>this.fb.app.auth().currentUser.link(credential)
       .then((fbAuthState) => {
-        Logger.trace(this.bus, this, '#linkAnonymousAccount', 'linked user', fbAuthState.uid, fbAuthState.email)
+        this.logger.trace(this, '#linkAnonymousAccount', 'linked user', fbAuthState.uid, fbAuthState.email)
         let dm = this.subjectFromFirebaseResponse(fbAuthState)
         const newAuthUser = AuthUserTransform.fragmentFromDocModel(dm, dm.$key);
         return this.updateOwnUserAccount(newAuthUser).then(() => {
-          Logger.trace(this.bus, this, '#linkAnonymousAccount', 'updated linked user data', newAuthUser.email)
+          this.logger.trace(this, '#linkAnonymousAccount', 'updated linked user data', newAuthUser.email)
           return this.handleUserSignedIn(newAuthUser).then(hydratedUser => {
             this.setCurrentUser(hydratedUser)
           })
@@ -316,7 +321,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
         this.updateOwnUserAccount(subject).catch(e => {
           /* By not waiting for this response we can cause problems in unit tests. In real use, however, waiting is a waste
            * of at least tens of milliseconds.  */
-          Logger.error(this.bus, this, '#updateUserAuthData', 'Could not update user data', subject.email, e.message)
+          this.logger.error(this, '#updateUserAuthData', 'Could not update user data', subject.email, e.message)
         })
         return subject
       })

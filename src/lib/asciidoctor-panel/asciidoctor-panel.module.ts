@@ -6,6 +6,6 @@ import {AsciidoctorComponent} from './asciidoctor-panel.component';
   declarations: [AsciidoctorComponent],
   exports: [AsciidoctorComponent],
 })
-export class AsciidoctorPanelModule {
+export class TanjAsciidoctorPanelModule {
 
 }

@@ -1,10 +1,17 @@
-import {Injectable, Optional} from '@angular/core'
-import {MessageBus} from '../message-bus'
+import {
+  Injectable,
+  Optional
+} from '@angular/core'
 import {LogMessage} from './log-message'
 
 const spaces = '                                                                                                    '
 
 export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal' | 'NONE'
+
+/**
+ *
+ *
+ */
 export const LogLevels = {
   NONE:  <LogLevel>'NONE',
   fatal: <LogLevel>'fatal',
@@ -15,97 +22,77 @@ export const LogLevels = {
   trace: <LogLevel>'trace'
 }
 
-export class LogConfiguration {
-  logLevel: LogLevel = 'trace'
-  includeFullContext: boolean = false
+export class LoggerConfiguration {
   contextAsStringWidth: number = 30
+  includeFullContext: boolean = false
+  /**
+   * For temporarily shutting of logging, use NONE, but if you are shutting off logging for production, or because you're using
+   * another logging system, you should Provide a simpler logging class in your module configuration.
+   * @type {LogLevel}
+   */
+  logLevel: LogLevel = 'trace'
 }
 
-let level: LogLevel = LogLevels.trace
-const emptyFn = function (...x: any[]): any {
-}
+const emptyFn = function (...x: any[]): any {}
 
 
-/**
- * Singleton. Attempting to run two Logger instances will fail. And rightly so!
- */
 @Injectable()
-export class Logger {
+export abstract class Logger {
 
-  config: LogConfiguration = new LogConfiguration()
+  config: LoggerConfiguration = new LoggerConfiguration()
 
-  constructor(private bus: MessageBus, @Optional() configuration?: LogConfiguration) {
+  constructor(@Optional() configuration?: LoggerConfiguration) {
     this.config = configuration || this.config
-    level = this.config.logLevel
     this.applyLevel()
   }
 
-  log(message: LogMessage) {
-    let args = [message.level + ':']
-    let name: string = ''
-    if (message.context && !this.config.includeFullContext && message.context.constructor) {
-      name = message.context._proto_ ? message.context._proto_.name : message.context.constructor.name
-    }
-    const padChars = this.config.contextAsStringWidth - name.length
-    name = padChars > 0 ? name + spaces.substring(0, padChars) : name
-    args.push(name + ' - ')
-    args = args.concat(message.message)
+  abstract log(message: LogMessage)
 
-    if (this.config.includeFullContext && message.context) {
-      args.push(message.context)
-    }
-
-    console.log.apply(console, args)
+  trace(context: any, ...message) {
+    this.log(new LogMessage('trace', context, ...message))
   }
 
-  /**
-   * A bit hacky, but this keeps noise off the system bus when running in production mode or with logging off.
-   */
+  debug(context: any, ...message) {
+    this.log(new LogMessage('debug', context, ...message))
+  }
+
+  info(context: any, ...message) {
+    this.log(new LogMessage('info', context, ...message))
+  }
+
+  warn(context: any, ...message) {
+    this.log(new LogMessage('warn', context, ...message))
+  }
+
+  error(context: any, ...message) {
+    this.log(new LogMessage('error', context, ...message))
+  }
+
+  fatal(context: any, ...message) {
+    this.log(new LogMessage('fatal', context, ...message))
+  }
+
+
   private applyLevel() {
-    if (level !== LogLevels.NONE) {
-      this.bus.all.filter(m => LogMessage.guard(m)).subscribe({
-        next: (msg: LogMessage) => this.log(msg)
-      })
-    }
+    console.log('Logger', 'applyLevel', this.config)
+    /**
+     * A bit hacky, but this keeps noise off the system bus when running in production mode or with logging off.
+     */
     //noinspection FallThroughInSwitchStatementJS
-    switch (level) {
+    switch (this.config.logLevel) {
       case LogLevels.NONE:
-        Logger.fatal = emptyFn
+        this.fatal = emptyFn
       case LogLevels.fatal:
-        Logger.error = emptyFn
+        this.error = emptyFn
       case LogLevels.error:
-        Logger.warn = emptyFn
+        this.warn = emptyFn
       case LogLevels.warn:
-        Logger.info = emptyFn
+        this.info = emptyFn
       case LogLevels.info:
-        Logger.debug = emptyFn
+        this.debug = emptyFn
       case LogLevels.debug:
-        Logger.trace = emptyFn
+        this.trace = emptyFn
     }
-  }
-
-  static trace(bus: MessageBus, context: any, ...message: any[]) {
-    bus.post(new LogMessage('trace', context, ...message))
-  }
-
-  static debug(bus: MessageBus, context: any, ...message: any[]) {
-    bus.post(new LogMessage('debug', context, ...message))
-  }
-
-  static info(bus: MessageBus, context: any, ...message: any[]) {
-    bus.post(new LogMessage('info', context, ...message))
-  }
-
-  static warn(bus: MessageBus, context: any, ...message: any[]) {
-    bus.post(new LogMessage('warn', context, ...message))
-  }
-
-  static error(bus: MessageBus, context: any, ...message: any[]) {
-    bus.post(new LogMessage('error', context, ...message))
-  }
-
-  static fatal(bus: MessageBus, context: any, ...message: any[]) {
-    bus.post(new LogMessage('fatal', context, ...message))
   }
 
 }

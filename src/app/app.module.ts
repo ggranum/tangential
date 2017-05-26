@@ -1,10 +1,19 @@
-import {CommonModule} from '@angular/common';
-import {Injectable, NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common'
+import {
+  Injectable,
+  NgModule
+} from '@angular/core'
+import {FormsModule} from '@angular/forms'
 // Base Angular2
-import {BrowserModule, Title} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AdsenseModule, GoogleAnalytics} from '@tangential/analytics';
+import {
+  BrowserModule,
+  Title
+} from '@angular/platform-browser'
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import {
+  AdsenseModule,
+  GoogleAnalytics
+} from '@tangential/analytics'
 
 import {
   AuthenticationService,
@@ -13,33 +22,47 @@ import {
   FirebaseAuthSettingsService,
   FirebaseUserService,
   FirebaseVisitorService,
+  HasPermissionGuard,
   HasRoleGuard,
   UserService,
   VisitorResolver,
   VisitorService
-} from '@tangential/authorization-service';
-import {SignInPanelModule, TanjComponentsModule} from '@tangential/components';
-import {InputRegistry} from '@tangential/configurable-input-widgets';
-import {AppEnvironment, Logger, MessageBus} from '@tangential/core';
-import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util';
-import {TanjInputWidgetModule} from '@tangential/input-widgets';
+} from '@tangential/authorization-service'
+import {
+  SignInPanelModule,
+  TanjComponentsModule
+} from '@tangential/components'
+import {InputRegistry} from '@tangential/configurable-input-widgets'
+import {
+  AppEnvironment,
+  BusLogger,
+  BusLoggerConfiguration,
+  Logger,
+  LoggerConfiguration,
+  MessageBus
+} from '@tangential/core'
+import {
+  FirebaseConfig,
+  FirebaseProvider
+} from '@tangential/firebase-util'
+import {TanjInputWidgetModule} from '@tangential/input-widgets'
 // Our Components
-import {environment} from '../environments/environment';
-import {AppComponent} from './app.component';
-import {AppRoutingModule} from './app.routing.module';
+import {environment} from '../environments/environment'
+import {AppComponent} from './app.component'
+import {AppRoutingModule} from './app.routing.module'
 // import { AdsenseModule } from "ng2-adsense";
-import {AboutPage} from './features/casa/about/about.page';
-import {ContactPage} from './features/casa/contact/contact.page';
-import {HomePage} from './features/casa/home/home.page';
-import {PrivacyPage} from './features/casa/privacy/privacy.page';
-import {PasswordResetPage} from './features/casa/sign-in/password-reset.page';
-import {SignInPage} from './features/casa/sign-in/sign-in.page';
-import {SignOutPage} from './features/casa/sign-in/sign-out.page';
-import {SignUpPage} from './features/casa/sign-in/sign-up.page';
-import {TryoutWelcomePage} from './features/casa/tryout-welcome/tryout-welcome.page';
-import {TanjCommonModule} from './features/common/common.module';
-import {MainComponent} from './main/main.component';
-import {TanjMaterialModule} from './tanj-material-module';
+import {AboutPage} from './features/casa/about/about.page'
+import {ContactPage} from './features/casa/contact/contact.page'
+import {HomePage} from './features/casa/home/home.page'
+import {PrivacyPage} from './features/casa/privacy/privacy.page'
+import {PasswordResetPage} from './features/casa/sign-in/password-reset.page'
+import {SignInPage} from './features/casa/sign-in/sign-in.page'
+import {SignOutPage} from './features/casa/sign-in/sign-out.page'
+import {SignUpPage} from './features/casa/sign-in/sign-up.page'
+import {TryoutWelcomePage} from './features/casa/tryout-welcome/tryout-welcome.page'
+import {TanjCommonModule} from './features/common/common.module'
+import {MainComponent} from './main/main.component'
+import {TanjMaterialModule} from './tanj-material-module'
 
 
 /**
@@ -50,6 +73,11 @@ export class EagerServiceLoader {
 
   constructor(private a: Logger) {
   }
+
+  /**
+   * Lest over-aggressive optimizers (automatic OR human) remove the constructor argument due to an 'unused symbol' warning.
+   */
+  classIsReallyInUseDoNotDelete(){}
 }
 
 const appEnvironment: AppEnvironment = <AppEnvironment>environment
@@ -113,7 +141,11 @@ if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config)
     GoogleAnalytics,
     Title,
     MessageBus,
-    Logger,
+    {provide: LoggerConfiguration, useValue: <BusLoggerConfiguration>{
+      alsoLogToConsole: true,
+      logLevel: 'trace'
+    }},
+    {provide: Logger, useClass: BusLogger},
     EagerServiceLoader,
     VisitorResolver,
     FirebaseProvider,
@@ -123,6 +155,7 @@ if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config)
     {provide: AuthenticationService, useClass: FirebaseAuthenticationService},
 
     HasRoleGuard,
+    HasPermissionGuard,
 
     {provide: VisitorService, useClass: FirebaseVisitorService},
     {provide: InputRegistry, useClass: InputRegistry},
@@ -133,7 +166,10 @@ if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config)
 export class AppModule {
 
 
-  constructor(bus: MessageBus, env: AppEnvironment, eagerLoadedServices: EagerServiceLoader) {
-    Logger.info(bus, this, 'Application Loaded. Environment is: ', env)
+  constructor(logger: Logger,
+              env: AppEnvironment,
+              eagerLoadedServices: EagerServiceLoader) {
+    logger.info(this, 'Application Loaded. Environment is: ', env)
+    eagerLoadedServices.classIsReallyInUseDoNotDelete()
   }
 }

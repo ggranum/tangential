@@ -21,8 +21,6 @@ import {AppRoutes} from '../../../app.routing.module'
 })
 export class HomePage extends Page implements AfterViewInit, OnDestroy {
 
-  @HostBinding('class') clazz = 'tanj-themed tanj-page-component tanj-flex-column'
-
   visitor: Visitor = null
 
   appRoutes = AppRoutes
@@ -38,6 +36,7 @@ export class HomePage extends Page implements AfterViewInit, OnDestroy {
   }
 
   constructor(protected bus: MessageBus,
+              protected logger: Logger,
               private router: Router,
               private authService: AuthenticationService,
               private visitorService: VisitorService,
@@ -54,7 +53,7 @@ export class HomePage extends Page implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     const sub = this.visitorService.visitor$().subscribe(visitor => {
       this.visitor = visitor
-      Logger.trace(this.bus, this, 'Visitor changed', visitor)
+      this.logger.trace(this, 'Visitor changed', visitor)
       this.changeDetectorRef.detectChanges()
     });
     this.subs.push(sub)

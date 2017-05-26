@@ -7,11 +7,11 @@ import {MenuItem} from './menu';
 
 
 export class ContextMenuMessage extends BusMessage {
-  static TYPE = 'ContextMenuMessage'
+  static SourceKey = 'ContextMenu'
   menuItems: MenuItem[]
 
   constructor(menuItems: MenuItem[]) {
-    super(ContextMenuMessage.TYPE)
+    super(ContextMenuMessage.SourceKey, 'event')
     this.menuItems = menuItems
   }
 
@@ -21,7 +21,7 @@ export class ContextMenuMessage extends BusMessage {
   }
 
   static filter(bus: MessageBus): Observable<ContextMenuMessage> {
-    return bus.all.filter(msg => msg.type === ContextMenuMessage.TYPE)
+    return bus.all.filter(msg => msg.source === ContextMenuMessage.SourceKey)
   }
 
 }

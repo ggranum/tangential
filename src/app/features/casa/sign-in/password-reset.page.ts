@@ -29,8 +29,6 @@ import {AppRoutes} from '../../../app.routing.module';
 })
 export class PasswordResetPage {
 
-  @HostBinding('class.tanj-page-component') page = true;
-
   messageSent: boolean = false
   messageSendFailed: boolean = false
 

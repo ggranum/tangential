@@ -7,14 +7,16 @@ import {VisitorService} from '../visitor-service';
 @Injectable()
 export class VisitorResolver implements Resolve<Visitor> {
 
-  constructor(private snapVisitorService: VisitorService, private bus: MessageBus) {
+  constructor(private bus: MessageBus,
+              protected logger: Logger,
+              private snapVisitorService: VisitorService, ) {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Visitor> {
-    Logger.trace(this.bus, this, 'resolve', 'enter')
+    this.logger.trace(this, 'resolve', 'enter')
     /* Wait up to five seconds for the Firebase Auth to comeback with a response. */
     return this.snapVisitorService.awaitVisitor$(5000).first().toPromise().then(x => {
-      Logger.trace(this.bus, this, 'resolved', x)
+      this.logger.trace(this, 'resolved', x)
       return x
     })
 

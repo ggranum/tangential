@@ -1,7 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core'
-import {MessageBus} from '@tangential/core'
+import {
+  AppOpenNavRequest,
+  MessageBus
+} from '@tangential/core'
 import {Visitor} from '@tangential/authorization-service'
-import {AppEventMessage} from '@tangential/analytics'
 
 @Component({
   selector:        'tanj-app-bar',
@@ -17,7 +19,7 @@ export class AppBarComponent {
   }
 
   openNav() {
-    this.bus.post(AppEventMessage.openAppNavRequest())
+    this.bus.post(new AppOpenNavRequest())
   }
 
 }

@@ -8,6 +8,5 @@ import {ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation} from
 })
 export class PageNotFoundComponent {
 
-  @HostBinding('class.tanj-page-component') page = true;
 
 }

@@ -1,5 +1,8 @@
-import {MessageBus, RouteInfo} from '@tangential/core';
 import {OnInit} from '@angular/core';
+// noinspection TypeScriptPreferShortImport
+import {MessageBus} from '../message-bus/message-bus';
+// noinspection TypeScriptPreferShortImport
+import {RouteInfo} from '../routing/route-info';
 
 
 export class Page implements OnInit {

@@ -1,11 +1,11 @@
-import {IconIF} from '../icon/icon'
 import {
   BusMessage,
-  generatePushID,
   MessageBus,
   ObjectUtil
 } from '@tangential/core'
 import {Observable} from 'rxjs/Observable'
+import {IconIF} from '../icon/icon'
+
 export type NotificationType = 'error' | 'info' | 'warning'
 export const NotificationTypes = {
   'error':   <NotificationType>'error',
@@ -15,32 +15,30 @@ export const NotificationTypes = {
 
 export interface NotificationIF {
   $key?: string
-  subType?: NotificationType
+  level?: NotificationType
   message?: string
   icon?: IconIF
   duration?: number
 }
 
 const defaultNotification: NotificationIF = {
-  subType:  NotificationTypes.error,
+  level:    NotificationTypes.error,
   icon:     null,
   message:  'Unknown Error',
   duration: 5000
 }
 
 export class NotificationMessage extends BusMessage implements NotificationIF {
-  static TYPE = 'NotificationMessage'
+  static SourceKey = 'NotificationMessage'
 
   $key?: string
-  subType: NotificationType
   message?: string
   icon?: IconIF
   duration?: number
 
-  constructor(config?: NotificationIF) {
-    super(NotificationMessage.TYPE)
-    this.$key = generatePushID()
-    ObjectUtil.assignDeep(this, defaultNotification, config || {})
+  constructor(config: NotificationIF) {
+    super(NotificationMessage.SourceKey, 'event', config.level)
+    ObjectUtil.assignDeep(this, defaultNotification, config)
   }
 
   /**
@@ -48,7 +46,7 @@ export class NotificationMessage extends BusMessage implements NotificationIF {
    */
   response(bus: MessageBus): Observable<NotificationResponseMessage> {
     return bus.all.first(
-      msg => msg.type === NotificationResponseMessage.TYPE && (<NotificationResponseMessage>msg).notice.$key === this.$key)
+      msg => msg.source === NotificationResponseMessage.SourceKey && (<NotificationResponseMessage>msg).notice.id === this.id)
   }
 
   /**
@@ -56,39 +54,39 @@ export class NotificationMessage extends BusMessage implements NotificationIF {
    */
   responses(bus: MessageBus): Observable<NotificationResponseMessage> {
     return bus.all.filter(
-      msg => msg.type === NotificationResponseMessage.TYPE && (<NotificationResponseMessage>msg).notice.$key === this.$key)
+      msg => msg.source === NotificationResponseMessage.SourceKey && (<NotificationResponseMessage>msg).notice.id === this.id)
   }
 
   static info(config: NotificationIF): NotificationMessage {
-    config.subType = NotificationTypes.info
+    config.level = NotificationTypes.info
     return new NotificationMessage(config)
   }
 
   static warning(config: NotificationIF): NotificationMessage {
-    config.subType = NotificationTypes.warning
+    config.level = NotificationTypes.warning
     return new NotificationMessage(config)
   }
 
   static error(config: NotificationIF): NotificationMessage {
-    config.subType = NotificationTypes.error
+    config.level = NotificationTypes.error
     return new NotificationMessage(config)
   }
 
   static filter(bus: MessageBus): Observable<NotificationMessage> {
-    return bus.all.filter(msg => msg.type === NotificationMessage.TYPE)
+    return bus.all.filter(msg => msg.source === NotificationMessage.SourceKey)
   }
 }
 
 export class NotificationResponseMessage extends BusMessage {
-  static TYPE = 'NotificationMessageResponse'
+  static SourceKey:string = 'NotificationResponse'
 
 
   constructor(public notice: NotificationMessage, public response: any) {
-    super('NotificationResponse')
+    super(NotificationResponseMessage.SourceKey, 'event')
   }
 
   static filter(bus: MessageBus) {
-    return bus.all.filter(msg => msg.type === NotificationResponseMessage.TYPE)
+    return bus.all.filter(msg => msg.source === NotificationResponseMessage.SourceKey)
   }
 
   static responseFor(notification: NotificationMessage, response: any) {
