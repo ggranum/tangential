@@ -109,6 +109,11 @@ export class JsonUtil {
     return json
   }
 
+  /**
+   * @param obj
+   * @returns {T}
+   * @deprecated See FireBlanket.util.removeIllegalKey
+   */
   static removeIllegalFirebaseKeys<T>(obj: T): T {
     const cleanObj: T = <T>{}
     Object.keys(obj).forEach((key) => {
@@ -120,6 +125,11 @@ export class JsonUtil {
     return cleanObj
   }
 
+  /**
+   * @param key
+   * @returns {boolean}
+   * @deprecated See FireBlanket.util.isLegalFirebaseKey
+   */
   static isLegalFirebaseKey(key: string): boolean {
     return key !== null && key !== undefined && !key.startsWith('$')
   }
