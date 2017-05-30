@@ -1,3 +1,13 @@
+<a name="0.2.0-beta.2"></a>
+# [0.2.0-beta.2](https://github.com/ggranum/tangential/compare/v0.2.0-beta.1...v0.2.0-beta.2) (2017-05-30)
+
+
+### Features
+
+* **firebase-util:** Add utility method for removing keys and null values. ([8331604](https://github.com/ggranum/tangential/commit/8331604))
+
+
+
 <a name="0.2.0-beta.1"></a>
 # [0.2.0-beta.1](https://github.com/ggranum/tangential/compare/v0.2.0-beta.0...v0.2.0-beta.1) (2017-05-26)
 
