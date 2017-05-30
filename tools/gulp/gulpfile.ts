@@ -4,6 +4,7 @@ import './tasks/default';
 import './tasks/e2e';
 import './tasks/lint';
 import './tasks/release';
+import './tasks/link';
 import './tasks/version-bump';
 import './tasks/serve';
 import './project/firebase.gulp';

@@ -25,9 +25,8 @@ export class FireBlanket {
     removeIllegalKeys<T>(obj: T): T {
       const cleanObj: T = <T>{}
       Object.keys(obj).forEach((key) => {
-        const v = obj[key]
-        if (FireBlanket.util.isLegalFirebaseKey(v)) {
-          cleanObj[key] = v
+        if (FireBlanket.util.isLegalFirebaseKey(key)) {
+          cleanObj[key] = obj[key]
         }
       })
       return cleanObj
