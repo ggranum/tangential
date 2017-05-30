@@ -1,7 +1,11 @@
-import {Observable, BehaviorSubject} from 'rxjs/Rx'
+import {
+  BehaviorSubject,
+  Observable
+} from 'rxjs/Rx'
 import {Placeholder} from './placeholder'
-import DataSnapshot = firebase.database.DataSnapshot;
-import Query = firebase.database.Query;
+import DataSnapshot = firebase.database.DataSnapshot
+import Query = firebase.database.Query
+
 export type OnRefKey = 'value' | 'child_added' | 'child_removed' | 'child_changed' | 'child_moved'
 export const OnRefKeys = {
   value:         <OnRefKey>'value',
@@ -16,6 +20,24 @@ export const OnRefKeys = {
  * Prevent typescript casting issues while maintaining/enhancing type safety.
  */
 export class FireBlanket {
+
+  static util = {
+    removeIllegalKeys<T>(obj: T): T {
+      const cleanObj: T = <T>{}
+      Object.keys(obj).forEach((key) => {
+        const v = obj[key]
+        if (FireBlanket.util.isLegalFirebaseKey(v)) {
+          cleanObj[key] = v
+        }
+      })
+      return cleanObj
+    },
+
+    isLegalFirebaseKey(key: string): boolean {
+      return key !== null && key !== undefined && !key.startsWith('$')
+    }
+
+  }
 
   static value(query: Query, onErrorOrCancelCallback?: (error: any) => any): Promise<DataSnapshot> {
     return <Promise<DataSnapshot>>query.once('value', (snap: DataSnapshot) => snap, onErrorOrCancelCallback)
@@ -38,7 +60,6 @@ export class FireBlanket {
   static valueOnce$(query: Query): Observable<DataSnapshot> {
     return this.value$(query).first(v => v !== Placeholder)
   }
-
 
   static set<T>(ref: firebase.database.Reference, value: T): Promise<void> {
     return new Promise<void>((resolve, reject) => {

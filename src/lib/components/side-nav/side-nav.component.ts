@@ -1,5 +1,19 @@
-import {animate, state, style, transition, trigger} from '@angular/animations'
-import {Component, ElementRef, EventEmitter, HostBinding, Input, Output, ViewEncapsulation} from '@angular/core'
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from '@angular/animations'
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  Input,
+  Output,
+  ViewEncapsulation
+} from '@angular/core'
 import {ESCAPE} from '@angular/material'
 
 @Component({
@@ -69,7 +83,6 @@ export class SideNavComponent {
 
 
   open() {
-    console.log('SideNavComponent', 'open')
     if (!this.opened) {
       this.opened = true
       this.notify()
@@ -97,7 +110,6 @@ export class SideNavComponent {
   }
 
   handleClick(event: any) {
-    console.log('SideNavComponent', 'handleClick')
     if (this.opened && !this.opening()) {
       this.close()
     }
