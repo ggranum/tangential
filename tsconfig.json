@@ -42,6 +42,9 @@
       ],
       "@tangential/media-types": [
         "src/lib/media-types"
+      ],
+      "@tangential/plugin": [
+        "src/lib/plugin"
       ]
     }
   }

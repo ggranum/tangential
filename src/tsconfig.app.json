@@ -40,6 +40,9 @@
       ],
       "@tangential/media-types": [
         "lib/media-types"
+      ],
+      "@tangential/plugin": [
+        "lib/plugin"
       ]
     }
   },

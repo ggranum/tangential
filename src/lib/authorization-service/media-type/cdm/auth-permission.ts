@@ -1,24 +1,35 @@
-import {AuthPermissionDm} from '../doc-model/auth-permission';
-import {generatePushID} from '@tangential/core';
-import {AuthPermissionKey} from '../doc-model/auth-permission';
+import {generatePushID} from '@tangential/core'
+import {
+  AuthPermissionDm,
+  AuthPermissionKey
+} from '../doc-model/auth-permission'
 
 export interface AuthPermissionCfg {
   $key?: string
-  editedMils?: number
   createdMils?: number
   description?: string
+  editedMils?: number
   orderIndex?: number
 }
 
 export class AuthPermission {
   $key: string
-  editedMils: number  = Date.now()
   createdMils: number = Date.now()
   description: string
+  editedMils: number = Date.now()
   orderIndex: number
 
   constructor($key?: string) {
     this.$key = $key
+  }
+
+  withDescription(description:string) {
+    this.description = description
+    return this
+  }
+
+  static withKey($key: string) {
+    return new AuthPermission($key)
   }
 
 
@@ -26,7 +37,7 @@ export class AuthPermission {
     return value instanceof AuthPermission
   }
 
-  static from(cfg: AuthPermission | AuthPermissionCfg, key?:AuthPermissionKey) {
+  static from(cfg: AuthPermission | AuthPermissionCfg, key?: AuthPermissionKey) {
     cfg = cfg || <AuthPermissionCfg>{}
     key = key || cfg.$key || generatePushID()
     const perm = new AuthPermission(key)
@@ -50,9 +61,9 @@ export class AuthPermissionTransform {
   static toDocModel(authPermission: AuthPermission) {
     return {
       createdMils: authPermission.createdMils,
-      editedMils: authPermission.editedMils,
+      editedMils:  authPermission.editedMils,
       description: authPermission.description,
-      orderIndex: authPermission.orderIndex,
+      orderIndex:  authPermission.orderIndex,
     }
   }
 
