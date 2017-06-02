@@ -1,3 +1,14 @@
+<a name="0.2.0-beta.4"></a>
+# [0.2.0-beta.4](https://github.com/ggranum/tangential/compare/v0.2.0-beta.3...v0.2.0-beta.4) (2017-06-02)
+
+
+### Features
+
+* **plugin:** Add primitive plugin managment tools, scaffolding ([72aa8e1](https://github.com/ggranum/tangential/commit/72aa8e1))
+* **plugin:** Stub out a plugin module ([f5c8f10](https://github.com/ggranum/tangential/commit/f5c8f10))
+
+
+
 <a name="0.2.0-beta.3"></a>
 # [0.2.0-beta.3](https://github.com/ggranum/tangential/compare/v0.2.0-beta.2...v0.2.0-beta.3) (2017-05-30)
 
