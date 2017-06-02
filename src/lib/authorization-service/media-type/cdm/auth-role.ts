@@ -29,6 +29,20 @@ export class AuthRole {
     this.$key = $key
   }
 
+  withPermissions(permissions:AuthPermission[]):this {
+    this.permissions = permissions
+    return this
+  }
+
+  withDescription(description:string):this {
+    this.description = description
+    return this
+  }
+
+  static withKey($key:AuthRoleKey){
+    return new AuthRole($key)
+  }
+
   static guard(value: AuthRole | string): value is AuthRole {
     return value instanceof AuthRole
   }

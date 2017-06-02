@@ -93,7 +93,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
   public obtainAcceptLanguageHeader(): Promise<SessionInfoCdm> {
     let url = 'https://us-central1-' + this.fb.app.options['authDomain'].split('.')[0] + '.cloudfunctions.net/visitorInfoEndpoint/';
     return new Promise((resolve, reject) => {
-      this.fb.app.auth().currentUser.getToken().then((token) => {
+      this.fb.app.auth().currentUser.getIdToken().then((token) => {
         this.logger.debug(this, '#obtainAcceptLanguageHeader', 'Sending visitor info request.');
         const req = new XMLHttpRequest();
         req.onload = () => {
@@ -276,7 +276,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
   public linkAnonymousAccount(payload: EmailPasswordCredentials): Promise<void> {
     this.setSignInState(SignInStates.signingUp)
     const credential = EmailAuthProvider.credential(payload.email, payload.password);
-    return <Promise<void>>this.fb.app.auth().currentUser.link(credential)
+    return <Promise<void>>this.fb.app.auth().currentUser.linkWithCredential(credential)
       .then((fbAuthState) => {
         this.logger.trace(this, '#linkAnonymousAccount', 'linked user', fbAuthState.uid, fbAuthState.email)
         let dm = this.subjectFromFirebaseResponse(fbAuthState)

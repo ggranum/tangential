@@ -4,10 +4,10 @@ import {Observable} from 'rxjs/Observable';
 
 
 @Component({
-  selector: 'tanj-permission',
-  templateUrl: './permission.component.html',
+  selector:        'tanj-permission',
+  templateUrl:     './permission.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation:   ViewEncapsulation.None
 })
 export class PermissionComponent implements OnChanges {
 

@@ -51,6 +51,12 @@ export class NgUtil {
       segment => NgUtil.isFirebaseId(segment) ? ':key' : segment).join('/') : ''
   }
 
+  /**
+   *
+   * @param key
+   * @returns {boolean}
+   * @deprecated See FireBlanket.util#isFirebaseGeneratedId
+   */
   static isFirebaseId(key: string): boolean {
     let isKey = false
     if (key && key.length === 20 && key.startsWith('-')) {

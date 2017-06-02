@@ -1,0 +1,55 @@
+{
+  "name": "@tangential/app",
+  "description": "Types and support for a Tangential-based Application.",
+  "homepage": "https://github.com/ggranum/tangential#readme",
+  "version": "0.2.0-beta.3",
+  "license": "GPL-3.0",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ggranum/tangential.git"
+  },
+  "contributors": [
+    {
+      "email": "geoff.granum@gmail.com",
+      "name": "Geoff M. Granum"
+    }
+  ],
+  "keywords": [
+    "tangential",
+    "angular",
+    "angular2",
+    "components",
+    "widgets",
+    "authentication",
+    "auth",
+    "firebase",
+    "Angular",
+    "Angular2",
+    "AdWords",
+    "Analytics",
+    "Auth",
+    "Authentication",
+    "Bootstrap",
+    "Components",
+    "Component Library",
+    "Firebase",
+    "IAM",
+    "Widgets",
+    "Widgets Library"
+  ],
+  "bugs": {
+    "url": "https://github.com/ggranum/tangential/issues"
+  },
+  "engines": {
+    "node": ">= 6 < 8"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {
+    "@tangential/core": "0.2.0-beta.3",
+    "@tangential/authorization-service": "0.2.0-beta.3"
+  },
+  "main": "./index.js",
+  "typings": "./index.d.ts"
+}

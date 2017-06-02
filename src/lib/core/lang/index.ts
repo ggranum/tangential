@@ -1,4 +1,5 @@
 export * from './array-util'
+export * from './guard/'
 export * from './coded-error'
 export * from './obj-map'
 export * from './obj-map-util'

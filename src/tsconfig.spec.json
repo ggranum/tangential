@@ -10,6 +10,9 @@
       "node"
     ],
     "paths": {
+      "@tangential/app": [
+        "lib/app"
+      ],
       "@tangential/admin-console": [
         "lib/admin-console"
       ],
@@ -39,6 +42,9 @@
       ],
       "@tangential/media-types": [
         "lib/media-types"
+      ],
+      "@tangential/plugin": [
+        "lib/plugin"
       ]
     }
   },

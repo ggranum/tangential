@@ -3,6 +3,7 @@
   $background : map-get($theme, background);
   $media-small-screen-width-break : 500px;
   $media-medium-screen-width-break : 1000px;
+  $appBar : map-get($theme, app-bar);
 
   tanj-side-nav {
     width            : 25%;
@@ -14,10 +15,10 @@
       width : 50%;
     }
     position         : fixed;
-    top              : 0;
+    top              : map_get($appBar, height);
+    bottom              : 0;
     left             : 0;
     max-height       : 100%;
-    min-height       : 100%;
     z-index          : 990;
     border-radius    : 4px;
     background-color : map-get($background, background);

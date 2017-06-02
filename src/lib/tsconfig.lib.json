@@ -39,6 +39,9 @@
       "@tangential/analytics": [
         "./analytics"
       ],
+      "@tangential/app": [
+        "./app"
+      ],
       "@tangential/asciidoctor-panel": [
         "./asciidoctor-panel"
       ],
@@ -62,6 +65,9 @@
       ],
       "@tangential/media-types": [
         "./media-types"
+      ],
+      "@tangential/plugin": [
+        "./plugin"
       ]
     }
   },

@@ -10,3 +10,40 @@
   font-family  : map-get(map-get($theme, forms), label-font-family);
 }
 
+
+@mixin tanj-flex($value: 1) {
+  flex       : $value;
+  box-sizing : border-box;
+}
+
+@mixin tanj-layout($rowOrColumn) {
+  display        : flex;
+  box-sizing     : border-box;
+  flex-direction : $rowOrColumn;
+}
+
+@mixin tanj-layout-align($primary:"start", $cross:"stretch") {
+  justify-content : $primary;
+
+  @if ($cross == "start") {
+    align-content : flex-start;
+    align-items   : flex-start;
+  } @else if ($cross == "center") {
+    align-content : center;
+    align-items   : center;
+    max-width     : 100%;
+  } @else if ($cross == "end") {
+    align-content : flex-end;
+    align-items   : flex-end;
+  } @else if ($cross == "stretch") {
+    align-content : stretch;
+    align-items   : stretch;
+  }
+}
+
+
+@mixin tanj-flexure($rowOrColumn, $alignPrimary: start, $alignCross:stretch){
+  @include tanj-layout($rowOrColumn);
+  @include tanj-layout-align($alignPrimary, $alignCross)
+}
+

@@ -63,6 +63,7 @@ import {TryoutWelcomePage} from './features/casa/tryout-welcome/tryout-welcome.p
 import {TanjCommonModule} from './features/common/common.module'
 import {MainComponent} from './main/main.component'
 import {TanjMaterialModule} from './tanj-material-module'
+import {PluginManager} from '../lib/plugin/plugin-manager'
 
 
 /**
@@ -137,6 +138,7 @@ if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config)
     TryoutWelcomePage,
   ],
   providers: [
+    PluginManager,
     {provide: AppEnvironment, useValue: appEnvironment},
     GoogleAnalytics,
     Title,

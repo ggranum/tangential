@@ -15,13 +15,30 @@ export const OnRefKeys = {
   child_moved:   <OnRefKey>'child_moved',
 }
 
-
+/**
+ * Copy-paste for local use, rather than create a dependency on core.
+ */
+const isObject = function(value): boolean {
+  return (typeof value === 'object' || value.constructor === Object)
+}
 /**
  * Prevent typescript casting issues while maintaining/enhancing type safety.
  */
 export class FireBlanket {
 
   static util = {
+
+    clean<T>(obj: T, deep:boolean = true): T {
+      const cleanObj: T = <T>{}
+      Object.keys(obj).forEach((key) => {
+        let value = obj[key]
+        if (FireBlanket.util.isLegalFirebaseKey(key) && FireBlanket.util.isLegalFirebaseValue(value)) {
+          cleanObj[key] = (deep && isObject(value)) ? FireBlanket.util.clean(value) : value
+        }
+      })
+      return cleanObj
+    },
+
     removeIllegalKeys<T>(obj: T): T {
       const cleanObj: T = <T>{}
       Object.keys(obj).forEach((key) => {
@@ -34,6 +51,19 @@ export class FireBlanket {
 
     isLegalFirebaseKey(key: string): boolean {
       return key !== null && key !== undefined && !key.startsWith('$')
+    },
+
+    isLegalFirebaseValue(value: any): boolean {
+      return value !== null && value !== undefined
+    },
+
+    isFirebaseGeneratedId(key: string): boolean {
+      let isKey = false
+      // starts with "-" will be true for over a decade.
+      if (key && key.length === 20 && key.startsWith('-')) {
+        isKey = true
+      }
+      return isKey
     }
 
   }

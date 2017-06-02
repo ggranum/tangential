@@ -1,4 +1,4 @@
-import {IconIF} from '@tangential/components'
+import {IconIF} from '../icon/icon'
 
 export interface ColumnHeader {
   captureKey: string, inputKey: string, label: string, icon: IconIF, index: number
