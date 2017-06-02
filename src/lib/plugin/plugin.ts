@@ -3,12 +3,20 @@ import {
   PluginAuth
 } from './plugin-auth'
 import {PluginSettings} from './plugin-settings'
+// noinspection TypeScriptPreferShortImport
+import {PluginConfiguration} from './plugin-configuration'
 
 export abstract class TangentialPlugin {
 
 
-  constructor(public auth: PluginAuth, public settings: PluginSettings) {
+  constructor(public settings: PluginSettings, public configuration:PluginConfiguration) {
   }
 
-  abstract getPermissions(): PermissionsByKey
+  /**
+   * Convenience method for accessing the auth instance.
+   * @returns {PluginAuth}
+   */
+  auth():PluginAuth{
+    return this.configuration.auth
+  }
 }

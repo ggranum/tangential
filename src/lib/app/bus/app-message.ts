@@ -4,7 +4,7 @@ import {
   BusMessageIntent,
   Intention,
   MessageBus
-} from '../message-bus/message-bus'
+} from '../../core/message-bus/message-bus'
 import {Observable} from 'rxjs/Observable'
 
 
@@ -27,15 +27,15 @@ export class AppMessage extends BusMessage {
 }
 
 
-export class AppOpenNavRequest extends AppMessage {
+export class AppToggleMainMenuRequest extends AppMessage {
   static Key = 'openAppNavRequest'
 
   constructor() {
-    super(Intention.request, AppOpenNavRequest.Key )
+    super(Intention.request, AppToggleMainMenuRequest.Key )
   }
 
-  static filter(bus:MessageBus):Observable<AppOpenNavRequest>{
-    return bus.all.filter(msg => msg.source === AppMessage.SourceKey && msg.key === AppOpenNavRequest.Key)
+  static filter(bus:MessageBus):Observable<AppToggleMainMenuRequest>{
+    return bus.all.filter(msg => msg.source === AppMessage.SourceKey && msg.key === AppToggleMainMenuRequest.Key)
   }
 }
 

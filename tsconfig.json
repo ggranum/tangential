@@ -13,6 +13,9 @@
       "es2016", "dom"
     ],
     "paths": {
+      "@tangential/app": [
+        "src/lib/app"
+      ],
       "@tangential/admin-console": [
         "src/lib/admin-console"
       ],

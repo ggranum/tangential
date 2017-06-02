@@ -1,8 +1,14 @@
 import {
   AuthPermission,
-  AuthRole
+  AuthPermissionDm,
+  AuthRole,
+  AuthSubject
 } from '@tangential/authorization-service'
-import {ObjectUtil} from '@tangential/core'
+import {
+  Guard,
+  ObjectUtil
+} from '@tangential/core'
+import {InsufficientPermissions} from '@tangential/core'
 
 export type PermissionsByKey = { [key: string]: AuthPermission }
 export type RolesByKey = { [key: string]: AuthRole }
@@ -37,5 +43,15 @@ export class PluginAuth {
    */
   getRoles(): RolesByKey {
     return ObjectUtil.assignDeep({}, this._roles)
+  }
+
+  hasPermission(subject: AuthSubject, permission: AuthPermission | string): boolean {
+    return subject.hasPermission(Guard.isString(permission) ? permission: permission.$key)
+  }
+
+  checkHasPermission(subject: AuthSubject, permission: AuthPermission | string) {
+    if (!this.hasPermission(subject, permission)) {
+      throw new InsufficientPermissions(permission)
+    }
   }
 }

@@ -5,11 +5,12 @@ import {
 } from '@angular/router'
 import {HasRoleGuard} from '@tangential/authorization-service'
 import {VisitorResolver} from '@tangential/authorization-service'
-import {AdminConsoleParentPage} from './_parent/admin-console-parent.page'
+import {AdminConsoleParentPage} from './pages/_parent/admin-console-parent.page'
 //noinspection TypeScriptPreferShortImport
-import {PermissionManagerPage} from './permissions/permission-manager.page'
-import {RoleManagerPage} from './roles/role-manager.page'
-import {UserManagerPage} from './users/user-manager.page'
+import {PermissionManagerPage} from './pages/permission-manager/permission-manager.page'
+import {RoleManagerPage} from './pages/roles/role-manager.page'
+import {UserManagerPage} from './pages/users/user-manager.page'
+import {PluginsPage} from './pages/plugins/plugins.page'
 
 
 export const AdminRoutes = {
@@ -27,6 +28,13 @@ export const AdminRoutes = {
     }
   },
   children: {
+    plugins: {
+      path:       'plugins',
+      component:  PluginsPage,
+      navTargets: {
+        absSelf: ['/', 'admin', 'plugins']
+      },
+    },
     permissions: {
       path:       'permissions',
       component:  PermissionManagerPage,
@@ -62,6 +70,7 @@ const routes: Route[] = [
       {
         path:     '',
         children: [
+          AdminRoutes.children.plugins,
           AdminRoutes.children.permissions,
           AdminRoutes.children.roles,
           AdminRoutes.children.users,

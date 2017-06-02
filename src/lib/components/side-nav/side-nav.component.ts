@@ -33,41 +33,28 @@ import {ESCAPE} from '@angular/material'
   animations: [
     trigger('openedChange', [
       state('0',
-        style({width: '0', overflow: 'hidden', display: 'none'}),
-      ),
-      state('1',
-        style({width: '*'})
-      ),
-      transition('0 => 1', animate('.3s ease-in')),
-      transition('1 => 0', animate('.3s ease-out'))
-    ])
-  ]
+        style({
+          width:    '0',
+          overflow: 'hidden',
+          display:  'none'
+        }),), state('1', style({width: '*'})), transition('0 => 1', animate('.3s ease-in')),
+      transition('1 => 0', animate('.3s ease-out'))])]
 })
 export class SideNavComponent {
 
-  @HostBinding('@openedChange') get hbOc() {
-    return this.opened
-  }
-
-  @Input() opened: boolean = false
-  @Output() openedChange: EventEmitter<boolean> = new EventEmitter(false)
+  lastActionTime: number = Date.now()
   @Output() onClose: EventEmitter<null> = new EventEmitter(false)
   @Output() onOpen: EventEmitter<null> = new EventEmitter(false)
-
-  lastActionTime: number = Date.now()
+  @Input() opened: boolean = false
+  @Output() openedChange: EventEmitter<boolean> = new EventEmitter(false)
 
   constructor(private el: ElementRef) {
 
   }
 
-  private notify() {
-    this.lastActionTime = Date.now()
-    this.openedChange.emit(this.opened)
-    if (this.opened) {
-      this.onOpen.emit()
-    } else {
-      this.onClose.emit()
-    }
+  @HostBinding('@openedChange')
+  get hbOc() {
+    return this.opened
   }
 
   handleKeyDown(event: KeyboardEvent) {
@@ -77,28 +64,32 @@ export class SideNavComponent {
     }
   }
 
-
   onTransitionEnd(transitionEvent: TransitionEvent) {
   }
 
-
   open() {
-    if (!this.opened) {
+    if (!this.opened && !this.inProgress()) {
       this.opened = true
       this.notify()
     }
   }
 
   close() {
-    if (this.opened) {
+    if (this.opened && !this.inProgress()) {
       this.opened = false
       this.notify()
     }
   }
 
   toggle() {
-    this.opened = !this.opened
-    this.notify()
+    if (!this.inProgress()) {
+      this.opened = !this.opened
+      this.notify()
+    }
+  }
+
+  inProgress(): boolean {
+    return this.opening() || this.closing()
   }
 
   opening(): boolean {
@@ -126,5 +117,15 @@ export class SideNavComponent {
       }
     }
     return result
+  }
+
+  private notify() {
+    this.lastActionTime = Date.now()
+    this.openedChange.emit(this.opened)
+    if (this.opened) {
+      this.onOpen.emit()
+    } else {
+      this.onClose.emit()
+    }
   }
 }

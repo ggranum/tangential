@@ -1,0 +1,7 @@
+<div class="tanj-header-shim"></div>
+<div flex layout="column" layout-align="start">
+  <div *ngFor="let entry of pluginManager.pluginPaths" flex layout="row" layout-align="start" class="tanj-plugin-entry">
+    <div class="tanj-entry-name">{{entry.name}}</div>
+    <a class="tanj-entry-path" [routerLink]="['/', entry.path, 'plugin']">{{entry.path}}</a>
+  </div>
+</div>

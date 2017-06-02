@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {ActivatedRouteSnapshot, Router} from '@angular/router';
 import {
-  AppOpenNavRequest,
   Logger,
   MessageBus
 } from '@tangential/core';
@@ -11,6 +10,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {AppRoutes} from '../app.routing.module';
 import {ContextMenuMessage, Icon, Menu, MenuItem, NotificationMessage, SideNavComponent} from '@tangential/components';
 import {Placeholder} from '@tangential/firebase-util';
+import {AppToggleMainMenuRequest} from '@tangential/app'
 
 @Component({
   selector: 'tanj-main',
@@ -45,10 +45,9 @@ export class MainComponent implements OnInit, OnDestroy {
               private visitorService: VisitorService,
               private changeDetectorRef: ChangeDetectorRef,
               private dialog: MdDialog) {
-    AppOpenNavRequest.filter(bus).subscribe({
+    AppToggleMainMenuRequest.filter(bus).subscribe({
       next: (v) => {
-        this.logger.debug(this, 'MainComponent opening side-nav')
-        this.sideNav.open()
+        this.sideNav.toggle()
       }
     })
   }

@@ -15,29 +15,30 @@ import {
 import {TanjComponentsModule} from '@tangential/components'
 import {DataTableModule} from 'primeng/primeng'
 import {AdminService} from '@tangential/authorization-service'
-import {AdminConsoleParentPage} from './_parent/admin-console-parent.page'
+import {AdminConsoleParentPage} from './pages/_parent/admin-console-parent.page'
 import {AdminConsoleRoutingModule} from './admin-console.routing.module'
 
 
 //noinspection TypeScriptPreferShortImport
-import {PermissionManagerPage} from './permissions/permission-manager.page'
-import {PermissionComponent} from './permissions/permission.component'
-import {RoleManagerPage} from './roles/role-manager.page'
+import {PermissionManagerPage} from './pages/permission-manager/permission-manager.page'
+import {PermissionComponent} from './components/permission/permission.component'
+import {RoleManagerPage} from './pages/roles/role-manager.page'
 
 
-import {RoleComponent} from './roles/role.component'
-import {RoleAvatarComponent} from './users/role-avatar.component'
+import {RoleComponent} from './pages/roles/role.component'
+import {RoleAvatarComponent} from './pages/users/role-avatar.component'
 
-import {UserManagerPage} from './users/user-manager.page'
-import {UserPermissionEditorComponent} from './users/user-permission-editor.component'
-import {UserComponent} from './users/user.component'
+import {UserManagerPage} from './pages/users/user-manager.page'
+import {UserPermissionEditorComponent} from './pages/users/user-permission-editor.component'
+import {UserComponent} from './pages/users/user.component'
 //noinspection TypeScriptPreferShortImport
-import {UserListItemDemo} from './users/user.demo'
+import {UserListItemDemo} from './pages/users/user.demo'
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime'
 import 'rxjs/add/operator/distinctUntilChanged'
 import {FirebaseAdminService} from '@tangential/authorization-service'
+import {PluginsPage} from './pages/plugins/plugins.page'
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import {FirebaseAdminService} from '@tangential/authorization-service'
     PermissionComponent,
     RoleComponent,
     UserComponent,
+    PluginsPage,
     PermissionManagerPage,
     RoleManagerPage,
     UserManagerPage,

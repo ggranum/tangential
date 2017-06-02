@@ -1,9 +1,12 @@
-import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core'
 import {
-  AppOpenNavRequest,
-  MessageBus
-} from '@tangential/core'
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewEncapsulation
+} from '@angular/core'
+import {AppToggleMainMenuRequest} from '@tangential/app'
 import {Visitor} from '@tangential/authorization-service'
+import {MessageBus} from '@tangential/core'
 
 @Component({
   selector:        'tanj-app-bar',
@@ -18,8 +21,8 @@ export class AppBarComponent {
   constructor(private bus: MessageBus) {
   }
 
-  openNav() {
-    this.bus.post(new AppOpenNavRequest())
+  onToggleMainMenuRequest() {
+    this.bus.post(new AppToggleMainMenuRequest())
   }
 
 }

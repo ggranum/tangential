@@ -10,6 +10,9 @@
       "node"
     ],
     "paths": {
+      "@tangential/app": [
+        "lib/app"
+      ],
       "@tangential/admin-console": [
         "lib/admin-console"
       ],

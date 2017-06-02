@@ -45,13 +45,15 @@ export class FirebaseAdminService extends AdminService {
 
   addPermission(newPermission: AuthPermission): Promise<void> {
     const cRef = AuthPermissionsFirebaseRef(this.db).child(newPermission.$key)
-    return FireBlanket.set(cRef, AuthPermissionTransform.toDocModel(newPermission))
+    const model = AuthPermissionTransform.toDocModel(newPermission)
+    return FireBlanket.set(cRef, FireBlanket.util.clean(model))
   }
 
 
   updatePermission(permission: AuthPermission): Promise<void> {
     const cRef = AuthPermissionsFirebaseRef(this.db).child(permission.$key)
-    return FireBlanket.update(cRef, AuthPermissionTransform.toDocModel(permission))
+    const model = AuthPermissionTransform.toDocModel(permission)
+    return FireBlanket.update(cRef, FireBlanket.util.clean(model))
   }
 
   /**
@@ -69,13 +71,13 @@ export class FirebaseAdminService extends AdminService {
   addRole(role: AuthRole): Promise<void> {
     const cRef = AuthRolesFirebaseRef(this.db).child(role.$key)
     const roleDm = AuthRoleTransform.toDocModel(role)
-    return FireBlanket.set(cRef, roleDm)
+    return FireBlanket.set(cRef, FireBlanket.util.clean(roleDm))
   }
 
   updateRole(role: AuthRole): Promise<void> {
     const cRef = AuthRolesFirebaseRef(this.db).child(role.$key)
     const roleDm = AuthRoleTransform.toDocModel(role)
-    return FireBlanket.update(cRef, roleDm)
+    return FireBlanket.update(cRef, FireBlanket.util.clean(roleDm))
   }
 
   removeRole(key: AuthRoleKey): Promise<void> {
@@ -87,13 +89,13 @@ export class FirebaseAdminService extends AdminService {
   addUser(user: AuthUser): Promise<void> {
     const cRef = AuthUsersFirebaseRef(this.db).child(user.$key)
     let userDm = AuthUserTransform.toDocModel(user)
-    return FireBlanket.set(cRef, userDm)
+    return FireBlanket.set(cRef, FireBlanket.util.clean(userDm))
   }
 
   updateUser(user: AuthUser): Promise<void> {
     const cRef = AuthUsersFirebaseRef(this.db).child(user.$key)
     let userDm = AuthUserTransform.toDocModel(user)
-    return FireBlanket.update(cRef, userDm)
+    return FireBlanket.update(cRef, FireBlanket.util.clean(userDm))
   }
 
   removeUser(entityKey: string): Promise<void> {
