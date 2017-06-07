@@ -74,7 +74,10 @@ export class RemoteProjectUtil {
           })
         }
       }, (error: any) => {
+        console.log('RemoteProjectUtil', "Error pushing data. Maybe double check your cert? " +
+          "Or perhaps you have a Firebase Rule that is preventing the push?")
         this.logError(data, error)
+
         db.goOffline()
         reject(error)
       })
