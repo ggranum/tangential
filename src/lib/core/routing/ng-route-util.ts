@@ -25,10 +25,10 @@ export class NgRouteUtil {
     return c
   }
 
-  static findDescendantByComponentName(router: Router, componentTypeName: string): (ActivatedRoute | null ) {
+  static findDescendantByComponentKey(router: Router, componentTypeKey: string): (ActivatedRoute | null ) {
     let c = router.routerState.root
     do {
-      if (c.component && c.component['name'] == componentTypeName) {
+      if (c.component && c.component['Key'] == componentTypeKey) {
         break
       }
       c = c.firstChild
@@ -38,24 +38,25 @@ export class NgRouteUtil {
 
 
   /**
-   * Breadth first search of route to find the descendant where 'parent.children[x].component['name'] === componentTypeName'
+   * Breadth first search of route to find the descendant where 'parent.children[x].component['Key'] === componentTypeKey'
+   * This requires that the Component have the static field 'Key' declared and set to a value.
    * @param route
-   * @param componentTypeName
+   * @param componentTypeKey
    * @returns {Route | null}
    */
-  static findDescendantRouteByComponentName(route: Route, componentTypeName: string): (Route | null ) {
+  static findDescendantRouteByComponentKey(route: Route, componentTypeKey: string): (Route | null ) {
     let result = null
     if (route.children) {
       for (let i = 0; i < route.children.length; i++) {
         let child = route.children[i]
-        if (child.component && child.component['name'] === componentTypeName) {
+        if (child.component && child.component['Key'] === componentTypeKey) {
           result = child
           break
         }
       }
       if (!result) {
         for (let i = 0; i < route.children.length; i++) {
-          result = NgRouteUtil.findDescendantRouteByComponentName(route.children[i], componentTypeName)
+          result = NgRouteUtil.findDescendantRouteByComponentKey(route.children[i], componentTypeKey)
           if (result) {
             break
           }
