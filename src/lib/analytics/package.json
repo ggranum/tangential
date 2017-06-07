@@ -2,7 +2,7 @@
   "name": "@tangential/analytics",
   "description": "Analytics and advertising - monitization, generally.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.2.0-beta.4",
+  "version": "0.2.0-beta.5",
   "license": "GPL-3.0",
   "private": false,
   "repository": {
@@ -47,7 +47,7 @@
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
-    "@tangential/core": "0.2.0-beta.4"
+    "@tangential/core": "0.2.0-beta.5"
   },
   "main": "./index.js",
   "typings": "./index.d.ts"

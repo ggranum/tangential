@@ -1,3 +1,13 @@
+<a name="0.2.0-beta.5"></a>
+# [0.2.0-beta.5](https://github.com/ggranum/tangential/compare/v0.2.0-beta.4...v0.2.0-beta.5) (2017-06-07)
+
+
+### Bug Fixes
+
+* **core:** Minification prevents use of raw classnames ([f5f64eb](https://github.com/ggranum/tangential/commit/f5f64eb)), closes [#39](https://github.com/ggranum/tangential/issues/39)
+
+
+
 <a name="0.2.0-beta.4"></a>
 # [0.2.0-beta.4](https://github.com/ggranum/tangential/compare/v0.2.0-beta.3...v0.2.0-beta.4) (2017-06-02)
 
