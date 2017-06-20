@@ -1,28 +1,28 @@
-import {Injectable} from '@angular/core';
-import {MessageBus, ObjectUtil, ObjMap, ObjMapUtil} from '@tangential/core';
-import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util';
-import * as firebase from 'firebase/app';
-import {Observable} from 'rxjs/Observable';
+import {Injectable} from '@angular/core'
+import {MessageBus, ObjectUtil, ObjMap, ObjMapUtil} from '@tangential/core'
+import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util'
+import * as firebase from 'firebase/app'
+import {Observable} from 'rxjs/Observable'
 //noinspection TypeScriptPreferShortImport
-import {AuthRoleDm} from '../../media-type/doc-model/auth-role';
+import {AuthPermission} from '../../media-type/cdm/auth-permission'
+import {AuthRole} from '../../media-type/cdm/auth-role'
 //noinspection TypeScriptPreferShortImport
-import {UserService} from './user-service';
+import {AuthSettings, AuthSettingsTransform} from '../../media-type/cdm/auth-settings'
+import {AuthUser, AuthUserTransform} from '../../media-type/cdm/auth-user'
+import {AuthEffectivePermissionsRef, AuthGrantedPermissionsRef, AuthGrantedRolesRef} from '../../media-type/doc-model/auth'
 //noinspection TypeScriptPreferShortImport
-import {AuthUserDm, AuthUserKey, AuthUsersFirebaseRef} from '../../media-type/doc-model/auth-user';
-import {AuthUser, AuthUserTransform} from '../../media-type/cdm/auth-user';
+import {AuthRoleDm} from '../../media-type/doc-model/auth-role'
 //noinspection TypeScriptPreferShortImport
-import {AuthPermission} from '../../media-type/cdm/auth-permission';
-import {AuthRole} from '../../media-type/cdm/auth-role';
+import {AuthSettingsFirebaseRef} from '../../media-type/doc-model/auth-settings'
 //noinspection TypeScriptPreferShortImport
-import {AuthSettingsFirebaseRef} from '../../media-type/doc-model/auth-settings';
-import {AuthEffectivePermissionsRef, AuthGrantedPermissionsRef, AuthGrantedRolesRef} from '../../media-type/doc-model/auth';
+import {AuthUserDm, AuthUserKey, AuthUsersFirebaseRef} from '../../media-type/doc-model/auth-user'
 //noinspection TypeScriptPreferShortImport
+import {AuthSettingsService} from '../settings-service/settings-service'
 //noinspection TypeScriptPreferShortImport
-import {AuthSettings, AuthSettingsTransform} from '../../media-type/cdm/auth-settings';
-import {AuthSettingsService} from '../settings-service/settings-service';
+import {UserService} from './user-service'
+import DataSnapshot = firebase.database.DataSnapshot
 
-import Reference = firebase.database.Reference;
-import DataSnapshot = firebase.database.DataSnapshot;
+import Reference = firebase.database.Reference
 
 
 @Injectable()

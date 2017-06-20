@@ -1,22 +1,21 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from '@angular/core'
+import {Logger, MessageBus} from '@tangential/core'
+import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util'
+import * as firebase from 'firebase/app'
+import {BehaviorSubject, Observable} from 'rxjs/Rx'
+import {AuthSubject} from '../../media-type/cdm/auth-subject'
 //noinspection TypeScriptPreferShortImport
-import {AuthenticationService} from '../authentication-service/authentication-service';
+import {AuthUserKey} from '../../media-type/doc-model/auth-user'
 //noinspection TypeScriptPreferShortImport
-import {AuthUserKey} from '../../media-type/doc-model/auth-user';
-import {AuthSubject} from '../../media-type/cdm/auth-subject';
-import {Logger, MessageBus} from '@tangential/core';
-import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util';
-import * as firebase from 'firebase/app';
-import {BehaviorSubject, Observable} from 'rxjs/Rx';
-import {VisitorService} from './visitor-service';
+import {AuthenticationService} from '../authentication-service/authentication-service'
 
-import {Visitor} from './media-type/cdm/visitor';
+import {Visitor} from './media-type/cdm/visitor'
 //noinspection TypeScriptPreferShortImport
-import {VisitorPreferences, VisitorPreferencesTransform} from './media-type/cdm/visitor-preferences';
+import {VisitorPreferences, VisitorPreferencesTransform} from './media-type/cdm/visitor-preferences'
 //noinspection TypeScriptPreferShortImport
-import {VisitorPreferencesFbPath} from './media-type/doc-model/visitor-preferences';
-import DataSnapshot = firebase.database.DataSnapshot;
-import Reference = firebase.database.Reference
+import {VisitorPreferencesFbPath} from './media-type/doc-model/visitor-preferences'
+import {VisitorService} from './visitor-service'
+import DataSnapshot = firebase.database.DataSnapshot
 
 
 @Injectable()

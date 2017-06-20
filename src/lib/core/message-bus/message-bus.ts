@@ -59,7 +59,7 @@ export class MessageBus {
   private bus: EventEmitter<BusMessage> = new EventEmitter(false)
 
   constructor() {
-    this.all = this.bus;
+    this.all = this.bus.share();
   }
 
   post(message: BusMessage) {

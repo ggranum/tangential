@@ -1,9 +1,10 @@
+import {Injectable} from '@angular/core'
 /* tslint:disable:no-unused-variable */
-import {AdminService, AuthenticationService, AuthPermission, AuthSettingsService} from '@tangential/authorization-service';
-import {Logger, MessageBus} from '@tangential/core';
-import {TestConfiguration} from '../test-config.spec';
-import {Injectable} from '@angular/core';
-import {BaseAuthenticationRequiredTestSet, TestEntry} from '../../test/base-auth-service-tests.spec';
+import {
+  AdminService, AuthenticationService, AuthPermission, AuthSettingsService, BaseAuthenticationRequiredTestSet, TestEntry
+} from '@tangential/authorization-service'
+import {Logger, MessageBus} from '@tangential/core'
+import {TestConfiguration} from '../test-config.spec'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
 
@@ -29,6 +30,7 @@ export class AuthenticationTestSet extends BaseAuthenticationRequiredTestSet {
     ]
   }
 
+
   loadsAllPermissions(): Promise<void> {
     console.log('AuthenticationTestSet', 'loadsAllPermissions')
     return this.authSettingsService.authSettings$().first().toPromise().then((x) => {
@@ -48,9 +50,9 @@ export class AuthenticationTestSet extends BaseAuthenticationRequiredTestSet {
   createsPermission(): Promise<void> {
     const key = 'SPEC_RANDOM_' + Math.round((100000 * Math.random()))
     const testPerm = AuthPermission.from({
-      $key: key,
+      $key:        key,
       description: 'Using firebasePermission Service in spec. ',
-      orderIndex: -1
+      orderIndex:  -1
     })
     return this.adminService.addPermission(testPerm)
       .then(() => this.authSettingsService.authSettings$().first().toPromise().then(settings => {

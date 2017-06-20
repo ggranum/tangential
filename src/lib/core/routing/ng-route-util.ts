@@ -7,14 +7,21 @@ import {
 export class NgRouteUtil {
 
   static fullPath(route: ActivatedRoute) {
-    let path = route.pathFromRoot
-                    .map(routeSegment => routeSegment.snapshot)
-                    .map(routeSnap => routeSnap.url).map(segment => segment.toString()).join('/')
+    let pathAry = []
+    route.pathFromRoot
+      .map(routeSegment => routeSegment.snapshot)
+      .map(routeSnap => {
+        return routeSnap
+      })
+      .map(routeSnap => routeSnap.url)
+      .filter(segments => segments && segments.length > 0)
+      .forEach(segments => segments.forEach(segment => pathAry.push(segment.toString())))
+
+    let path = pathAry.join('/')
 
     if (path && path.endsWith('/')) {
       path = path.substring(0, path.length - 1)
     }
-    return path
   }
 
   static primaryLeaf(router: Router): ActivatedRoute {
