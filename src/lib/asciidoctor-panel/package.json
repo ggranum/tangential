@@ -2,7 +2,7 @@
   "name": "@tangential/asciidoctor-panel",
   "description": "UI pane for displaying ASCII Doctor formatted data.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.2.0-beta.5",
+  "version": "0.2.0-beta.6",
   "license": "GPL-3.0",
   "private": false,
   "repository": {
