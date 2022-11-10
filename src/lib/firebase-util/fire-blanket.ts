@@ -1,7 +1,7 @@
-import {
-  BehaviorSubject,
-  Observable
-} from 'rxjs/Rx'
+import * as firebase from 'firebase'
+import {BehaviorSubject, Observable} from 'rxjs'
+import {filter, first} from 'rxjs/operators'
+
 import {Placeholder} from './placeholder'
 import DataSnapshot = firebase.database.DataSnapshot
 import Query = firebase.database.Query
@@ -18,9 +18,10 @@ export const OnRefKeys = {
 /**
  * Copy-paste for local use, rather than create a dependency on core.
  */
-const isObject = function(value): boolean {
-  return (typeof value === 'object' || value.constructor === Object)
+const isObject = function (value): boolean {
+  return (typeof value === 'object' || value['constructor'] === Object)
 }
+
 /**
  * Prevent typescript casting issues while maintaining/enhancing type safety.
  */
@@ -28,7 +29,7 @@ export class FireBlanket {
 
   static util = {
 
-    clean<T>(obj: T, deep:boolean = true): T {
+    clean<T>(obj: T, deep: boolean = true): T {
       const cleanObj: T = <T>{}
       Object.keys(obj).forEach((key) => {
         let value = obj[key]
@@ -83,11 +84,11 @@ export class FireBlanket {
   }
 
   static awaitValue$(query: Query): Observable<DataSnapshot> {
-    return this.value$(query).filter(v => v !== Placeholder)
+    return this.value$(query).pipe(filter(v => v !== Placeholder))
   }
 
   static valueOnce$(query: Query): Observable<DataSnapshot> {
-    return this.value$(query).first(v => v !== Placeholder)
+    return this.value$(query).pipe(first(v => v !== Placeholder))
   }
 
   static set<T>(ref: firebase.database.Reference, value: T): Promise<void> {

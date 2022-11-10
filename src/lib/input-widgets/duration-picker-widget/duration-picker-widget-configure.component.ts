@@ -44,28 +44,28 @@ export class DurationPickerWidgetConfigureChange {
   selector:      'tanj-duration-picker-widget-configure',
   template:      `<!--  -->
   <div class="tanj-input-template tanj-mode-configure" flex layout="column" layout-align="start">
-    <md-input-container dividerColor="accent">
-      <input mdInput
+    <mat-form-field dividerColor="accent">
+      <input matInput
              class="tanj-input"
              type="text"
              maxlength="50"
              placeholder="Enter a label for this input"
              (change)="labelChange.emit(label)"
              [(ngModel)]="label"/>
-    </md-input-container>
+    </mat-form-field>
 
     <ng-container *ngIf="label">
       <fieldset flex layout="row" layout-align="start">
         <legend>For:</legend>
         <div flex class="tanj-choose-duration-fields-container" layout="column" layout-align="start">
-          <md-checkbox *ngFor="let field of state.fields"
+          <mat-checkbox *ngFor="let field of state.fields"
                        layout="row" layout-align="start"
                        [disabled]="!field.canToggleSelection()"
                        [labelPosition]="'before'"
                        [checked]="field.selected"
                        (change)="field.selected = $event.checked">
             {{field.unit.fullLabel}}
-          </md-checkbox>
+          </mat-checkbox>
         </div>
       </fieldset>
 

@@ -90,7 +90,6 @@
       "check-separator",
       "check-type"
     ],
-
     "directive-selector-name": [true, "camelCase"],
     "component-selector-name": [true, "kebab-case"],
     "directive-selector-type": [true, "attribute"],

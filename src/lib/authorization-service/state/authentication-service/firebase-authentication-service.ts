@@ -3,42 +3,42 @@ import {Injectable} from '@angular/core';
 import {generatePushID, Logger, MessageBus, ResolveVoid} from '@tangential/core';
 import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util';
 import * as firebase from 'firebase/app';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
-//noinspection TypeScriptPreferShortImport
-import {EmailPasswordCredentials} from '../../media-type/doc-model/email-password-credentials';
-import {SignInState, SignInStates} from '../../sign-in-state';
-import {UserService} from '../user-service/user-service';
-import {AuthenticationService} from './authentication-service';
-import {SessionInfoCdm} from '../../media-type/cdm/session-info';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {first, skip, skipWhile} from 'rxjs/operators'
 import {AuthSubject, AuthSubjectTransform} from '../../media-type/cdm/auth-subject';
-//noinspection TypeScriptPreferShortImport
-import {AuthUserDm, AuthUserKey, AuthUsersFirebaseRef} from '../../media-type/doc-model/auth-user';
 import {AuthUser, AuthUserTransform} from '../../media-type/cdm/auth-user';
+import {SessionInfoCdm} from '../../media-type/cdm/session-info';
 //noinspection TypeScriptPreferShortImport
 import {SignInEvent, SignInEventTransform} from '../../media-type/cdm/sign-in-event';
 //noinspection TypeScriptPreferShortImport
 import {AuthSignInEventsByUserFirebaseRef, AuthSignInEventsFirebaseRef} from '../../media-type/doc-model/auth-events';
 //noinspection TypeScriptPreferShortImport
+import {AuthUserDm, AuthUserKey, AuthUsersFirebaseRef} from '../../media-type/doc-model/auth-user';
+//noinspection TypeScriptPreferShortImport
+import {EmailPasswordCredentials} from '../../media-type/doc-model/email-password-credentials';
+import {SignInState, SignInStates} from '../../sign-in-state';
+import {UserService} from '../user-service/user-service';
+import {AuthenticationService} from './authentication-service';
+//noinspection TypeScriptPreferShortImport
 import EmailAuthProvider = firebase.auth.EmailAuthProvider
 
 
 interface FirebaseAuthResponse {
-  uid: string
   displayName: string
   email: string
   emailVerified: boolean
   isAnonymous: boolean
   photoURL: string
+  uid: string
 }
 
 @Injectable()
 export class FirebaseAuthenticationService extends AuthenticationService {
 
-  private auth: firebase.auth.Auth
-  private db: firebase.database.Database
   signInStateValue: SignInState
+  private auth: firebase.auth.Auth
   private authSubjectObserver: BehaviorSubject<AuthSubject>
+  private db: firebase.database.Database
 
   constructor(protected bus: MessageBus,
               protected logger: Logger,
@@ -48,46 +48,6 @@ export class FirebaseAuthenticationService extends AuthenticationService {
     this.auth = fb.app.auth()
     this.db = this.fb.app.database()
     this.init()
-  }
-
-  private init() {
-    this.authSubjectObserver = new BehaviorSubject(AuthSubject.UnknownSubject)
-    this.auth.onAuthStateChanged((fbAuthState: FirebaseAuthResponse) => {
-      this.handleAuthStateChanged(fbAuthState)
-    })
-    this.setSignInState(SignInStates.unknown)
-  }
-
-  private handleAuthStateChanged(firebaseAuthResponse: FirebaseAuthResponse) {
-    if (this.signInStateValue === SignInStates.signingUp) {
-      /* This state change will be handled by the '#createUserWithEmailAndPassword' method. */
-      this.logger.trace(this, '#handleAuthStateChanged:signingUp', 'User is signing up')
-    } else if (this.isSignedInResponse(firebaseAuthResponse)) {
-      this.logger.trace(this,
-        '#handleAuthStateChanged:signedIn',
-        firebaseAuthResponse.uid,
-        firebaseAuthResponse.email,
-        firebaseAuthResponse.isAnonymous)
-      let firebaseResponse: AuthUserDm = this.subjectFromFirebaseResponse(firebaseAuthResponse)
-      this.handleUserSignedIn(firebaseResponse).then(subject => {
-        this.logger.trace(this, '#handleAuthStateChanged:Subject Resolved', subject.$key, subject.email, subject.isAnonymous)
-        this.setCurrentUser(subject)
-      })
-    } else {
-      this.logger.trace(this, '#handleAuthStateChanged', 'Visitor is Guest or has signed out')
-      this.setCurrentUser(AuthSubject.GuestSubject)
-    }
-  }
-
-  private setCurrentUser(subject: AuthSubject): void {
-    this.logger.trace(this, '#setCurrentUser', subject ? subject.$key : 'null')
-    this.setSignInState(subject.signInState)
-    this.authSubjectObserver.next(subject)
-  }
-
-
-  private isSignedInResponse(firebaseAuthResponse: FirebaseAuthResponse) {
-    return firebaseAuthResponse;
   }
 
   public obtainAcceptLanguageHeader(): Promise<SessionInfoCdm> {
@@ -123,22 +83,13 @@ export class FirebaseAuthenticationService extends AuthenticationService {
     })
   }
 
-
-  private setSignInState(newState: SignInState) {
-    if (this.signInStateValue !== newState) {
-      this.logger.trace(this, '#setSignInState', newState)
-      this.signInStateValue = newState
-    }
-  }
-
   authSubject$(): Observable<AuthSubject> {
     return this.authSubjectObserver
   }
 
   awaitKnownAuthSubject$(): Observable<AuthSubject> {
-    return this.authSubjectObserver.skipWhile(subject => subject.signInState === SignInStates.unknown)
+    return this.authSubjectObserver.pipe(skipWhile(subject => subject.signInState === SignInStates.unknown))
   }
-
 
   /**
    * Auth state changes - including which user is set as currentAuthUser - are handled by listening for
@@ -155,12 +106,15 @@ export class FirebaseAuthenticationService extends AuthenticationService {
     this.logger.trace(this, '#signInWithEmailAndPassword', 'enter', payload.email)
     this.setSignInState(SignInStates.signingIn)
     const loginCfg = {
-      email: payload.email,
+      email:    payload.email,
       password: payload.password
     }
     return new Promise<void>((resolve, reject) => {
       let readyToResolve = true
-      this.authSubjectObserver.skip(1).first().subscribe(() => {
+      this.authSubjectObserver.pipe(
+        skip(1),
+        first()
+      ).subscribe(() => {
         this.logger.trace(this, '#signInWithEmailAndPassword:resolving', payload.email)
         resolve(ResolveVoid)
       })
@@ -218,7 +172,6 @@ export class FirebaseAuthenticationService extends AuthenticationService {
     return FireBlanket.set(cRef, dm)
   }
 
-
   updateOwnUserAccount(child: AuthUser): Promise<void> {
     const cRef = AuthUsersFirebaseRef(this.db).child(child.$key)
     const dm = AuthUserTransform.toDocModel(child)
@@ -228,7 +181,6 @@ export class FirebaseAuthenticationService extends AuthenticationService {
       throw e
     })
   }
-
 
   removeOwnUserAccount(childKey: AuthUserKey): Promise<void> {
     const cRef = AuthUsersFirebaseRef(this.db).child(childKey)
@@ -254,7 +206,6 @@ export class FirebaseAuthenticationService extends AuthenticationService {
       })
     })
   }
-
 
   deleteAccount(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -294,6 +245,51 @@ export class FirebaseAuthenticationService extends AuthenticationService {
       })
   }
 
+  private init() {
+    this.authSubjectObserver = new BehaviorSubject(AuthSubject.UnknownSubject)
+    this.auth.onAuthStateChanged((fbAuthState: FirebaseAuthResponse) => {
+      this.handleAuthStateChanged(fbAuthState)
+    })
+    this.setSignInState(SignInStates.unknown)
+  }
+
+  private handleAuthStateChanged(firebaseAuthResponse: FirebaseAuthResponse) {
+    if (this.signInStateValue === SignInStates.signingUp) {
+      /* This state change will be handled by the '#createUserWithEmailAndPassword' method. */
+      this.logger.trace(this, '#handleAuthStateChanged:signingUp', 'User is signing up')
+    } else if (this.isSignedInResponse(firebaseAuthResponse)) {
+      this.logger.trace(this,
+        '#handleAuthStateChanged:signedIn',
+        firebaseAuthResponse.uid,
+        firebaseAuthResponse.email,
+        firebaseAuthResponse.isAnonymous)
+      let firebaseResponse: AuthUserDm = this.subjectFromFirebaseResponse(firebaseAuthResponse)
+      this.handleUserSignedIn(firebaseResponse).then(subject => {
+        this.logger.trace(this, '#handleAuthStateChanged:Subject Resolved', subject.$key, subject.email, subject.isAnonymous)
+        this.setCurrentUser(subject)
+      })
+    } else {
+      this.logger.trace(this, '#handleAuthStateChanged', 'Visitor is Guest or has signed out')
+      this.setCurrentUser(AuthSubject.GuestSubject)
+    }
+  }
+
+  private setCurrentUser(subject: AuthSubject): void {
+    this.logger.trace(this, '#setCurrentUser', subject ? subject.$key : 'null')
+    this.setSignInState(subject.signInState)
+    this.authSubjectObserver.next(subject)
+  }
+
+  private isSignedInResponse(firebaseAuthResponse: FirebaseAuthResponse) {
+    return firebaseAuthResponse;
+  }
+
+  private setSignInState(newState: SignInState) {
+    if (this.signInStateValue !== newState) {
+      this.logger.trace(this, '#setSignInState', newState)
+      this.signInStateValue = newState
+    }
+  }
 
   private subjectFromFirebaseResponse(fbResponse: FirebaseAuthResponse): AuthUserDm {
     const subject: AuthUserDm = {}

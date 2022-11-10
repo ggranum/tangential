@@ -17,10 +17,9 @@ import {
 } from '@tangential/core';
 
 import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util';
-import {environment} from '../../../../environments/environment.dev';
+import {environment} from '../../../../environments/environment.dev.local';
 import {TestConfiguration} from '../test-config.spec';
 import {ReflectiveInjector} from '@angular/core';
-import {TestEntry} from '@tangential/authorization-service';
 import {AuthenticationTestSet} from './authentication-test-set.spec';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000

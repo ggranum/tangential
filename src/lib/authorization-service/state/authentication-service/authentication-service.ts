@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 //noinspection TypeScriptPreferShortImport
 import {EmailPasswordCredentials} from '../../media-type/doc-model/email-password-credentials';
 import {AuthSubject} from '../../media-type/cdm/auth-subject';

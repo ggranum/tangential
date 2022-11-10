@@ -1,4 +1,4 @@
-import {Subscription} from 'rxjs/Subscription'
+import {Subscription} from 'rxjs'
 export class ReactiveUtil {
 
   static unSub(subscription: Subscription) {

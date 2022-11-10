@@ -1,27 +1,29 @@
 import {Injectable} from '@angular/core';
 import {MessageBus} from '@tangential/core';
-import {Observable} from 'rxjs/Observable';
-import {Auth, AuthTransform} from '../../media-type/cdm/auth';
 import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util';
-import {AdminService} from './admin-service';
+import * as firebase from 'firebase'
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators'
+import {Auth, AuthTransform} from '../../media-type/cdm/auth';
 //noinspection TypeScriptPreferShortImport
 import {AuthPermission, AuthPermissionTransform} from '../../media-type/cdm/auth-permission';
 //noinspection TypeScriptPreferShortImport
-import {AuthPermissionKey, AuthPermissionsFirebaseRef} from '../../media-type/doc-model/auth-permission';
-//noinspection TypeScriptPreferShortImport
 import {AuthRole, AuthRoleTransform} from '../../media-type/cdm/auth-role';
-//noinspection TypeScriptPreferShortImport
-import {AuthRoleKey, AuthRolesFirebaseRef} from '../../media-type/doc-model/auth-role';
-//noinspection TypeScriptPreferShortImport
-import {AuthUser, AuthUserTransform} from '../../media-type/cdm/auth-user';
-//noinspection TypeScriptPreferShortImport
-import {AuthUserKey, AuthUsersFirebaseRef} from '../../media-type/doc-model/auth-user';
 //noinspection TypeScriptPreferShortImport
 import {AuthSettings, AuthSettingsTransform} from '../../media-type/cdm/auth-settings';
 //noinspection TypeScriptPreferShortImport
+import {AuthUser, AuthUserTransform} from '../../media-type/cdm/auth-user';
+//noinspection TypeScriptPreferShortImport
+import {AuthPermissionKey, AuthPermissionsFirebaseRef} from '../../media-type/doc-model/auth-permission';
+//noinspection TypeScriptPreferShortImport
+import {AuthRoleKey, AuthRolesFirebaseRef} from '../../media-type/doc-model/auth-role';
+//noinspection TypeScriptPreferShortImport
 import {AuthSettingsDm} from '../../media-type/doc-model/auth-settings';
 //noinspection TypeScriptPreferShortImport
+import {AuthUserKey, AuthUsersFirebaseRef} from '../../media-type/doc-model/auth-user';
+//noinspection TypeScriptPreferShortImport
 import {AuthSettingsService} from '../settings-service/settings-service';
+import {AdminService} from './admin-service';
 
 
 @Injectable()
@@ -31,16 +33,16 @@ export class FirebaseAdminService extends AdminService {
 
   constructor(private bus: MessageBus,
               protected fb: FirebaseProvider,
-              protected authSettingsService:AuthSettingsService) {
+              protected authSettingsService: AuthSettingsService) {
     super(authSettingsService, fb)
     this.db = this.fb.app.database()
   }
 
   public auth$(): Observable<Auth> {
     const ref = this.db.ref('/auth')
-    return FireBlanket.awaitValue$(ref).map(snap => snap.val()).map(dm => {
-      return AuthTransform.fromDocModel(dm)
-    })
+    return FireBlanket.awaitValue$(ref).pipe(
+      map(snap => snap.val()),
+      map(dm => AuthTransform.fromDocModel(dm)))
   }
 
   addPermission(newPermission: AuthPermission): Promise<void> {
@@ -118,8 +120,8 @@ export class FirebaseAdminService extends AdminService {
     return null;
   }
 
-  updateSettings(authSettings:AuthSettings):Promise<void> {
-    let authSettingsDm:AuthSettingsDm = AuthSettingsTransform.toDocModel(authSettings)
+  updateSettings(authSettings: AuthSettings): Promise<void> {
+    let authSettingsDm: AuthSettingsDm = AuthSettingsTransform.toDocModel(authSettings)
 
 
     return null

@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChange, ViewEncapsulation} from '@angular/core'
 import {AuthPermission, AuthRole} from '@tangential/authorization-service'
-import {Observable} from 'rxjs/Observable'
+import {Observable} from 'rxjs'
+import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators'
 
 
 @Component({
@@ -37,23 +38,23 @@ export class RoleComponent implements OnChanges {
 
   constructor() {
     let distinct: Observable<boolean> = this._focusDebouncer.asObservable()
-    distinct = distinct.debounceTime(10).distinctUntilChanged()
+    distinct = distinct.pipe(debounceTime(10), distinctUntilChanged())
 
-    this.focus = distinct
-      .filter((focused) => focused === true)
-      .map(() => {
+    this.focus = distinct.pipe(
+      filter((focused) => focused === true),
+      map(() => {
         return new Event('focus')
-      })
+      }))
 
-    this.blur = distinct
-      .filter((focused) => focused === false)
-      .map(() => {
+    this.blur = distinct.pipe(
+      filter((focused) => focused === false),
+      map(() => {
         return new Event('blur')
-      })
+      }))
 
-    this.change = distinct
-      .filter((focused) => focused === false && this._changed)
-      .map(() => {
+    this.change = distinct.pipe(
+      filter((focused) => focused === false && this._changed),
+      map(() => {
         this.collapsed = false
 
         const change = {
@@ -63,7 +64,7 @@ export class RoleComponent implements OnChanges {
         this._previous = AuthRole.from(this.role)
         this._changed = false
         return change
-      })
+      }))
   }
 
   ngOnChanges(changes: { role: SimpleChange, permissions: SimpleChange }) {

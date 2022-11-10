@@ -1,5 +1,9 @@
 = Tangential Developer Docs
 
+== *Required Edits - Todo*
+* Deploy Functions before the first 'ng serve' so users can log in.
+
+== Intro
 This document describes how to use this project as a bootstrap for your own application. We'll walk through cloning the Tangential Demo repo into your own working directory, initializing your own git repo, and then configuring the project.
 
 *Be aware* that you should be cloning the https://github.com/ggranum/tangential-demo[Tangential-Demo] project, NOT https://github.com/ggranum/tangential[Tangential] itself. The demo project is essentially this project, except everything living under 'src/libs' is imported via NPM. Which makes updating your code with Tangential's changes quite easy, as opposed to nearly impossible.
@@ -38,7 +42,7 @@ Side note: If your project name is common, Firebase will issue you an identifier
 
 Git:: Source control. https://git-scm.com/downloads
 
-Node 7+:: For all the things: https://nodejs.org/en/download/, or google how to install it with HomeBrew, apt... whatever the kids use nowadays.
+Node 9+:: For all the things: https://nodejs.org/en/download/, or google how to install it with HomeBrew, apt... whatever the kids use nowadays.
 
 Gulp:: Used for the build process. Once NodeJs is installed and on your path, run: `npm install -g gulp-cli`. This is one of very few NPM-managed tools that we recommend installing globally.
 
@@ -64,10 +68,8 @@ The above use of aliases does restrict the use of these tools to the base direct
 On the off chance it becomes a problem, it can be solved via NPM scripts, which are provided in the package.json for the Tangential and Tangential Demo projects. For example, to call `ng serve` via the script you instead call the npm script we've provided (see 'scripts' in link:package.json[]):
 
 ```
-npm run ng -- serve
+npm run ng serve
 ```
-
-Note the `--` before `serve`. This is how you pass arguments to an NPM script.
 
 Generally speaking, adding an alias is more developer friendly. But when that's not possible npm scripts are there to fall back on.
 

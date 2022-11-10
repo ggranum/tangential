@@ -1,5 +1,5 @@
 import {Component, EventEmitter, HostBinding, Output, ViewEncapsulation} from '@angular/core'
-import {MdDialogRef} from '@angular/material'
+import {MatDialogRef} from '@angular/material'
 import {IconIF} from '@tangential/components'
 import {ObjectUtil} from '@tangential/core'
 
@@ -49,7 +49,7 @@ export class MessageDialog {
 
   @Output() closeRequest: EventEmitter<boolean> = new EventEmitter(false)
 
-  constructor(public dialogRef: MdDialogRef<MessageDialog>) {
+  constructor(public dialogRef: MatDialogRef<MessageDialog>) {
 
     // this.config = Object.assign({}, this.config, dialogRef['config'].data)
     if (!this.config.messageIcon) {

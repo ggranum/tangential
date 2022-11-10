@@ -1,28 +1,30 @@
 import {NgModule} from '@angular/core'
 import {
-  MdButtonModule,
-  MdButtonToggleModule,
-  MdCardModule,
-  MdDialogModule,
-  MdIconModule,
-  MdInputModule,
-  MdRippleModule,
-  MdSnackBarModule,
-  MdToolbarModule,
-  MdTooltipModule
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule, MatCheckboxModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule, MatListModule,
+  MatRippleModule,
+  MatSnackBarModule,
+  MatToolbarModule,
+  MatTooltipModule,
 } from '@angular/material'
 
 const MATERIAL_MODULES = [
-  MdButtonModule,
-  MdButtonToggleModule,
-  MdCardModule,
-  MdDialogModule,
-  MdIconModule,
-  MdInputModule,
-  MdRippleModule,
-  MdSnackBarModule,
-  MdToolbarModule,
-  MdTooltipModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule,
+  MatRippleModule,
+  MatSnackBarModule,
+  MatToolbarModule,
+  MatTooltipModule,
+  MatListModule,
 ];
 
 @NgModule({

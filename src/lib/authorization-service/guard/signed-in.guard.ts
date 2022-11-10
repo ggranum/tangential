@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core'
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router'
-import {Observable} from 'rxjs/Observable'
+import {Observable} from 'rxjs'
+import {first, map} from 'rxjs/operators'
 //noinspection TypeScriptPreferShortImport
 import {VisitorService} from '../state/visitor-service/visitor-service';
-
 
 
 /**
@@ -21,12 +21,14 @@ export class SignedInGuard implements CanActivate {
 
   private isSignedIn(url: string): Observable<boolean> {
 
-    return this.visitorService.awaitVisitor$().first().map(v => {
-      const signedIn = v != null
-      if (!signedIn) {
-        this.router.navigate(['/sign-in'])
-      }
-      return signedIn
-    })
+    return this.visitorService.awaitVisitor$().pipe(
+      first(),
+      map(v => {
+        const signedIn = v != null
+        if (!signedIn) {
+          this.router.navigate(['/sign-in'])
+        }
+        return signedIn
+      }))
   }
 }

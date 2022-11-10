@@ -53,14 +53,6 @@ export class AuthSubject extends AuthUser {
     return this.signInState === SignInStates.unknown
   }
 
-
-
-  static copyTo(source: AuthSubject | AuthSubjectCfg, target: AuthSubject | AuthSubjectCfg) {
-    AuthUser.copyTo(source, target)
-    target.signInState = source.signInState
-    target.sessionInfo = source.sessionInfo
-  }
-
   static from(cfg: AuthSubject | AuthSubjectCfg): AuthSubject {
     let subject = new AuthSubject(cfg.$key || generatePushID())
     subject.signInState = cfg.signInState

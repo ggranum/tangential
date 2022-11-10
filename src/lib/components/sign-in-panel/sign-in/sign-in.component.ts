@@ -37,8 +37,8 @@ export class SignInComponent implements OnChanges {
 
   @Output() signIn: EventEmitter<AuthInfo> = new EventEmitter<AuthInfo>(false)
 
-  @Output() showSignUpRequest: EventEmitter<null> = new EventEmitter<AuthInfo>(false)
-  @Output() showPasswordResetRequest: EventEmitter<null> = new EventEmitter<AuthInfo>(false)
+  @Output() showSignUpRequest: EventEmitter<AuthInfo> = new EventEmitter<AuthInfo>(false)
+  @Output() showPasswordResetRequest: EventEmitter<AuthInfo> = new EventEmitter<AuthInfo>(false)
 
   prevAuthInfo: AuthInfo
   authInfo: AuthInfo

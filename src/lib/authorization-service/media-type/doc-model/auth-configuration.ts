@@ -1,3 +1,4 @@
+import * as firebase from 'firebase'
 import {AuthPermissionKey} from './auth-permission';
 import {AuthSettingsFirebaseRef} from './auth-settings';
 

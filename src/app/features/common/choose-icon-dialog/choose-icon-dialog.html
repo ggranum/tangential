@@ -1,13 +1,13 @@
-<h1 md-dialog-title>Choose an Icon</h1>
+<h1 mat-dialog-title>Choose an Icon</h1>
 <div flex layout="row" layout-align="start center">
-  <md-input-container>
-    <input mdInput placeholder="Filter" (keydown)="onFilterIconsTextChange($event.target.value)">
-  </md-input-container>
-  <md-icon>search</md-icon>
+  <mat-form-field>
+    <input matInput placeholder="Filter" (keydown)="onFilterIconsTextChange($event.target.value)">
+  </mat-form-field>
+  <mat-icon>search</mat-icon>
 </div>
 
 <div flex="80" layout="row" layout-align="center">
-  <div md-dialog-actions class="tanj-list" flex layout="row" layout-align="center" layout-wrap>
+  <div mat-dialog-actions class="tanj-list" flex layout="row" layout-align="center" layout-wrap>
     <div *ngFor="let icon of filteredIcons" flex="30" class="tanj-icon-container tanj-big" layout="column"
          layout-align="start center" (click)="onIconClicked(icon)">
       <i class="{{icon.font}}">{{icon.name}}</i>

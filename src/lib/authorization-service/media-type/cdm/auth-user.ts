@@ -1,26 +1,25 @@
-import {AuthUserDm, AuthUserKey} from '../doc-model/auth-user';
-import {generatePushID, ObjectUtil, ObjMap} from '@tangential/core';
+import {generatePushID, ObjectUtil, ObjMap, TransformUtil as TUtil} from '@tangential/core';
 import {UserPermissionGrantsDm, UserRoleGrantsDm} from '../doc-model/auth';
-import {AuthRole} from './auth-role';
+import {AuthUserDm, AuthUserKey} from '../doc-model/auth-user';
 import {AuthPermission} from './auth-permission';
+import {AuthRole} from './auth-role';
 import {AuthSettings} from './auth-settings';
 import {SignInEvent} from './sign-in-event';
-import {TransformUtil as TUtil} from '@tangential/core';
 
 export interface AuthUserCfg {
   $key?: AuthUserKey
-  email?: string
-  displayName?: string
-  isAnonymous?: boolean
-  lastSignInMils?: number
-  lastSignInIp?: string
-  emailVerified?: boolean
   createdMils?: number
-  editedMils?: number
   disabled?: boolean
+  displayName?: string
+  editedMils?: number
   effectivePermissions?: AuthPermission[]
+  email?: string
+  emailVerified?: boolean
   grantedPermissions?: AuthPermission[]
   grantedRoles?: AuthRole[]
+  isAnonymous?: boolean
+  lastSignInIp?: string
+  lastSignInMils?: number
 }
 
 
@@ -32,20 +31,18 @@ export interface AuthUserCfg {
  */
 export class AuthUser {
   $key: AuthUserKey
-  email: string = ''
-  displayName: string = ''
-  isAnonymous: boolean = true
-  lastSignInMils: number = Date.now()
-  lastSignInIp: string
-  emailVerified: boolean = false
   createdMils: number = Date.now()
-  editedMils: number = Date.now()
   disabled: boolean = false
-
-  grantedRoles: AuthRole[] = []
+  displayName: string = ''
+  editedMils: number = Date.now()
   effectivePermissions: AuthPermission[] = []
+  email: string = ''
+  emailVerified: boolean = false
   grantedPermissions: AuthPermission[] = []
-
+  grantedRoles: AuthRole[] = []
+  isAnonymous: boolean = true
+  lastSignInIp: string
+  lastSignInMils: number = Date.now()
   signInEvents: SignInEvent[]
 
 
@@ -113,15 +110,15 @@ export class AuthUserTransform {
 
   static toDocModel(authUser: AuthUser): AuthUserDm {
     let dm = {
-      email: authUser.email,
-      displayName: authUser.displayName,
-      isAnonymous: authUser.isAnonymous,
+      email:          authUser.email,
+      displayName:    authUser.displayName,
+      isAnonymous:    authUser.isAnonymous,
       lastSignInMils: authUser.lastSignInMils,
-      lastSignInIp: authUser.lastSignInIp,
-      emailVerified: authUser.emailVerified,
-      createdMils: authUser.createdMils,
-      editedMils: authUser.editedMils,
-      disabled: authUser.disabled,
+      lastSignInIp:   authUser.lastSignInIp,
+      emailVerified:  authUser.emailVerified,
+      createdMils:    authUser.createdMils,
+      editedMils:     authUser.editedMils,
+      disabled:       authUser.disabled,
     }
 
     return ObjectUtil.removeNullish(dm)
@@ -190,7 +187,7 @@ export class AuthUserTransform {
     return cdm
   }
 
-  static applyDocModelTo(source:AuthUserDm, target:AuthUser):AuthUser {
+  static applyDocModelTo(source: AuthUserDm, target: AuthUser): AuthUser {
     target.email = TUtil.firstExisting(source.email, target.email)
     target.displayName = TUtil.firstExisting(source.displayName, target.displayName)
     target.isAnonymous = TUtil.firstExisting(source.isAnonymous, target.isAnonymous)

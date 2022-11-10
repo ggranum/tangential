@@ -1,6 +1,6 @@
 import {Jsonified, ObjectUtil} from '@tangential/core'
+import {isNumeric} from 'rxjs/internal-compatibility'
 
-import {isNumeric} from 'rxjs/util/isNumeric'
 import {NumberIval, NumberIvalIF} from '../number/number-ival'
 import {NumberType, NumberTypeIF} from '../number/number-type'
 import {ConfigurableInputType} from '../configurable-input-type'

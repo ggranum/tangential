@@ -1,3 +1,4 @@
+import * as firebase from 'firebase'
 import {SignInEventDm} from './sign-in-event';
 import {ObjMap} from '@tangential/core';
 import {AuthFirebaseRef} from './auth';

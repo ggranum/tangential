@@ -15,8 +15,6 @@ $accent : mat-palette($mat-teal);
 $warn : mat-palette($mat-red);
 
 
-
-
 $tanj-font-family: Roboto, 'Helvetica Neue', sans-serif;
 
 $tanj-light-theme-foreground: (
@@ -31,34 +29,39 @@ $tanj-light-theme-foreground: (
   icon:            rgba(black, 0.87),
   icons:           rgba(black, 0.87),
   text:            rgba(black, 0.87),
-  link:            map-get($accent, 700)
+  link:            mat-color($accent, 700),
+  slider-min:        white,
+  slider-off:        rgba(black, 0.26),
+  slider-off-active: rgba(black, 0.38),
 );
 
 $tanj-light-theme-background: (
-  status-bar: map_get($mat-grey, 300),
-  app-bar:    map_get($primary, 500),
-  background: map_get($mat-grey, 50),
+  status-bar: mat-color($mat-grey, 300),
+  app-bar:    mat-color($primary, 500),
+  background: mat-color($mat-grey, 50),
   hover:      rgba(black, 0.04),
   card:       white,
   dialog:     white,
   disabled-button: $black-12-opacity,
   raised-button: white,
   focused-button: $black-6-opacity,
-  selected-button: map_get($mat-grey, 300),
-  selected-disabled-button: map_get($mat-grey, 400),
-  disabled-button-toggle: map_get($mat-grey, 200),
+  selected-button: mat-color($mat-grey, 300),
+  selected-disabled-button: mat-color($mat-grey, 400),
+  disabled-button-toggle: mat-color($mat-grey, 200),
+  unselected-chip: map_get($mat-grey, 300),
+  disabled-list-option: map_get($mat-grey, 200),
 );
 
 $app-bar: (
   height: 4em,
-  background: map_get($primary, 500),
-  text: map_get($primary, '500-contrast'),
-  link: map_get($accent, 200)
+  background: mat-color($primary, 500),
+  text: mat-color($primary, 500),
+  link: mat-color($accent, 200)
 );
 
 $bottom-nav: (
   height: 2.5em,
-  background: map_get($primary, 500),
+  background: mat-color($primary, 500),
 );
 
 $dialog: (

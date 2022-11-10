@@ -31,24 +31,24 @@ export class NumberSliderWidgetChange {
           class="tanj-label tanj-before">{{label}}</span>
     <div flex class="tanj-widget-input-container" layout="column" layout-align="start center">
       <div flex *ngIf="!onlyLabel" class="tanj-widget-input" layout="row" layout-align="start">
-        <md-slider flex
+        <mat-slider flex
                    [disabled]="disabled"
                    [(ngModel)]="value"
                    (change)="valueChange.emit(value)"
                    [max]="max"
                    [min]="min"
                    [step]="step"
-                   [thumb-label]="true"
-                   [tick-interval]="tickInterval"
+                   [thumbLabel]="true"
+                   [tickInterval]="tickInterval"
                    [vertical]="vertical">
-        </md-slider>
-        <md-input-container flex="15"
+        </mat-slider>
+        <mat-form-field flex="15"
                             class="tanj-number-slider-input-field tanj-widget-input"
                             dividerColor="accent"
                             layout="row"
                             layout-align="start">
           <input flex
-                 mdInput
+                 matInput
                  class="tanj-input"
                  type="number"
                  max="{{max}}"
@@ -56,7 +56,7 @@ export class NumberSliderWidgetChange {
                  [step]="step"
                  (change)="valueChange.emit(value)"
                  [(ngModel)]="value"/>
-        </md-input-container>
+        </mat-form-field>
       </div>
       <span *ngIf="!hideLabel && labelPosition == 'below'" class="tanj-label tanj-below">{{label}}</span>
     </div>

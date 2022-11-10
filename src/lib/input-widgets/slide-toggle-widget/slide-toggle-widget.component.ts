@@ -45,11 +45,11 @@ export class SlideToggleWidgetChange {
            class="tanj-widget-input"
            layout="column"
            layout-align="start">
-        <md-slide-toggle flex
+        <mat-slide-toggle flex
                          [disabled]="disabled"
                          [(ngModel)]="value"
                          (change)="handleValueChange(value)">
-        </md-slide-toggle>
+        </mat-slide-toggle>
       </div>
       <div *ngIf="!hideLabel && labelPosition == 'below'" class="tanj-label tanj-below">{{label}}</div>
     </div>

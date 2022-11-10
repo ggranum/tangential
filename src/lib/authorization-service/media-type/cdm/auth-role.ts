@@ -47,7 +47,6 @@ export class AuthRole {
     return value instanceof AuthRole
   }
 
-
   static from(cfg: AuthRole | AuthRoleCfg): AuthRole {
     const role = new AuthRole(cfg.$key || generatePushID())
     role.$key = cfg.$key
@@ -57,7 +56,6 @@ export class AuthRole {
     role.editedMils = cfg.editedMils || role.editedMils
     role.orderIndex = cfg.orderIndex || role.orderIndex
     return role
-
   }
 }
 

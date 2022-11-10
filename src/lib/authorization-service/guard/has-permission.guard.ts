@@ -1,20 +1,8 @@
 import {Injectable} from '@angular/core'
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  CanLoad,
-  Route,
-  Router,
-  RouterStateSnapshot
-} from '@angular/router'
-import {
-  MessageBus,
-  NavigationRequiresAuthenticationMessage,
-  NavigationRequiresPermissionMessage,
-  NgUtil
-} from '@tangential/core'
-import {Observable} from 'rxjs/Observable'
+import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot} from '@angular/router'
+import {MessageBus, NavigationRequiresAuthenticationMessage, NavigationRequiresPermissionMessage, NgUtil} from '@tangential/core'
+import {Observable} from 'rxjs'
+import {first, map} from 'rxjs/operators'
 import {AuthSubject} from '../media-type/cdm/auth-subject'
 //noinspection TypeScriptPreferShortImport
 import {AuthenticationService} from '../state/authentication-service/authentication-service'
@@ -54,21 +42,23 @@ export class HasPermissionGuard implements CanActivate, CanLoad, CanActivateChil
   private doCheck(activeRoute: ActivatedRouteSnapshot, route?: Route): Observable<boolean> {
     const path = activeRoute ? activeRoute.toString() : route.path
     const permissions = this.requiredPermissions(activeRoute, route)
-    return this.authService.awaitKnownAuthSubject$().first().map(v => {
-      let canDo: boolean
-      if (!v.isSignedIn()) {
-        canDo = false
-        NavigationRequiresAuthenticationMessage.post(this.bus, path)
-        this.router.navigate(['/sign-in'])
-      } else {
-        canDo = v.hasPermissions(permissions)
-        if (!canDo) {
-          NavigationRequiresPermissionMessage.post(this.bus, path, this.firstMissingPermission(v, permissions))
-          this.router.navigate(['/home'])
+    return this.authService.awaitKnownAuthSubject$().pipe(
+      first(),
+      map(v => {
+        let canDo: boolean
+        if (!v.isSignedIn()) {
+          canDo = false
+          NavigationRequiresAuthenticationMessage.post(this.bus, path)
+          this.router.navigate(['/sign-in'])
+        } else {
+          canDo = v.hasPermissions(permissions)
+          if (!canDo) {
+            NavigationRequiresPermissionMessage.post(this.bus, path, this.firstMissingPermission(v, permissions))
+            this.router.navigate(['/home'])
+          }
         }
-      }
-      return canDo
-    })
+        return canDo
+      }))
   }
 
   private firstMissingPermission(subject: AuthSubject, permissions: string[]): string {

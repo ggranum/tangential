@@ -2,18 +2,17 @@ import {CommonModule} from '@angular/common'
 import {NgModule} from '@angular/core'
 import {FormsModule} from '@angular/forms'
 import {
-  MdButtonModule,
-  MdButtonToggleModule,
-  MdCheckboxModule,
-  MdGridListModule,
-  MdIconModule,
-  MdInputModule,
-  MdListModule,
-  MdMenuModule,
-  MdToolbarModule
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCheckboxModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatToolbarModule
 } from '@angular/material'
 import {TanjComponentsModule} from '@tangential/components'
-import {DataTableModule} from 'primeng/primeng'
 import {AdminService} from '@tangential/authorization-service'
 import {AdminConsoleParentPage} from './pages/_parent/admin-console-parent.page'
 import {AdminConsoleRoutingModule} from './admin-console.routing.module'
@@ -34,9 +33,6 @@ import {UserComponent} from './pages/users/user.component'
 //noinspection TypeScriptPreferShortImport
 import {UserListItemDemo} from './pages/users/user.demo'
 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime'
-import 'rxjs/add/operator/distinctUntilChanged'
 import {FirebaseAdminService} from '@tangential/authorization-service'
 import {PluginsPage} from './pages/plugins/plugins.page'
 
@@ -58,18 +54,17 @@ import {PluginsPage} from './pages/plugins/plugins.page'
   imports:      [
     CommonModule,
     FormsModule,
-    MdButtonModule,
-    MdIconModule,
-    MdInputModule,
-    MdListModule,
-    MdGridListModule,
-    MdMenuModule,
-    MdToolbarModule,
-    MdCheckboxModule,
-    MdButtonToggleModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatGridListModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatCheckboxModule,
+    MatButtonToggleModule,
 
     TanjComponentsModule,
-    DataTableModule,
     /* Routing */
     AdminConsoleRoutingModule
   ],

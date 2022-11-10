@@ -42,13 +42,13 @@ export class NumberWidgetChange {
     <span *ngIf="!hideLabel && labelPosition == 'before'" class="tanj-label tanj-before">{{label}}</span>
     <div flex class="tanj-widget-input" layout="column" layout-align="center start">
       <div flex *ngIf="!onlyLabel" class="tanj-widget-input" layout="row" layout-align="start">
-        <md-input-container flex
+        <mat-form-field flex
                             class="tanj-number-input-field tanj-widget-input"
                             dividerColor="accent"
                             layout="row"
                             layout-align="start">
           <input flex
-                 mdInput
+                 matInput
                  class="tanj-input"
                  type="number"
                  max="{{max}}"
@@ -56,7 +56,7 @@ export class NumberWidgetChange {
                  [step]="step"
                  (change)="valueChange.emit(value)"
                  [(ngModel)]="value"/>
-        </md-input-container>
+        </mat-form-field>
       </div>
       <span *ngIf="!hideLabel && labelPosition == 'below'" class="tanj-label tanj-below">{{label}}</span>
     </div>

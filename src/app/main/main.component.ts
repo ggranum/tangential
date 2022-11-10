@@ -1,12 +1,13 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {MdDialog, MdDialogRef} from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {ActivatedRouteSnapshot, Router} from '@angular/router';
 import {
   Logger,
   MessageBus
 } from '@tangential/core';
 import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators'
 import {AppRoutes} from '../app.routing.module';
 import {ContextMenuMessage, Icon, Menu, MenuItem, NotificationMessage, SideNavComponent} from '@tangential/components';
 import {Placeholder} from '@tangential/firebase-util';
@@ -22,7 +23,7 @@ export class MainComponent implements OnInit, OnDestroy {
   visitor: Visitor
   menu: Menu;
 
-  dialogRef: MdDialogRef<any>
+  dialogRef: MatDialogRef<any>
 
   title = 'Tangential'
   showAds: boolean = false
@@ -44,7 +45,7 @@ export class MainComponent implements OnInit, OnDestroy {
               private authService: AuthenticationService,
               private visitorService: VisitorService,
               private changeDetectorRef: ChangeDetectorRef,
-              private dialog: MdDialog) {
+              private dialog: MatDialog) {
     AppToggleMainMenuRequest.filter(bus).subscribe({
       next: (v) => {
         this.sideNav.toggle()
@@ -62,7 +63,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.visitorWatch = this.visitorService.visitor$().filter(v => v !== Placeholder).subscribe((visitor) => {
+    this.visitorWatch = this.visitorService.visitor$().pipe(filter(v => v !== Placeholder)).subscribe((visitor) => {
       this.logger.trace(this, '#ngOnInit:visitor$', 'Visitor changed', visitor ? visitor.subject.displayName : 'null')
       this.visitor = visitor
       this.buildMenu([])

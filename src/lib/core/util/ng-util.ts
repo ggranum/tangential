@@ -1,14 +1,15 @@
 import {ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators'
 
 
 
 export class NgUtil {
 
   static data$(route: ActivatedRoute):Observable<{}> {
-    return route.data.map((data: any) => {
+    return route.data.pipe(map((data: any) => {
       return NgUtil.collectFromRoute(route.snapshot, true)
-    })
+    }))
   }
 
   static data(route: ActivatedRouteSnapshot): any {
@@ -32,9 +33,9 @@ export class NgUtil {
   }
 
   static params$(route: ActivatedRoute) {
-    return route.params.map((params: any) => {
+    return route.params.pipe(map((params: any) => {
       return NgUtil.collectFromRoute(route.snapshot, false)
-    })
+    }))
   }
 
   static routeLeaf(route: RouterStateSnapshot): ActivatedRouteSnapshot {

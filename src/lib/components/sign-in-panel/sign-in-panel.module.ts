@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common'
 import {NgModule} from '@angular/core'
 import {FormsModule} from '@angular/forms'
-import {MdButtonModule, MdCardModule, MdCheckboxModule, MdIconModule, MdInputModule} from '@angular/material'
+import {MatButtonModule, MatCardModule, MatCheckboxModule, MatIconModule, MatInputModule} from '@angular/material'
 //noinspection TypeScriptPreferShortImport
 import {PasswordResetComponent} from './password-reset/password-reset.component'
 //noinspection TypeScriptPreferShortImport
@@ -17,11 +17,11 @@ import {SignUpComponent} from './sign-up/sign-up.component'
   imports:      [
     CommonModule,
     FormsModule,
-    MdButtonModule,
-    MdCheckboxModule,
-    MdCardModule,
-    MdIconModule,
-    MdInputModule
+    MatButtonModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatIconModule,
+    MatInputModule
   ],
   declarations: [
     SignInPanelPage,

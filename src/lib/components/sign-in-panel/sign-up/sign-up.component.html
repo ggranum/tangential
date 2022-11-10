@@ -15,17 +15,17 @@
               flex
               layout="column"
               layout-align="start">
-          <md-input-container flex class="tanj-sign-in-panel-field" dividerColor="accent">
-            <input mdInput [(ngModel)]="authInfo.username" name="username" #fUsername="ngModel"
+          <mat-form-field flex class="tanj-sign-in-panel-field" dividerColor="accent">
+            <input matInput [(ngModel)]="authInfo.username" name="username" #fUsername="ngModel"
                    class="username-field"
                    tabindex="0"
                    [type]="requireEmailUsername ? 'email' : 'text'"
                    required minlength="5"
                    i18n-placeholder
                    placeholder="Enter your email address">
-          </md-input-container>
-          <md-input-container flex class="tanj-sign-in-panel-field" dividerColor="accent">
-            <input mdInput
+          </mat-form-field>
+          <mat-form-field flex class="tanj-sign-in-panel-field" dividerColor="accent">
+            <input matInput
                    [(ngModel)]="authInfo.password"
                    name="password"
                    #fPassword="ngModel"
@@ -35,20 +35,20 @@
                    minlength="8"
                    i18n-placeholder
                    placeholder="Choose a password"/>
-          </md-input-container>
-          <md-input-container flex class="tanj-sign-in-panel-field" dividerColor="accent">
-            <input mdInput [(ngModel)]="authInfo.password2" name="password2"
+          </mat-form-field>
+          <mat-form-field flex class="tanj-sign-in-panel-field" dividerColor="accent">
+            <input matInput [(ngModel)]="authInfo.password2" name="password2"
                    #fPassword2="ngModel"
                    class="password-field"
                    [type]="'password'"
                    required minlength="8"
                    i18n-placeholder
                    placeholder="Verify your password"/>
-          </md-input-container>
+          </mat-form-field>
 
           <div flex layout="column" layout-align="end">
             <div class="tanj-sign-in-panel-action-button" layout="row" layout-align="end">
-              <a md-raised-button flex
+              <a mat-raised-button flex
                  class="tanj-button"
                  [disabled]="signInForm.invalid"
                  color="accent"

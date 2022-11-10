@@ -1,5 +1,5 @@
 import {Component, HostBinding, Inject, ViewEncapsulation} from '@angular/core'
-import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material'
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material'
 import {DurationPickerFieldsState, DurationPickerState} from './duration-picker-state'
 
 export class DurationPickerDialogResult {
@@ -24,7 +24,7 @@ export class DurationPickerDialog {
   result = new DurationPickerDialogResult()
 
 
-  constructor(public dialogRef: MdDialogRef<DurationPickerDialog>, @Inject(MD_DIALOG_DATA) private data: any) {
+  constructor(public dialogRef: MatDialogRef<DurationPickerDialog>, @Inject(MAT_DIALOG_DATA) private data: any) {
     this.state = data.state
   }
 

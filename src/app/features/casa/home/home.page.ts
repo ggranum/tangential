@@ -3,15 +3,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  HostBinding,
   OnDestroy,
   ViewEncapsulation
 } from '@angular/core'
 import {Router} from '@angular/router'
 import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service'
 import {DefaultPageAnalytics, Logger, MessageBus, Page, RouteInfo} from '@tangential/core'
-import {Subscription} from 'rxjs/Subscription'
-import {AppRoutes} from '../../../app.routing.module'
+import {Subscription} from 'rxjs'
+import {AppRouteDefinitions} from '../../../app.routes.definitions'
 
 @Component({
   selector:        'tanj-home-page',
@@ -22,8 +21,6 @@ import {AppRoutes} from '../../../app.routing.module'
 export class HomePage extends Page implements AfterViewInit, OnDestroy {
 
   visitor: Visitor = null
-
-  appRoutes = AppRoutes
 
   private subs: Subscription[] = []
 
@@ -61,12 +58,12 @@ export class HomePage extends Page implements AfterViewInit, OnDestroy {
 
 
   onSignIn() {
-    this.router.navigate(AppRoutes.home.navTargets.absSignIn())
+    this.router.navigate(AppRouteDefinitions.home.navTargets.absSignIn())
   }
 
   onAnonymousLoginRequest() {
     this.authService.signInAnonymously().then(() => {
-      this.router.navigate(AppRoutes.home.navTargets.absTryoutWelcome())
+      this.router.navigate(AppRouteDefinitions.home.navTargets.absTryoutWelcome())
     })
   }
 }

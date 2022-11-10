@@ -1,3 +1,4 @@
+import * as firebase from 'firebase'
 import {AuthRoleDm, RolePermissionsDm} from './auth-role';
 import {AuthPermissionDm} from './auth-permission';
 import {AuthConfigurationDm} from './auth-configuration';

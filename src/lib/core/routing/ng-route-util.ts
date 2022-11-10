@@ -6,7 +6,7 @@ import {
 
 export class NgRouteUtil {
 
-  static fullPath(route: ActivatedRoute) {
+  static fullPath(route: ActivatedRoute):string {
     let pathAry = []
     route.pathFromRoot
       .map(routeSegment => routeSegment.snapshot)
@@ -22,6 +22,7 @@ export class NgRouteUtil {
     if (path && path.endsWith('/')) {
       path = path.substring(0, path.length - 1)
     }
+    return path
   }
 
   static primaryLeaf(router: Router): ActivatedRoute {

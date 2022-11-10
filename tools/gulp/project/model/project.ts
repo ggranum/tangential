@@ -122,7 +122,7 @@ export class Project implements ProjectJson {
     output.push('/**')
     output.push('* Import \'projectUsers\' in your integration tests to avoid hard-coding users and passwords into your committed code.')
     output.push('* This file is updated by the gulp task \'project:update-local\'.')
-    output.push('* === This file contains sensitive information and should NOT be committed to version control. === ')
+    output.push('* === This file contains sensitive information and should NOT be committed to version control. ===')
     output.push('*/')
     output.push('export const projectUsers = ' + JSON.stringify(users, null, 2))
     fs.writeFileSync(configPath, output.join('\n'))
@@ -139,7 +139,7 @@ export class Project implements ProjectJson {
     output.push('* Run the gulp task \'project:update-local\' to update this file with any changes you\'ve made to your project.local.json')
     output.push('* configuration.')
     output.push('*')
-    output.push('* === This file contains sensitive information and should NOT be committed to version control. === ')
+    output.push('* === This file contains sensitive information and should NOT be committed to version control. ===')
     output.push('*/')
     environments.forEach(env => {
       let envJson = JSON.stringify(env, null, 2)

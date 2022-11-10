@@ -1,11 +1,6 @@
-import {ObjectUtil, ObjMap} from '@tangential/core';
 import {AuthDm} from '../doc-model/auth';
-import {AuthPermission, AuthPermissionTransform} from './auth-permission';
-import {AuthRoleTransform} from './auth-role';
+import {AuthSettings, AuthSettingsTransform} from './auth-settings';
 import {AuthUser, AuthUserTransform} from './auth-user';
-import {AuthSettingsDm} from '../doc-model/auth-settings';
-import {AuthSettings} from './auth-settings';
-import {AuthSettingsTransform} from './auth-settings';
 
 
 export class Auth {

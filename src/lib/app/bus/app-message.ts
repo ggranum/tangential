@@ -1,3 +1,5 @@
+import {filter} from 'rxjs/operators'
+
 // noinspection TypeScriptPreferShortImport
 import {
   BusMessage,
@@ -5,7 +7,7 @@ import {
   Intention,
   MessageBus
 } from '../../core/message-bus/message-bus'
-import {Observable} from 'rxjs/Observable'
+import {Observable} from 'rxjs'
 
 
 export class AppMessage extends BusMessage {
@@ -18,7 +20,7 @@ export class AppMessage extends BusMessage {
   }
 
   static filter(bus:MessageBus):Observable<AppMessage>{
-    return bus.all.filter(msg => msg.source === AppMessage.SourceKey)
+    return bus.all.pipe(filter(msg => msg.source === AppMessage.SourceKey))
   }
 
   static signOutRequest() {
@@ -35,7 +37,7 @@ export class AppToggleMainMenuRequest extends AppMessage {
   }
 
   static filter(bus:MessageBus):Observable<AppToggleMainMenuRequest>{
-    return bus.all.filter(msg => msg.source === AppMessage.SourceKey && msg.key === AppToggleMainMenuRequest.Key)
+    return bus.all.pipe(filter(msg => msg.source === AppMessage.SourceKey && msg.key === AppToggleMainMenuRequest.Key))
   }
 }
 

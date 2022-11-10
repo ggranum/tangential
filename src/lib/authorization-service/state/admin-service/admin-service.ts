@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import * as firebase from 'firebase'
+import {Observable} from 'rxjs';
+import {first} from 'rxjs/operators'
 import {Auth} from '../../media-type/cdm/auth';
 //noinspection TypeScriptPreferShortImport
 import {AuthPermission} from '../../media-type/cdm/auth-permission';
@@ -56,7 +58,7 @@ export abstract class AdminService {
    * @returns {Promise<void>}
    */
   grantPermissionOnRole(roleKey: AuthRoleKey, permissionKey: AuthPermissionKey): Promise<void> {
-    this.authSettingsService.authSettings$().first().toPromise().then((authSettings:AuthSettings) => {
+    this.authSettingsService.authSettings$().pipe(first()).toPromise().then((authSettings:AuthSettings) => {
       let role = authSettings.getRole(roleKey)
       let permission = authSettings.getPermission(permissionKey)
       role.permissions.push(permission)

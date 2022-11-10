@@ -13,7 +13,7 @@
 
 
 <div *ngIf="config.type == 'yesNo'" class="tanj-dialog-footer" layout="row" layout-align="start">
-  <a flex md-button (click)="onRejectClick($event)">{{leftButtonText}}</a>
+  <a flex mat-button (click)="onRejectClick($event)">{{leftButtonText}}</a>
   <div class="tanj-separator-vertical"></div>
-  <a flex md-button (click)="onConfirmClick($event)">{{rightButtonText}}</a>
+  <a flex mat-button (click)="onConfirmClick($event)">{{rightButtonText}}</a>
 </div>

@@ -3,14 +3,14 @@ import {Injectable} from '@angular/core';
 import {MessageBus} from '@tangential/core';
 import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util';
 import * as firebase from 'firebase/app';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators'
 //noinspection TypeScriptPreferShortImport
 import {AuthSettingsService} from './settings-service';
 //noinspection TypeScriptPreferShortImport
 import {AuthSettings, AuthSettingsTransform} from '../../media-type/cdm/auth-settings';
 //noinspection TypeScriptPreferShortImport
 import {AuthSettingsDm, AuthSettingsFirebaseRef} from '../../media-type/doc-model/auth-settings';
-import EmailAuthProvider = firebase.auth.EmailAuthProvider
 
 
 @Injectable()
@@ -29,9 +29,9 @@ export class FirebaseAuthSettingsService extends AuthSettingsService {
   }
 
   private init(){
-    this.authSettingsObserver = FireBlanket.awaitValue$(AuthSettingsFirebaseRef(this.db))
-      .map(snap => snap.val())
-      .map((dm:AuthSettingsDm) => AuthSettingsTransform.fromDocModel(dm))
+    this.authSettingsObserver = FireBlanket.awaitValue$(AuthSettingsFirebaseRef(this.db)).pipe(
+      map(snap => snap.val()),
+      map((dm:AuthSettingsDm) => AuthSettingsTransform.fromDocModel(dm)))
   }
 
 

@@ -1,3 +1,4 @@
+import * as firebase from 'firebase'
 import {AuthSettingsFirebaseRef} from './auth-settings';
 export type AuthRoleKey = string
 

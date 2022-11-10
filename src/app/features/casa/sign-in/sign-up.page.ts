@@ -1,29 +1,29 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
+import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service';
 import {AuthInfo} from '@tangential/components';
-import {Visitor, VisitorService} from '@tangential/authorization-service';
-import {Observable} from 'rxjs/Observable';
-import {AppRoutes} from '../../../app.routing.module';
 import {DefaultPageAnalytics, MessageBus, Page, RouteInfo} from '@tangential/core';
-import {AuthenticationService} from '@tangential/authorization-service';
+import {Observable} from 'rxjs';
+import {first, map} from 'rxjs/operators'
+import {AppRouteDefinitions} from '../../../app.routes.definitions'
 
 @Component({
   selector: 'tanj-sign-up-page',
   template: `
-    <tanj-page-body>
-      <tanj-sign-up
-        *ngIf="showForm$ | async"
-        [preventSubmit]="true"
-        [username]=""
-        [requireEmailUsername]="true"
-        (signUp)="onSignUp($event)"
-        (showSignInRequest)="onShowSignInRequest()">
-      </tanj-sign-up>
-    </tanj-page-body>`,
+              <tanj-page-body>
+                <tanj-sign-up
+                  *ngIf="showForm$ | async"
+                  [preventSubmit]="true"
+                  [username]=""
+                  [requireEmailUsername]="true"
+                  (signUp)="onSignUp($event)"
+                  (showSignInRequest)="onShowSignInRequest()">
+                </tanj-sign-up>
+              </tanj-page-body>`,
   styles: [
       `
       tanj-sign-up-page tanj-sign-up {
-        margin-top: 3em;
+        margin-top : 3em;
       }
     `
   ],
@@ -32,18 +32,17 @@ import {AuthenticationService} from '@tangential/authorization-service';
 })
 export class SignUpPage extends Page implements OnInit {
 
-  visitorName$: Observable<string>
-  showForm$: Observable<boolean>
-
-  routeInfo:RouteInfo = {
-    page: {
+  routeInfo: RouteInfo = {
+    page:      {
       title: 'Tangential: Register'
     },
     analytics: DefaultPageAnalytics(),
-    showAds: false
+    showAds:   false
   }
+  showForm$: Observable<boolean>
+  visitorName$: Observable<string>
 
-  constructor(protected bus:MessageBus,
+  constructor(protected bus: MessageBus,
               private router: Router,
               private authService: AuthenticationService,
               private visitorService: VisitorService) {
@@ -51,22 +50,24 @@ export class SignUpPage extends Page implements OnInit {
   }
 
   ngOnInit() {
-    this.showForm$ = this.visitorService.visitor$().map((visitor) => {
-      return visitor.subject.isGuest() || visitor.subject.isAnonymousAccount()
-    })
-    this.visitorName$ = this.visitorService.awaitVisitor$().map((visitor: Visitor) => {
-      return visitor.subject.displayName
-    })
+    this.showForm$ = this.visitorService.visitor$().pipe(
+      map((visitor) => {
+        return visitor.subject.isGuest() || visitor.subject.isAnonymousAccount()
+      }))
+    this.visitorName$ = this.visitorService.awaitVisitor$().pipe(
+      map((visitor: Visitor) => {
+        return visitor.subject.displayName
+      }))
   }
 
   onSignUp(authInfo: AuthInfo) {
     const credentials = {
-      email: authInfo.username,
+      email:    authInfo.username,
       password: authInfo.password
     }
-    this.visitorService.awaitVisitor$().first().subscribe({
+    this.visitorService.awaitVisitor$().pipe(first()).subscribe({
       next: (visitor) => {
-        let promise: Promise<null>
+        let promise: Promise<any>
         if (visitor.subject.isAnonymousAccount()) {
           promise = this.authService.linkAnonymousAccount(credentials)
         } else {
@@ -82,7 +83,7 @@ export class SignUpPage extends Page implements OnInit {
   }
 
   onShowSignInRequest() {
-    this.router.navigate(AppRoutes.signUp.navTargets.absToSignIn())
+    this.router.navigate(AppRouteDefinitions.signUp.navTargets.absToSignIn())
   }
 
 }

@@ -10,7 +10,7 @@ import {
   SimpleChange,
   ViewEncapsulation
 } from '@angular/core'
-import {MdDialog} from '@angular/material'
+import {MatDialog} from '@angular/material'
 import {Hacks} from '@tangential/core'
 import {InputConfig, InputConfigJson} from '../../input-config'
 //noinspection TypeScriptPreferShortImport
@@ -36,7 +36,7 @@ export class EditConfigurableWidgetComponent implements OnInit, OnChanges {
 
   constructor(private inputRegistry: InputRegistry,
               private changeDetectorRef: ChangeDetectorRef,
-              public dialog: MdDialog) {
+              public dialog: MatDialog) {
   }
 
   ngOnInit() {

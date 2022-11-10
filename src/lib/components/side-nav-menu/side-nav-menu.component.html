@@ -10,7 +10,7 @@
     <ng-container *ngFor="let item of menu?.entries">
       <div class="tanj-fading-line" *ngIf="item.isSeparator"></div>
       <div  *ngIf="!item.isSeparator">
-        <a flex md-button layout="row"
+        <a flex mat-button layout="row"
            layout-align="start"
            [routerLink]="item.routerLink"
            (click)="item.eventHandler($event)"

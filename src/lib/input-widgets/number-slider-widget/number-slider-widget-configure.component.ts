@@ -39,11 +39,11 @@ export class NumberSliderWidgetConfigureChange {
   selector:      'tanj-number-slider-configure',
   template:      `<!-- -->
   <div class="tanj-input-template tanj-mode-configure" flex layout="column" layout-align="start">
-    <md-input-container dividerColor="accent">
-      <input mdInput class="tanj-input" type="text" maxlength="50" placeholder="Enter a label for this input"
+    <mat-form-field dividerColor="accent">
+      <input matInput class="tanj-input" type="text" maxlength="50" placeholder="Enter a label for this input"
              (change)="labelChange.emit(label)"
              [(ngModel)]="label"/>
-    </md-input-container>
+    </mat-form-field>
     <ng-container *ngIf="label">
       <tanj-number-slider-widget [(value)]="defaultValue"
                                 (valueChange)="value = defaultValue; emitChangeEvent(true, false)"
@@ -53,37 +53,37 @@ export class NumberSliderWidgetConfigureChange {
                                 [step]="step"
                                 [decimalPlaces]="decimalPlaces"
                                 label="Default Value"></tanj-number-slider-widget>
-      <md-input-container dividerColor="accent">
-        <input mdInput
+      <mat-form-field dividerColor="accent">
+        <input matInput
                class="tanj-input"
                type="number"
                placeholder="Min"
                (change)="minChange.emit(min)"
                [(ngModel)]="min"/>
-      </md-input-container>
-      <md-input-container dividerColor="accent">
-        <input mdInput
+      </mat-form-field>
+      <mat-form-field dividerColor="accent">
+        <input matInput
                class="tanj-input"
                type="number"
                placeholder="Max"
                (change)="maxChange.emit(max)"
                [(ngModel)]="max"/>
-      </md-input-container>
-      <md-input-container dividerColor="accent">
-        <input mdInput
+      </mat-form-field>
+      <mat-form-field dividerColor="accent">
+        <input matInput
                class="tanj-input"
                type="number"
                placeholder="Step"
                (change)="stepChange.emit(step)"
                [(ngModel)]="step"/>
-      </md-input-container>
-      <md-input-container dividerColor="accent">
-        <input mdInput class="tanj-input"
+      </mat-form-field>
+      <mat-form-field dividerColor="accent">
+        <input matInput class="tanj-input"
                type="number"
                placeholder="Decimal Places"
                (change)="decimalPlacesChange.emit(decimalPlaces)"
                [(ngModel)]="decimalPlaces"/>
-      </md-input-container>
+      </mat-form-field>
     </ng-container>
 
   </div>

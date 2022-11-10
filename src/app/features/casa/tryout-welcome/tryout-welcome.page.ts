@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
-import {AppRoutes} from '../../../app.routing.module';
+import {AppRouteDefinitions} from '../../../app.routes.definitions'
 import {DefaultPageAnalytics, MessageBus, Page, RouteInfo} from '@tangential/core';
 
 @Component({
@@ -10,7 +10,7 @@ import {DefaultPageAnalytics, MessageBus, Page, RouteInfo} from '@tangential/cor
 })
 export class TryoutWelcomePage extends Page {
 
-  appRoutes = AppRoutes
+  appRoutes = AppRouteDefinitions
 
   routeInfo: RouteInfo = {
     page: {

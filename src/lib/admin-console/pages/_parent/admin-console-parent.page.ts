@@ -9,7 +9,8 @@ import {
   Auth
 } from '@tangential/authorization-service'
 import {MessageBus} from '@tangential/core'
-import {Observable} from 'rxjs/Observable'
+import {Observable} from 'rxjs'
+import {tap} from 'rxjs/operators'
 
 @Component({
   selector:        'tanj-admin-console-parent-page',
@@ -26,10 +27,10 @@ export class AdminConsoleParentPage {
   constructor(private bus: MessageBus,
               private adminService: AdminService,
               private changeDetectorRef: ChangeDetectorRef) {
-    this.auth$ = this.adminService.auth$().do((v) => {
+    this.auth$ = this.adminService.auth$().pipe(tap((v) => {
       this.auth = v
       this.changeDetectorRef.markForCheck()
-    })
+    }))
   }
 
 }

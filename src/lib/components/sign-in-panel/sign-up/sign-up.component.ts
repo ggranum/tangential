@@ -33,7 +33,7 @@ export class SignUpComponent {
 
   @Output() authChange: EventEmitter<ChangeEvent<AuthInfo>> = new EventEmitter<ChangeEvent<AuthInfo>>(false)
   @Output() signUp: EventEmitter<AuthInfo> = new EventEmitter<AuthInfo>(false)
-  @Output() showSignInRequest: EventEmitter<null> = new EventEmitter<AuthInfo>(false)
+  @Output() showSignInRequest: EventEmitter<AuthInfo> = new EventEmitter<AuthInfo>(false)
 
   prevAuthInfo: AuthInfo
   authInfo: AuthInfo

@@ -1,8 +1,9 @@
 import {Component, HostBinding, ViewEncapsulation} from '@angular/core'
-import {MdDialogRef} from '@angular/material'
+import {MatDialogRef} from '@angular/material'
 
 import {IconIF} from '@tangential/components'
-import {BehaviorSubject} from 'rxjs/BehaviorSubject'
+import {BehaviorSubject} from 'rxjs'
+import {debounceTime} from 'rxjs/operators';
 
 
 @Component({
@@ -313,10 +314,10 @@ export class ChooseIconDialog {
   filteredIcons: IconIF[] = []
   filterSubject: BehaviorSubject<string> = new BehaviorSubject('')
 
-  constructor(public dialogRef: MdDialogRef<ChooseIconDialog>) {
+  constructor(public dialogRef: MatDialogRef<ChooseIconDialog>) {
     this.filteredIcons = this.icons
     this.filterSubject = new BehaviorSubject('')
-    this.filterSubject.debounceTime(100).subscribe((filterText: string) => {
+    this.filterSubject.pipe(debounceTime(100)).subscribe((filterText: string) => {
       this._filterIcons(filterText);
     })
   }

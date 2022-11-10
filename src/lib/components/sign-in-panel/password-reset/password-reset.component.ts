@@ -31,7 +31,7 @@ export class PasswordResetComponent implements OnInit {
   @Input() preventSubmit: boolean = false
 
   @Output() forgotPasswordEmailRequest: EventEmitter<AuthInfo> = new EventEmitter<AuthInfo>(false)
-  @Output() showSignInRequest: EventEmitter<null> = new EventEmitter<AuthInfo>(false)
+  @Output() showSignInRequest: EventEmitter<AuthInfo> = new EventEmitter<AuthInfo>(false)
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
   }

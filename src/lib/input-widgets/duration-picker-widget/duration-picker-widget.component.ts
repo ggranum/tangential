@@ -15,7 +15,7 @@ import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR
 } from '@angular/forms'
-import {MdDialog} from '@angular/material'
+import {MatDialog} from '@angular/material'
 import {
   Hacks,
   TimeUnits
@@ -124,7 +124,7 @@ export class DurationPickerWidgetComponent implements OnInit, OnChanges, Control
   onTouched: () => any = () => { };
   private controlValueAccessorChangeFn: (value: any) => void = (value) => { };
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private dialog: MdDialog) {
+  constructor(private changeDetectorRef: ChangeDetectorRef, private dialog: MatDialog) {
   }
 
   ngOnInit() {

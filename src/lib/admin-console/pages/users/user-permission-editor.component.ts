@@ -6,7 +6,7 @@ import {ObjMap} from '@tangential/core'
 @Component({
   selector:        'tanj-user-permission-editor',
   template:        `
-                     <button md-raised-button
+                     <button mat-raised-button
                              *ngIf="permission"
                              color="{{getColor()}}"
                              (click)="doChange($event)"

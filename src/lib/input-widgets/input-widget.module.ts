@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common'
 import {NgModule} from '@angular/core'
 import {FormsModule} from '@angular/forms'
-import {MdCheckboxModule, MdInputModule, MdSliderModule, MdSlideToggleModule} from '@angular/material'
+import {MatCheckboxModule, MatInputModule, MatSliderModule, MatSlideToggleModule} from '@angular/material'
 import {TanjComponentsModule} from '@tangential/components'
 //noinspection TypeScriptPreferShortImport
 import {CheckboxWidgetConfigureComponent} from './checkbox-widget/checkbox-widget-configure.component'
@@ -44,10 +44,10 @@ import {TextWidgetComponent} from './text-widget/text-widget.component'
   imports:         [
     CommonModule,
     FormsModule,
-    MdInputModule,
-    MdCheckboxModule,
-    MdSlideToggleModule,
-    MdSliderModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatSlideToggleModule,
+    MatSliderModule,
 
     TanjComponentsModule
   ],

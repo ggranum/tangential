@@ -2,7 +2,8 @@ import {
   EventEmitter,
   Injectable
 } from '@angular/core'
-import {Observable} from 'rxjs/Observable'
+import {Observable} from 'rxjs'
+import {share} from 'rxjs/operators'
 //noinspection TypeScriptPreferShortImport
 import {generatePushID} from '../util/generate-push-id'
 
@@ -59,7 +60,7 @@ export class MessageBus {
   private bus: EventEmitter<BusMessage> = new EventEmitter(false)
 
   constructor() {
-    this.all = this.bus.share();
+    this.all = this.bus.pipe(share());
   }
 
   post(message: BusMessage) {

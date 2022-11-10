@@ -2,7 +2,7 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation} fr
 import {Router} from '@angular/router';
 import {AuthenticationService} from '@tangential/authorization-service';
 import {Logger, MessageBus, Page, RouteInfo} from '@tangential/core';
-import {AppRoutes} from '../../../app.routing.module';
+import {AppRouteDefinitions} from '../../../app.routes.definitions'
 
 /**
  * Provides an endpoint that allows a logout via direct navigation.
@@ -38,7 +38,7 @@ export class SignOutPage extends Page implements AfterViewInit {
   ngAfterViewInit() {
     this.authService.signOut().then(() => {
       this.logger.debug(this, 'Sign out successful.')
-      this.router.navigate(AppRoutes.home.navTargets.absSelf)
+      this.router.navigate(AppRouteDefinitions.home.navTargets.absSelf)
     })
   }
 

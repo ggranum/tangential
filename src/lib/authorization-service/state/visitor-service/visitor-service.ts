@@ -2,7 +2,7 @@ import {Visitor} from './media-type/cdm/visitor';
 //noinspection TypeScriptPreferShortImport
 import {VisitorPreferences} from './media-type/cdm/visitor-preferences';
 
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 //noinspection TypeScriptPreferShortImport
 import {AuthUserKey} from '../../media-type/doc-model/auth-user';
 

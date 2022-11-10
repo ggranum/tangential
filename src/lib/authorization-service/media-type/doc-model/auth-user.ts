@@ -1,3 +1,4 @@
+import * as firebase from 'firebase'
 import {AuthFirebaseRef} from './auth';
 export type AuthUserKey = string
 

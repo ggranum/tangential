@@ -2,7 +2,9 @@ import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 
 import {NgModule} from '@angular/core';
-import {MdButtonModule, MdCheckboxModule, MdIconModule, MdMenuModule, MdRippleModule, MdToolbarModule} from '@angular/material';
+import {
+  MatButtonModule, MatCheckboxModule, MatIconModule, MatListModule, MatMenuModule, MatRippleModule, MatToolbarModule
+} from '@angular/material';
 //noinspection TypeScriptPreferShortImport
 import {DataListComponent, DataListExpander} from './data-list/data-list.component';
 //noinspection TypeScriptPreferShortImport
@@ -31,13 +33,11 @@ import {SideNavMenuComponent} from './side-nav-menu/side-nav-menu.component';
   imports:         [
     CommonModule,
     RouterModule,
-
-    MdButtonModule,
-    MdCheckboxModule,
-    MdIconModule,
-    MdToolbarModule,
-
-
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatListModule,
   ],
   declarations:    [
     Accordion,

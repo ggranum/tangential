@@ -39,14 +39,14 @@ export class DateTimeWidgetConfigureChange {
   selector:      'tanj-date-time-configure',
   template:      `<!-- -->
   <div class="tanj-input-template tanj-mode-configure" flex layout="column" layout-align="start">
-    <md-input-container dividerColor="accent">
-      <input mdInput class="tanj-input" type="text" maxlength="50" placeholder="Enter a label for this input"
+    <mat-form-field dividerColor="accent">
+      <input matInput class="tanj-input" type="text" maxlength="50" placeholder="Enter a label for this input"
              (change)="labelChange.emit(label)"
              [(ngModel)]="label"/>
-    </md-input-container>
+    </mat-form-field>
     <ng-container *ngIf="label">
-      <md-slide-toggle class="tanj-input" [labelPosition]="'before'" [(ngModel)]="defaultToNow">Default to current time?
-      </md-slide-toggle>
+      <mat-slide-toggle class="tanj-input" [labelPosition]="'before'" [(ngModel)]="defaultToNow">Default to current time?
+      </mat-slide-toggle>
       <tanj-date-time-widget *ngIf="!defaultToNow" [(value)]="defaultValue"
                             (valueChange)="value = defaultValue; emitChangeEvent(true, false)"
                             [defaultValue]="defaultValue"

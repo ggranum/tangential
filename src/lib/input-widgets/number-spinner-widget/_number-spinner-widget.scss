@@ -8,7 +8,7 @@
   $iconColorDisabled : mat-color(map-get($theme, foreground), disabled-button);
   $spinnerDividerColor : #039BE5;
 
-  .tanj-example-widget tanj-number-spinner-widget md-spinner {
+  .tanj-example-widget tanj-number-spinner-widget mat-spinner {
     max-width : 70%;
   }
 
@@ -29,7 +29,7 @@
       overflow         : hidden;
       text-align       : center;
 
-      md-icon {
+      mat-icon {
         color : $iconColor;
       }
     }
@@ -56,7 +56,7 @@
       color : $textColorDisabled;
       .tanj-input-spinner-field {
         color : $textColorDisabled;
-        md-icon {
+        mat-icon {
           color : $iconColorDisabled;
         }
       }

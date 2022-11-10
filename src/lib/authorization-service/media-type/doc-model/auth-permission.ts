@@ -1,4 +1,6 @@
+import * as firebase from 'firebase'
 import {AuthSettingsFirebaseRef} from './auth-settings';
+
 export type AuthPermissionKey = string
 
 export const AuthPermissionsFirebaseRef = function (db: firebase.database.Database) {
@@ -8,7 +10,7 @@ export const AuthPermissionsFirebaseRef = function (db: firebase.database.Databa
 export interface AuthPermissionDm {
   $key?: AuthPermissionKey
   createdMils?: number
-  editedMils?: number
   description?: string
+  editedMils?: number
   orderIndex?: number
 }

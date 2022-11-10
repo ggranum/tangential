@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 //noinspection TypeScriptPreferShortImport
 import {AuthUserDm, AuthUserKey} from '../../media-type/doc-model/auth-user';
 //noinspection TypeScriptPreferShortImport

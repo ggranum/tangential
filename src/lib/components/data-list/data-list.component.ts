@@ -86,7 +86,6 @@ export class DataListComponent implements OnChanges {
     this.toggleSelected(itemKey)
   }
 
-
   toggleSelected(itemKey: string) {
     const wasActive = this._selections[itemKey]
     if (wasActive) {

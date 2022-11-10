@@ -3,8 +3,8 @@
         layout-align="space-between">
 
     <div class="tanj-user-inputs-wrapper" layout="row" flex="80" layout-align="space-between start">
-      <md-input-container flex="40">
-        <input mdInput [(ngModel)]="user.email" name="email" #fName="ngModel"
+      <mat-form-field flex="40">
+        <input matInput [(ngModel)]="user.email" name="email" #fName="ngModel"
                class="tanj-input"
                dividerColor="accent"
                [type]="'email'"
@@ -14,9 +14,9 @@
                (focus)="$event.stopPropagation(); onFocus()"
                (blur)="$event.stopPropagation(); onBlur()"
                placeholder="email"
-        /></md-input-container>
-      <md-input-container flex="60">
-        <input mdInput [(ngModel)]="user.displayName" name="displayName" #fDescription="ngModel"
+        /></mat-form-field>
+      <mat-form-field flex="60">
+        <input matInput [(ngModel)]="user.displayName" name="displayName" #fDescription="ngModel"
                class="tanj-description tanj-input"
                dividerColor="accent"
                [type]="'text'"
@@ -25,17 +25,17 @@
                (focus)="$event.stopPropagation(); onFocus()"
                (blur)="$event.stopPropagation(); onBlur()"
                placeholder="Display Name"/>
-      </md-input-container>
+      </mat-form-field>
     </div>
     <div class="tanj-delete-button" flex layout="row" layout-align="end center">
-      <button md-mini-fab
+      <button mat-mini-fab
               type="button"
               aria-label="Delete User"
               (focus)="$event.stopPropagation(); onFocus()"
               (blur)="$event.stopPropagation(); onBlur()"
               (click)="fireRemoveUser()"
               [disabled]="false">
-        <md-icon class="md-24">delete</md-icon>
+        <mat-icon class="mat-24">delete</mat-icon>
       </button>
     </div>
   </form>

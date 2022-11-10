@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, RoutesRecognized} from '@angular/router';
-import {MessageBus, NgUtil, RouteInfo} from '@tangential/core';
-import {GoogleAnalytics} from '@tangential/analytics';
+import {MessageBus, NgUtil, PageAnalyticsEvents, RouteInfo} from '@tangential/core';
+import {GoogleAnalytics, GoogleAnalyticsFields} from '@tangential/analytics';
 
 
 @Component({
@@ -50,7 +50,11 @@ export class AppComponent {
 
   private handleAnalytics(state, leaf, pageData: RouteInfo) {
     if (pageData.analytics) {
-      this.analytics.navigatedTo(state, leaf, pageData.analytics)
+      const events:PageAnalyticsEvents = pageData.analytics.events;
+      /** @todo: ggranum: Transform the static analytic definition to a real event to post to Google ads */
+      console.warn('AppComponent#handleAnalytics', 'Implement method')
+      const gf: GoogleAnalyticsFields = {  }
+      this.analytics.navigatedTo(state, leaf, gf);
     } else {
       this.analytics.navigatedToGeneric(state, leaf)
     }
