@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core'
 /* tslint:disable:no-unused-variable */
 import {
-  AdminService, AuthenticationService, AuthPermission, AuthSettingsService, BaseAuthenticationRequiredTestSet, TestEntry
+  AdminService, AuthenticationService, AuthPermission, AuthSettingsService
 } from '@tangential/authorization-service'
 import {Logger, MessageBus} from '@tangential/core'
+import {BaseAuthenticationRequiredTestSet, TestEntry} from '../../test/base-auth-service-tests.spec'
 import {TestConfiguration} from '../test-config.spec'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
@@ -12,12 +13,12 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
 @Injectable()
 export class AuthenticationTestSet extends BaseAuthenticationRequiredTestSet {
 
-  constructor(protected testConfiguration: TestConfiguration,
-              protected bus: MessageBus,
-              protected logger: Logger,
+  constructor(protected override testConfiguration: TestConfiguration,
+              protected override bus: MessageBus,
+              protected override logger: Logger,
               protected authSettingsService: AuthSettingsService,
               protected adminService: AdminService,
-              protected authService: AuthenticationService) {
+              protected override authService: AuthenticationService) {
     super('Authorization.state.authentication', testConfiguration, bus, logger, authService)
 
   }

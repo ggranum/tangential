@@ -48,9 +48,9 @@ export class AppComponent {
   }
 
 
-  private handleAnalytics(state, leaf, pageData: RouteInfo) {
+  private handleAnalytics(state:RouterStateSnapshot, leaf:ActivatedRouteSnapshot, pageData: RouteInfo) {
     if (pageData.analytics) {
-      const events:PageAnalyticsEvents = pageData.analytics.events;
+      const events:PageAnalyticsEvents|undefined = pageData.analytics.events;
       /** @todo: ggranum: Transform the static analytic definition to a real event to post to Google ads */
       console.warn('AppComponent#handleAnalytics', 'Implement method')
       const gf: GoogleAnalyticsFields = {  }
@@ -67,6 +67,6 @@ export class AppComponent {
   }
 
   private handleAds(pageData: RouteInfo) {
-    this.showingAds = pageData.showAds
+    this.showingAds = pageData.showAds || false
   }
 }

@@ -12,7 +12,7 @@ export class MessageDialogContainerComponent {
   @HostBinding('attr.layout-align') flexLayoutAlign = 'start'
 
   @Input() heading: string = ''
-  @Input() messageIcon: string = null
+  @Input() messageIcon: string | undefined = undefined
   @Input() offerToSuppress: boolean = true
   @Input() doNotShowAgain: boolean = false
 

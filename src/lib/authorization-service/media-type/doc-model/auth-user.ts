@@ -1,10 +1,11 @@
-import * as firebase from 'firebase'
+import {Database, DatabaseReference} from '@firebase/database'
+import {child} from 'firebase/database'
 import {AuthFirebaseRef} from './auth';
 export type AuthUserKey = string
 
 
-export const AuthUsersFirebaseRef = function (db: firebase.database.Database) {
-  return AuthFirebaseRef(db).child('users')
+export const AuthUsersFirebaseRef = function (db: Database) {
+  return child(AuthFirebaseRef(db), 'users')
 }
 
 

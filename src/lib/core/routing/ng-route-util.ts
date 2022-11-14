@@ -7,7 +7,7 @@ import {
 export class NgRouteUtil {
 
   static fullPath(route: ActivatedRoute):string {
-    let pathAry = []
+    let pathAry:string[] = []
     route.pathFromRoot
       .map(routeSegment => routeSegment.snapshot)
       .map(routeSnap => {
@@ -34,9 +34,9 @@ export class NgRouteUtil {
   }
 
   static findDescendantByComponentKey(router: Router, componentTypeKey: string): (ActivatedRoute | null ) {
-    let c = router.routerState.root
+    let c:ActivatedRoute | null  = router.routerState.root
     do {
-      if (c.component && c.component['Key'] == componentTypeKey) {
+      if (c.component && (c.component as any)['Key'] == componentTypeKey) {
         break
       }
       c = c.firstChild
@@ -57,7 +57,7 @@ export class NgRouteUtil {
     if (route.children) {
       for (let i = 0; i < route.children.length; i++) {
         let child = route.children[i]
-        if (child.component && child.component['Key'] === componentTypeKey) {
+        if (child.component && (child.component as any)['Key'] === componentTypeKey) {
           result = child
           break
         }

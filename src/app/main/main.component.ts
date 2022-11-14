@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ActivatedRouteSnapshot, Router} from '@angular/router';
 import {
   Logger,
@@ -20,23 +20,24 @@ import {AppToggleMainMenuRequest} from '@tangential/app'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainComponent implements OnInit, OnDestroy {
-  visitor: Visitor
-  menu: Menu;
+  visitor: Visitor | undefined
+  // @ts-ignore That's a lot of null checks.
+  menu: Menu
 
-  dialogRef: MatDialogRef<any>
+  dialogRef: MatDialogRef<any> | undefined
 
   title = 'Tangential'
   showAds: boolean = false
-  adRegion: string
+  adRegion: string | undefined
 
 
   sideNavOpened: boolean = false
   appRoutes = AppRoutes
 
-  @ViewChild(SideNavComponent) private sideNav: SideNavComponent;
+  @ViewChild(SideNavComponent) private sideNav: SideNavComponent | undefined
 
-  private visitorWatch: Subscription
-  private capturesWatch: Subscription
+  private visitorWatch: Subscription | undefined
+  private capturesWatch: Subscription | undefined
 
 
   constructor(private router: Router,
@@ -48,7 +49,7 @@ export class MainComponent implements OnInit, OnDestroy {
               private dialog: MatDialog) {
     AppToggleMainMenuRequest.filter(bus).subscribe({
       next: (v) => {
-        this.sideNav.toggle()
+        this.sideNav?.toggle()
       }
     })
   }
@@ -97,18 +98,19 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   sendStandardNotifications() {
+    if(!this.visitor){ throw "ngOnInitFailure" }
     if (!this.visitor.prefs.hideCookieWarnings) {
       this.showCookieNotification();
     }
   }
 
   private showCookieNotification() {
-
     const notice = NotificationMessage.info({
       message: 'Like nearly all sites, we use Cookies. For more information please see our privacy policy. (click/tap to dismiss)',
       duration: 0
     })
     notice.response(this.bus).subscribe(() => {
+      if(!this.visitor){ throw "ngOnInitFailure" }
       this.visitor.prefs.hideCookieWarnings = true
       this.visitorService.updateVisitorPreferences(this.visitor.$key, this.visitor.prefs)
     })
@@ -135,7 +137,7 @@ export class MainComponent implements OnInit, OnDestroy {
         });
 
         this.dialogRef.afterClosed().subscribe((result: any) => {
-          this.dialogRef = null
+          this.dialogRef = undefined
         });
       }
     }
@@ -150,6 +152,7 @@ export class MainComponent implements OnInit, OnDestroy {
   buildMenu(contextMenuItems:MenuItem[]) {
     this.menu = new Menu()
     this.menu.addItem(new MenuItem('Home', Icon.material('home'), AppRoutes.home.navTargets.absSelf))
+    if(!this.visitor){ throw "ngOnInitFailure" }
     if (this.visitor.subject.isAdministrator()) {
       this.menu.addSeparator()
       this.menu.addItem(new MenuItem('Permissions', Icon.material('security'), ['/admin/permissions']))

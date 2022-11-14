@@ -1,5 +1,5 @@
 import {Jsonified, ObjectUtil} from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {BooleanType, BooleanTypeIF} from '../../data-type/boolean/boolean-type'
 import {InputConfig, InputConfigJson} from '../../input-config'
 
@@ -27,11 +27,11 @@ const demoConfig: CheckboxConfigIF = ObjectUtil.assignDeep({}, Model, {
 })
 
 export class CheckboxWidgetConfig extends InputConfig implements Jsonified<CheckboxWidgetConfig, CheckboxConfigIF>, CheckboxConfigIF {
-  static $model: CheckboxConfigIF = ObjectUtil.assignDeep({}, InputConfig.$model, Model)
-  static INPUT_NAME = 'Checkbox'
+  static override $model: CheckboxConfigIF = ObjectUtil.assignDeep({}, InputConfig.$model, Model)
+  static override INPUT_NAME = 'Checkbox'
   labelPosition: 'before' | 'after'
-  disabled: boolean
-  typeConfig: BooleanType
+  override disabled: boolean
+  override typeConfig: BooleanType
 
   constructor(config?: CheckboxConfigIF, key?: string) {
     super(CheckboxWidgetConfig.INPUT_NAME, config, key)

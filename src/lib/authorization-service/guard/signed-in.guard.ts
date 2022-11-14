@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core'
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router'
 import {Observable} from 'rxjs'
 import {first, map} from 'rxjs/operators'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {VisitorService} from '../state/visitor-service/visitor-service';
 
 

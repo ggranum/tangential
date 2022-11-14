@@ -4,8 +4,25 @@ import {
 } from '@tangential/authorization-service'
 import {PluginAuth} from '@tangential/plugin'
 
-
-export const AppPermissions = {
+type AppPermissionsType = {
+  addPermission: AuthPermission
+  modifyPermission: AuthPermission
+  removePermission: AuthPermission
+  revokePermission: AuthPermission
+  addUser: AuthPermission
+  modifyUser: AuthPermission
+  removeUser: AuthPermission
+  viewUsers: AuthPermission
+  grantPermission: AuthPermission
+  modifyOwnProfile: AuthPermission
+  registerOwnAccount: AuthPermission
+  grantRole: AuthPermission
+  addRole: AuthPermission
+  modifyRole: AuthPermission
+  removeRole: AuthPermission
+  revokeRole: AuthPermission
+}
+export const AppPermissions:AppPermissionsType = {
   addPermission     : AuthPermission.withKey('ADD PERMISSION').withDescription('Create new permissions'),
   modifyPermission  : AuthPermission.withKey('MODIFY PERMISSION'),
   removePermission  : AuthPermission.withKey('REMOVE PERMISSION'),
@@ -24,17 +41,10 @@ export const AppPermissions = {
   revokeRole        : AuthPermission.withKey('REVOKE ROLE'),
 }
 
-const allPermissions = Object.keys(AppPermissions).map(key => AppPermissions[key])
+const allPermissions = Object.keys(AppPermissions).map((key:string) => (AppPermissions as any)[key] as AuthPermission)
 export const AppRoles = {
   administrator : new AuthRole("Administrator").withPermissions(allPermissions)
 }
 
 
 
-export class AppAuth extends PluginAuth {
-
-  constructor() {
-    super(AppPermissions, null)
-  }
-
-}

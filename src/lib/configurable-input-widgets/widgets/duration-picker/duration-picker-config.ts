@@ -2,7 +2,7 @@ import {
   Jsonified,
   ObjectUtil
 } from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {
   DurationType,
   DurationTypeJson
@@ -40,13 +40,13 @@ const demoConfig: DurationPickerConfigIF = Object.assign({}, Model)
 
 export class DurationPickerConfig extends InputConfig
   implements Jsonified<DurationPickerConfig, DurationPickerConfigIF>, DurationPickerConfigIF {
-  static $model: DurationPickerConfigIF = ObjectUtil.assignDeep({}, InputConfig.$model, Model)
+  static override $model: DurationPickerConfigIF = ObjectUtil.assignDeep({}, InputConfig.$model, Model)
 
-  static INPUT_NAME = 'DurationPickerConfig'
+  static override INPUT_NAME = 'DurationPickerConfig'
   labelPosition: 'before' | 'after' | 'below' = 'before'
-  disabled: boolean
+  override disabled: boolean
   showDurationFields?: DurationFieldShowingState
-  typeConfig: DurationType
+  override typeConfig: DurationType
 
   constructor(config?: DurationPickerConfigIF, key?: string) {
     super(DurationPickerConfig.INPUT_NAME, config || {}, key)

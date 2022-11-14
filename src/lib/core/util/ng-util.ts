@@ -22,14 +22,14 @@ export class NgUtil {
 
   static collectFromRoute(route: ActivatedRouteSnapshot, data: boolean): any {
     const datas: any[] = [{}]
-    let child = route.root
+    let child:ActivatedRouteSnapshot|null = route.root
     while (child) {
       const what = data ? child.data : child.params
       datas.push(what || {})
       child = child.firstChild
     }
     // merge them all together...
-    return Object.assign.apply(Object, datas)
+    return Object.assign.apply(Object, datas as any) as any
   }
 
   static params$(route: ActivatedRoute) {

@@ -1,10 +1,18 @@
-import {OnInit} from '@angular/core';
-// noinspection TypeScriptPreferShortImport
+import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
+// noinspection ES6PreferShortImport
 import {MessageBus} from '../message-bus/message-bus';
-// noinspection TypeScriptPreferShortImport
+// noinspection ES6PreferShortImport
 import {RouteInfo} from '../routing/route-info';
 
-
+/**
+ * Apparently Angular doesn't like abstract components anymore.
+ */
+@Component({
+  selector:        'tanj-page',
+  templateUrl:     './page.html',
+  encapsulation:   ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Default
+})
 export class Page implements OnInit {
 
   public routeInfo: RouteInfo

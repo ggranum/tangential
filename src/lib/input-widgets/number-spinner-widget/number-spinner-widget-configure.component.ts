@@ -90,20 +90,20 @@ export class NumberSpinnerWidgetConfigureComponent implements OnInit, OnChanges,
   @HostBinding('attr.layout') flexLayout = 'column';
   @HostBinding('attr.layout-align') flexLayoutAlign = 'start';
 
-  @Input() value: number
+  @Input() value: number = 0
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
+  @Input() disabled: boolean = false
 
   /**
    * Configuration Fields
    */
   @Input() label: string = ''
   @Input() defaultValue: number = 0
-  @Input() max: number
-  @Input() min: number
-  @Input() step: number
+  @Input() max: number = 10
+  @Input() min: number = 0
+  @Input() step: number = 1
 
   @Output() labelChange: EventEmitter<string> = new EventEmitter(false)
   @Output() defaultValueChange: EventEmitter<number> = new EventEmitter(false)

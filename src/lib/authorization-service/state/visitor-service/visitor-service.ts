@@ -1,9 +1,9 @@
 import {Visitor} from './media-type/cdm/visitor';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {VisitorPreferences} from './media-type/cdm/visitor-preferences';
 
 import {Observable} from 'rxjs';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthUserKey} from '../../media-type/doc-model/auth-user';
 
 export abstract class VisitorService {

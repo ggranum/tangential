@@ -15,7 +15,6 @@ import {SignUpPage} from './features/casa/sign-in/sign-up.page';
 import {TryoutWelcomePage} from './features/casa/tryout-welcome/tryout-welcome.page';
 import {PageNotFoundComponent} from './features/common/page-not-found/page-not-found.component';
 
-
 export const AppRoutes = {
 
   signIn:        {
@@ -139,8 +138,8 @@ export const AppRoutes = {
   },
   _:             {
     path:       '',
-    redirectTo: '/home',
-    pathMatch:  'full'
+    pathMatch:  "full" as "prefix" | "full", // hack because ????
+    redirectTo: '/home'
   },
   wildcard:      {
     path:      '**',
@@ -151,7 +150,7 @@ export const AppRoutes = {
 const appRoutesLocal: Routes = [
   {
     path:         'admin',
-    loadChildren: './lazy-modules/ext-admin-console.module#ExtTanjAdminConsoleModule',
+    loadChildren: () => import('./lazy-modules/ext-admin-console.module').then(x => x.ExtTanjAdminConsoleModule),
   },
   AppRoutes.signIn,
   AppRoutes.signUp,

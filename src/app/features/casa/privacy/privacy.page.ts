@@ -9,7 +9,7 @@ import {DefaultPageAnalytics, MessageBus, Page, RouteInfo} from '@tangential/cor
 })
 export class PrivacyPage extends Page {
 
-  routeInfo:RouteInfo = {
+  override routeInfo:RouteInfo = {
     page: {
       title: 'Tangential: Privacy Policy'
     },
@@ -17,7 +17,7 @@ export class PrivacyPage extends Page {
     showAds: false
   }
 
-  constructor(protected bus:MessageBus) {
+  constructor(bus:MessageBus) {
     super(bus)
 
   }

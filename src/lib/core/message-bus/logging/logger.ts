@@ -41,34 +41,34 @@ export abstract class Logger {
 
   config: LoggerConfiguration = new LoggerConfiguration()
 
-  constructor(@Optional() configuration?: LoggerConfiguration) {
+  protected constructor(@Optional() configuration?: LoggerConfiguration) {
     this.config = configuration || this.config
     this.applyLevel()
   }
 
-  abstract log(message: LogMessage)
+  abstract log(message: LogMessage): void
 
-  trace(context: any, ...message) {
+  trace(context: any, ...message:any[]) {
     this.log(new LogMessage('trace', context, ...message))
   }
 
-  debug(context: any, ...message) {
+  debug(context: any, ...message:any[]) {
     this.log(new LogMessage('debug', context, ...message))
   }
 
-  info(context: any, ...message) {
+  info(context: any, ...message:any[]) {
     this.log(new LogMessage('info', context, ...message))
   }
 
-  warn(context: any, ...message) {
+  warn(context: any, ...message:any[]) {
     this.log(new LogMessage('warn', context, ...message))
   }
 
-  error(context: any, ...message) {
+  error(context: any, ...message:any[]) {
     this.log(new LogMessage('error', context, ...message))
   }
 
-  fatal(context: any, ...message) {
+  fatal(context: any, ...message:any[]) {
     this.log(new LogMessage('fatal', context, ...message))
   }
 
@@ -76,22 +76,31 @@ export abstract class Logger {
   private applyLevel() {
     console.log('Logger', 'applyLevel', this.config)
     /**
-     * A bit hacky, but this keeps noise off the system bus when running in production mode or with logging off.
+     * This keeps noise off the system bus when running in production mode or with logging off.
+     * Yes, it's supposed to fall through, despite the evil nature.
      */
-    //noinspection FallThroughInSwitchStatementJS
+    // @ts-ignore
+    // noinspection FallThroughInSwitchStatementJS
     switch (this.config.logLevel) {
+      // @ts-ignore
       case LogLevels.NONE:
         this.fatal = emptyFn
+      // @ts-ignore
       case LogLevels.fatal:
         this.error = emptyFn
+      // @ts-ignore
       case LogLevels.error:
         this.warn = emptyFn
+      // @ts-ignore
       case LogLevels.warn:
         this.info = emptyFn
+      // @ts-ignore
       case LogLevels.info:
         this.debug = emptyFn
+      // @ts-ignore
       case LogLevels.debug:
         this.trace = emptyFn
+      // @ts-ignore
     }
   }
 

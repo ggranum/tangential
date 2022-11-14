@@ -100,7 +100,7 @@ export class DurationPickerWidgetConfigureComponent implements OnInit, OnChanges
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
+  @Input() disabled: boolean = false
 
   /**
    * Configuration Fields
@@ -111,7 +111,7 @@ export class DurationPickerWidgetConfigureComponent implements OnInit, OnChanges
   @Input() defaultValue: number = 0
   @Output() defaultValueChange: EventEmitter<number> = new EventEmitter(false)
 
-  @Input() max: number
+  @Input() max: number = 100
   @Output() maxChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() showDays: boolean = false

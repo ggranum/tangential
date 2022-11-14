@@ -12,10 +12,10 @@ const Model: BooleanTypeIF = {
 }
 
 export class BooleanType extends ConfigurableInputType implements Jsonified<BooleanType, BooleanTypeIF>, BooleanTypeIF {
-  static $model: BooleanTypeIF = ObjectUtil.assignDeep({}, ConfigurableInputType.$model, Model)
+  static override $model: BooleanTypeIF = ObjectUtil.assignDeep({}, ConfigurableInputType.$model, Model)
 
-  static TYPE_NAME = 'Boolean'
-  defaultValue?: boolean
+  static override TYPE_NAME = 'Boolean'
+  override defaultValue?: boolean
 
 
   constructor(config?: BooleanTypeIF, key?: string) {

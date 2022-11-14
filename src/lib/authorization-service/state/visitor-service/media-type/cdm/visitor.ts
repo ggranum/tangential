@@ -1,8 +1,8 @@
 import {VisitorPreferences} from './visitor-preferences';
 import {VisitorEvents} from './visitor-events';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthSubject} from '../../../../media-type/cdm/auth-subject';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthUserKey} from '../../../../media-type/doc-model/auth-user';
 
 

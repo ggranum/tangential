@@ -1,5 +1,5 @@
 import {ObjMap} from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {VisitorPreferencesDm} from '../doc-model/visitor-preferences';
 
 export class VisitorPreferences {

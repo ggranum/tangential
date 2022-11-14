@@ -24,19 +24,20 @@ export class ObjectUtil {
    */
   static toTruthMap(ary: string[]): ObjMap<boolean> {
     const map = {}
-    ary.forEach(value => map[value] = true)
+    ary.forEach(value => (map as any)[value] = true)
     return map
   }
 
   /**
    * Expand the map into an array of key-value pairs.
-   * @param {ObjMap<T>} map
+   * @param {ObjMap<T extends object>} map
    * @returns MapEntry<T>
    */
   static entries<T>(map: ObjMap<T> | any): MapEntry<T>[] {
-    return Object.keys(map || {}).map((key) => {
+    const ret:MapEntry<T>[] =  Object.keys(map || {}).map((key) => {
       return {key: key, value: map[key]}
     })
+    return ret
   }
 
   /**
@@ -50,19 +51,19 @@ export class ObjectUtil {
     })
   }
 
-  static isObject(value): boolean {
+  static isObject(value:any): boolean {
     return (typeof value === 'object' || value.constructor === Object)
   }
 
-  static isFunction(value): boolean {
+  static isFunction(value:any): boolean {
     return (typeof value === 'function' || value instanceof Function)
   }
 
-  static isNullOrDefined(value): boolean {
+  static isNullOrDefined(value:any): boolean {
     return value === null || value === undefined
   }
 
-  static exists(value): boolean {
+  static exists(value:any): boolean {
     return value !== null && value !== undefined
   }
 
@@ -86,10 +87,10 @@ export class ObjectUtil {
 
   static removeNullish<T>(obj: T): T {
     const cleanObj: T = <T>{}
-    Object.keys(obj).forEach((key) => {
-      const v = obj[key]
+    Object.keys(obj as any).forEach((key) => {
+      const v = (obj as any)[key]
       if (v !== null && v !== undefined) {
-        cleanObj[key] = v
+        (cleanObj as any)[key] = v
       }
     })
     return cleanObj
@@ -171,9 +172,9 @@ export const safe = (fn: () => any) => {
   }
 }
 
-export const eachKey = <T>(objMap: T, fn: (arg?: T, key?: string) => any) => {
+export const eachKey = <T extends {}>(objMap: T, fn: (arg?: T, key?: string) => any) => {
   Object.keys(objMap).forEach((key: string) => {
-    fn(objMap[key], key)
+    fn((objMap as any)[key], key)
   })
 }
 

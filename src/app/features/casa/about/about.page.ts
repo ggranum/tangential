@@ -9,7 +9,7 @@ import {DefaultPageAnalytics, MessageBus, Page, RouteInfo} from '@tangential/cor
 })
 export class AboutPage extends Page {
 
-  routeInfo:RouteInfo = {
+  override routeInfo:RouteInfo = {
     page: {
       title: 'Tangential: About'
     },

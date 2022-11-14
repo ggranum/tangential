@@ -1,5 +1,4 @@
-import {task} from 'gulp';
 import {serverTask} from '../task_helpers';
 
-
-task('serve', serverTask());
+/** @todo: ggranum: Probably inline this or whatever, and stop creating a function to return, just define this as the returned fn. */
+exports.serve = serverTask()

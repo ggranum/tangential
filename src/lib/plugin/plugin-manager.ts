@@ -4,7 +4,7 @@ import {
   Router
 } from '@angular/router'
 import {TangentialPlugin} from './plugin'
-import {isString} from 'util'
+
 
 
 /**
@@ -16,7 +16,7 @@ import {isString} from 'util'
 @Injectable()
 export class PluginManager {
 
-  pluginPaths: { path: string, name: string }[] = []
+  pluginPaths: { path: string | undefined, name: string }[] = []
   private plugins: TangentialPlugin[] = []
 
 
@@ -28,10 +28,10 @@ export class PluginManager {
   }
 
   scan() {
-    let routes = this.findPluginRoutes()
+    let routes:Route[] = this.findPluginRoutes()
 
     this.pluginPaths = routes.map(route => {
-      let str = <string>route.loadChildren
+      let str = (typeof route.loadChildren === 'string') ? <string>(route.loadChildren) : ""
       return {
         path: route.path,
         name: str.substring(str.lastIndexOf('#') + 1)
@@ -52,7 +52,7 @@ export class PluginManager {
     if (routes) {
       for (let i = 0; i < routes.length; i++) {
         let child = routes[i]
-        if (child.loadChildren && isString(child.loadChildren) && (<string>child.loadChildren).endsWith('PluginModule')) {
+        if (child.loadChildren && (typeof child.loadChildren === 'string') && (<string>child.loadChildren).endsWith('PluginModule')) {
           result.push(child)
         }
       }

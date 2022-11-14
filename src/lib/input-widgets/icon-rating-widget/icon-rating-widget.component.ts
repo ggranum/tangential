@@ -79,9 +79,9 @@ export class IconRatingWidgetComponent implements ControlValueAccessor, OnInit, 
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
-  @Input() hideLabel: boolean
-  @Input() onlyLabel: boolean
+  @Input() disabled: boolean = false
+  @Input() hideLabel: boolean = false
+  @Input() onlyLabel: boolean = false
 
   /**
    * Configuration Fields
@@ -89,14 +89,14 @@ export class IconRatingWidgetComponent implements ControlValueAccessor, OnInit, 
   @Input() label: string = ''
   @Input() defaultValue: number = 0
   @Input() max: number = 5
-  @Input() iconFont: string
-  @Input() offIconNames: string[]
-  @Input() onIconNames: string[]
+  @Input() iconFont: string | undefined
+  @Input() offIconNames: string[] = []
+  @Input() onIconNames: string[] = []
   /* end Configuration Fields */
 
   @Output() change: EventEmitter<any> = new EventEmitter(false)
 
-  icons: IconIF[]
+  icons: IconIF[] = []
 
   onTouched: () => any = () => { };
   private controlValueAccessorChangeFn: (value: any) => void = (value) => { };
@@ -125,7 +125,7 @@ export class IconRatingWidgetComponent implements ControlValueAccessor, OnInit, 
   }
 
 
-  onIconClick(idx) {
+  onIconClick(idx: number) {
     if (!this.disabled) {
       this.value = idx
       this.valueChange.emit(this.value)

@@ -12,7 +12,7 @@ export class TryoutWelcomePage extends Page {
 
   appRoutes = AppRouteDefinitions
 
-  routeInfo: RouteInfo = {
+  override routeInfo: RouteInfo = {
     page: {
       title: 'Tangential: Welcome'
     },
@@ -20,7 +20,7 @@ export class TryoutWelcomePage extends Page {
     showAds: false
   }
 
-  constructor(protected bus: MessageBus) {
+  constructor( bus: MessageBus) {
     super(bus)
   }
 

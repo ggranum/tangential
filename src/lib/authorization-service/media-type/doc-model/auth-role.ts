@@ -1,13 +1,14 @@
-import * as firebase from 'firebase'
+import {Database} from '@firebase/database'
+import {child} from 'firebase/database'
 import {AuthSettingsFirebaseRef} from './auth-settings';
 export type AuthRoleKey = string
 
-export const AuthRolesFirebaseRef = function (db: firebase.database.Database) {
-  return AuthSettingsFirebaseRef(db).child('roles')
+export const AuthRolesFirebaseRef = function (db: Database) {
+  return child(AuthSettingsFirebaseRef(db), 'roles')
 }
 
-export const AuthRolePermissionsFirebaseRef = function (db: firebase.database.Database) {
-  return AuthSettingsFirebaseRef(db).child('rolePermissions')
+export const AuthRolePermissionsFirebaseRef = function (db: Database) {
+  return child(AuthSettingsFirebaseRef(db), 'rolePermissions')
 }
 
 

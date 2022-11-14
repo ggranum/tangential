@@ -12,21 +12,26 @@ import {
 import {Icon} from './icon'
 
 @Component({
-  selector:            'tanj-icon', template: `
-    <div flex class="tanj-icon-body"
-         [ngClass]="{'tanj-icon-align-center': align=='center'}"
-         layout="row" layout-align="start center"
-         (click)="onClick($event)">
-      <i
-        class="tanj-icon-element"
-        [ngClass]="classes"
-        aria-hidden="true">{{iconContainerContent}}</i>
-      <ng-container *ngIf="label"><span class="tanj-icon-label">{{label}}</span></ng-container>
-    </div>
-                       `, host: {
-    '[class.no-select]': 'true', '[class.tanj-disabled]': 'disabled', '[class.tanj-labeled-icon]': 'label',
-  }, styles:           [
-      `
+  selector:        'tanj-icon',
+  template:        `
+                     <div flex class="tanj-icon-body"
+                          [ngClass]="{'tanj-icon-align-center': align=='center'}"
+                          layout="row" layout-align="start center"
+                          (click)="onClick($event)">
+                       <i
+                         class="tanj-icon-element"
+                         [ngClass]="classes"
+                         aria-hidden="true">{{iconContainerContent}}</i>
+                       <ng-container *ngIf="label"><span class="tanj-icon-label">{{label}}</span></ng-container>
+                     </div>
+                   `,
+  host:            {
+    '[class.no-select]':         'true',
+    '[class.tanj-disabled]':     'disabled',
+    '[class.tanj-labeled-icon]': 'label',
+  },
+  styles:          [
+    `
       /* Increase in specificity is intentional, to override Angular Material styles.*/
       tanj-icon i.tanj-icon-element {
         font-size : inherit;
@@ -53,7 +58,9 @@ import {Icon} from './icon'
       .tanj-icon-label {
         font-size : 12px;
       }
-    `], encapsulation: ViewEncapsulation.None, changeDetection: ChangeDetectionStrategy.OnPush
+    `],
+  encapsulation:   ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IconComponent implements OnChanges, OnInit {
 
@@ -66,7 +73,7 @@ export class IconComponent implements OnChanges, OnInit {
 
   iconContainerContent: string
 
-  @Input() disabled: boolean
+  @Input() disabled: boolean = false
   @Input() label: string
 
   @Output() click: EventEmitter<MouseEvent> = new EventEmitter(false)

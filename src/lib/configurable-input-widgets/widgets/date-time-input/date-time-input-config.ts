@@ -3,12 +3,12 @@ import {
   ObjectUtil
 } from '@tangential/core'
 import * as moment from 'moment'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {
   DateTimeType,
   DateTimeTypeIF
 } from '../../data-type/date-time/date-time-type'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {NumberType} from '../../data-type/number/number-type'
 import {
   InputConfig,
@@ -43,12 +43,12 @@ const demoConfig: DateTimeInputConfigIF = Object.assign({}, Model)
 console.log('Loading DateTimeInputConfig', '')
 export class DateTimeInputConfig extends InputConfig
   implements Jsonified<DateTimeInputConfig, DateTimeInputConfigIF>, DateTimeInputConfigIF {
-  static $model: DateTimeInputConfigIF = ObjectUtil.assignDeep({}, InputConfig.$model, Model)
+  static override $model: DateTimeInputConfigIF = ObjectUtil.assignDeep({}, InputConfig.$model, Model)
 
-  static INPUT_NAME = 'DateTimeInput'
+  static override INPUT_NAME = 'DateTimeInput'
   labelPosition: 'before' | 'after'
-  disabled: boolean
-  typeConfig: DateTimeType
+  override disabled: boolean
+  override typeConfig: DateTimeType
 
 
   constructor(config?: DateTimeInputConfigIF, key?: string) {

@@ -1,5 +1,5 @@
 import {ObjectUtil} from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {NumberType, NumberTypeIF} from '../../data-type/number/number-type'
 import {InputConfig, InputConfigJson} from '../../input-config'
 
@@ -38,11 +38,11 @@ const Model: IconRatingWidgetConfigIF = {
 const demoConfig: IconRatingWidgetConfigIF = Object.assign({}, Model)
 
 export class IconRatingWidgetConfig extends InputConfig implements IconRatingWidgetConfigIF {
-  static $model: IconRatingWidgetConfigIF = ObjectUtil.assignDeep({}, InputConfig.$model, Model)
-  static INPUT_NAME = 'IconRatingWidget'
+  static override $model: IconRatingWidgetConfigIF = ObjectUtil.assignDeep({}, InputConfig.$model, Model)
+  static override INPUT_NAME = 'IconRatingWidget'
   labelPosition: 'before' | 'after' | 'below'
-  disabled: boolean
-  typeConfig: NumberType
+  override disabled: boolean
+  override typeConfig: NumberType
   iconCount?: number
   iconFont?: string
   offIconNames?: string[]

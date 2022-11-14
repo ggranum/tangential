@@ -6,16 +6,22 @@ export interface TimeUnit {
   momentKey: 'd' | 'h' | 'm' | 's' | 'ms',
   orderIndex: number
   separatorSuffix: string
-  next: string
-  previous: string
+  next: string | undefined
+  previous: string | undefined
 }
 
 
-export const TimeUnitSort = (b, a) => {
+export const TimeUnitSort = (b:TimeUnit, a:TimeUnit) => {
   return a.orderIndex - b.orderIndex
 }
-
-export const TimeUnits = {
+export interface TimeUnitsType {
+  day: TimeUnit,
+  h: TimeUnit,
+  min: TimeUnit,
+  s: TimeUnit,
+  ms: TimeUnit,
+}
+export const TimeUnits:TimeUnitsType = {
   day: <TimeUnit>{
     unitKey:         'day',
     fullLabel:       'Day',
@@ -25,7 +31,7 @@ export const TimeUnits = {
     momentKey:       'd',
     orderIndex:      40,
     next:            'h',
-    previous:        null
+    previous:        undefined
   },
   h:   <TimeUnit>{
     unitKey:         'h',
@@ -37,7 +43,7 @@ export const TimeUnits = {
     orderIndex:      30,
     next:            'min',
     previous:        'day'
-  },
+  } ,
   min: <TimeUnit>{
     unitKey:         'min',
     fullLabel:       'Minute',
@@ -68,12 +74,12 @@ export const TimeUnits = {
     logicalMax:      999,
     momentKey:       'ms',
     orderIndex:      0,
-    next:            null,
+    next:            undefined,
     previous:        's'
   },
 }
 
-export const TimeUnitKeySort = (b, a) => {
-  return TimeUnits[a].orderIndex - TimeUnits[b].orderIndex
+export const TimeUnitKeySort = (a:keyof TimeUnitsType, b:keyof TimeUnitsType) => {
+  return TimeUnits[b].orderIndex - TimeUnits[a].orderIndex
 }
 

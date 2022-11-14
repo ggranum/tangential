@@ -10,7 +10,7 @@ import {
 } from '@angular/core'
 import {NgForm} from '@angular/forms'
 import {ChangeEvent} from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {
   AuthInfo,
   SignInActions
@@ -51,7 +51,7 @@ export class SignUpComponent {
   }
 
   onShowSignInRequest() {
-    this.showSignInRequest.next()
+    this.showSignInRequest.next(this.authInfo)
   }
 
 

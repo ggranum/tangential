@@ -16,29 +16,31 @@ const Model: TextInputConfigIF = {
   typeConfig:    {
     _inputTypeKey: TextType.TYPE_NAME,
     maxLength:     100,
-    defaultValue:  null
+    defaultValue:  undefined
   }
 }
 
 const demoConfig: TextInputConfigIF = ObjectUtil.assignDeep({}, Model, {
   typeConfig: {
     maxLength:    100,
-    defaultValue: null
+    defaultValue: undefined
   }
 })
 
 export class TextInputConfig extends InputConfig implements Jsonified<TextInputConfig, TextInputConfigIF>, TextInputConfigIF {
-  static $model: TextInputConfigIF = ObjectUtil.assignDeep({}, InputConfig.$model, Model)
+  static override $model: TextInputConfigIF = ObjectUtil.assignDeep({}, InputConfig.$model, Model)
 
-  static INPUT_NAME = 'TextInput'
+  static override INPUT_NAME = 'TextInput'
   labelPosition: 'before' | 'after' | 'below' = 'before'
 
-  disabled: boolean
-  typeConfig: TextType
+  /** @todo: ggranum: Verify we need these fields (they already exist on superclass) */
+  override disabled: boolean = false
+  override typeConfig: TextType
 
   constructor(config?: TextInputConfigIF, key?: string) {
     super(TextInputConfig.INPUT_NAME, config || {}, key)
-    this.typeConfig = new TextType(this.typeConfig)
+    /** @todo: ggranum: Verify this change (this.typeConfig to super.typeConfig) works. */
+    this.typeConfig = new TextType(super.typeConfig || {})
   }
 
   getDemoInstance(): InputConfigJson {

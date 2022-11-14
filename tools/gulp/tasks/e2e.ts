@@ -1,4 +1,4 @@
-import {task, watch} from 'gulp';
+import {task, watch, series} from 'gulp';
 import * as path from 'path';
 import gulpMerge = require('merge2');
 import gulpRunSequence = require('run-sequence');
@@ -6,8 +6,9 @@ import gulpRunSequence = require('run-sequence');
 import {SOURCE_ROOT, DIST_ROOT, PROJECT_ROOT, NPM_VENDOR_FILES} from '../constants';
 import {
   tsBuildTask, sassBuildTask, copyTask, buildAppTask, execNodeTask,
-  vendorTask, sequenceTask, serverTask
+  vendorTask, serverTask
 } from '../task_helpers';
+import {build_component_assets, build_components_scss, build_components_ts, watch_components} from './components'
 
 
 const appDir = path.join(SOURCE_ROOT, 'e2e-app');
@@ -15,39 +16,78 @@ const outDir = DIST_ROOT;
 const PROTRACTOR_CONFIG_PATH = path.join(PROJECT_ROOT, 'test/protractor.conf.js');
 
 
-task(':watch:e2eapp', () => {
-  watch(path.join(appDir, '**/*.ts'), [':build:e2eapp:ts']);
-  watch(path.join(appDir, '**/*.scss'), [':build:e2eapp:scss']);
-  watch(path.join(appDir, '**/*.html'), [':build:e2eapp:assets']);
-});
+function build_e2e_app_vendor(cb) {
+  vendorTask()
+  cb()
+}
+
+/**
+ * depends on [':build:components:ts']
+ */
+function build_e2e_app_ts(cb) {
+  tsBuildTask(appDir, path.join(appDir, 'tsconfig.e2e.json'))
+  cb()
+}
+
+/**
+ * depends on [':build:components:scss']
+ */
+function build_e2e_app_scss(cb) {
+  sassBuildTask(outDir, appDir, [])
+  cb()
+}
+
+function build_e2e_app_assets(cb) {
+  copyTask(appDir, outDir)
+  cb()
+}
 
 
-task(':build:e2eapp:vendor', vendorTask());
-task(':build:e2eapp:ts', [':build:components:ts'], tsBuildTask(appDir, path.join(appDir, 'tsconfig.e2e.json')));
-task(':build:e2eapp:scss', [':build:components:scss'], sassBuildTask(outDir, appDir, []));
-task(':build:e2eapp:assets', copyTask(appDir, outDir));
+function build_e2e_app(cb) {
+  buildAppTask('e2e_app')
+  cb()
+}
 
-task('build:e2eapp', buildAppTask('e2eapp'));
+function watch_e2e_app(cb) {
+  watch(path.join(appDir, '**/*.ts'), series(build_components_ts, build_e2e_app_ts))
+  watch(path.join(appDir, '**/*.scss'), series(build_components_scss, build_e2e_app_scss))
+  watch(path.join(appDir, '**/*.html'), series(build_component_assets, build_e2e_app_assets))
+  cb()
+}
 
 
-task(':test:protractor:setup', execNodeTask('protractor', 'webdriver-manager', ['update']));
-task(':test:protractor', execNodeTask('protractor', [PROTRACTOR_CONFIG_PATH]));
+function test_protractor_setup(cb) {
+  execNodeTask('protractor', 'webdriver-manager', ['update'])
+  cb()
+}
+
+function test_protractor(cb) {
+  execNodeTask('protractor', [PROTRACTOR_CONFIG_PATH])
+  cb()
+}
+
 // This task is used because, in some cases, protractor will block and not exit the process,
 // causing Travis to timeout. This task should always be used in a synchronous sequence as
 // the last step.
-task(':e2e:done', () => process.exit(0));
+function e2e_done(cb) {
+  process.exit(0)
+  cb() // haha.
+}
 
 let stopE2eServer: () => void = null;
-task(':serve:e2eapp', serverTask(false, (stream) => { stopE2eServer = () => stream.emit('kill') }));
-task(':serve:e2eapp:stop', () => stopE2eServer());
-task('serve:e2eapp', ['build:e2eapp'], sequenceTask([
-  ':serve:e2eapp',
-  ':watch:components',
-  ':watch:e2eapp'
-]));
+
+function serve_e2e_app_start(cb) {
+  serverTask(false, (stream) => { stopE2eServer = () => stream.emit('kill') })
+  cb()
+}
+
+function serve_e2e_app_stop(cb) {
+  stopE2eServer()
+  cb()
+}
 
 
-task('e2e', sequenceTask(
-  ':test:protractor:setup', 'serve:e2eapp', ':test:protractor', ':serve:e2eapp:stop',
-  ':e2e:done'
-));
+
+const serve_e2e_app = series(build_e2e_app, serve_e2e_app_start, watch_components, watch_e2e_app)
+exports.watch_e2e_app = watch_e2e_app
+exports.e2e = series(test_protractor_setup, serve_e2e_app, test_protractor, serve_e2e_app_stop, e2e_done)

@@ -11,7 +11,7 @@
     "outDir": "../../dist/gulp",
     "rootDir": ".",
     "sourceMap": true,
-    "target": "es5",
+    "target": "es6",
     "inlineSources": true,
     "stripInternal": true,
     "baseUrl": "",
@@ -23,5 +23,11 @@
       "firebase"
 
     ]
+  },
+  // these options are overrides used only by ts-node
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
   }
 }

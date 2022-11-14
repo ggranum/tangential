@@ -53,7 +53,7 @@ export class AuthSubject extends AuthUser {
     return this.signInState === SignInStates.unknown
   }
 
-  static from(cfg: AuthSubject | AuthSubjectCfg): AuthSubject {
+  static override from(cfg: AuthSubject | AuthSubjectCfg): AuthSubject {
     let subject = new AuthSubject(cfg.$key || generatePushID())
     subject.signInState = cfg.signInState
     subject.sessionInfo = cfg.sessionInfo

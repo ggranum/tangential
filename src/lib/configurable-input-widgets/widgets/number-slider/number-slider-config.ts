@@ -1,5 +1,5 @@
 import {ObjectUtil} from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {NumberType, NumberTypeIF} from '../../data-type/number/number-type'
 import {InputConfig, InputConfigJson} from '../../input-config'
 
@@ -23,12 +23,12 @@ const Model: NumberSliderConfigIF = {
 const demoConfig: NumberSliderConfigIF = Object.assign({}, Model)
 
 export class NumberSliderConfig extends InputConfig implements NumberSliderConfigIF {
-  static $model: NumberSliderConfigIF = ObjectUtil.assignDeep({}, InputConfig.$model, Model)
+  static override $model: NumberSliderConfigIF = ObjectUtil.assignDeep({}, InputConfig.$model, Model)
 
-  static INPUT_NAME = 'NumberSlider'
+  static override INPUT_NAME = 'NumberSlider'
   labelPosition: 'before' | 'after' | 'below'
-  disabled: boolean
-  typeConfig: NumberType
+  override disabled: boolean
+  override typeConfig: NumberType
 
   constructor(config?: NumberSliderConfigIF, key?: string) {
     super(NumberSliderConfig.INPUT_NAME, config || {}, key)

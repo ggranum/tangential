@@ -1,32 +1,34 @@
 import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button'
+import {MatCheckboxModule} from '@angular/material/checkbox'
+import {MatIconModule} from '@angular/material/icon'
+import {MatListModule} from '@angular/material/list'
+import {MatToolbarModule} from '@angular/material/toolbar'
 import {RouterModule} from '@angular/router';
 
 import {NgModule} from '@angular/core';
-import {
-  MatButtonModule, MatCheckboxModule, MatIconModule, MatListModule, MatMenuModule, MatRippleModule, MatToolbarModule
-} from '@angular/material';
-//noinspection TypeScriptPreferShortImport
-import {DataListComponent, DataListExpander} from './data-list/data-list.component';
-//noinspection TypeScriptPreferShortImport
-import {IconComponent} from './icon/icon.component';
-//noinspection TypeScriptPreferShortImport
-import {PaginationBarComponent} from './pagination-bar/pagination-bar.component';
-//noinspection TypeScriptPreferShortImport
-import {PageBodyComponent} from './page-body/page-body.component';
-// noinspection TypeScriptPreferShortImport
-import {BottomNavComponent} from './bottom-nav/bottom-nav.component';
-// noinspection TypeScriptPreferShortImport
-import {NavButtonComponent} from './bottom-nav/nav-button.component';
-// noinspection TypeScriptPreferShortImport
-import {AppBarComponent} from './app-bar/app-bar.component';
-// noinspection TypeScriptPreferShortImport
-import {NotificationBarComponent} from './notification-bar/notification-bar.component';
-// noinspection TypeScriptPreferShortImport
-import {Accordion, AccordionItem} from './accordion/accordion.component';
-// noinspection TypeScriptPreferShortImport
-import {SideNavComponent} from './side-nav/side-nav.component';
-// noinspection TypeScriptPreferShortImport
-import {SideNavMenuComponent} from './side-nav-menu/side-nav-menu.component';
+//noinspection ES6PreferShortImport
+import {DataListComponent, DataListExpander} from './data-list';
+//noinspection ES6PreferShortImport
+import {IconComponent} from './icon';
+//noinspection ES6PreferShortImport
+import {PaginationBarComponent} from './pagination-bar';
+//noinspection ES6PreferShortImport
+import {PageBodyComponent} from './page-body';
+// noinspection ES6PreferShortImport
+import {BottomNavComponent} from './bottom-nav';
+// noinspection ES6PreferShortImport
+import {NavButtonComponent} from './bottom-nav';
+// noinspection ES6PreferShortImport
+import {AppBarComponent} from './app-bar';
+// noinspection ES6PreferShortImport
+import {NotificationBarComponent} from './notification-bar';
+// noinspection ES6PreferShortImport
+import {Accordion, AccordionItem} from './accordion';
+// noinspection ES6PreferShortImport
+import {SideNavComponent} from './side-nav';
+// noinspection ES6PreferShortImport
+import {SideNavMenuComponent} from './side-nav-menu';
 
 
 @NgModule({

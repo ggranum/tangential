@@ -4,12 +4,13 @@ import {
   TimeUnits
 } from '@tangential/core'
 import {Duration} from 'moment'
+import * as moment from 'moment/moment'
 export class DurationPickerFieldsState {
-  index: number
-  unit: TimeUnit
-  selected: boolean
-  next: DurationPickerFieldsState
-  previous: DurationPickerFieldsState
+  index: number = 0
+  unit: TimeUnit = TimeUnits.h
+  selected: boolean = false
+  next: DurationPickerFieldsState | undefined
+  previous: DurationPickerFieldsState | undefined
 
   constructor(public picker: DurationPickerState, unit: TimeUnit) {
     this.unit = unit
@@ -28,7 +29,7 @@ export class DurationPickerFieldsState {
     } else if (count === 0) {
       can = true
     } else {
-      can = this.previous.selected || this.next.selected
+      can = this.previous?.selected || this.next?.selected || false
     }
     return can
   }
@@ -68,13 +69,13 @@ export class DurationPickerFieldsState {
     return (this.previous && this.previous.selected) ? this.unit.logicalMax : 9999
   }
 }
-
+/** @todo: ggranum: Remove use of MomentJS if possible. */
 export class DurationPickerState {
 
   public fields: DurationPickerFieldsState[] = []
   fieldsByKey: ObjMap<DurationPickerFieldsState> = {}
-  duration: Duration
-  max: number
+  duration: Duration = moment.duration(0)
+  max: number = 100
 
 
   constructor() {

@@ -3,8 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "../dist/out-tsc/app",
-    "target": "es5",
-    "module": "es2015",
+    "target": "es2020",
+    "module": "es2020",
     "paths": {
       "@tangential/app": [
         "lib/app"
@@ -44,6 +44,13 @@
       ]
     }
   },
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "**/*.d.ts"
+  ],
   "exclude": [
     "test.ts",
     "**/*.spec.ts"

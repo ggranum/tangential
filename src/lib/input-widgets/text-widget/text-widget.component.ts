@@ -7,7 +7,7 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output,
+  Output, SimpleChanges,
   ViewEncapsulation
 } from '@angular/core'
 import {
@@ -81,9 +81,9 @@ export class TextWidgetComponent implements ControlValueAccessor, OnChanges, OnI
   @Output() valueChange: EventEmitter<string> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
-  @Input() hideLabel: boolean
-  @Input() onlyLabel: boolean
+  @Input() disabled: boolean = false
+  @Input() hideLabel: boolean = false
+  @Input() onlyLabel: boolean = false
 
   /**
    * Configuration Fields
@@ -108,7 +108,7 @@ export class TextWidgetComponent implements ControlValueAccessor, OnChanges, OnI
     Hacks.materialDesignPlaceholderText(this.changeDetectorRef)
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges(changes: SimpleChanges) {
   }
 
   handleValueChange(value: string) {

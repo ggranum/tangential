@@ -108,7 +108,7 @@ export function provideAdsenseConfig(config: AdsenseConfig) {
   declarations: [AdsenseComponent],
 })
 export class AdsenseModule {
-  static forRoot(config?: AdsenseConfig): ModuleWithProviders {
+  static forRoot(config?: AdsenseConfig): ModuleWithProviders<AdsenseModule> {
     return {
       ngModule:  AdsenseModule,
       providers: [

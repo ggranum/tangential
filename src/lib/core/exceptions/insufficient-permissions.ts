@@ -1,10 +1,10 @@
 import {AuthPermission,} from '@tangential/authorization-service'
-// noinspection TypeScriptPreferShortImport
+// noinspection ES6PreferShortImport
 import {Guard} from '../lang/guard/guard'
 
 export class InsufficientPermissions extends Error {
 
-  name: string = 'InsufficientPermissions'
+  override name: string = 'InsufficientPermissions'
 
   constructor(public permission: AuthPermission | string, message?: string) {
     super(message || `Insufficient Permissions: Requires permission '${Guard.isString(permission) ? permission : permission.$key}'`);

@@ -11,6 +11,7 @@ import {AuthenticationService, Visitor, VisitorService} from '@tangential/author
 import {DefaultPageAnalytics, Logger, MessageBus, Page, RouteInfo} from '@tangential/core'
 import {Subscription} from 'rxjs'
 import {AppRouteDefinitions} from '../../../app.routes.definitions'
+import {AppRoutes} from '../../../app.routing.module'
 
 @Component({
   selector:        'tanj-home-page',
@@ -20,11 +21,11 @@ import {AppRouteDefinitions} from '../../../app.routes.definitions'
 })
 export class HomePage extends Page implements AfterViewInit, OnDestroy {
 
-  visitor: Visitor = null
+  visitor: Visitor | undefined = undefined
 
   private subs: Subscription[] = []
 
-  routeInfo:RouteInfo = {
+  override routeInfo:RouteInfo = {
     page: {
       title: 'Tangential: Home'
     },
@@ -32,7 +33,9 @@ export class HomePage extends Page implements AfterViewInit, OnDestroy {
     showAds: false
   }
 
-  constructor(protected bus: MessageBus,
+  appRoutes = AppRoutes
+
+  constructor(bus: MessageBus,
               protected logger: Logger,
               private router: Router,
               private authService: AuthenticationService,

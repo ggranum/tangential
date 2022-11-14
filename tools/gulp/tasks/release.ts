@@ -1,12 +1,13 @@
 import {spawn} from 'child_process';
-import {existsSync, readdirSync, statSync} from 'fs';
-import {task} from 'gulp';
-import gulpRunSequence = require('run-sequence');
+import {existsSync, statSync} from 'fs';
+import {series} from 'gulp';
 import path = require('path');
 import minimist = require('minimist');
 
 import {execTask, cleanTask, collectComponents} from '../task_helpers';
 import {DIST_COMPONENTS_ROOT} from '../constants';
+import {clean} from './clean'
+import {build_ngc} from './components'
 
 const argv = minimist(process.argv.slice(3));
 
@@ -15,27 +16,27 @@ const logMessageBuffer = (data: Buffer) => {
 }
 
 
-task(':build:release:clean-spec', cleanTask('dist/**/*.spec.*'));
+function build_release_cleanSpec(cb){
+  cleanTask('dist/**/*.spec.*')
+  cb()
+}
 
 
-task('build:release', function(done: () => void) {
-  // Synchronously run those tasks.
-  gulpRunSequence(
-    'clean',
-    ':build:components:ngc',
-    ':build:release:clean-spec',
-    done
-  );
-});
-
+export const build_release = series( clean, build_ngc, build_release_cleanSpec)
 
 /** Make sure we're logged in. */
-task(':publish:whoami', execTask('npm', ['whoami'], {
-  silent: true,
-  errMessage: 'You must be logged in to publish.'
-}));
+function publish_whoami(cb){
+  execTask('npm', ['whoami'], {
+    silent: true,
+    errMessage: 'You must be logged in to publish.'
+  })
+  cb()
+}
 
-task(':publish:logout', execTask('npm', ['logout']));
+function publish_logout(cb){
+  execTask('npm', ['logout'])
+  cb()
+}
 
 
 function _execNpmPublish(componentPath: string, label: string): Promise<void> {
@@ -81,7 +82,7 @@ function _execNpmPublish(componentPath: string, label: string): Promise<void> {
   })
 }
 
-task(':publish', function(done: (err?: any) => void) {
+function publish_publish(cb){
   const label = argv['tag'];
   const currentDir = process.cwd();
 
@@ -99,17 +100,9 @@ task(':publish', function(done: (err?: any) => void) {
   // Build a promise chain that publish each component.
   paths
     .reduce((prev, dirName) => prev.then(() => _execNpmPublish(dirName, label)), Promise.resolve())
-    .then(() => done())
-    .catch((err: Error) => done(err))
+    .then(() => cb())
+    .catch((err: Error) => cb(err))
     .then(() => process.chdir(currentDir));
-});
+}
 
-task('publish', function(done: () => void) {
-  gulpRunSequence(
-    ':publish:whoami',
-    'build:release',
-    ':publish',
-    ':publish:logout',
-    done
-  );
-});
+exports.publish = series(publish_whoami, build_release, publish_publish, publish_logout)

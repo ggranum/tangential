@@ -21,10 +21,10 @@ export class StunIpLookup {
       const ipAddresses: ObjMap<string> = {};
 
       // compatibility for firefox and chrome
-      let RTCPeerConnection = window['RTCPeerConnection']
-        || window['mozRTCPeerConnection']
-        || window['webkitRTCPeerConnection'];
-      let useWebKit = !!window['webkitRTCPeerConnection'];
+      let RTCPeerConnection = window['RTCPeerConnection' as keyof Window]
+        || window['mozRTCPeerConnection' as keyof Window]
+        || window['webkitRTCPeerConnection' as keyof Window];
+      let useWebKit = !!window['webkitRTCPeerConnection' as keyof Window];
 
       // bypass naive webrtc blocking using an iframe
       if (!RTCPeerConnection && useIFrameHack) {
@@ -33,7 +33,7 @@ export class StunIpLookup {
         // <iframe id="iframe" sandbox="allow-same-origin" style="display: none"></iframe>
         // <script>...getIPs called in here...
         //
-        const win = window['iframe'].contentWindow;
+        const win = window['iframe' as keyof Window].contentWindow;
         RTCPeerConnection = win.RTCPeerConnection
           || win.mozRTCPeerConnection
           || win.webkitRTCPeerConnection;
@@ -48,14 +48,15 @@ export class StunIpLookup {
       const servers = {iceServers: [{urls: StunIpLookup.stunServers()[0]}]};
 
       // construct a new RTCPeerConnection
-      const pc = new RTCPeerConnection(servers, mediaConstraints);
+      const typescriptExpectsOneArgument = RTCPeerConnection as any
+      const pc:RTCPeerConnection = (new typescriptExpectsOneArgument(servers, mediaConstraints)) as RTCPeerConnection
 
       const startTime = Date.now()
       let resolved = false
       const checkForNewIps = () => {
         if (!resolved) {
           // read candidate info from local description
-          const lines = pc.localDescription.sdp.split('\n');
+          const lines = pc.localDescription?.sdp?.split('\n') || []
           lines.forEach(function (line) {
             if (line.indexOf('a=candidate:') === 0) {
               const match = ipAddressRegex.exec(line)

@@ -15,7 +15,7 @@ import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR
 } from '@angular/forms'
-import {MatDialog} from '@angular/material'
+import {MatDialog} from '@angular/material/dialog';
 import {
   Hacks,
   TimeUnits
@@ -73,7 +73,7 @@ export interface DurationFieldConfig {
            layout-align="start">
 
         <ng-container *ngFor="let field of state.fields">
-          <span *ngIf="field.selected">{{field.value | number:'2.0-0'}}<span 
+          <span *ngIf="field.selected">{{field.value | number:'2.0-0'}}<span
             *ngIf="field.next?.selected">{{field.separator || ':'}}</span></span>
         </ng-container>
 
@@ -98,9 +98,9 @@ export class DurationPickerWidgetComponent implements OnInit, OnChanges, Control
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
-  @Input() hideLabel: boolean
-  @Input() onlyLabel: boolean
+  @Input() disabled: boolean = false
+  @Input() hideLabel: boolean = false
+  @Input() onlyLabel: boolean = false
 
   /**
    * Configuration Fields
@@ -109,7 +109,7 @@ export class DurationPickerWidgetComponent implements OnInit, OnChanges, Control
   @Input() defaultValue: number = 0
   /* end Configuration Fields */
 
-  @Input() max: number
+  @Input() max: number = 10
 
   @Input() showDays: boolean = false
   @Input() showHours: boolean = false

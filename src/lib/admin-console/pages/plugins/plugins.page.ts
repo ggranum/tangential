@@ -20,6 +20,7 @@ import {
   Router
 } from '@angular/router'
 import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
+// noinspection ES6PreferShortImport
 import {PluginManager} from '../../../plugin/plugin-manager'
 
 @Component({
@@ -31,7 +32,7 @@ import {PluginManager} from '../../../plugin/plugin-manager'
 export class PluginsPage extends Page implements OnInit {
 
 
-  routeInfo: RouteInfo = {
+  override routeInfo: RouteInfo = {
     page     : {
       title: 'Admin Console'
     },
@@ -40,7 +41,7 @@ export class PluginsPage extends Page implements OnInit {
   }
   visitor: Visitor = null
 
-  constructor(protected bus: MessageBus,
+  constructor(bus: MessageBus,
               private router: Router,
               private route: ActivatedRoute,
               private parent: AdminConsoleParentPage,
@@ -50,7 +51,7 @@ export class PluginsPage extends Page implements OnInit {
 
   }
 
-  ngOnInit() {
+  override ngOnInit() {
     this.pluginManager.scan()
   }
 

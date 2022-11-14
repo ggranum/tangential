@@ -1,27 +1,30 @@
 import {Injectable} from '@angular/core'
 import {Logger, MessageBus} from '@tangential/core'
 import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util'
-import * as firebase from 'firebase/app'
+
+import {Database, DataSnapshot} from '@firebase/database'
+import { getDatabase } from 'firebase/database'
+
 import {BehaviorSubject, Observable} from 'rxjs'
 import {catchError, first, skipWhile, tap, timeout} from 'rxjs/operators'
+//noinspection ES6PreferShortImport
 import {AuthSubject} from '../../media-type/cdm/auth-subject'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthUserKey} from '../../media-type/doc-model/auth-user'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthenticationService} from '../authentication-service/authentication-service'
 
+//noinspection ES6PreferShortImport
 import {Visitor} from './media-type/cdm/visitor'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {VisitorPreferences, VisitorPreferencesTransform} from './media-type/cdm/visitor-preferences'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {VisitorPreferencesFbPath} from './media-type/doc-model/visitor-preferences'
 import {VisitorService} from './visitor-service'
-import DataSnapshot = firebase.database.DataSnapshot
 
 
 @Injectable()
 export class FirebaseVisitorService extends VisitorService {
-
   /**
    * Waits for the first non-placeholder visitor (e.g. not the default value provided to the behaviour subject).
    * This is basically saying 'wait for the Firebase auth server to respond.
@@ -34,14 +37,14 @@ export class FirebaseVisitorService extends VisitorService {
    * @returns {Observable<R>}
    */
   private awaitVisitorObserver: Observable<Visitor>
-  private db: firebase.database.Database
+  private db: Database
   private visitorObserver: BehaviorSubject<Visitor>
 
   constructor(private bus: MessageBus,
               protected logger: Logger,
               private fb: FirebaseProvider, private authService: AuthenticationService) {
     super()
-    this.db = fb.app.database()
+    this.db = getDatabase(fb.app)
     this.visitorObserver = new BehaviorSubject(null)
     this.initSubscriptions()
   }

@@ -9,13 +9,13 @@ import {
   ViewEncapsulation
 } from '@angular/core'
 import {Hacks} from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {BooleanIval} from '../../data-type/boolean/boolean-ival'
 import {
   InputViewMode,
   InputViewModes
 } from '../../support/input-view-mode'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {InputTemplateIF} from '../../support/template-components/input-template-component/input-template.component'
 import {CheckboxWidgetConfig} from './checkbox-widget-config'
 

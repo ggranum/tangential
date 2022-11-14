@@ -1,10 +1,10 @@
 import {Component, HostBinding, Inject, ViewEncapsulation} from '@angular/core'
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material'
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog'
 import {DurationPickerFieldsState, DurationPickerState} from './duration-picker-state'
 
 export class DurationPickerDialogResult {
-  success: boolean
-  millis: number
+  success: boolean = false
+  millis: number = 0
 }
 
 @Component({

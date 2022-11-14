@@ -73,9 +73,9 @@ export class CheckboxWidgetComponent implements OnInit, ControlValueAccessor {
   @Output() valueChange: EventEmitter<boolean> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
-  @Input() hideLabel: boolean
-  @Input() onlyLabel: boolean
+  @Input() disabled: boolean = false
+  @Input() hideLabel: boolean = false
+  @Input() onlyLabel: boolean = false
 
 
   /**

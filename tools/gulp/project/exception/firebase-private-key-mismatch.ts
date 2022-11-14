@@ -6,6 +6,4 @@ export class FirebasePrivateKeyMismatch extends TangentialError {
     super(message);
   }
 
-
-
 }

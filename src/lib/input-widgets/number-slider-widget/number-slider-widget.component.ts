@@ -1,5 +1,5 @@
 import {
-  ChangeDetectorRef, Component, EventEmitter, forwardRef, HostBinding, Input, OnChanges, OnInit, Output, ViewEncapsulation
+  ChangeDetectorRef, Component, EventEmitter, forwardRef, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation
 } from '@angular/core'
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms'
 import {Hacks} from '@tangential/core'
@@ -76,9 +76,9 @@ export class NumberSliderWidgetComponent implements ControlValueAccessor, OnChan
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'below'
-  @Input() disabled: boolean
-  @Input() hideLabel: boolean
-  @Input() onlyLabel: boolean
+  @Input() disabled: boolean = false
+  @Input() hideLabel: boolean = false
+  @Input() onlyLabel: boolean = false
 
   /**
    * Configuration Fields
@@ -86,10 +86,10 @@ export class NumberSliderWidgetComponent implements ControlValueAccessor, OnChan
   @Input() label: string = ''
   @Input() defaultValue: number = 0
   @Input() max: number = 5
-  @Input() min: number
-  @Input() step: number
-  @Input() decimalPlaces: number
-  @Input() tickInterval: number
+  @Input() min: number = 0
+  @Input() step: number = 1
+  @Input() decimalPlaces: number = 1
+  @Input() tickInterval: number = 1
   @Input() vertical: boolean = false
   /* end Configuration Fields */
 
@@ -109,7 +109,7 @@ export class NumberSliderWidgetComponent implements ControlValueAccessor, OnChan
     Hacks.materialDesignPlaceholderText(this.changeDetectorRef)
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges(changes: SimpleChanges) {
   }
 
   handleValueChange(value: number) {

@@ -1,6 +1,6 @@
 import {filter} from 'rxjs/operators'
 
-// noinspection TypeScriptPreferShortImport
+// noinspection ES6PreferShortImport
 import {
   BusMessage,
   BusMessageIntent,
@@ -36,7 +36,7 @@ export class AppToggleMainMenuRequest extends AppMessage {
     super(Intention.request, AppToggleMainMenuRequest.Key )
   }
 
-  static filter(bus:MessageBus):Observable<AppToggleMainMenuRequest>{
+  static override filter(bus:MessageBus):Observable<AppToggleMainMenuRequest>{
     return bus.all.pipe(filter(msg => msg.source === AppMessage.SourceKey && msg.key === AppToggleMainMenuRequest.Key))
   }
 }

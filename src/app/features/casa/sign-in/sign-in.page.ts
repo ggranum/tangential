@@ -34,17 +34,17 @@ import {AppRouteDefinitions} from '../../../app.routes.definitions'
 })
 export class SignInPage extends Page implements OnInit {
 
-  routeInfo: RouteInfo = {
+  override routeInfo: RouteInfo = {
     page:      {
       title: 'Tangential: Sign In'
     },
     analytics: DefaultPageAnalytics(),
     showAds:   false
   }
-  signedOut$: Observable<boolean>
-  visitorName$: Observable<string>
+  signedOut$: Observable<boolean> | undefined
+  visitorName$: Observable<string>| undefined
 
-  constructor(protected bus: MessageBus,
+  constructor(bus: MessageBus,
               protected logger: Logger,
               private router: Router,
               private authService: AuthenticationService,
@@ -52,7 +52,7 @@ export class SignInPage extends Page implements OnInit {
     super(bus)
   }
 
-  ngOnInit() {
+  override ngOnInit() {
     this.signedOut$ = this.visitorService.visitor$().pipe(
       map((visitor) => {
         return visitor.subject.isGuest()

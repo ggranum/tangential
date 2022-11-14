@@ -1,26 +1,32 @@
 import {Injectable} from '@angular/core';
 
+import {Auth, User} from '@firebase/auth'
+import {Database} from '@firebase/database'
+import {child, getDatabase} from 'firebase/database';
+import {
+  createUserWithEmailAndPassword, EmailAuthProvider, getAuth, linkWithCredential, sendPasswordResetEmail, signInAnonymously,
+  signInWithEmailAndPassword
+} from 'firebase/auth';
+
+
 import {generatePushID, Logger, MessageBus, ResolveVoid} from '@tangential/core';
 import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util';
-import * as firebase from 'firebase/app';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {first, skip, skipWhile} from 'rxjs/operators'
-import {AuthSubject, AuthSubjectTransform} from '../../media-type/cdm/auth-subject';
-import {AuthUser, AuthUserTransform} from '../../media-type/cdm/auth-user';
-import {SessionInfoCdm} from '../../media-type/cdm/session-info';
-//noinspection TypeScriptPreferShortImport
-import {SignInEvent, SignInEventTransform} from '../../media-type/cdm/sign-in-event';
-//noinspection TypeScriptPreferShortImport
+import {AuthSubject, AuthSubjectTransform} from '../../media-type';
+import {AuthUser, AuthUserTransform} from '../../media-type';
+import {SessionInfoCdm} from '../../media-type';
+//noinspection ES6PreferShortImport
+import {SignInEvent, SignInEventTransform} from '../../media-type';
+//noinspection ES6PreferShortImport
 import {AuthSignInEventsByUserFirebaseRef, AuthSignInEventsFirebaseRef} from '../../media-type/doc-model/auth-events';
-//noinspection TypeScriptPreferShortImport
-import {AuthUserDm, AuthUserKey, AuthUsersFirebaseRef} from '../../media-type/doc-model/auth-user';
-//noinspection TypeScriptPreferShortImport
-import {EmailPasswordCredentials} from '../../media-type/doc-model/email-password-credentials';
+//noinspection ES6PreferShortImport
+import {AuthUserDm, AuthUserKey, AuthUsersFirebaseRef} from '../../media-type';
+//noinspection ES6PreferShortImport
+import {EmailPasswordCredentials} from '../../media-type';
 import {SignInState, SignInStates} from '../../sign-in-state';
 import {UserService} from '../user-service/user-service';
 import {AuthenticationService} from './authentication-service';
-//noinspection TypeScriptPreferShortImport
-import EmailAuthProvider = firebase.auth.EmailAuthProvider
 
 
 interface FirebaseAuthResponse {
@@ -36,24 +42,24 @@ interface FirebaseAuthResponse {
 export class FirebaseAuthenticationService extends AuthenticationService {
 
   signInStateValue: SignInState
-  private auth: firebase.auth.Auth
   private authSubjectObserver: BehaviorSubject<AuthSubject>
-  private db: firebase.database.Database
+  private readonly auth: Auth
+  private readonly db: Database
 
-  constructor(protected bus: MessageBus,
+  constructor(bus: MessageBus,
               protected logger: Logger,
               private fb: FirebaseProvider,
               protected userService: UserService) {
     super()
-    this.auth = fb.app.auth()
-    this.db = this.fb.app.database()
+    this.auth = getAuth(fb.app)
+    this.db = getDatabase(fb.app)
     this.init()
   }
 
   public obtainAcceptLanguageHeader(): Promise<SessionInfoCdm> {
     let url = 'https://us-central1-' + this.fb.app.options['authDomain'].split('.')[0] + '.cloudfunctions.net/visitorInfoEndpoint/';
     return new Promise((resolve, reject) => {
-      this.fb.app.auth().currentUser.getIdToken().then((token) => {
+      this.auth.currentUser.getIdToken().then((token) => {
         this.logger.debug(this, '#obtainAcceptLanguageHeader', 'Sending visitor info request.');
         const req = new XMLHttpRequest();
         req.onload = () => {
@@ -75,8 +81,8 @@ export class FirebaseAuthenticationService extends AuthenticationService {
 
   addSignInEvent(subject: AuthSubject): Promise<void> {
     let refId = generatePushID()
-    let ref = AuthSignInEventsFirebaseRef(this.db).child(refId)
-    let mapRef = AuthSignInEventsByUserFirebaseRef(this.db, subject.$key).child(refId)
+    let ref = child(AuthSignInEventsFirebaseRef(this.db), refId)
+    let mapRef = child(AuthSignInEventsByUserFirebaseRef(this.db, subject.$key), refId)
     let event = SignInEvent.forSubject(subject)
     return FireBlanket.set(ref, SignInEventTransform.toDocModel(event)).then(() => {
       return FireBlanket.set(mapRef, event.whenMils)
@@ -96,11 +102,9 @@ export class FirebaseAuthenticationService extends AuthenticationService {
    * changes sent down by firebase, NOT by manually setting the currentUser here. We have to set the login state
    * here because that information can't be derived from what is supplied by firebase.
    *
-   * There's some excellent arguments for dropping the sign-in-state tracking.
-   *
    * @param payload
    * @param suppressUserInfoSynchronization
-   * @returns {Promise<T>}
+   * @returns {Promise<void>}
    */
   signInWithEmailAndPassword(payload: EmailPasswordCredentials, suppressUserInfoSynchronization: boolean = false): Promise<void> {
     this.logger.trace(this, '#signInWithEmailAndPassword', 'enter', payload.email)
@@ -109,6 +113,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
       email:    payload.email,
       password: payload.password
     }
+    /** @todo: ggranum: This can clearly be improved. At least figure why it was written this way and document it.  */
     return new Promise<void>((resolve, reject) => {
       let readyToResolve = true
       this.authSubjectObserver.pipe(
@@ -118,7 +123,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
         this.logger.trace(this, '#signInWithEmailAndPassword:resolving', payload.email)
         resolve(ResolveVoid)
       })
-      this.auth.signInWithEmailAndPassword(loginCfg.email, loginCfg.password).catch((reason) => {
+      signInWithEmailAndPassword(this.auth, loginCfg.email, loginCfg.password).catch((reason) => {
         this.setSignInState(SignInStates.signInFailed)
         reject(reason)
       })
@@ -129,9 +134,9 @@ export class FirebaseAuthenticationService extends AuthenticationService {
     this.logger.trace(this, '#signInAnonymously')
     this.setSignInState(SignInStates.signingIn)
     return new Promise<void>((resolve, reject) => {
-      this.auth.signInAnonymously()
+      signInAnonymously(this.auth)
         .then((fbAuthState) => {
-          const userDm = this.subjectFromFirebaseResponse(fbAuthState)
+          const userDm = this.subjectFromFirebaseResponse(fbAuthState.user)
           return this.createOwnUserAccount(AuthUserTransform.fragmentFromDocModel(userDm, userDm.$key)).then(() => {
             this.logger.trace(this, '#signInAnonymously', 'created anonymous user')
             this.setSignInState(SignInStates.signedInAnonymous)
@@ -148,9 +153,9 @@ export class FirebaseAuthenticationService extends AuthenticationService {
   createUserWithEmailAndPassword(payload: EmailPasswordCredentials): Promise<void> {
     this.setSignInState(SignInStates.signingUp)
     return new Promise<void>((resolve, reject) => {
-      this.auth.createUserWithEmailAndPassword(payload.email, payload.password)
+      createUserWithEmailAndPassword(this.auth, payload.email, payload.password)
         .then((fbAuthState) => {
-          const userDm = this.subjectFromFirebaseResponse(fbAuthState)
+          const userDm = this.subjectFromFirebaseResponse(fbAuthState.user)
           return this.createOwnUserAccount(AuthUserTransform.fragmentFromDocModel(userDm, userDm.$key)).then(() => {
             this.logger.trace(this, 'created user', userDm.email)
             this.handleUserSignedIn(userDm).then(hydratedUser => {
@@ -166,15 +171,15 @@ export class FirebaseAuthenticationService extends AuthenticationService {
     })
   }
 
-  createOwnUserAccount(child: AuthUser): Promise<void> {
-    const cRef = AuthUsersFirebaseRef(this.db).child(child.$key)
-    const dm = AuthUserTransform.toDocModel(child)
+  createOwnUserAccount(user: AuthUser): Promise<void> {
+    const cRef = child(AuthUsersFirebaseRef(this.db), user.$key)
+    const dm = AuthUserTransform.toDocModel(user)
     return FireBlanket.set(cRef, dm)
   }
 
-  updateOwnUserAccount(child: AuthUser): Promise<void> {
-    const cRef = AuthUsersFirebaseRef(this.db).child(child.$key)
-    const dm = AuthUserTransform.toDocModel(child)
+  updateOwnUserAccount(user: AuthUser): Promise<void> {
+    const cRef = child(AuthUsersFirebaseRef(this.db), user.$key)
+    const dm = AuthUserTransform.toDocModel(user)
     this.logger.trace(this, '#update', JSON.stringify(dm))
     return FireBlanket.update(cRef, dm).catch(e => {
       this.logger.error(this, '#update:failed')
@@ -183,7 +188,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
   }
 
   removeOwnUserAccount(childKey: AuthUserKey): Promise<void> {
-    const cRef = AuthUsersFirebaseRef(this.db).child(childKey)
+    const cRef = child(AuthUsersFirebaseRef(this.db), childKey)
     return FireBlanket.remove(cRef)
   }
 
@@ -221,16 +226,16 @@ export class FirebaseAuthenticationService extends AuthenticationService {
   }
 
   public sendResetPasswordEmail(emailAddress: string): Promise<void> {
-    return <Promise<void>>this.fb.app.auth().sendPasswordResetEmail(emailAddress)
+    return <Promise<void>>sendPasswordResetEmail(this.auth, emailAddress)
   }
 
   public linkAnonymousAccount(payload: EmailPasswordCredentials): Promise<void> {
     this.setSignInState(SignInStates.signingUp)
     const credential = EmailAuthProvider.credential(payload.email, payload.password);
-    return <Promise<void>>this.fb.app.auth().currentUser.linkWithCredential(credential)
+    return <Promise<void>>linkWithCredential(this.auth.currentUser, credential)
       .then((fbAuthState) => {
-        this.logger.trace(this, '#linkAnonymousAccount', 'linked user', fbAuthState.uid, fbAuthState.email)
-        let dm = this.subjectFromFirebaseResponse(fbAuthState)
+        this.logger.trace(this, '#linkAnonymousAccount', 'linked user', fbAuthState.user.uid, fbAuthState.user.email)
+        let dm = this.subjectFromFirebaseResponse(fbAuthState.user)
         const newAuthUser = AuthUserTransform.fragmentFromDocModel(dm, dm.$key);
         return this.updateOwnUserAccount(newAuthUser).then(() => {
           this.logger.trace(this, '#linkAnonymousAccount', 'updated linked user data', newAuthUser.email)
@@ -247,13 +252,13 @@ export class FirebaseAuthenticationService extends AuthenticationService {
 
   private init() {
     this.authSubjectObserver = new BehaviorSubject(AuthSubject.UnknownSubject)
-    this.auth.onAuthStateChanged((fbAuthState: FirebaseAuthResponse) => {
+    this.auth.onAuthStateChanged((fbAuthState: User) => {
       this.handleAuthStateChanged(fbAuthState)
     })
     this.setSignInState(SignInStates.unknown)
   }
 
-  private handleAuthStateChanged(firebaseAuthResponse: FirebaseAuthResponse) {
+  private handleAuthStateChanged(firebaseAuthResponse: User) {
     if (this.signInStateValue === SignInStates.signingUp) {
       /* This state change will be handled by the '#createUserWithEmailAndPassword' method. */
       this.logger.trace(this, '#handleAuthStateChanged:signingUp', 'User is signing up')
@@ -291,14 +296,14 @@ export class FirebaseAuthenticationService extends AuthenticationService {
     }
   }
 
-  private subjectFromFirebaseResponse(fbResponse: FirebaseAuthResponse): AuthUserDm {
+  private subjectFromFirebaseResponse(user: User): AuthUserDm {
     const subject: AuthUserDm = {}
-    subject.$key = fbResponse.uid
-    subject.displayName = fbResponse.displayName
-    subject.email = fbResponse.email
-    subject.emailVerified = fbResponse.emailVerified
-    subject.isAnonymous = fbResponse.isAnonymous
-    subject.photoURL = fbResponse.photoURL
+    subject.$key = user.uid
+    subject.displayName = user.displayName
+    subject.email = user.email
+    subject.emailVerified = user.emailVerified
+    subject.isAnonymous = user.isAnonymous
+    subject.photoURL = user.photoURL
     return subject;
   }
 

@@ -13,7 +13,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {ConfigurableInputIval} from '../../../data-type/configurable-input-ival'
 import {InputConfig} from '../../../input-config'
 import {InputRegistry} from '../../input-types-registry'

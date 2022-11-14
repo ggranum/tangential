@@ -12,9 +12,9 @@ import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators'
 })
 export class PermissionComponent implements OnChanges {
 
-  @Input() permission: AuthPermission
+  @Input() permission: AuthPermission | undefined
 
-  @Output() change: Observable<{ current: AuthPermission, previous: AuthPermission }>;
+  @Output() change: Observable<{ current: AuthPermission, previous: AuthPermission }>
   @Output() remove: EventEmitter<AuthPermission> = new EventEmitter<AuthPermission>(false)
 
   private _focusDebouncer: EventEmitter<boolean> = new EventEmitter<boolean>(false);
@@ -24,8 +24,8 @@ export class PermissionComponent implements OnChanges {
 
 
   submitted = false;
-  private _changed: boolean
-  private _previous: AuthPermission
+  private _changed: boolean = false
+  private _previous: AuthPermission | undefined
 
 
   constructor() {
@@ -42,6 +42,9 @@ export class PermissionComponent implements OnChanges {
         const change = {
           previous: this._previous,
           current: this.permission
+        }
+        if(!this.permission){
+          throw "Missing Permission"
         }
         this._previous = AuthPermission.from(this.permission)
         this._changed = false

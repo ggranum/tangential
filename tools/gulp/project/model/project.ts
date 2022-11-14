@@ -100,7 +100,7 @@ export class Project implements ProjectJson {
     this.initialized = true
     this.backup()
     this.write()
-    console.log("Project validated successfully. Setting initialized to true: project is now ready for remote operations.")
+    console.log("Project validated successfully. Setting initialized to true: project is now ready for remote operations (e.g. 'publish').")
   }
 
   backup() {

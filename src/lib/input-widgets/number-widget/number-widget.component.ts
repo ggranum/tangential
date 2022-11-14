@@ -7,7 +7,7 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output,
+  Output, SimpleChanges,
   ViewEncapsulation
 } from '@angular/core'
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms'
@@ -77,9 +77,9 @@ export class NumberWidgetComponent implements ControlValueAccessor, OnChanges, O
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
-  @Input() hideLabel: boolean
-  @Input() onlyLabel: boolean
+  @Input() disabled: boolean = false
+  @Input() hideLabel: boolean = false
+  @Input() onlyLabel: boolean = false
 
   /**
    * Configuration Fields
@@ -87,10 +87,10 @@ export class NumberWidgetComponent implements ControlValueAccessor, OnChanges, O
   @Input() label: string = ''
   @Input() defaultValue: number = 0
   @Input() max: number = 5
-  @Input() min: number
-  @Input() step: number
-  @Input() decimalPlaces: number
-  @Input() tickInterval: number
+  @Input() min: number = 0
+  @Input() step: number = 1
+  @Input() decimalPlaces: number = 1
+  @Input() tickInterval: number = 10
   @Input() vertical: boolean = false
   /* end Configuration Fields */
 
@@ -107,7 +107,7 @@ export class NumberWidgetComponent implements ControlValueAccessor, OnChanges, O
     Hacks.materialDesignPlaceholderText(this.changeDetectorRef)
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges(changes: SimpleChanges) {
   }
 
   handleValueChange(value: number) {

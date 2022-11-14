@@ -78,19 +78,19 @@ export class TextWidgetConfigureComponent implements OnInit, OnChanges, ControlV
   @HostBinding('attr.layout') flexLayout = 'column';
   @HostBinding('attr.layout-align') flexLayoutAlign = 'start';
 
-  @Input() value: string
+  @Input() value: string = ''
   @Output() valueChange: EventEmitter<string> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
+  @Input() disabled: boolean = false
 
   /**
    * Configuration Fields
    */
   @Input() label: string = ''
   @Input() defaultValue: string = ''
-  @Input() maxLength: number
-  @Input() minLength: number
+  @Input() maxLength: number = 100
+  @Input() minLength: number = 0
 
   @Output() labelChange: EventEmitter<string> = new EventEmitter(false)
   @Output() defaultValueChange: EventEmitter<string> = new EventEmitter(false)

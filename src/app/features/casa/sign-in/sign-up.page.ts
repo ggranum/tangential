@@ -32,24 +32,24 @@ import {AppRouteDefinitions} from '../../../app.routes.definitions'
 })
 export class SignUpPage extends Page implements OnInit {
 
-  routeInfo: RouteInfo = {
+  override routeInfo: RouteInfo = {
     page:      {
       title: 'Tangential: Register'
     },
     analytics: DefaultPageAnalytics(),
     showAds:   false
   }
-  showForm$: Observable<boolean>
-  visitorName$: Observable<string>
+  showForm$: Observable<boolean> | undefined
+  visitorName$: Observable<string> | undefined
 
-  constructor(protected bus: MessageBus,
+  constructor(bus: MessageBus,
               private router: Router,
               private authService: AuthenticationService,
               private visitorService: VisitorService) {
     super(bus)
   }
 
-  ngOnInit() {
+  override ngOnInit() {
     this.showForm$ = this.visitorService.visitor$().pipe(
       map((visitor) => {
         return visitor.subject.isGuest() || visitor.subject.isAnonymousAccount()

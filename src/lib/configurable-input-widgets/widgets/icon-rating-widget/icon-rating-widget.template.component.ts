@@ -9,10 +9,10 @@ import {
   ViewEncapsulation
 } from '@angular/core'
 import {Hacks} from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {NumberIval} from '../../data-type/number/number-ival'
 import {InputViewMode, InputViewModes} from '../../support/input-view-mode'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {InputTemplateIF} from '../../support/template-components/input-template-component/input-template.component'
 import {IconRatingWidgetConfig} from './icon-rating-widget-config'
 

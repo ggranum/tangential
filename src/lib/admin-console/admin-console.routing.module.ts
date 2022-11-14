@@ -6,7 +6,7 @@ import {
 import {HasRoleGuard} from '@tangential/authorization-service'
 import {VisitorResolver} from '@tangential/authorization-service'
 import {AdminConsoleParentPage} from './pages/_parent/admin-console-parent.page'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {PermissionManagerPage} from './pages/permission-manager/permission-manager.page'
 import {RoleManagerPage} from './pages/roles/role-manager.page'
 import {UserManagerPage} from './pages/users/user-manager.page'

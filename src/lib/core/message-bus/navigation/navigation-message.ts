@@ -11,7 +11,7 @@ import {
 export class NavigationMessage extends BusMessage {
   static SourceKey = 'NavigationMessage'
   path: string
-  additionalMessage: string
+  additionalMessage: string | undefined
   constructor(key:string, path: string, additionalMessage?:string) {
     super(NavigationMessage.SourceKey, 'notification', key)
     this.path = path

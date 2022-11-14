@@ -16,7 +16,7 @@ import {AppRouteDefinitions} from '../../../app.routes.definitions'
 })
 export class SignOutPage extends Page implements AfterViewInit {
 
-  routeInfo: RouteInfo = {
+  override routeInfo: RouteInfo = {
     page: {
       title: 'Tangential: Sign Out'
     },
@@ -28,7 +28,7 @@ export class SignOutPage extends Page implements AfterViewInit {
     showAds: false
   }
 
-  constructor(protected bus: MessageBus,
+  constructor(bus: MessageBus,
               protected logger: Logger,
               private router: Router,
               private authService: AuthenticationService) {

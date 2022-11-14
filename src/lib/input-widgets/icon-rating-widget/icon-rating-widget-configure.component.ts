@@ -84,7 +84,7 @@ export class IconRatingWidgetConfigureComponent implements OnInit, ControlValueA
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
+  @Input() disabled: boolean = false
 
   /**
    * Configuration Fields
@@ -92,9 +92,9 @@ export class IconRatingWidgetConfigureComponent implements OnInit, ControlValueA
   @Input() label: string = ''
   @Input() defaultValue: number = 0
   @Input() max: number = 5
-  @Input() iconFont: string
-  @Input() offIconNames: string[]
-  @Input() onIconNames: string[]
+  @Input() iconFont: string | undefined
+  @Input() offIconNames: string[] = []
+  @Input() onIconNames: string[] = []
 
   @Output() labelChange: EventEmitter<string> = new EventEmitter(false)
   @Output() defaultValueChange: EventEmitter<number> = new EventEmitter(false)

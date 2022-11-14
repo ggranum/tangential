@@ -12,7 +12,7 @@ export class AppEnvironment {
       storageBucket: string
       messagingSenderId: string
     }
-  }
+  } = {} as any // Class is another "we'd use an interface if we could, but compiler deletes interfaces"
   googleAdWords?: {
     enabled: boolean
     campaignId: string
@@ -23,7 +23,7 @@ export class AppEnvironment {
     enabled: boolean
     trackingId: string
   }
-  name: 'dev' | 'test' | 'stage' | 'prod'
-  production: boolean
-  suppressAds: boolean
+  name: 'dev' | 'test' | 'stage' | 'prod' = 'dev'
+  production: boolean = false
+  suppressAds: boolean = false
 }

@@ -1,5 +1,4 @@
 import {Jsonified, ObjectUtil} from '@tangential/core'
-import {isNumeric} from 'rxjs/internal-compatibility'
 
 import {ConfigurableInputType, ConfigurableInputTypeJson} from '../configurable-input-type'
 import {NumberIval, NumberIvalIF} from './number-ival'
@@ -21,15 +20,15 @@ const Model: NumberTypeIF = {
 }
 
 export class NumberType extends ConfigurableInputType implements Jsonified<NumberType, NumberTypeIF>, NumberTypeIF {
-  static $model: NumberTypeIF = ObjectUtil.assignDeep({}, ConfigurableInputType.$model, Model)
+  static override $model: NumberTypeIF = ObjectUtil.assignDeep({}, ConfigurableInputType.$model, Model)
 
 
-  static TYPE_NAME = 'Number'
+  static override TYPE_NAME = 'Number'
   min?: number
   max?: number
   step?: number
   decimalPlaces?: number
-  defaultValue?: number
+  override defaultValue?: number
 
 
   constructor(config?: NumberTypeIF, key?: string) {
@@ -50,6 +49,11 @@ export class NumberType extends ConfigurableInputType implements Jsonified<Numbe
       value: isNumeric(cfg.value) ? cfg.value : this.defaultValue
     }, key || this.$key);
   }
+}
+
+// Was once exposed. Alas. Thanks to https://github.com/angular/angular/blob/4.3.x/packages/common/src/pipes/number_pipe.ts#L172
+export function isNumeric(value: any): boolean {
+  return !isNaN(value - parseFloat(value));
 }
 
 ConfigurableInputType.register(NumberType)

@@ -1,10 +1,10 @@
 import {Component, HostBinding, ViewEncapsulation} from '@angular/core'
-import {MatDialogRef} from '@angular/material'
+import {MatDialogRef} from '@angular/material/dialog'
 import {BehaviorSubject} from 'rxjs'
 import {debounceTime} from 'rxjs/operators'
 import {InputRegistry} from '../input-types-registry'
 import {InputViewModes} from '../input-view-mode'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {InputTemplateIF} from '../template-components/input-template-component/input-template.component'
 
 

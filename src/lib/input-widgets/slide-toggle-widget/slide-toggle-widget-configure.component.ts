@@ -61,11 +61,11 @@ export class SlideToggleWidgetConfigureComponent implements OnInit, OnChanges, C
   @HostBinding('attr.layout') flexLayout = 'column';
   @HostBinding('attr.layout-align') flexLayoutAlign = 'start';
 
-  @Input() value: boolean
+  @Input() value: boolean = false
   @Output() valueChange: EventEmitter<boolean> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
+  @Input() disabled: boolean = false
 
   /**
    * Configuration Fields

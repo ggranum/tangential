@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChange} from '@angular/core'
-import {MatButtonToggleChange} from '@angular/material'
+import {MatButtonToggleChange} from '@angular/material/button-toggle'
 import {AuthRole} from '@tangential/authorization-service'
 
 

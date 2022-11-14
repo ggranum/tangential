@@ -4,7 +4,7 @@ import {MessageBus, NavigationRequiresAuthenticationMessage, NavigationRequiresP
 import {Observable} from 'rxjs'
 import {first, map} from 'rxjs/operators'
 import {AuthSubject} from '../media-type/cdm/auth-subject'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthenticationService} from '../state/authentication-service/authentication-service'
 
 

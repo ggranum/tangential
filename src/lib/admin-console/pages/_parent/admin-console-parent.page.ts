@@ -20,8 +20,7 @@ import {tap} from 'rxjs/operators'
 })
 export class AdminConsoleParentPage {
 
-
-  auth: Auth
+  auth: Auth | undefined
   auth$: Observable<Auth>
 
   constructor(private bus: MessageBus,

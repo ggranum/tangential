@@ -1,25 +1,27 @@
 import {Injectable} from '@angular/core'
+import {Database, DatabaseReference} from '@firebase/database'
 import {AdminService, AuthSubject} from '@tangential/authorization-service'
 import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util'
-import * as firebase from 'firebase'
+import {child, getDatabase, ref} from 'firebase/database';
+
 import {TangentialPlugin} from '../plugin'
 import {PluginService} from './plugin-service'
 
-export const PluginsFirebaseRef = function (db: firebase.database.Database): firebase.database.Reference {
-  return db.ref('/plugins')
-}
-export const PluginFirebaseRef = function (db: firebase.database.Database, pluginKey: string): firebase.database.Reference {
-  return PluginsFirebaseRef(db).child(pluginKey)
+export const PluginsFirebaseRef = function (db: Database): DatabaseReference {
+  return ref(db, '/plugins')
 }
 
+export const PluginFirebaseRef = function (db: Database, pluginKey: string): DatabaseReference {
+  return child(PluginsFirebaseRef(db), pluginKey);
+}
 
 @Injectable()
 export class FirebasePluginService extends PluginService {
-  private db: firebase.database.Database
+  private readonly db: Database
 
   constructor(protected fb: FirebaseProvider, adminService: AdminService) {
     super(adminService)
-    this.db = fb.app.database()
+    this.db = getDatabase(fb.app)
   }
 
 
