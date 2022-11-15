@@ -134,7 +134,7 @@ export class NpmPackageMaker {
       }
       if (!peerVersion) {
         if(x[key]){
-          console.log('NpmPackageMaker', "now that's fucked", x[key].version)
+          console.log('NpmPackageMaker', "now that's f...fascinating", x[key].version)
         }
         throw new Error(`Dependency for '${key}' not defined in the global project: cannot determine which version to use for module '${module.name} `)
       }
