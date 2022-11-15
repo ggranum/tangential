@@ -18,6 +18,7 @@ import {
 
 import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util';
 import {environment} from '../../../../environments/environment.dev.local';
+import {TestEntry} from '../../test/base-auth-service-tests.spec'
 import {TestConfiguration} from '../test-config.spec';
 import {ReflectiveInjector} from '@angular/core';
 import {AuthenticationTestSet} from './authentication-test-set.spec';
@@ -46,14 +47,17 @@ try {
   let logger = injector.get(Logger)
   testSet = injector.get(AuthenticationTestSet)
 } catch (e) {
-  console.log('error', e)
+  console.log('Error initializing services', e)
 }
 describe(testSet.description, () => {
 
-  beforeEach((done) => testSet.beforeEach().then(done))
+  beforeEach(() => testSet.beforeEach().catch(error => {
+    console.log("BeforeEach Failed: ", error)
+  }))
 
   testSet.declareTests().forEach((test: TestEntry) => {
-    fit(test[0], test[1])
+    it(test[0], test[1])
   })
+
 
 })

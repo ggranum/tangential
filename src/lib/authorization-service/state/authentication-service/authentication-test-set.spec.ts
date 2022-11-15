@@ -3,6 +3,8 @@ import {Injectable} from '@angular/core'
 import {
   AdminService, AuthenticationService, AuthPermission, AuthSettingsService
 } from '@tangential/authorization-service'
+import {rejects} from 'assert'
+import {first, firstValueFrom} from 'rxjs';
 import {Logger, MessageBus} from '@tangential/core'
 import {BaseAuthenticationRequiredTestSet, TestEntry} from '../../test/base-auth-service-tests.spec'
 import {TestConfiguration} from '../test-config.spec'
@@ -31,10 +33,9 @@ export class AuthenticationTestSet extends BaseAuthenticationRequiredTestSet {
     ]
   }
 
-
   loadsAllPermissions(): Promise<void> {
     console.log('AuthenticationTestSet', 'loadsAllPermissions')
-    return this.authSettingsService.authSettings$().first().toPromise().then((x) => {
+    return firstValueFrom(this.authSettingsService.authSettings$()).then((x) => {
       let count = 0
       let all = []
       x.permissions.forEach((perm: AuthPermission) => {
@@ -56,20 +57,20 @@ export class AuthenticationTestSet extends BaseAuthenticationRequiredTestSet {
       orderIndex:  -1
     })
     return this.adminService.addPermission(testPerm)
-      .then(() => this.authSettingsService.authSettings$().first().toPromise().then(settings => {
-        expect(settings.permissionsMap()[key]).toBeTruthy('Should have read the created value.')
+      .then(() => firstValueFrom(this.authSettingsService.authSettings$()).then(settings => {
+        expect(settings.permissionsMap()[key]).withContext('Should have read the created value.').toBeTruthy()
       }))
       .catch((e) => this.handleFailure(e))
   }
 
   allowsTrialAccount(): Promise<void> {
-    return this.authService.signOut().then(() => this.authService.awaitKnownAuthSubject$().first().toPromise())
+    return this.authService.signOut().then(() => firstValueFrom(this.authService.awaitKnownAuthSubject$()))
       .then((authUser) => expect(authUser.isGuest()).toBeTruthy('User should be signed out.'))
       .then(() => this.authService.signInAnonymously())
-      .then(() => this.authService.authSubject$().first().toPromise())
+      .then(() => firstValueFrom(this.authService.authSubject$()))
       .then(visitor => {
-        expect(visitor).not.toBeFalsy('Visitor should not be nullish')
-        expect(visitor.isAnonymous).toBe(true, 'Visitor should be anonymous')
+        expect(visitor).withContext('Visitor should not be nullish').not.toBeFalsy()
+        expect(visitor.isAnonymous).withContext('Visitor should be anonymous').toBe(true)
         return this.authService.deleteAccount()
       })
   }

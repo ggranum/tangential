@@ -70,7 +70,7 @@ export class FirebaseAuthenticationService extends AuthenticationService {
         }
         req.onerror = (ev) => {
           this.logger.error(this, '#obtainAcceptLanguageHeader::onerror', req.statusText)
-          reject(ev)
+          reject({ event: ev, message: "#obtainAcceptLanguageHeader::onerror" })
         }
         req.open('GET', url, true);
         req.setRequestHeader('Authorization', 'Bearer ' + token);
@@ -272,6 +272,9 @@ export class FirebaseAuthenticationService extends AuthenticationService {
       this.handleUserSignedIn(firebaseResponse).then(subject => {
         this.logger.trace(this, '#handleAuthStateChanged:Subject Resolved', subject.$key, subject.email, subject.isAnonymous)
         this.setCurrentUser(subject)
+      }).catch(error => {
+        console.warn("User sign in failed", error)
+        console.log(firebaseResponse)
       })
     } else {
       this.logger.trace(this, '#handleAuthStateChanged', 'Visitor is Guest or has signed out')

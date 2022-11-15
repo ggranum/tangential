@@ -421,7 +421,7 @@ So, congratulations with completing the Bootstrap! The following steps are all t
 
 === It's time to build build build
 
-With our database initialized, we can now start up the application on a local server. Even the local server goes out to our remote firebase service though, hence why we require a the database to be initialized. Yeah, no deserted island development mode here, at least not yet. It's a great goal, but fantastically time-consuming in real life. (that said, if our consumers demand it, we'd absolutely love to implement it!)
+With our database initialized, we can now start up the application on a local server. Even the local server goes out to our remote firebase service though, hence why we require a the database to be initialized. Yeah, no deserted island development mode here, at least not yet.
 
 So, let's run locally, using the https://github.com/angular/angular-cli[Angular CLI] commands:
 
@@ -496,7 +496,7 @@ Thanks, and Good luck!
 
 === Some useful commands:
 
-You'll probably want to run unit tests, and it's nice to have a simple list of commands to jump to... so here it is!
+You'll probably want to run unit tests, and it's nice to have a simple list of commands to jump to.
 
 `ng serve --host 0.0.0.0 -p 4200`:: Also, `ng serve --help`. This is the command we tend to start our development day with. It will build in the background while you make code and style changes. Fair warning: like any compiler it can't always catch the full breadth of some code changes. You may occasionally need to stop and restart the server to 'fix' odd behavior created by such bad state. It's rare enough that, when it happens, you'll likely blame something else first!
 `ng build --aot -prod -oh=all`:: Pre-release build, also should be run occasionally to check for AoT build errors (especially if you're editing routes!). AoT builds will find bugs in your templates that you might not catch with just browsing your app in 'serve' or runtime-compile mode.
