@@ -1,9 +1,6 @@
-import {
-  BusMessage,
-  MessageBus,
-  ObjectUtil
-} from '@tangential/core'
-import {Observable} from 'rxjs/Observable'
+import {BusMessage, MessageBus, ObjectUtil} from '@tangential/core'
+import {Observable} from 'rxjs'
+import {filter, first} from 'rxjs/operators'
 import {IconIF} from '../icon/icon'
 
 export type NotificationType = 'error' | 'info' | 'warning'
@@ -15,10 +12,10 @@ export const NotificationTypes = {
 
 export interface NotificationIF {
   $key?: string
+  duration?: number
+  icon?: IconIF
   level?: NotificationType
   message?: string
-  icon?: IconIF
-  duration?: number
 }
 
 const defaultNotification: NotificationIF = {
@@ -32,9 +29,9 @@ export class NotificationMessage extends BusMessage implements NotificationIF {
   static SourceKey = 'NotificationMessage'
 
   $key?: string
-  message?: string
-  icon?: IconIF
   duration?: number
+  icon?: IconIF
+  message?: string
 
   constructor(config: NotificationIF) {
     super(NotificationMessage.SourceKey, 'event', config.level)
@@ -45,16 +42,18 @@ export class NotificationMessage extends BusMessage implements NotificationIF {
    * Returns an observable that will complete after a single response.
    */
   response(bus: MessageBus): Observable<NotificationResponseMessage> {
-    return bus.all.first(
-      msg => msg.source === NotificationResponseMessage.SourceKey && (<NotificationResponseMessage>msg).notice.id === this.id)
+    return bus.all.pipe(
+      first(msg => msg.source === NotificationResponseMessage.SourceKey && (<NotificationResponseMessage>msg).notice.id === this.id)
+    ) as Observable<NotificationResponseMessage>
   }
 
   /**
    * Returns an observable that will fire on every response and will never complete.
    */
   responses(bus: MessageBus): Observable<NotificationResponseMessage> {
-    return bus.all.filter(
-      msg => msg.source === NotificationResponseMessage.SourceKey && (<NotificationResponseMessage>msg).notice.id === this.id)
+    return bus.all.pipe(
+      filter(msg => msg.source === NotificationResponseMessage.SourceKey && (<NotificationResponseMessage>msg).notice.id === this.id)
+    ) as Observable<NotificationResponseMessage>
   }
 
   static info(config: NotificationIF): NotificationMessage {
@@ -73,12 +72,12 @@ export class NotificationMessage extends BusMessage implements NotificationIF {
   }
 
   static filter(bus: MessageBus): Observable<NotificationMessage> {
-    return bus.all.filter(msg => msg.source === NotificationMessage.SourceKey)
+    return bus.all.pipe(filter(msg => msg.source === NotificationMessage.SourceKey)) as Observable<NotificationMessage>
   }
 }
 
 export class NotificationResponseMessage extends BusMessage {
-  static SourceKey:string = 'NotificationResponse'
+  static SourceKey: string = 'NotificationResponse'
 
 
   constructor(public notice: NotificationMessage, public response: any) {
@@ -86,7 +85,7 @@ export class NotificationResponseMessage extends BusMessage {
   }
 
   static filter(bus: MessageBus) {
-    return bus.all.filter(msg => msg.source === NotificationResponseMessage.SourceKey)
+    return bus.all.pipe(filter(msg => msg.source === NotificationResponseMessage.SourceKey))
   }
 
   static responseFor(notification: NotificationMessage, response: any) {

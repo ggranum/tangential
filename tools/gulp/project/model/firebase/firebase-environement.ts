@@ -211,7 +211,8 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
 
   checkPrivateKeyFileExists() {
     if (!this.verifyPrivateKeyFileExists()) {
-      throw new FirebasePrivateKeyNotInitialized(this.projectEnv)
+      const path = this.getPrivateKeyPath()
+      throw new FirebasePrivateKeyNotInitialized(this.projectEnv, path)
     }
   }
 
@@ -221,8 +222,9 @@ export class FirebaseEnvironment implements FirebaseEnvironmentJson {
     if(keyData.project_id !== this.config.projectId){
       throw new FirebasePrivateKeyMismatch(
         "Your Firebase service account private key project_id does not match your current environment's project id."
-        + `\n     '${keyData.project_id}' != '${this.config.projectId}' `
-        + `['Service Key File value' != '${this.projectEnv.name} environment Firebase project id'.]`)
+        + `\n     '${keyData.project_id}' != '${this.config.projectId}'`
+        + `\n    at ./config/project.local.json:environment.${this.projectEnv.name}.firebase.config.projectId`
+      )
     }
 
   }

@@ -10,7 +10,7 @@ const Model: ConfigurableInputIvalJson = {
 }
 
 export class ConfigurableInputIval extends BaseMediaType implements Jsonified<ConfigurableInputIval, ConfigurableInputIvalJson>, ConfigurableInputIvalJson {
-  static $model: ConfigurableInputIvalJson = ObjectUtil.assignDeep({}, BaseMediaType.$model, Model)
+  static override $model: ConfigurableInputIvalJson = ObjectUtil.assignDeep({}, BaseMediaType.$model, Model)
   value: any
 
   constructor(config: any, key?: string) {

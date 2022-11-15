@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core'
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router'
 import {Logger} from '@tangential/core'
+import {first} from 'rxjs/operators'
 import {Visitor} from '../media-type/cdm/visitor'
 import {VisitorService} from '../visitor-service'
 
@@ -18,7 +19,7 @@ export class VisitorResolver implements Resolve<Visitor> {
   resolveVisitor(): Promise<Visitor> {
     this.logger.trace(this, 'resolve', 'enter')
     /* Wait up to five seconds for the Firebase Auth to comeback with a response. */
-    return this.visitorService.awaitVisitor$(5000).first().toPromise().then(x => {
+    return this.visitorService.awaitVisitor$(5000).pipe(first()).toPromise().then(x => {
       this.logger.trace(this, 'resolved', x)
       return x
     })

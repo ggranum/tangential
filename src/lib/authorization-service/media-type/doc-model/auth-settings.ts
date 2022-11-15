@@ -2,9 +2,12 @@ import {AuthRoleDm, RolePermissionsDm} from './auth-role';
 import {AuthPermissionDm} from './auth-permission';
 import {AuthConfigurationDm} from './auth-configuration';
 import {AuthFirebaseRef} from './auth';
+import {Database} from '@firebase/database'
+import {child} from 'firebase/database'
 
-export const AuthSettingsFirebaseRef = function (db: firebase.database.Database) {
-  return AuthFirebaseRef(db).child('settings/')
+
+export const AuthSettingsFirebaseRef = function (db: Database) {
+  return child(AuthFirebaseRef(db), 'settings/')
 }
 
 export interface AuthSettingsDm {

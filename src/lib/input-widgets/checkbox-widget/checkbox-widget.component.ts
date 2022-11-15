@@ -47,11 +47,11 @@ export class CheckboxWidgetChange {
            class="tanj-widget-input"
            layout="column"
            layout-align="start">
-        <md-checkbox flex
+        <mat-checkbox flex
                      [disabled]="disabled"
                      [(ngModel)]="value"
                      (change)="handleValueChange(value)">
-        </md-checkbox>
+        </mat-checkbox>
       </div>
       <div *ngIf="!hideLabel && labelPosition == 'below'" class="tanj-label tanj-below">{{label}}</div>
     </div>
@@ -73,9 +73,9 @@ export class CheckboxWidgetComponent implements OnInit, ControlValueAccessor {
   @Output() valueChange: EventEmitter<boolean> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
-  @Input() hideLabel: boolean
-  @Input() onlyLabel: boolean
+  @Input() disabled: boolean = false
+  @Input() hideLabel: boolean = false
+  @Input() onlyLabel: boolean = false
 
 
   /**

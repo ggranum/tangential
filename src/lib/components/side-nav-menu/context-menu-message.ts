@@ -1,5 +1,6 @@
 import {BusMessage, MessageBus} from '@tangential/core'
-import {Observable} from 'rxjs/Observable'
+import {Observable} from 'rxjs'
+import {filter} from 'rxjs/operators'
 import {MenuItem} from './menu';
 
 
@@ -21,7 +22,7 @@ export class ContextMenuMessage extends BusMessage {
   }
 
   static filter(bus: MessageBus): Observable<ContextMenuMessage> {
-    return bus.all.filter(msg => msg.source === ContextMenuMessage.SourceKey)
+    return bus.all.pipe(filter(msg => msg.source === ContextMenuMessage.SourceKey)) as Observable<ContextMenuMessage>
   }
 
 }

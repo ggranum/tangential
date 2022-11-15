@@ -1,11 +1,11 @@
 import {spawn} from 'child_process';
-import {existsSync, readdirSync, statSync} from 'fs';
+import {existsSync, statSync} from 'fs';
 import {task} from 'gulp';
 import gulpRunSequence = require('run-sequence');
 import path = require('path');
 import minimist = require('minimist');
 
-import {execTask, cleanTask, collectComponents} from '../task_helpers';
+import {cleanTask, collectComponents} from '../task_helpers';
 import {DIST_COMPONENTS_ROOT} from '../constants';
 
 const argv = minimist(process.argv.slice(3));
@@ -70,6 +70,9 @@ function _execNpmLink(componentPath: string, unlink:boolean): Promise<void> {
   })
 }
 
+/**
+ * Publish each of the @tangential/* components, as defined in src/tsconfig.lib.json
+ */
 task(':link', function(done: (err?: any) => void) {
   const unlink = !!argv['unlink'];
   const currentDir = process.cwd();

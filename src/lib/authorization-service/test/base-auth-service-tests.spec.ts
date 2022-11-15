@@ -4,6 +4,8 @@ import {
   SignInStates,
 } from '@tangential/authorization-service';
 import {Logger, MessageBus} from '@tangential/core';
+import {first, firstValueFrom} from 'rxjs'
+import {filter} from 'rxjs/operators'
 import {TestConfiguration} from '../state/test-config.spec';
 
 export type TestEntry = [string, (done) => void]
@@ -35,16 +37,20 @@ export abstract class BaseAuthenticationRequiredTestSet {
   }
 
   signInIfRequired(credentials: EmailPasswordCredentials): Promise<void> {
-    return this.authService.authSubject$().first(subject => subject.signInState != SignInStates.unknown).toPromise().then(subject => {
-      if (subject.email != credentials.email) {
-        return this.authService.signInWithEmailAndPassword(credentials)
-      }
-    })
+    return firstValueFrom(this.authService.authSubject$().pipe(filter(subject => subject.signInState != SignInStates.unknown)))
+      .then(subject => {
+        if (subject.email != credentials.email) {
+          return this.authService.signInWithEmailAndPassword(credentials)
+        } else {
+          /** @todo: What is the actual correct behaviour if sign in not required? */
+          throw "Sign in not required."
+        }
+      })
   }
 
   cleanup():Promise<void> {
     return this.signInIfRequired(this.testConfiguration.adminCredentials).then(() => {
-      this.authService.awaitKnownAuthSubject$().first().toPromise().then(user => {
+      firstValueFrom(this.authService.awaitKnownAuthSubject$()).then(user => {
         console.log('Signed in for cleanup', user.$key)
 
       })

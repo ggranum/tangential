@@ -1,10 +1,9 @@
-import {
-  BehaviorSubject,
-  Observable
-} from 'rxjs/Rx'
+import {DatabaseReference, Query, DataSnapshot} from '@firebase/database'
+import { set, push, remove, update, onValue } from 'firebase/database'
+import {BehaviorSubject, Observable} from 'rxjs'
+import {filter, first} from 'rxjs/operators'
+
 import {Placeholder} from './placeholder'
-import DataSnapshot = firebase.database.DataSnapshot
-import Query = firebase.database.Query
 
 export type OnRefKey = 'value' | 'child_added' | 'child_removed' | 'child_changed' | 'child_moved'
 export const OnRefKeys = {
@@ -18,9 +17,10 @@ export const OnRefKeys = {
 /**
  * Copy-paste for local use, rather than create a dependency on core.
  */
-const isObject = function(value): boolean {
-  return (typeof value === 'object' || value.constructor === Object)
+const isObject = function (value: any): boolean {
+  return (typeof value === 'object' || value['constructor'] === Object)
 }
+
 /**
  * Prevent typescript casting issues while maintaining/enhancing type safety.
  */
@@ -28,22 +28,22 @@ export class FireBlanket {
 
   static util = {
 
-    clean<T>(obj: T, deep:boolean = true): T {
+    clean<T extends object>(obj: T, deep: boolean = true): T {
       const cleanObj: T = <T>{}
       Object.keys(obj).forEach((key) => {
-        let value = obj[key]
+        let value = (obj as any)[key]
         if (FireBlanket.util.isLegalFirebaseKey(key) && FireBlanket.util.isLegalFirebaseValue(value)) {
-          cleanObj[key] = (deep && isObject(value)) ? FireBlanket.util.clean(value) : value
+          (cleanObj as any)[key] = (deep && isObject(value)) ? FireBlanket.util.clean(value) : value
         }
       })
       return cleanObj
     },
 
-    removeIllegalKeys<T>(obj: T): T {
+    removeIllegalKeys<T extends object>(obj: T): T {
       const cleanObj: T = <T>{}
-      Object.keys(obj).forEach((key) => {
+      Object.keys(obj as any).forEach((key) => {
         if (FireBlanket.util.isLegalFirebaseKey(key)) {
-          cleanObj[key] = obj[key]
+          (cleanObj as any)[key] = (obj as any)[key]
         }
       })
       return cleanObj
@@ -68,13 +68,32 @@ export class FireBlanket {
 
   }
 
-  static value(query: Query, onErrorOrCancelCallback?: (error: any) => any): Promise<DataSnapshot> {
-    return <Promise<DataSnapshot>>query.once('value', (snap: DataSnapshot) => snap, onErrorOrCancelCallback)
+  /**
+   * Read the value once and return.
+   * @param query
+   */
+  static value(query: Query): Promise<DataSnapshot> {
+    return new Promise<DataSnapshot>((resolve, reject) => {
+      onValue(query, (snap: DataSnapshot) => {
+        resolve(snap);
+      }, {
+        onlyOnce: true
+      });
+    });
   }
 
   static value$(query: Query): Observable<DataSnapshot> {
-    const subject = new BehaviorSubject(Placeholder)
-    query.on(OnRefKeys.value, (snap: DataSnapshot) => {
+    const subject = new BehaviorSubject(Placeholder); // this semicolon is required.
+
+    /** @todo: ggranum: The unsubscribe is hacky, and won't actually remove the firebase
+     * listener unless there is a 'next' element called
+     * @maybeBug: Possible memory leak for long-running sessions with many value listeners
+     * */
+      (subject as any)['_firebaseUnsubscribe'] = onValue(query, (snap: DataSnapshot) => {
+      if(subject.closed){
+        (subject as any)['_firebaseUnsubscribe']()
+        delete (subject as any)['_firebaseUnsubscribe']
+      }
       subject.next(snap)
     }, (error: any) => {
       subject.error(error)
@@ -83,17 +102,17 @@ export class FireBlanket {
   }
 
   static awaitValue$(query: Query): Observable<DataSnapshot> {
-    return this.value$(query).filter(v => v !== Placeholder)
+    return this.value$(query).pipe(filter(v => v !== Placeholder))
   }
 
   static valueOnce$(query: Query): Observable<DataSnapshot> {
-    return this.value$(query).first(v => v !== Placeholder)
+    return this.value$(query).pipe(first(v => v !== Placeholder))
   }
 
-  static set<T>(ref: firebase.database.Reference, value: T): Promise<void> {
+  static set<T>(ref: DatabaseReference, value: T): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       try {
-        ref.set(value, (e: Error) => {
+        set(ref, value).then(() => {}).catch((e: Error) => {
           if (e) {
             reject(e)
           } else {
@@ -106,10 +125,10 @@ export class FireBlanket {
     })
   }
 
-  static push<T>(ref: firebase.database.Reference, value: T): Promise<void> {
+  static push<T>(ref: DatabaseReference, value: T): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       try {
-        ref.push(value, (e: Error) => {
+        push(ref, value).catch((e: Error) => {
           if (e) {
             reject(e)
           } else {
@@ -122,23 +141,11 @@ export class FireBlanket {
     })
   }
 
-  static update<T>(ref: firebase.database.Reference, value: T): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      try {
-        ref.update(value, (e: Error) => {
-          if (e) {
-            reject(e)
-          } else {
-            resolve()
-          }
-        })
-      } catch (e) {
-        reject(e)
-      }
-    })
+  static update<T extends object>(ref: DatabaseReference, value: T): Promise<void> {
+       return update(ref, value )
   }
 
-  static remove<T>(ref: firebase.database.Reference, onComplete?: (a: Error | null) => any): Promise<void> {
-    return <Promise<any>>ref.remove(onComplete)
+  static remove<T>(ref: DatabaseReference): Promise<void> {
+    return remove(ref)
   }
 }

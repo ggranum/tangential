@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, ViewEncapsulation} from '@angular/core'
-import {AuthPermission, AuthRole, AuthUser, AuthSubject} from '@tangential/authorization-service'
-import {Observable} from 'rxjs/Observable'
+import {AuthPermission, AuthRole, AuthUser} from '@tangential/authorization-service'
+import {Observable} from 'rxjs'
+import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators'
 
 @Component({
   selector:        'tanj-user',
@@ -19,7 +20,7 @@ export class UserComponent implements OnChanges {
   @Input() selected: boolean = false
   @Input() expanded: boolean = false
 
-  @Output() change: Observable<AuthSubject>;
+  @Output() change: Observable<AuthUser>;
   @Output() selectionChange: EventEmitter<boolean> = new EventEmitter<boolean>(false)
   @Output() removeUser: EventEmitter<AuthUser> = new EventEmitter<AuthUser>(false)
   @Output() addUserRole: EventEmitter<{ user: AuthUser, role: AuthRole }> = new EventEmitter<{ user: AuthUser, role: AuthRole }>(false)
@@ -40,22 +41,22 @@ export class UserComponent implements OnChanges {
 
   constructor() {
     let distinct: Observable<boolean> = this._focusDebouncer.asObservable()
-    distinct = distinct.debounceTime(10).distinctUntilChanged()
+    distinct = distinct.pipe(debounceTime(10),distinctUntilChanged())
 
-    this.focus = distinct
-      .filter((focused) => focused === true)
-      .map(() => {
+    this.focus = distinct.pipe(
+      filter((focused) => focused === true),
+      map(() => {
         this.expanded = true
         return new Event('focus')
-      })
+      }))
 
-    this.change = distinct
-      .filter((focused) => focused === false && this._changed)
-      .map(() => this.user)
+    this.change = distinct.pipe(
+      filter((focused) => focused === false && this._changed),
+      map(() => this.user))
 
-    this.blur = distinct
-      .filter((focused) => focused === false)
-      .map(() => new Event('blur'))
+    this.blur = distinct.pipe(
+      filter((focused) => focused === false),
+      map(() => new Event('blur')))
   }
 
   ngOnChanges(change: any) {

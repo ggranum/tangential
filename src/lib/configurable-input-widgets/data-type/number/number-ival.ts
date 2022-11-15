@@ -11,8 +11,8 @@ const Model: NumberIvalIF = {
 }
 
 export class NumberIval extends ConfigurableInputIval implements Jsonified<NumberIval, NumberIvalIF>, NumberIvalIF {
-  static $model: NumberIvalIF = ObjectUtil.assignDeep({}, ConfigurableInputIval.$model, Model)
-  value: number
+  static override $model: NumberIvalIF = ObjectUtil.assignDeep({}, ConfigurableInputIval.$model, Model)
+  override value: number
 
 
   constructor(config?: NumberIvalIF, key?: string) {

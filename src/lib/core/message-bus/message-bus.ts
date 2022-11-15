@@ -2,8 +2,9 @@ import {
   EventEmitter,
   Injectable
 } from '@angular/core'
-import {Observable} from 'rxjs/Observable'
-//noinspection TypeScriptPreferShortImport
+import {Observable} from 'rxjs'
+import {share} from 'rxjs/operators'
+//noinspection ES6PreferShortImport
 import {generatePushID} from '../util/generate-push-id'
 
 export type BusMessageIntent = 'request' | 'action' | 'event' | 'notification' | 'log'
@@ -44,11 +45,12 @@ export class BusMessage {
   public key: string
   public source: string
 
+  /** @todo: 'intent' should probably be handled by static creation methods. */
   constructor(source: string, intent?: BusMessageIntent, key?: string) {
     this.id = generatePushID()
     this.source = source
-    this.intent = intent
-    this.key = key
+    this.intent = intent || 'event' // this should not be optional.
+    this.key = key || '_'
   }
 }
 
@@ -59,7 +61,7 @@ export class MessageBus {
   private bus: EventEmitter<BusMessage> = new EventEmitter(false)
 
   constructor() {
-    this.all = this.bus.share();
+    this.all = this.bus.pipe(share());
   }
 
   post(message: BusMessage) {

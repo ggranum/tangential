@@ -3,14 +3,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  HostBinding,
   OnDestroy,
   ViewEncapsulation
 } from '@angular/core'
 import {Router} from '@angular/router'
 import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service'
 import {DefaultPageAnalytics, Logger, MessageBus, Page, RouteInfo} from '@tangential/core'
-import {Subscription} from 'rxjs/Subscription'
+import {Subscription} from 'rxjs'
+import {AppRouteDefinitions} from '../../../app.routes.definitions'
 import {AppRoutes} from '../../../app.routing.module'
 
 @Component({
@@ -21,13 +21,11 @@ import {AppRoutes} from '../../../app.routing.module'
 })
 export class HomePage extends Page implements AfterViewInit, OnDestroy {
 
-  visitor: Visitor = null
-
-  appRoutes = AppRoutes
+  visitor: Visitor | undefined = undefined
 
   private subs: Subscription[] = []
 
-  routeInfo:RouteInfo = {
+  override routeInfo:RouteInfo = {
     page: {
       title: 'Tangential: Home'
     },
@@ -35,7 +33,9 @@ export class HomePage extends Page implements AfterViewInit, OnDestroy {
     showAds: false
   }
 
-  constructor(protected bus: MessageBus,
+  appRoutes = AppRoutes
+
+  constructor(bus: MessageBus,
               protected logger: Logger,
               private router: Router,
               private authService: AuthenticationService,
@@ -61,12 +61,12 @@ export class HomePage extends Page implements AfterViewInit, OnDestroy {
 
 
   onSignIn() {
-    this.router.navigate(AppRoutes.home.navTargets.absSignIn())
+    this.router.navigate(AppRouteDefinitions.home.navTargets.absSignIn())
   }
 
   onAnonymousLoginRequest() {
     this.authService.signInAnonymously().then(() => {
-      this.router.navigate(AppRoutes.home.navTargets.absTryoutWelcome())
+      this.router.navigate(AppRouteDefinitions.home.navTargets.absTryoutWelcome())
     })
   }
 }

@@ -22,11 +22,11 @@ const Model: DateTimeTypeIF = {
 }
 
 export class DateTimeType extends ConfigurableInputType implements Jsonified<DateTimeType, DateTimeTypeIF>, DateTimeTypeIF {
-  static $model: DateTimeTypeIF = ObjectUtil.assignDeep({}, ConfigurableInputType.$model, Model)
-  static TYPE_NAME = 'DateTime'
+  static override $model: DateTimeTypeIF = ObjectUtil.assignDeep({}, ConfigurableInputType.$model, Model)
+  static override TYPE_NAME = 'DateTime'
   afterMils?: number
   beforeMils?: number
-  defaultValue?: number
+  override defaultValue?: number
   defaultToNow?: boolean
 
   constructor(config?: DateTimeTypeIF, key?: string) {

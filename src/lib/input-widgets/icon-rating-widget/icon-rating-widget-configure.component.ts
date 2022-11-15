@@ -37,15 +37,15 @@ export class IconRatingWidgetConfigureChange {
   selector:      'tanj-icon-rating-widget-configure',
   template:      `<!-- -->
   <div class="tanj-input-template tanj-mode-configure" flex layout="column" layout-align="start">
-    <md-input-container dividerColor="accent">
-      <input mdInput
+    <mat-form-field dividerColor="accent">
+      <input matInput
              class="tanj-input"
              type="text"
              maxlength="50"
              placeholder="Enter a label for this input"
              (change)="labelChange.emit(label)"
              [(ngModel)]="label"/>
-    </md-input-container>
+    </mat-form-field>
     <ng-container *ngIf="label">
       <tanj-icon-rating-widget
         [(value)]="defaultValue"
@@ -59,15 +59,15 @@ export class IconRatingWidgetConfigureChange {
         [labelPosition]="'before'">
 
       </tanj-icon-rating-widget>
-      <md-input-container dividerColor="accent">
-        <input mdInput
+      <mat-form-field dividerColor="accent">
+        <input matInput
                class="tanj-input"
                type="number"
                placeholder="Max Rating"
                max="10"
                (change)="maxChange.emit(max)"
                [(ngModel)]="max"/>
-      </md-input-container>
+      </mat-form-field>
     </ng-container>
   </div>
                  `,
@@ -84,7 +84,7 @@ export class IconRatingWidgetConfigureComponent implements OnInit, ControlValueA
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
+  @Input() disabled: boolean = false
 
   /**
    * Configuration Fields
@@ -92,9 +92,9 @@ export class IconRatingWidgetConfigureComponent implements OnInit, ControlValueA
   @Input() label: string = ''
   @Input() defaultValue: number = 0
   @Input() max: number = 5
-  @Input() iconFont: string
-  @Input() offIconNames: string[]
-  @Input() onIconNames: string[]
+  @Input() iconFont: string | undefined
+  @Input() offIconNames: string[] = []
+  @Input() onIconNames: string[] = []
 
   @Output() labelChange: EventEmitter<string> = new EventEmitter(false)
   @Output() defaultValueChange: EventEmitter<number> = new EventEmitter(false)

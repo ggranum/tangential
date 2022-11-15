@@ -4,7 +4,7 @@ import {
   OnInit,
   ViewEncapsulation
 } from '@angular/core'
-import {MdSnackBar} from '@angular/material'
+import {MatSnackBar} from '@angular/material/snack-bar'
 import {MessageBus} from '@tangential/core'
 import {
   NotificationMessage,
@@ -21,8 +21,7 @@ export class NotificationBarComponent implements OnInit {
 
   notification: NotificationMessage
 
-  constructor(private bus: MessageBus,
-              private snackBar: MdSnackBar) {
+  constructor(private bus: MessageBus, private snackBar: MatSnackBar) {
   }
 
 

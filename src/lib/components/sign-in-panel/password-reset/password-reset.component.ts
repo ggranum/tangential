@@ -11,7 +11,7 @@ import {
 } from '@angular/core'
 import {NgForm} from '@angular/forms'
 import {Hacks} from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthInfo, SignInActions} from '../sign-in-panel.component'
 
 @Component({
@@ -31,7 +31,7 @@ export class PasswordResetComponent implements OnInit {
   @Input() preventSubmit: boolean = false
 
   @Output() forgotPasswordEmailRequest: EventEmitter<AuthInfo> = new EventEmitter<AuthInfo>(false)
-  @Output() showSignInRequest: EventEmitter<null> = new EventEmitter<AuthInfo>(false)
+  @Output() showSignInRequest: EventEmitter<AuthInfo> = new EventEmitter<AuthInfo>(false)
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
   }
@@ -45,7 +45,10 @@ export class PasswordResetComponent implements OnInit {
   }
 
   onShowSignInRequest() {
-    this.showSignInRequest.next()
+    this.showSignInRequest.next({
+      username: this.username,
+      action: SignInActions.signIn,
+    })
   }
 
   onForgotPasswordRequest(event: Event, form: NgForm) {

@@ -1,3 +1,4 @@
+import {WriteFileOptions} from 'fs'
 import {join} from 'path';
 
 //noinspection TypeScriptUnresolvedVariable
@@ -9,7 +10,7 @@ export const DEFAULT_CONFIG_FILE_NAME = 'project.local.json';
 export const DIST_ROOT = join(PROJECT_ROOT, 'dist');
 export const DIST_COMPONENTS_ROOT = join(DIST_ROOT, '@tangential');
 export const PASSWORD_LENGTH = 12
-export const JSON_FILE_WRITE_CONFIG = {spaces: 2}
+export const JSON_FILE_WRITE_CONFIG = {spaces: 2} as WriteFileOptions
 
 
 export const NPM_VENDOR_FILES = [

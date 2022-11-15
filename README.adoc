@@ -77,9 +77,7 @@ With this release, I am officially seeking both additional committers, and funds
 
 Creating this set of tools has been very rewarding, and I hope to make this my full time gig. I would *vastly* prefer to be able to do so without having to deal with Dual Licensing - not because it's not worth what I will charge for it, but because I'm not shockingly greedy, and I truly enjoy knowing that my work has made other lives easier; that developers have managed to get more done than they otherwise would have, because of something I helped make.
 
-If you stand to benefit from this work, I implore you to show me how valuable it is to you by contributing to the project on https://www.patreon.com/tangential[Patreon], or contacting me directly.
-
-An open side note to Google: Considering how many Google technologies are in Tangential, and the income Google stands to earn if even one future million-user site chooses Firebase or Adsense because of Tangential, a sponsorship seems like some pretty affordable, advertising, no? :~)
+If you stand to benefit from this work, please consider demonstrating how valuable it is to you by contributing to the project on https://www.patreon.com/tangential[Patreon].
 
 
 == Thanks

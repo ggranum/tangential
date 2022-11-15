@@ -1,6 +1,7 @@
 //noinspection ES6UnusedImports
 import {GaFunction} from '@tangential/analytics'
-import {Observable} from 'rxjs/Observable'
+import {Observable} from 'rxjs'
+import {filter} from 'rxjs/operators'
 import {
   BusMessage,
   MessageBus
@@ -10,7 +11,7 @@ import {
 export class NavigationMessage extends BusMessage {
   static SourceKey = 'NavigationMessage'
   path: string
-  additionalMessage: string
+  additionalMessage: string | undefined
   constructor(key:string, path: string, additionalMessage?:string) {
     super(NavigationMessage.SourceKey, 'notification', key)
     this.path = path
@@ -18,7 +19,7 @@ export class NavigationMessage extends BusMessage {
   }
 
   static filter(bus: MessageBus):Observable<BusMessage> {
-    return bus.all.filter(m => m.source === NavigationMessage.SourceKey)
+    return bus.all.pipe(filter(m => m.source === NavigationMessage.SourceKey))
   }
 }
 

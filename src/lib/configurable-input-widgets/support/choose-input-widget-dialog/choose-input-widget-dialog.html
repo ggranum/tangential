@@ -4,7 +4,7 @@
 
 <div class="tanj-dialog-content-container">
   <div flex="grow" class="tanj-dialog-content" layout="column" layout-align="center">
-    <div md-dialog-actions class="tanj-widget-list tanj-example-widget" flex layout="column" layout-align="start">
+    <div mat-dialog-actions class="tanj-widget-list tanj-example-widget" flex layout="column" layout-align="start">
 
       <div *ngFor="let inputTemplate of filteredTemplates"
            class="tanj-widget-container"
@@ -16,7 +16,7 @@
                                       [inputIval]="inputTemplate.ival"
                                       [mode]="inputTemplate.mode"></tanj-input-template-container>
         <div class="tanj-widget-button-container" layout="row" layout-align="end center">
-          <a md-mini-fab (click)="onWidgetClicked(inputTemplate)">
+          <a mat-mini-fab (click)="onWidgetClicked(inputTemplate)">
             <tanj-icon ligature="done"></tanj-icon>
           </a>
         </div>

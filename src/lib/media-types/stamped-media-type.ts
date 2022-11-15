@@ -8,12 +8,12 @@ export interface StampedMediaTypeJson extends BaseMediaTypeJson {
 }
 
 const Model: StampedMediaTypeJson = {
-  createdMils: null,
-  editedMils:  null
+  createdMils: undefined,
+  editedMils:  undefined
 }
 
 export class StampedMediaType extends BaseMediaType implements Jsonified<StampedMediaType, StampedMediaTypeJson>, StampedMediaTypeJson {
-  static $model: StampedMediaTypeJson = ObjectUtil.assignDeep({}, BaseMediaType.$model, Model)
+  static override $model: StampedMediaTypeJson = ObjectUtil.assignDeep({}, BaseMediaType.$model, Model)
   createdMils?: number
   editedMils?: number
 

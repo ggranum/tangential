@@ -1,9 +1,10 @@
 import {Component, HostBinding, ViewEncapsulation} from '@angular/core'
-import {MdDialogRef} from '@angular/material'
-import {BehaviorSubject} from 'rxjs/BehaviorSubject'
+import {MatDialogRef} from '@angular/material/dialog'
+import {BehaviorSubject} from 'rxjs'
+import {debounceTime} from 'rxjs/operators'
 import {InputRegistry} from '../input-types-registry'
 import {InputViewModes} from '../input-view-mode'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {InputTemplateIF} from '../template-components/input-template-component/input-template.component'
 
 
@@ -25,7 +26,7 @@ export class ChooseInputWidgetDialog {
   filteredTemplates: InputTemplateIF[] = []
   filterSubject: BehaviorSubject<string> = new BehaviorSubject('')
 
-  constructor(private _registry: InputRegistry, public dialogRef: MdDialogRef<ChooseInputWidgetDialog>) {
+  constructor(private _registry: InputRegistry, public dialogRef: MatDialogRef<ChooseInputWidgetDialog>) {
 
     this.templates = this._registry.allTemplates(InputViewModes.EDIT).map((template) => {
       template.config = template.config.getDemoInstance()
@@ -33,7 +34,7 @@ export class ChooseInputWidgetDialog {
     })
     this.filteredTemplates = this.templates
     this.filterSubject = new BehaviorSubject('')
-    this.filterSubject.debounceTime(100).subscribe((filterText: string) => {
+    this.filterSubject.pipe(debounceTime(100)).subscribe((filterText: string) => {
       this._filterWidgets(filterText);
     })
   }

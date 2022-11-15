@@ -11,7 +11,7 @@ import {
 } from '@angular/core'
 import {NgForm} from '@angular/forms'
 import {ChangeEvent} from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {
   AuthInfo,
   SignInActions
@@ -37,8 +37,8 @@ export class SignInComponent implements OnChanges {
 
   @Output() signIn: EventEmitter<AuthInfo> = new EventEmitter<AuthInfo>(false)
 
-  @Output() showSignUpRequest: EventEmitter<null> = new EventEmitter<AuthInfo>(false)
-  @Output() showPasswordResetRequest: EventEmitter<null> = new EventEmitter<AuthInfo>(false)
+  @Output() showSignUpRequest: EventEmitter<AuthInfo> = new EventEmitter<AuthInfo>(false)
+  @Output() showPasswordResetRequest: EventEmitter<AuthInfo> = new EventEmitter<AuthInfo>(false)
 
   prevAuthInfo: AuthInfo
   authInfo: AuthInfo
@@ -80,12 +80,12 @@ export class SignInComponent implements OnChanges {
   }
 
   onShowForgotPasswordRequest() {
-    this.showPasswordResetRequest.next()
+    this.showPasswordResetRequest.next(this.authInfo)
   }
 
   onShowSignUpRequest() {
     console.log('SignInComponent', 'onShowSignUpRequest')
-    this.showSignUpRequest.next()
+    this.showSignUpRequest.next(this.authInfo)
   }
 
 }

@@ -1,9 +1,12 @@
+import {Database, DatabaseReference} from '@firebase/database'
+import {child} from 'firebase/database'
+
 import {AuthPermissionKey} from './auth-permission';
 import {AuthSettingsFirebaseRef} from './auth-settings';
 
 
-export const AuthConfigurationFirebaseRef = function(db: firebase.database.Database):firebase.database.Reference {
-  return AuthSettingsFirebaseRef(db).child('configuration')
+export const AuthConfigurationFirebaseRef = function(db: Database):DatabaseReference {
+  return child(AuthSettingsFirebaseRef(db), 'configuration')
 }
 
 

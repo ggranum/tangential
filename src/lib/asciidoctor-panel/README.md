@@ -51,9 +51,9 @@ import {TanjAsciidoctorPanelModule} from '@tangential/asciidoctor-panel';
 And reference it in your component:
 
 ```html
-<md-card>
+<mat-card>
   <tanj-asciidoctor-panel style="white-space:normal;overflow-wrap: normal;overflow: auto" [content]="asciidoctorContent"></tanj-asciidoctor-panel>
-</md-card>
+</mat-card>
 ```
 
 

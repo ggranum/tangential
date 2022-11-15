@@ -13,7 +13,7 @@ import {
   InputViewMode,
   InputViewModes
 } from '../../support/input-view-mode'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {InputTemplateIF} from '../../support/template-components/input-template-component/input-template.component'
 import {TextInputConfig} from './text-input-config'
 @Component({
@@ -44,9 +44,9 @@ import {TextInputConfig} from './text-input-config'
 })
 export class TextTemplateComponent implements OnInit, InputTemplateIF {
 
-  @Input() config: TextInputConfig
-  @Input() ival: TextIval
-  @Input() mode = <InputViewMode>null
+  @Input() config?: TextInputConfig
+  @Input() ival: TextIval = new TextIval()
+  @Input() mode: InputViewMode = InputViewModes.VIEW
 
   @Output() change: EventEmitter<any> = new EventEmitter(false)
 

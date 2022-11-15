@@ -1,6 +1,6 @@
 @mixin tanj-material_hacks-theme($theme) {
   /**
-  * @hack ggranum: The md-select label is not aligned with the md-input labels
+  * @hack ggranum: The mat-select label is not aligned with the mat-input labels
   */
   .tanj-select-input {
     padding-top: 9px;
@@ -9,7 +9,7 @@
   /**
    @hack ggranum: The following centers the dialog body on the page when the page is narrow.
     */
-  md-dialog-container.mat-dialog-container {
+  mat-dialog-container.mat-dialog-container {
     margin-left: auto;
     margin-right: auto;
   }
@@ -18,7 +18,7 @@
     margin: 0;
   }
 
-  md-checkbox {
+  mat-checkbox {
     margin: 16px 0;
     label {
       @include tanj-input-label($theme);
@@ -29,11 +29,11 @@
     @include tanj-input-label($theme);
   }
 
-  md-chip-list:focus {
+  mat-chip-list:focus {
     outline: none;
   }
 
-  md-chip:focus {
+  mat-chip:focus {
     outline: none;
   }
 
@@ -46,7 +46,7 @@
    * I really hate doing this, but the Material Design team doesn't really seem to care about the address bar
    * hiding on mobile.
    */
-  md-dialog-container.mat-dialog-container {
+  mat-dialog-container.mat-dialog-container {
     overflow: hidden;
     padding: 0;
   }

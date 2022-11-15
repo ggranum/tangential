@@ -1,32 +1,41 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+
+import {Database} from '@firebase/database'
+import {child, getDatabase} from 'firebase/database'
+
+
+import {Observable} from 'rxjs';
+import {first} from 'rxjs/operators'
+//noinspection ES6PreferShortImport
 import {Auth} from '../../media-type/cdm/auth';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthPermission} from '../../media-type/cdm/auth-permission';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthPermissionKey} from '../../media-type/doc-model/auth-permission';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthRoleKey, AuthRolePermissionsFirebaseRef} from '../../media-type/doc-model/auth-role';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthRole} from '../../media-type/cdm/auth-role';
+//noinspection ES6PreferShortImport
 import {AuthUser} from '../../media-type/cdm/auth-user';
 import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthSettings} from '../../media-type/cdm/auth-settings';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthUserKey} from '../../media-type/doc-model/auth-user';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthSettingsService} from '../settings-service/settings-service';
 
 
 @Injectable()
 export abstract class AdminService {
 
-  protected db: firebase.database.Database
+  protected db: Database
 
   constructor(protected authSettingsService:AuthSettingsService,
               protected fb: FirebaseProvider) {
-    this.db = fb.app.database()
+    this.db = getDatabase(fb.app)
+
   }
 
   /**
@@ -56,13 +65,13 @@ export abstract class AdminService {
    * @returns {Promise<void>}
    */
   grantPermissionOnRole(roleKey: AuthRoleKey, permissionKey: AuthPermissionKey): Promise<void> {
-    this.authSettingsService.authSettings$().first().toPromise().then((authSettings:AuthSettings) => {
+    this.authSettingsService.authSettings$().pipe(first()).toPromise().then((authSettings:AuthSettings) => {
       let role = authSettings.getRole(roleKey)
       let permission = authSettings.getPermission(permissionKey)
       role.permissions.push(permission)
       this.updateSettings(authSettings)
     })
-    const pRef = AuthRolePermissionsFirebaseRef(this.db).child(roleKey).child(permissionKey)
+    const pRef = child(AuthRolePermissionsFirebaseRef(this.db), roleKey + '/' + permissionKey)
     return FireBlanket.set(pRef, true)
   }
 
@@ -73,7 +82,7 @@ export abstract class AdminService {
    * @returns {Promise<void>}
    */
   revokePermissionOnRole(roleKey: AuthRoleKey, permissionKey: AuthPermissionKey): Promise<void> {
-    const pRef = AuthRolePermissionsFirebaseRef(this.db).child(roleKey).child(permissionKey)
+    const pRef = child(AuthRolePermissionsFirebaseRef(this.db), roleKey + '/' + permissionKey)
     return FireBlanket.remove(pRef)
   }
 

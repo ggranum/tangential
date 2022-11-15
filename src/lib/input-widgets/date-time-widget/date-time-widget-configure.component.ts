@@ -39,14 +39,14 @@ export class DateTimeWidgetConfigureChange {
   selector:      'tanj-date-time-configure',
   template:      `<!-- -->
   <div class="tanj-input-template tanj-mode-configure" flex layout="column" layout-align="start">
-    <md-input-container dividerColor="accent">
-      <input mdInput class="tanj-input" type="text" maxlength="50" placeholder="Enter a label for this input"
+    <mat-form-field dividerColor="accent">
+      <input matInput class="tanj-input" type="text" maxlength="50" placeholder="Enter a label for this input"
              (change)="labelChange.emit(label)"
              [(ngModel)]="label"/>
-    </md-input-container>
+    </mat-form-field>
     <ng-container *ngIf="label">
-      <md-slide-toggle class="tanj-input" [labelPosition]="'before'" [(ngModel)]="defaultToNow">Default to current time?
-      </md-slide-toggle>
+      <mat-slide-toggle class="tanj-input" [labelPosition]="'before'" [(ngModel)]="defaultToNow">Default to current time?
+      </mat-slide-toggle>
       <tanj-date-time-widget *ngIf="!defaultToNow" [(value)]="defaultValue"
                             (valueChange)="value = defaultValue; emitChangeEvent(true, false)"
                             [defaultValue]="defaultValue"
@@ -64,11 +64,11 @@ export class DateTimeWidgetConfigureComponent implements OnInit, OnChanges, Cont
   @HostBinding('attr.layout') flexLayout = 'column';
   @HostBinding('attr.layout-align') flexLayoutAlign = 'start';
 
-  @Input() value: number
+  @Input() value: number = 0
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
+  @Input() disabled: boolean = false
 
   /**
    * Configuration Fields
@@ -79,7 +79,7 @@ export class DateTimeWidgetConfigureComponent implements OnInit, OnChanges, Cont
   @Input() defaultValue: number = Date.now()
   @Output() defaultValueChange: EventEmitter<number> = new EventEmitter(false)
 
-  @Input() defaultToNow: boolean
+  @Input() defaultToNow: boolean = false
   @Output() defaultToNowChange: EventEmitter<boolean> = new EventEmitter(false)
 
   @Output() change: EventEmitter<any> = new EventEmitter(false)

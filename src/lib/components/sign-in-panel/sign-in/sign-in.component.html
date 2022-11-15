@@ -3,7 +3,7 @@
     <div class="tanj-sign-in-panel-header">
       <h2 class="tanj-header-text" i18n>Sign In</h2>
       <div class="tanj-sub-header-text dialog-create-account" i18n>Don't have an account?
-        <a href="javascript:void(0);" (click)="onShowSignUpRequest()" i18n>Sign up now</a>
+        <a href="javascript:void(0);" (click)="onShowSignUpRequest()">Sign up now</a>
       </div>
     </div>
     <div flex class="tanj-sign-in-panel-content" layout="column" layout-align="start">
@@ -15,17 +15,17 @@
               flex
               layout="column"
               layout-align="start">
-          <md-input-container flex class="tanj-sign-in-panel-field" dividerColor="accent">
-            <input mdInput [(ngModel)]="authInfo.username" name="username" #fUsername="ngModel"
+          <mat-form-field flex class="tanj-sign-in-panel-field" dividerColor="accent">
+            <input matInput [(ngModel)]="authInfo.username" name="username" #fUsername="ngModel"
                    class="username-field"
                    tabindex="0"
                    [type]="requireEmailUsername ? 'email' : 'text'"
                    required minlength="5"
                    i18n-placeholder
                    placeholder="Enter your email address">
-          </md-input-container>
-          <md-input-container flex class="tanj-sign-in-panel-field" dividerColor="accent">
-            <input mdInput
+          </mat-form-field>
+          <mat-form-field flex class="tanj-sign-in-panel-field" dividerColor="accent">
+            <input matInput
                    [(ngModel)]="authInfo.password"
                    name="password"
                    #fPassword="ngModel"
@@ -35,21 +35,21 @@
                    minlength="8"
                    i18n-placeholder
                    placeholder="Enter your password"/>
-          </md-input-container>
+          </mat-form-field>
           <div class="tanj-forgot-password-link" i18n>
             Forgot your password?
             <a (click)="$event.stopPropagation(); $event.preventDefault(); onShowForgotPasswordRequest()">Click here</a>
           </div>
 
-          <md-checkbox [(ngModel)]="authInfo.rememberMe" name="rememberMe" #fRememberMe="ngModel"
+          <mat-checkbox [(ngModel)]="authInfo.rememberMe" name="rememberMe" #fRememberMe="ngModel"
                        class="tanj-remember-me"
                        [checked]="authInfo.rememberMe"
                        flex i18n>Remember Me
-          </md-checkbox>
+          </mat-checkbox>
 
           <div flex layout="column" layout-align="end">
             <div class="tanj-sign-in-panel-action-button" layout="row" layout-align="end">
-              <a md-raised-button flex
+              <a mat-raised-button flex
                  class="tanj-button"
                  [disabled]="signInForm.invalid"
                  color="accent"

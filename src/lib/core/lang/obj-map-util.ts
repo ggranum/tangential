@@ -5,7 +5,7 @@ export class ObjMapUtil {
     values = values || []
     const m: ObjMap<V> = {}
     for (let i = 0; i < values.length; i++) {
-      m[values[i][keyField]] = values[i]
+      (m as any)[(values[i] as any)[keyField]] = values[i]
     }
     return m
   }
@@ -18,8 +18,8 @@ export class ObjMapUtil {
 
   static toKeyedEntityArray<V>(map: ObjMap<V>, keyField: string = '$key'): V[] {
     return Object.keys(map).map((key) => {
-      const keyObj = {}
-      keyObj[keyField] = key
+      const keyObj = {}; // semicolon actually required here.
+      (keyObj as any)[keyField] = key
       return Object.assign({}, map[key], keyObj)
     })
   }
@@ -62,7 +62,7 @@ export class ObjMapUtil {
     map = map || {}
     fields.forEach((fieldKey) => {
       Object.keys(map).forEach((key) => {
-        delete map[key][fieldKey]
+        delete (map as any)[key][fieldKey]
       })
     })
     return map

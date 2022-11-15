@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChange} from '@angular/core'
-import {MdButtonToggleChange} from '@angular/material'
+import {MatButtonToggleChange} from '@angular/material/button-toggle'
 import {AuthRole} from '@tangential/authorization-service'
 
 
@@ -7,7 +7,7 @@ import {AuthRole} from '@tangential/authorization-service'
   selector:        'tanj-role-avatar',
   template:        `
                      <div>
-                       <md-button-toggle [checked]="active" (change)="doChange($event)">{{role.$key}}</md-button-toggle>
+                       <mat-button-toggle [checked]="active" (change)="doChange($event)">{{role.$key}}</mat-button-toggle>
                      </div>
                    `,
   styleUrls:       ['./_user.component.scss'],
@@ -27,7 +27,7 @@ export class RoleAvatarComponent implements OnChanges {
     console.log('RoleAvatarComponent', 'ngChanges', JSON.stringify(changes))
   }
 
-  doChange(event: MdButtonToggleChange) {
+  doChange(event: MatButtonToggleChange) {
     this.active = event.source.checked
     this.change.emit(this.active)
   }

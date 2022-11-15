@@ -39,11 +39,11 @@ export class NumberSpinnerWidgetConfigureChange {
   selector:      'tanj-number-spinner-configure',
   template:      `<!-- -->
   <div class="tanj-input-template tanj-mode-configure" flex layout="column" layout-align="start">
-    <md-input-container dividerColor="accent">
-      <input mdInput class="tanj-input" type="text" maxlength="50" placeholder="Enter a label for this input"
+    <mat-form-field dividerColor="accent">
+      <input matInput class="tanj-input" type="text" maxlength="50" placeholder="Enter a label for this input"
              (change)="labelChange.emit(label)"
              [(ngModel)]="label"/>
-    </md-input-container>
+    </mat-form-field>
     <ng-container *ngIf="label">
       <tanj-number-spinner-widget [(value)]="defaultValue"
                                  (valueChange)="value = defaultValue; emitChangeEvent(true, false)"
@@ -52,30 +52,30 @@ export class NumberSpinnerWidgetConfigureChange {
                                  [min]="min"
                                  [step]="step"
                                  label="Default Value"></tanj-number-spinner-widget>
-      <md-input-container dividerColor="accent">
-        <input mdInput
+      <mat-form-field dividerColor="accent">
+        <input matInput
                class="tanj-input"
                type="number"
                placeholder="Min"
                (change)="minChange.emit(min)"
                [(ngModel)]="min"/>
-      </md-input-container>
-      <md-input-container dividerColor="accent">
-        <input mdInput
+      </mat-form-field>
+      <mat-form-field dividerColor="accent">
+        <input matInput
                class="tanj-input"
                type="number"
                placeholder="Max"
                (change)="maxChange.emit(max)"
                [(ngModel)]="max"/>
-      </md-input-container>
-      <md-input-container dividerColor="accent">
-        <input mdInput
+      </mat-form-field>
+      <mat-form-field dividerColor="accent">
+        <input matInput
                class="tanj-input"
                type="number"
                placeholder="Step"
                (change)="stepChange.emit(step)"
                [(ngModel)]="step"/>
-      </md-input-container>
+      </mat-form-field>
     </ng-container>
 
   </div>
@@ -90,20 +90,20 @@ export class NumberSpinnerWidgetConfigureComponent implements OnInit, OnChanges,
   @HostBinding('attr.layout') flexLayout = 'column';
   @HostBinding('attr.layout-align') flexLayoutAlign = 'start';
 
-  @Input() value: number
+  @Input() value: number = 0
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
+  @Input() disabled: boolean = false
 
   /**
    * Configuration Fields
    */
   @Input() label: string = ''
   @Input() defaultValue: number = 0
-  @Input() max: number
-  @Input() min: number
-  @Input() step: number
+  @Input() max: number = 10
+  @Input() min: number = 0
+  @Input() step: number = 1
 
   @Output() labelChange: EventEmitter<string> = new EventEmitter(false)
   @Output() defaultValueChange: EventEmitter<number> = new EventEmitter(false)

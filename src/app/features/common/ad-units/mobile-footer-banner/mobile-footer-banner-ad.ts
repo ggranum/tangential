@@ -25,7 +25,7 @@ import {AppEnvironment} from '@tangential/core';
 })
 export class MobileFooterBannerAdComponent {
 //  height:50px; max-height: 50px; width: 320px; max-width: 320px;
-  @Input() adRegion: string
+  @Input() adRegion: string | undefined
 
   display: string = 'inline-block'
   height: number = 50

@@ -34,7 +34,7 @@ const Model: InputConfigJson = {
 const inputConfigRegistry = {}
 
 export abstract class InputConfig extends StampedMediaType implements Jsonified<InputConfig, InputConfigJson>, InputConfigJson {
-  static $model: InputConfigJson = ObjectUtil.assignDeep({}, StampedMediaType.$model, Model)
+  static override $model: InputConfigJson = ObjectUtil.assignDeep({}, StampedMediaType.$model, Model)
 
   static INPUT_NAME: string
   $isSystem: boolean

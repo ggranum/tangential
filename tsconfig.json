@@ -1,16 +1,28 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "es5",
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
+    "downlevelIteration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "baseUrl": "",
+    "target": "es2020",
+    "module": "es2020",
     "lib": [
-      "es2016", "dom"
+      "es2020",
+      "dom"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
     ],
     "paths": {
       "@tangential/app": [

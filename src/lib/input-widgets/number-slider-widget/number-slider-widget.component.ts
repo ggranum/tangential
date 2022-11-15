@@ -1,5 +1,5 @@
 import {
-  ChangeDetectorRef, Component, EventEmitter, forwardRef, HostBinding, Input, OnChanges, OnInit, Output, ViewEncapsulation
+  ChangeDetectorRef, Component, EventEmitter, forwardRef, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation
 } from '@angular/core'
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms'
 import {Hacks} from '@tangential/core'
@@ -31,24 +31,24 @@ export class NumberSliderWidgetChange {
           class="tanj-label tanj-before">{{label}}</span>
     <div flex class="tanj-widget-input-container" layout="column" layout-align="start center">
       <div flex *ngIf="!onlyLabel" class="tanj-widget-input" layout="row" layout-align="start">
-        <md-slider flex
+        <mat-slider flex
                    [disabled]="disabled"
                    [(ngModel)]="value"
                    (change)="valueChange.emit(value)"
                    [max]="max"
                    [min]="min"
                    [step]="step"
-                   [thumb-label]="true"
-                   [tick-interval]="tickInterval"
+                   [thumbLabel]="true"
+                   [tickInterval]="tickInterval"
                    [vertical]="vertical">
-        </md-slider>
-        <md-input-container flex="15"
+        </mat-slider>
+        <mat-form-field flex="15"
                             class="tanj-number-slider-input-field tanj-widget-input"
                             dividerColor="accent"
                             layout="row"
                             layout-align="start">
           <input flex
-                 mdInput
+                 matInput
                  class="tanj-input"
                  type="number"
                  max="{{max}}"
@@ -56,7 +56,7 @@ export class NumberSliderWidgetChange {
                  [step]="step"
                  (change)="valueChange.emit(value)"
                  [(ngModel)]="value"/>
-        </md-input-container>
+        </mat-form-field>
       </div>
       <span *ngIf="!hideLabel && labelPosition == 'below'" class="tanj-label tanj-below">{{label}}</span>
     </div>
@@ -76,9 +76,9 @@ export class NumberSliderWidgetComponent implements ControlValueAccessor, OnChan
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'below'
-  @Input() disabled: boolean
-  @Input() hideLabel: boolean
-  @Input() onlyLabel: boolean
+  @Input() disabled: boolean = false
+  @Input() hideLabel: boolean = false
+  @Input() onlyLabel: boolean = false
 
   /**
    * Configuration Fields
@@ -86,10 +86,10 @@ export class NumberSliderWidgetComponent implements ControlValueAccessor, OnChan
   @Input() label: string = ''
   @Input() defaultValue: number = 0
   @Input() max: number = 5
-  @Input() min: number
-  @Input() step: number
-  @Input() decimalPlaces: number
-  @Input() tickInterval: number
+  @Input() min: number = 0
+  @Input() step: number = 1
+  @Input() decimalPlaces: number = 1
+  @Input() tickInterval: number = 1
   @Input() vertical: boolean = false
   /* end Configuration Fields */
 
@@ -109,7 +109,7 @@ export class NumberSliderWidgetComponent implements ControlValueAccessor, OnChan
     Hacks.materialDesignPlaceholderText(this.changeDetectorRef)
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges(changes: SimpleChanges) {
   }
 
   handleValueChange(value: number) {

@@ -31,13 +31,13 @@ export class DateTimeWidgetChange {
     <span *ngIf="!hideLabel && labelPosition == 'before'" class="tanj-label tanj-before">{{label}}</span>
     <div flex class="tanj-widget-input" layout="column" layout-align="center start">
       <div flex *ngIf="!onlyLabel" class="tanj-widget-input" layout="row" layout-align="start">
-        <md-input-container flex
+        <mat-form-field flex
                             class="tanj-date-time-input-field tanj-widget-input"
                             dividerColor="accent"
                             layout="row"
                             layout-align="start">
           <input flex
-                 mdInput
+                 matInput
                  class="tanj-input"
                  type="datetime-local"
                  minlength="{{minLength}}"
@@ -45,7 +45,7 @@ export class DateTimeWidgetChange {
                  [disabled]="disabled"
                  (change)="valueChange.emit(value)"
                  [(ngModel)]="dateInputValue"/>
-        </md-input-container>
+        </mat-form-field>
       </div>
       <span *ngIf="!hideLabel && labelPosition == 'below'" class="tanj-label tanj-below">{{label}}</span>
     </div>
@@ -64,9 +64,9 @@ export class DateTimeWidgetComponent implements ControlValueAccessor, OnChanges,
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
-  @Input() hideLabel: boolean
-  @Input() onlyLabel: boolean
+  @Input() disabled: boolean = false
+  @Input() hideLabel: boolean = false
+  @Input() onlyLabel: boolean = false
 
   /**
    * Configuration Fields

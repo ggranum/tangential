@@ -8,13 +8,13 @@ import {
   ViewEncapsulation
 } from '@angular/core'
 import {Hacks} from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {DateTimeIval} from '../../data-type/date-time/date-time-ival'
 import {
   InputViewMode,
   InputViewModes
 } from '../../support/input-view-mode'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {InputTemplateIF} from '../../support/template-components/input-template-component/input-template.component'
 import {DateTimeInputConfig} from './date-time-input-config'
 @Component({

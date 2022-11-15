@@ -16,10 +16,10 @@ const Model: DateTimeIvalIF = {
 }
 
 export class DateTimeIval extends ConfigurableInputIval implements Jsonified<DateTimeIval, DateTimeIvalIF>, DateTimeIvalIF {
-  static $model: DateTimeIvalIF = ObjectUtil.assignDeep({}, ConfigurableInputIval.$model, Model)
+  static override $model: DateTimeIvalIF = ObjectUtil.assignDeep({}, ConfigurableInputIval.$model, Model)
 
 
-  value: number
+  override value: number
   recordedInTimeZone: string
 
   constructor(config?: DateTimeIvalIF, key?: string) {
@@ -27,11 +27,11 @@ export class DateTimeIval extends ConfigurableInputIval implements Jsonified<Dat
     this.value = config.value || 0
   }
 
-  get uiValue(): string {
+  override get uiValue(): string {
     return moment(this.value).format(BROWSER_DATE_TIME_LOCAL_FORMAT)
   }
 
-  set uiValue(val: string) {
+  override set uiValue(val: string) {
     this.value = moment(val, BROWSER_DATE_TIME_LOCAL_FORMAT).valueOf()
   }
 

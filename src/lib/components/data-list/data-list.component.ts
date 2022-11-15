@@ -86,7 +86,6 @@ export class DataListComponent implements OnChanges {
     this.toggleSelected(itemKey)
   }
 
-
   toggleSelected(itemKey: string) {
     const wasActive = this._selections[itemKey]
     if (wasActive) {
@@ -125,8 +124,10 @@ export class DataListComponent implements OnChanges {
     this.selectionChange.emit(Object.keys(this._selections))
   }
 
-  fireAddItemAction() {
+  fireAddItemAction():boolean {
     this.addItemAction.emit()
+    /** @todo: ggranum: Cleanup the HTML so that this return isn't required.  */
+    return false;
   }
 
   fireRemoveSelectedAction() {

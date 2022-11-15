@@ -36,11 +36,11 @@ export class SlideToggleWidgetConfigureChange {
   selector:      'tanj-slide-toggle-widget-configure',
   template:      `<!-- -->
   <div class="tanj-input-template tanj-mode-configure" flex layout="column" layout-align="start">
-    <md-input-container dividerColor="accent">
-      <input mdInput class="tanj-input" type="text" maxlength="50" placeholder="Enter a label for this input"
+    <mat-form-field dividerColor="accent">
+      <input matInput class="tanj-input" type="text" maxlength="50" placeholder="Enter a label for this input"
              (change)="emitChangeEvent(false, true)"
              [(ngModel)]="label"/>
-    </md-input-container>
+    </mat-form-field>
     <ng-container *ngIf="label">
       <tanj-slide-toggle-widget [(value)]="defaultValue"
                                (valueChange)="value = defaultValue; emitChangeEvent(true, false)"
@@ -61,11 +61,11 @@ export class SlideToggleWidgetConfigureComponent implements OnInit, OnChanges, C
   @HostBinding('attr.layout') flexLayout = 'column';
   @HostBinding('attr.layout-align') flexLayoutAlign = 'start';
 
-  @Input() value: boolean
+  @Input() value: boolean = false
   @Output() valueChange: EventEmitter<boolean> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
+  @Input() disabled: boolean = false
 
   /**
    * Configuration Fields

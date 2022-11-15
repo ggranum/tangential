@@ -19,16 +19,16 @@ export class StringUtil {
    * FooValue, FooValue-1, FooValue-2
    * @param value
    */
-  static withoutNumericSuffix(value: string): { text: string, suffix: number } {
+  static withoutNumericSuffix(value: string): { text: string, suffix?: number } {
     let idx = value.length
     const suffixChars = []
     for (idx; idx--; idx > 0) {
-      if (StringUtil._baseTen[value.charAt(idx)] !== true) {
+      if ((StringUtil._baseTen as any)[value.charAt(idx)] !== true) {
         break;
       }
       suffixChars.unshift(value.charAt(idx))
     }
-    const suffixValue = suffixChars.length ? Number.parseInt(suffixChars.join('')) : null
+    const suffixValue = suffixChars.length ? Number.parseInt(suffixChars.join('')) : undefined
     const text = value.substring(0, idx)
     return {text: text.trim(), suffix: suffixValue}
   }
@@ -40,7 +40,7 @@ export class StringUtil {
     let idx = value.length
 
     for (idx; idx--; idx > 0) {
-      if (StringUtil._baseTen[value.charAt(idx)] !== true) {
+      if ((StringUtil._baseTen as any)[value.charAt(idx)] !== true) {
         break;
       }
       suffixChars.unshift(value.charAt(idx))

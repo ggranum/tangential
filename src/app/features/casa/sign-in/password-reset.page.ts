@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {AuthenticationService} from '@tangential/authorization-service';
 import {AuthInfo, NotificationMessage} from '@tangential/components';
 import {MessageBus} from '@tangential/core';
-import {AppRoutes} from '../../../app.routing.module';
+import {AppRouteDefinitions} from '../../../app.routes.definitions'
 
 @Component({
   selector: 'tanj-password-reset-page',
@@ -38,7 +38,7 @@ export class PasswordResetPage {
   }
 
   onShowSignInRequest() {
-    this.router.navigate(AppRoutes.passwordReset.navTargets.absToSignIn())
+    this.router.navigate(AppRouteDefinitions.passwordReset.navTargets.absToSignIn())
   }
 
   onForgotPassword(authInfo: AuthInfo) {

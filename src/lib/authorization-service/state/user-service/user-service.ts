@@ -1,7 +1,7 @@
-import {Observable} from 'rxjs/Observable';
-//noinspection TypeScriptPreferShortImport
+import {Observable} from 'rxjs';
+//noinspection ES6PreferShortImport
 import {AuthUserDm, AuthUserKey} from '../../media-type/doc-model/auth-user';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthUser} from '../../media-type/cdm/auth-user';
 
 export abstract class UserService {

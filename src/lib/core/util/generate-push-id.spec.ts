@@ -1,6 +1,6 @@
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {ObjMapUtil} from '../lang/obj-map-util'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {generatePushID} from './generate-push-id'
 
 

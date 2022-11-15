@@ -1,46 +1,46 @@
 <div flex layout="column" class="tanj-data-list"
      (window:keyup)="($event.ctrlKey && $event.key == '+') ? (fireAddItemAction() && $event.stopPropagation() && $event.preventDefault() ): null;">
-  <md-list *ngIf="items" flex layout="column" layout-align="start">
-    <md-list-item class="tanj-list-item" flex layout="column" layout-align="start">
-      <md-checkbox
+  <mat-list *ngIf="items" flex layout="column" layout-align="start">
+    <mat-list-item class="tanj-list-item" flex layout="column" layout-align="start">
+      <mat-checkbox
         [checked]="selectionCount == items.length"
         [indeterminate]="selectionCount > 0 && selectionCount < items.length"
         (change)="onSelectAllCheckAction(!$event.checked)"
-      ></md-checkbox>
+      ></mat-checkbox>
       <div class="tanj-multi-select-actions" layout="row" layout-align="start" flex>
-        <button md-raised-button
+        <button mat-raised-button
                 [disabled]="selectionCount === 0"
                 (click)="fireRemoveSelectedAction()">
-          <md-icon>delete</md-icon>
+          <mat-icon>delete</mat-icon>
           Delete Selected
         </button>
       </div>
       <div layout="row" layout-align="end" flex>
-        <button md-mini-fab (click)="fireAddItemAction()">
-          <md-icon>add</md-icon>
+        <button mat-mini-fab (click)="fireAddItemAction()">
+          <mat-icon>add</mat-icon>
         </button>
       </div>
-    </md-list-item>
-    <md-divider></md-divider>
+    </mat-list-item>
+    <mat-divider></mat-divider>
     <div *ngFor="let rowItem of items" class="tanj-list-item-row" flex layout="column">
       <div class="tanj-list-item" layout="row" flex layout-align="start start">
         <div *ngIf="expander && expander.template">
-          <md-icon (click)="toggleExpanded(rowItem[keyField])">{{isExpanded(rowItem[keyField]) ? 'expand_less' :
+          <mat-icon (click)="toggleExpanded(rowItem[keyField])">{{isExpanded(rowItem[keyField]) ? 'expand_less' :
                                                                'expand_more'}}
-          </md-icon>
+          </mat-icon>
         </div>
-        <md-checkbox
+        <mat-checkbox
           [checked]="isSelected(rowItem[keyField])"
           (change)="$event.checked ? selectItem(rowItem[keyField]) : deselectItem(rowItem[keyField])"
-        ></md-checkbox>
-        <ng-template [ngTemplateOutlet]="rowTemplate" [ngOutletContext]="{ $implicit: rowItem }"></ng-template>
+        ></mat-checkbox>
+        <ng-template *ngTemplateOutlet="rowTemplate; context: { $implicit: rowItem }"></ng-template>
       </div>
       <div *ngIf="expander && expander.template && isExpanded(rowItem[keyField])"
            class="tanj-data-list-expander-wrapper"
            layout="row"
            layout-align="start">
-        <ng-template [ngTemplateOutlet]="expander.template" [ngOutletContext]="{ $implicit: rowItem }"></ng-template>
+        <ng-template *ngTemplateOutlet="expander.template; context: { $implicit: rowItem }"></ng-template>
       </div>
     </div>
-  </md-list>
+  </mat-list>
 </div>

@@ -7,7 +7,7 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output,
+  Output, SimpleChanges,
   ViewEncapsulation
 } from '@angular/core'
 import {
@@ -94,9 +94,9 @@ export class NumberSpinnerWidgetComponent implements OnInit, OnChanges, ControlV
   @Output() valueChange: EventEmitter<number> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
-  @Input() hideLabel: boolean
-  @Input() onlyLabel: boolean
+  @Input() disabled: boolean = false
+  @Input() hideLabel: boolean = false
+  @Input() onlyLabel: boolean = false
 
   /**
    * Configuration Fields
@@ -123,7 +123,7 @@ export class NumberSpinnerWidgetComponent implements OnInit, OnChanges, ControlV
     Hacks.materialDesignPlaceholderText(this.changeDetectorRef)
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges(changes: SimpleChanges) {
   }
 
   handleValueChange(value: number) {
@@ -156,7 +156,7 @@ export class NumberSpinnerWidgetComponent implements OnInit, OnChanges, ControlV
   nextValue(): number {
     let v = this.value + this.step
     if (v > this.max) {
-      v = null
+      v = this.max
     }
     return v
   }
@@ -164,7 +164,7 @@ export class NumberSpinnerWidgetComponent implements OnInit, OnChanges, ControlV
   previousValue(): number {
     let v = this.value - this.step
     if (v < this.min) {
-      v = null
+      v = this.min
     }
     return v
   }
@@ -177,7 +177,7 @@ export class NumberSpinnerWidgetComponent implements OnInit, OnChanges, ControlV
     this.onPreviousValueRequest()
   }
 
-  onKeyboardInputRequest(event) {
+  onKeyboardInputRequest(event: any) {
     this.keyboardInputToggled = this.disabled ? false : !this.keyboardInputToggled
   }
 

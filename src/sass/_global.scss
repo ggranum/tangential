@@ -36,7 +36,7 @@ ng2-adsense div {
 
   a, a:visited, a:hover, a:active {
     color: map-get($foreground, link);
-    &[md-button], &[md-raised-button] {
+    &[mat-button], &[mat-raised-button] {
       color: map-get($foreground, icon);
     }
   }
@@ -44,7 +44,7 @@ ng2-adsense div {
   a:hover {
     cursor: pointer;
     text-decoration: underline;
-    &[md-button], &[md-raised-button] {
+    &[mat-button], &[mat-raised-button] {
       text-decoration: none;
     }
   }
@@ -54,7 +54,7 @@ ng2-adsense div {
     color: $textColorDisabled;
     .tanj-input-spinner-field {
       color: $textColorDisabled;
-      md-icon {
+      mat-icon {
         color: mat-color(map-get($theme, foreground), disabled-button);
       }
     }
@@ -84,7 +84,7 @@ ng2-adsense div {
 
   .tanj-fading-line {
     height: 2px;
-    background: radial-gradient(50% 100%, #000, transparent);
+    background: radial-gradient(closest-side at 50% 100%, #000, transparent);
   }
 }
 

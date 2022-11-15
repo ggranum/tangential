@@ -11,9 +11,9 @@ const Model: TextIvalIF = {
 }
 
 export class TextIval extends ConfigurableInputIval implements Jsonified<TextIval, TextIvalIF>, TextIvalIF {
-  static $model: TextIvalIF = ObjectUtil.assignDeep({}, ConfigurableInputIval.$model, Model)
+  static override $model: TextIvalIF = ObjectUtil.assignDeep({}, ConfigurableInputIval.$model, Model)
 
-  value: string
+  override value: string
 
   constructor(config?: TextIvalIF, key?: string) {
     super(config, key)

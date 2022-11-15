@@ -1,6 +1,6 @@
 export class CodedError extends Error {
 
-  constructor(public message: string, public code: any) {
+  constructor(message: string, public code: any) {
     super(message)
   }
 }

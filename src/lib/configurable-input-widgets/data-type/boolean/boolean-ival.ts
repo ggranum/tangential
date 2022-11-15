@@ -10,8 +10,8 @@ const Model: BooleanIvalIF = {
 }
 
 export class BooleanIval extends ConfigurableInputIval implements Jsonified<BooleanIval, BooleanIvalIF>, BooleanIvalIF {
-  static $model: BooleanIvalIF = ObjectUtil.assignDeep({}, ConfigurableInputIval.$model, Model)
-  value: boolean
+  static override $model: BooleanIvalIF = ObjectUtil.assignDeep({}, ConfigurableInputIval.$model, Model)
+  override value: boolean
 
 
   constructor(cfg?: BooleanIvalIF, key?: string) {

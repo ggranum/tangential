@@ -1,30 +1,31 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
+import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service';
 import {AuthInfo, NotificationIF, NotificationMessage} from '@tangential/components';
 import {CodedError, DefaultPageAnalytics, Logger, MessageBus, Page, RouteInfo} from '@tangential/core';
 import {FirebaseErrors} from '@tangential/firebase-util';
-import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service';
-import {Observable} from 'rxjs/Observable';
-import {AppRoutes} from '../../../app.routing.module';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators'
+import {AppRouteDefinitions} from '../../../app.routes.definitions'
 
 @Component({
   selector: 'tanj-sign-in-page',
   template: `
-    <tanj-page-body>
-      <tanj-sign-in
-        *ngIf="signedOut$ | async"
-        [preventSubmit]="true"
-        [username]=""
-        [requireEmailUsername]="true"
-        (signIn)="onSignIn($event)"
-        (showSignUpRequest)="onShowSignUpRequest()"
-        (showPasswordResetRequest)="onShowPasswordResetRequest()">
-      </tanj-sign-in>
-    </tanj-page-body>`,
+              <tanj-page-body>
+                <tanj-sign-in
+                  *ngIf="signedOut$ | async"
+                  [preventSubmit]="true"
+                  [username]=""
+                  [requireEmailUsername]="true"
+                  (signIn)="onSignIn($event)"
+                  (showSignUpRequest)="onShowSignUpRequest()"
+                  (showPasswordResetRequest)="onShowPasswordResetRequest()">
+                </tanj-sign-in>
+              </tanj-page-body>`,
   styles: [
       `
       tanj-sign-in-page tanj-sign-in {
-        margin-top: 3em;
+        margin-top : 3em;
       }
     `
   ],
@@ -33,18 +34,17 @@ import {AppRoutes} from '../../../app.routing.module';
 })
 export class SignInPage extends Page implements OnInit {
 
-  visitorName$: Observable<string>
-  signedOut$: Observable<boolean>
-
-  routeInfo: RouteInfo = {
-    page: {
+  override routeInfo: RouteInfo = {
+    page:      {
       title: 'Tangential: Sign In'
     },
     analytics: DefaultPageAnalytics(),
-    showAds: false
+    showAds:   false
   }
+  signedOut$: Observable<boolean> | undefined
+  visitorName$: Observable<string>| undefined
 
-  constructor(protected bus: MessageBus,
+  constructor(bus: MessageBus,
               protected logger: Logger,
               private router: Router,
               private authService: AuthenticationService,
@@ -52,18 +52,20 @@ export class SignInPage extends Page implements OnInit {
     super(bus)
   }
 
-  ngOnInit() {
-    this.signedOut$ = this.visitorService.visitor$().map((visitor) => {
-      return visitor.subject.isGuest()
-    })
-    this.visitorName$ = this.visitorService.awaitVisitor$().map((visitor: Visitor) => {
-      return visitor.subject.displayName
-    })
+  override ngOnInit() {
+    this.signedOut$ = this.visitorService.visitor$().pipe(
+      map((visitor) => {
+        return visitor.subject.isGuest()
+      }))
+    this.visitorName$ = this.visitorService.awaitVisitor$().pipe(
+      map((visitor: Visitor) => {
+        return visitor.subject.displayName
+      }))
   }
 
   onSignIn(authInfo: AuthInfo) {
     this.authService.signInWithEmailAndPassword({
-      email: authInfo.username,
+      email:    authInfo.username,
       password: authInfo.password
     }).then(() => {
       this.logger.trace(this, '#onSignIn', 'signed in, navigate to captures list.')
@@ -85,11 +87,11 @@ export class SignInPage extends Page implements OnInit {
   }
 
   onShowSignUpRequest() {
-    this.router.navigate(AppRoutes.signIn.navTargets.absToSignUp())
+    this.router.navigate(AppRouteDefinitions.signIn.navTargets.absToSignUp())
   }
 
   onShowPasswordResetRequest() {
-    this.router.navigate(AppRoutes.signIn.navTargets.absToPasswordReset())
+    this.router.navigate(AppRouteDefinitions.signIn.navTargets.absToPasswordReset())
   }
 
 }

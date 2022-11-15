@@ -1,53 +1,24 @@
 import {CommonModule} from '@angular/common'
-import {
-  Injectable,
-  NgModule
-} from '@angular/core'
+import {Injectable, NgModule} from '@angular/core'
 import {FormsModule} from '@angular/forms'
 // Base Angular2
-import {
-  BrowserModule,
-  Title
-} from '@angular/platform-browser'
+import {BrowserModule, Title} from '@angular/platform-browser'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
-import {
-  AdsenseModule,
-  GoogleAnalytics
-} from '@tangential/analytics'
+import {AdsenseModule, GoogleAnalytics} from '@tangential/analytics'
 
 import {
-  AuthenticationService,
-  AuthSettingsService,
-  FirebaseAuthenticationService,
-  FirebaseAuthSettingsService,
-  FirebaseUserService,
-  FirebaseVisitorService,
-  HasPermissionGuard,
-  HasRoleGuard,
-  UserService,
-  VisitorResolver,
-  VisitorService
+  AuthenticationService, AuthSettingsService, FirebaseAuthenticationService, FirebaseAuthSettingsService, FirebaseUserService,
+  FirebaseVisitorService, HasPermissionGuard, HasRoleGuard, UserService, VisitorResolver, VisitorService
 } from '@tangential/authorization-service'
-import {
-  SignInPanelModule,
-  TanjComponentsModule
-} from '@tangential/components'
+import {SignInPanelModule, TanjComponentsModule} from '@tangential/components'
 import {InputRegistry} from '@tangential/configurable-input-widgets'
-import {
-  AppEnvironment,
-  BusLogger,
-  BusLoggerConfiguration,
-  Logger,
-  LoggerConfiguration,
-  MessageBus
-} from '@tangential/core'
-import {
-  FirebaseConfig,
-  FirebaseProvider
-} from '@tangential/firebase-util'
+import {AppEnvironment, BusLogger, BusLoggerConfiguration, Logger, LoggerConfiguration, MessageBus, Page} from '@tangential/core'
+import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util'
 import {TanjInputWidgetModule} from '@tangential/input-widgets'
 // Our Components
 import {environment} from '../environments/environment'
+// noinspection ES6PreferShortImport
+import {PluginManager} from '../lib/plugin/plugin-manager'
 import {AppComponent} from './app.component'
 import {AppRoutingModule} from './app.routing.module'
 // import { AdsenseModule } from "ng2-adsense";
@@ -63,7 +34,6 @@ import {TryoutWelcomePage} from './features/casa/tryout-welcome/tryout-welcome.p
 import {TanjCommonModule} from './features/common/common.module'
 import {MainComponent} from './main/main.component'
 import {TanjMaterialModule} from './tanj-material-module'
-import {PluginManager} from '../lib/plugin/plugin-manager'
 
 
 /**
@@ -78,18 +48,18 @@ export class EagerServiceLoader {
   /**
    * Lest over-aggressive optimizers (automatic OR human) remove the constructor argument due to an 'unused symbol' warning.
    */
-  classIsReallyInUseDoNotDelete(){}
+  classIsReallyInUseDoNotDelete() {}
 }
 
 const appEnvironment: AppEnvironment = <AppEnvironment>environment
 
 if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config) {
-  console.error('Missing environment or appConfig.firebaseConfig', environment, appEnvironment)
+  console.error('Missing environment or appConfig.firebaseConfig', JSON.stringify(appEnvironment))
 }
 
 
 @NgModule({
-  imports: [
+  imports:         [
 
     SignInPanelModule,
 
@@ -105,11 +75,11 @@ if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config)
 
     /* Other */
     AdsenseModule.forRoot({
-      width: 320,
-      height: 50,
-      display: 'inline-block',
+      width:    320,
+      height:   50,
+      display:  'inline-block',
       adClient: 'ca-pub-0484786890985435',
-      adSlot: 2655794844
+      adSlot:   2655794844
     }),
 
     /* Tangential*/
@@ -123,7 +93,8 @@ if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config)
     AppRoutingModule,
 
   ],
-  declarations: [
+  declarations:    [
+    Page,
     AppComponent,
     MainComponent,
     HomePage,
@@ -137,33 +108,60 @@ if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config)
     SignOutPage,
     TryoutWelcomePage,
   ],
-  providers: [
+  providers:       [
     PluginManager,
-    {provide: AppEnvironment, useValue: appEnvironment},
+    {
+      provide:  AppEnvironment,
+      useValue: appEnvironment
+    },
     GoogleAnalytics,
     Title,
     MessageBus,
-    {provide: LoggerConfiguration, useValue: <BusLoggerConfiguration>{
-      alsoLogToConsole: true,
-      logLevel: 'trace'
-    }},
-    {provide: Logger, useClass: BusLogger},
+    {
+      provide:  LoggerConfiguration,
+      useValue: <BusLoggerConfiguration>{
+        alsoLogToConsole: true,
+        logLevel:         'trace'
+      }
+    },
+    {
+      provide:  Logger,
+      useClass: BusLogger
+    },
     EagerServiceLoader,
     VisitorResolver,
     FirebaseProvider,
-    {provide: FirebaseConfig, useValue: appEnvironment.firebase.config},
-    {provide: UserService, useClass: FirebaseUserService},
-    {provide: AuthSettingsService, useClass: FirebaseAuthSettingsService},
-    {provide: AuthenticationService, useClass: FirebaseAuthenticationService},
+    {
+      provide:  FirebaseConfig,
+      useValue: appEnvironment.firebase.config
+    },
+    {
+      provide:  UserService,
+      useClass: FirebaseUserService
+    },
+    {
+      provide:  AuthSettingsService,
+      useClass: FirebaseAuthSettingsService
+    },
+    {
+      provide:  AuthenticationService,
+      useClass: FirebaseAuthenticationService
+    },
 
     HasRoleGuard,
     HasPermissionGuard,
 
-    {provide: VisitorService, useClass: FirebaseVisitorService},
-    {provide: InputRegistry, useClass: InputRegistry},
+    {
+      provide:  VisitorService,
+      useClass: FirebaseVisitorService
+    },
+    {
+      provide:  InputRegistry,
+      useClass: InputRegistry
+    },
   ],
   entryComponents: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap:       [AppComponent]
 })
 export class AppModule {
 

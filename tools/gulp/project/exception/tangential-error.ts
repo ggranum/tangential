@@ -9,9 +9,9 @@ export class TangentialError extends Error {
 
   static handle(e: any) {
     if (e.name == TangentialError.name) {
-      console.error('=error=', e.message)
+      console.error('=error=\n', e.message)
     } else {
-      console.error('=error=', 'Unhandled Error:', e)
+      console.error('=error=\n', 'Unhandled Error:', e)
     }
   }
 }

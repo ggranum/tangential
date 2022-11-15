@@ -16,7 +16,7 @@ export class SelectionList<T> {
   asIndexMap() {
     const indices: { [key: string]: number } = {}
     this.entries.forEach((entry, index) => {
-      indices[entry.value[this.keyField]] = index
+      indices[(entry.value as any)[this.keyField]] = index
     })
     return indices
   }
@@ -24,7 +24,7 @@ export class SelectionList<T> {
   select(values: T[]) {
     const map = this.asIndexMap()
     values.forEach((value: T) => {
-      const index: number = map[value[this.keyField]]
+      const index: number = (map as any)[(value as any)[this.keyField]]
       if (index || index === 0) {
         this.entries[index].selected = true
       }
@@ -34,7 +34,7 @@ export class SelectionList<T> {
   disable(values: T[]) {
     const map = this.asIndexMap()
     values.forEach((value: T) => {
-      const index: number = map[value[this.keyField]]
+      const index: number = (map as any)[(value as any)[this.keyField]]
       if (index || index === 0) {
         this.entries[index].disabled = true
       }

@@ -3,7 +3,7 @@ import {
   PluginAuth
 } from './plugin-auth'
 import {PluginSettings} from './plugin-settings'
-// noinspection TypeScriptPreferShortImport
+// noinspection ES6PreferShortImport
 import {PluginConfiguration} from './plugin-configuration'
 
 export abstract class TangentialPlugin {

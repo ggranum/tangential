@@ -7,12 +7,11 @@ import {CommonModule} from '@angular/common'
  */
 import {
   AfterViewInit,
-  Component,
+  Component, InjectionToken,
   Input,
   ModuleWithProviders,
   NgModule,
   OnInit,
-  OpaqueToken
 } from '@angular/core'
 
 declare const window
@@ -97,7 +96,7 @@ export class AdsenseComponent implements OnInit, AfterViewInit {
   }
 }
 
-export const ADSENSE_CONFIG = new OpaqueToken('AdsenseConfig');
+export const ADSENSE_CONFIG = new InjectionToken('AdsenseConfig');
 
 export function provideAdsenseConfig(config: AdsenseConfig) {
   return new AdsenseConfig(config);
@@ -109,7 +108,7 @@ export function provideAdsenseConfig(config: AdsenseConfig) {
   declarations: [AdsenseComponent],
 })
 export class AdsenseModule {
-  static forRoot(config?: AdsenseConfig): ModuleWithProviders {
+  static forRoot(config?: AdsenseConfig): ModuleWithProviders<AdsenseModule> {
     return {
       ngModule:  AdsenseModule,
       providers: [

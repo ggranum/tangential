@@ -8,13 +8,14 @@ import {
   ViewEncapsulation
 } from '@angular/core'
 import {Hacks} from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+import {NumberType} from '../../data-type'
+//noinspection ES6PreferShortImport
 import {NumberIval} from '../../data-type/number/number-ival'
 import {
   InputViewMode,
   InputViewModes
 } from '../../support/input-view-mode'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {InputTemplateIF} from '../../support/template-components/input-template-component/input-template.component'
 import {NumberSpinnerConfig} from './number-spinner-config'
 @Component({
@@ -48,9 +49,9 @@ import {NumberSpinnerConfig} from './number-spinner-config'
 })
 export class NumberSpinnerTemplateComponent implements OnInit, InputTemplateIF {
 
-  @Input() config: NumberSpinnerConfig
-  @Input() ival: NumberIval
-  @Input() mode = <InputViewMode>null
+  @Input() config: NumberSpinnerConfig = new NumberSpinnerConfig()
+  @Input() ival: NumberIval = NumberType.create({})
+  @Input() mode: InputViewMode = InputViewModes.VIEW
 
   @Output() change: EventEmitter<any> = new EventEmitter(false)
 

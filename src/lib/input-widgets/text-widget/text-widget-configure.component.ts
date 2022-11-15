@@ -36,11 +36,11 @@ export class TextWidgetConfigureChange {
   selector:      'tanj-text-configure',
   template:      `<!-- -->
   <div class="tanj-input-template tanj-mode-configure" flex layout="column" layout-align="start">
-    <md-input-container dividerColor="accent">
-      <input mdInput class="tanj-input" type="text" maxlength="50" placeholder="Enter a label for this input"
+    <mat-form-field dividerColor="accent">
+      <input matInput class="tanj-input" type="text" maxlength="50" placeholder="Enter a label for this input"
              (change)="labelChange.emit(label)"
              [(ngModel)]="label"/>
-    </md-input-container>
+    </mat-form-field>
     <ng-container *ngIf="label">
       <tanj-text-widget [(value)]="defaultValue"
                        (valueChange)="value = defaultValue; emitChangeEvent(true, false)"
@@ -48,22 +48,22 @@ export class TextWidgetConfigureChange {
                        [maxLength]="maxLength"
                        [minLength]="minLength"
                        label="Default Value"></tanj-text-widget>
-      <md-input-container dividerColor="accent">
-        <input mdInput
+      <mat-form-field dividerColor="accent">
+        <input matInput
                class="tanj-input"
                type="number"
                placeholder="Min Length"
                (change)="minLengthChange.emit(minLength)"
                [(ngModel)]="minLength"/>
-      </md-input-container>
-      <md-input-container dividerColor="accent">
-        <input mdInput
+      </mat-form-field>
+      <mat-form-field dividerColor="accent">
+        <input matInput
                class="tanj-input"
                type="number"
                placeholder="Max Length"
-               (change)="maxLengthChange.emit(max)"
+               (change)="maxLengthChange.emit(maxLength)"
                [(ngModel)]="maxLength"/>
-      </md-input-container>
+      </mat-form-field>
     </ng-container>
 
   </div>
@@ -78,19 +78,19 @@ export class TextWidgetConfigureComponent implements OnInit, OnChanges, ControlV
   @HostBinding('attr.layout') flexLayout = 'column';
   @HostBinding('attr.layout-align') flexLayoutAlign = 'start';
 
-  @Input() value: string
+  @Input() value: string = ''
   @Output() valueChange: EventEmitter<string> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
+  @Input() disabled: boolean = false
 
   /**
    * Configuration Fields
    */
   @Input() label: string = ''
   @Input() defaultValue: string = ''
-  @Input() maxLength: number
-  @Input() minLength: number
+  @Input() maxLength: number = 100
+  @Input() minLength: number = 0
 
   @Output() labelChange: EventEmitter<string> = new EventEmitter(false)
   @Output() defaultValueChange: EventEmitter<string> = new EventEmitter(false)

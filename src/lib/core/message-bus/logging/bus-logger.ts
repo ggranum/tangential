@@ -21,14 +21,14 @@ export class BusLoggerConfiguration extends LoggerConfiguration {
 @Injectable()
 export class BusLogger extends ConsoleLogger {
 
-  config:BusLoggerConfiguration
+  override config:BusLoggerConfiguration = new BusLoggerConfiguration()
 
   constructor(private bus: MessageBus, @Optional() configuration?: LoggerConfiguration) {
     super(configuration)
     console.log('BusLogger', 'constructor', configuration)
   }
 
-  log(message: LogMessage) {
+  override log(message: LogMessage): void {
     this.bus.post(message)
     if(this.config.alsoLogToConsole){
       super.log(message)

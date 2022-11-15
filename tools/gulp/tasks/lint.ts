@@ -1,10 +1,22 @@
-import gulp = require('gulp');
+import {series} from 'gulp'
 import {execNodeTask} from '../task_helpers';
+import {build_release} from './release'
+
+// depends on ['build:release']
+function madge(cb) {
+  execNodeTask('madge', ['--circular', './dist'])
+  cb()
+}
+
+function stylelint(cb) {
+  execNodeTask('stylelint', ['src/**/*.scss', '--config', 'stylelint-config.json', '--syntax', 'scss'])
+  cb()
+}
+
+function tslint(cb) {
+  execNodeTask('tslint', ['-c', 'tslint.json', 'src/**/*.ts'])
+  cb()
+}
 
 
-gulp.task('lint', ['tslint', 'stylelint', 'madge']);
-gulp.task('madge', ['build:release'], execNodeTask('madge', ['--circular', './dist']));
-gulp.task('stylelint', execNodeTask(
-  'stylelint', ['src/**/*.scss', '--config', 'stylelint-config.json', '--syntax', 'scss']
-));
-gulp.task('tslint', execNodeTask('tslint', ['-c', 'tslint.json', 'src/**/*.ts']));
+exports.lint = series(tslint, stylelint, series(build_release, madge))

@@ -73,7 +73,7 @@ export class Accordion {
                         layout-align="start center"
                         [ngClass]="{'tanj-collapsed': collapsed}"
                         (click)="toggleCollapsed($event)">
-                     <md-icon class="no-select" [@iconChange]="collapsed">keyboard_arrow_down</md-icon>
+                     <mat-icon class="no-select" [@iconChange]="collapsed">keyboard_arrow_down</mat-icon>
                      <ng-content select="[tanj-header]"></ng-content>
                    </div>
                    <div class="tanj-item-content-container"

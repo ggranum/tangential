@@ -9,47 +9,47 @@ import {
 import {ConfigurableInputIval} from '../data-type/configurable-input-ival'
 import {ConfigurableInputTypeJson} from '../data-type/configurable-input-type'
 import {InputConfig} from '../input-config'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {CheckboxWidgetConfig} from '../widgets/checkbox/checkbox-widget-config'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {CheckboxWidgetTemplateComponent} from '../widgets/checkbox/checkbox-widget.template.component'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {DateTimeInputConfig} from '../widgets/date-time-input/date-time-input-config'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {DateTimeTemplateComponent} from '../widgets/date-time-input/date-time-template.component'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {DurationPickerConfig} from '../widgets/duration-picker/duration-picker-config'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {DurationPickerTemplateComponent} from '../widgets/duration-picker/duration-picker-template.component'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {IconRatingWidgetConfig} from '../widgets/icon-rating-widget/icon-rating-widget-config'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {IconRatingWidgetTemplateComponent} from '../widgets/icon-rating-widget/icon-rating-widget.template.component'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {NumberInputConfig} from '../widgets/number-input/number-input-config'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {NumberTemplateComponent} from '../widgets/number-input/number-template.component'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {NumberSliderConfig} from '../widgets/number-slider/number-slider-config'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {NumberSliderTemplateComponent} from '../widgets/number-slider/number-slider-template.component'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {NumberSpinnerConfig} from '../widgets/number-spinner/number-spinner-config'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {NumberSpinnerTemplateComponent} from '../widgets/number-spinner/number-spinner-template.component'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {SlideToggleConfig} from '../widgets/slide-toggle/slide-toggle-widget-config'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {SlideToggleWidgetTemplateComponent} from '../widgets/slide-toggle/slide-toggle-widget.template.component'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {TextInputConfig} from '../widgets/text-input/text-input-config'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {TextTemplateComponent} from '../widgets/text-input/text-template.component'
 import {
   InputViewMode,
   InputViewModes
 } from './input-view-mode'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {InputTemplateIF} from './template-components/input-template-component/input-template.component'
 
 

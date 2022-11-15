@@ -17,7 +17,7 @@ const Model: ConfigurableInputTypeJson = {
 }
 
 export abstract class ConfigurableInputType extends StampedMediaType implements Jsonified<ConfigurableInputType, ConfigurableInputTypeJson>, ConfigurableInputTypeJson {
-  static $model: ConfigurableInputTypeJson = ObjectUtil.assignDeep({}, StampedMediaType.$model, Model)
+  static override $model: ConfigurableInputTypeJson = ObjectUtil.assignDeep({}, StampedMediaType.$model, Model)
 
   static TYPE_NAME: string
   defaultValue?: any

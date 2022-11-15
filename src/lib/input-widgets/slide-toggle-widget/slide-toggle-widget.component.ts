@@ -7,7 +7,7 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output,
+  Output, SimpleChanges,
   ViewEncapsulation
 } from '@angular/core'
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms'
@@ -45,11 +45,11 @@ export class SlideToggleWidgetChange {
            class="tanj-widget-input"
            layout="column"
            layout-align="start">
-        <md-slide-toggle flex
+        <mat-slide-toggle flex
                          [disabled]="disabled"
                          [(ngModel)]="value"
                          (change)="handleValueChange(value)">
-        </md-slide-toggle>
+        </mat-slide-toggle>
       </div>
       <div *ngIf="!hideLabel && labelPosition == 'below'" class="tanj-label tanj-below">{{label}}</div>
     </div>
@@ -72,9 +72,9 @@ export class SlideToggleWidgetComponent implements ControlValueAccessor, OnChang
   @Output() valueChange: EventEmitter<boolean> = new EventEmitter(false)
 
   @Input() labelPosition: 'before' | 'after' | 'below' = 'before'
-  @Input() disabled: boolean
-  @Input() hideLabel: boolean
-  @Input() onlyLabel: boolean
+  @Input() disabled: boolean = false
+  @Input() hideLabel: boolean = false
+  @Input() onlyLabel: boolean = false
 
 
   /**
@@ -96,7 +96,7 @@ export class SlideToggleWidgetComponent implements ControlValueAccessor, OnChang
     Hacks.materialDesignPlaceholderText(this.changeDetectorRef)
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges(changes: SimpleChanges) {
   }
 
   handleValueChange(value: boolean) {

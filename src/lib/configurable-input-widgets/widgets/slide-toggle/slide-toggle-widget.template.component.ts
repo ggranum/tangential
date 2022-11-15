@@ -9,10 +9,11 @@ import {
   ViewEncapsulation
 } from '@angular/core'
 import {Hacks} from '@tangential/core'
-//noinspection TypeScriptPreferShortImport
+import {BooleanType} from '../../data-type'
+//noinspection ES6PreferShortImport
 import {BooleanIval} from '../../data-type/boolean/boolean-ival'
 import {InputViewMode, InputViewModes} from '../../support/input-view-mode'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {InputTemplateIF} from '../../support/template-components/input-template-component/input-template.component'
 import {SlideToggleConfig} from './slide-toggle-widget-config'
 
@@ -48,9 +49,9 @@ export class SlideToggleWidgetTemplateComponent implements OnInit, InputTemplate
   @HostBinding('attr.layout-align') flexLayoutAlign = 'start';
 
   /* Support for dynamic use. */
-  @Input() config: SlideToggleConfig
+  @Input() config: SlideToggleConfig | undefined
   /* Support for dynamic use. */
-  @Input() ival: BooleanIval
+  @Input() ival: BooleanIval = BooleanType.create({})
 
   @Input() mode = <InputViewMode> InputViewModes.VIEW
   @Output() change: EventEmitter<any> = new EventEmitter(false)

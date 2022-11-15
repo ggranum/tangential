@@ -5,6 +5,7 @@ import {
   transition,
   trigger
 } from '@angular/animations'
+import * as KeyCodes from '@angular/cdk/keycodes'
 import {
   Component,
   ElementRef,
@@ -14,7 +15,6 @@ import {
   Output,
   ViewEncapsulation
 } from '@angular/core'
-import {ESCAPE} from '@angular/material'
 
 @Component({
   selector: 'tanj-side-nav',
@@ -58,7 +58,7 @@ export class SideNavComponent {
   }
 
   handleKeyDown(event: KeyboardEvent) {
-    if (event.keyCode === ESCAPE && this.opened) {
+    if (event.keyCode === KeyCodes.ESCAPE && this.opened) {
       this.close();
       event.stopPropagation();
     }

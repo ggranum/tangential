@@ -40,12 +40,12 @@ const Model: TextTypeIF = {
 }
 
 export class TextType extends ConfigurableInputType implements Jsonified<TextType, TextTypeIF>, TextTypeIF {
-  static $model: TextTypeIF = ObjectUtil.assignDeep({}, ConfigurableInputType.$model, Model)
+  static override $model: TextTypeIF = ObjectUtil.assignDeep({}, ConfigurableInputType.$model, Model)
 
-  static TYPE_NAME = 'Text'
+  static override TYPE_NAME = 'Text'
   maxLength: number
   minLength: number
-  defaultValue: string
+  override defaultValue: string
 
   constructor(config?: TextTypeIF) {
     super(config || {})

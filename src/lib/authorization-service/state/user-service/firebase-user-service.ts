@@ -1,50 +1,49 @@
 import {Injectable} from '@angular/core'
 import {MessageBus, ObjectUtil, ObjMap, ObjMapUtil} from '@tangential/core'
 import {FirebaseProvider, FireBlanket} from '@tangential/firebase-util'
-import * as firebase from 'firebase/app'
-import {Observable} from 'rxjs/Observable'
-//noinspection TypeScriptPreferShortImport
+import { DatabaseReference} from '@firebase/database'
+import {child, DataSnapshot, getDatabase} from 'firebase/database'
+import {firstValueFrom, Observable} from 'rxjs'
+import {first, map} from 'rxjs/operators';
+//noinspection ES6PreferShortImport
 import {AuthPermission} from '../../media-type/cdm/auth-permission'
+//noinspection ES6PreferShortImport
 import {AuthRole} from '../../media-type/cdm/auth-role'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthSettings, AuthSettingsTransform} from '../../media-type/cdm/auth-settings'
+//noinspection ES6PreferShortImport
 import {AuthUser, AuthUserTransform} from '../../media-type/cdm/auth-user'
+//noinspection ES6PreferShortImport
 import {AuthEffectivePermissionsRef, AuthGrantedPermissionsRef, AuthGrantedRolesRef} from '../../media-type/doc-model/auth'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthRoleDm} from '../../media-type/doc-model/auth-role'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthSettingsFirebaseRef} from '../../media-type/doc-model/auth-settings'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthUserDm, AuthUserKey, AuthUsersFirebaseRef} from '../../media-type/doc-model/auth-user'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {AuthSettingsService} from '../settings-service/settings-service'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {UserService} from './user-service'
-import DataSnapshot = firebase.database.DataSnapshot
 
-import Reference = firebase.database.Reference
+
 
 
 @Injectable()
 export class FirebaseUserService implements UserService {
 
 
-  private ref: Reference
-  private authSettingsRef: Reference
-  private grantedPermissionsRef: Reference
-  private effectivePermissionsRef: Reference
-  private grantedRolesRef: Reference
-
-  constructor(private fb: FirebaseProvider, private bus: MessageBus, private authSettingsService: AuthSettingsService) {
-
-    const db = fb.app.database()
-    this.ref = AuthUsersFirebaseRef(db)
-    this.authSettingsRef = AuthSettingsFirebaseRef(db)
-    this.grantedPermissionsRef = AuthGrantedPermissionsRef(db)
-    this.effectivePermissionsRef = AuthEffectivePermissionsRef(db)
-    this.grantedRolesRef = AuthGrantedRolesRef(db)
+  userPermissionsFromUserRolesMapping = (snap: DataSnapshot): Promise<ObjMap<AuthPermission>> => {
+    const roleKeys = snap.exists() ? snap.val() : {}
+    return this.authSettingsService.authSettings$().pipe(first()).toPromise().then((authSettings: AuthSettings) => {
+      return authSettings.permissionsForRoles(ObjectUtil.keys(roleKeys))
+    })
   }
-
+  private authSettingsRef: DatabaseReference
+  private effectivePermissionsRef: DatabaseReference
+  private grantedPermissionsRef: DatabaseReference
+  private grantedRolesRef: DatabaseReference
+  private ref: DatabaseReference
   private snapMapToValue = (snap: DataSnapshot): AuthUserDm[] => {
     let result: AuthUserDm[] = []
     if (snap.exists()) {
@@ -61,18 +60,26 @@ export class FirebaseUserService implements UserService {
     return result
   }
 
+  constructor(private fb: FirebaseProvider, private bus: MessageBus, private authSettingsService: AuthSettingsService) {
 
-  getUserFragment(key: AuthUserKey): Promise<AuthUser> {
-    const cRef = this.ref.child(key)
-    return FireBlanket.value(cRef).then(this.snapToValue)
-      .then(dm => AuthUserTransform.fragmentFromDocModel(dm, dm ? dm.$key : key))
+    const db = getDatabase(fb.app)
+    this.ref = AuthUsersFirebaseRef(db)
+    this.authSettingsRef = AuthSettingsFirebaseRef(db)
+    this.grantedPermissionsRef = AuthGrantedPermissionsRef(db)
+    this.effectivePermissionsRef = AuthEffectivePermissionsRef(db)
+    this.grantedRolesRef = AuthGrantedRolesRef(db)
+  }
+
+  getRolePermissionsFor(userKey: AuthUserKey): Promise<ObjMap<AuthPermission>> {
+    const userRolesRef = child(this.grantedRolesRef, userKey)
+    return FireBlanket.value(userRolesRef).then(this.userPermissionsFromUserRolesMapping)
   }
 
   getUser(key: AuthUserKey): Promise<AuthUser> {
     let effectivePermissions: ObjMap<AuthPermission>
     let grantedPermissions: ObjMap<AuthPermission>
     let grantedRoles: ObjMap<AuthRole>
-    let authUser:AuthUser
+    let authUser: AuthUser
     return this.getUserFragment(key).then((userFragment: AuthUser) => {
       authUser = userFragment
       return Promise.all([
@@ -89,77 +96,65 @@ export class FirebaseUserService implements UserService {
     )
   }
 
+  getUserFragment(key: AuthUserKey): Promise<AuthUser> {
+    const cRef = child(this.ref, key)
+    return FireBlanket.value(cRef).then(this.snapToValue)
+      .then(dm => AuthUserTransform.fragmentFromDocModel(dm, dm ? dm.$key : key))
+  }
+
   awaitUsers$(): Observable<AuthUserDm[]> {
-    return FireBlanket.awaitValue$(this.ref).map(this.snapMapToValue)
+    return FireBlanket.awaitValue$(this.ref).pipe(map(this.snapMapToValue))
   }
-
-
-  private authSettings$(): Observable<AuthSettings> {
-    return FireBlanket.awaitValue$(this.authSettingsRef)
-      .map(snap => snap.val())
-      .map(docModel => AuthSettingsTransform.fromDocModel(docModel))
-  }
-
 
   effectivePermissionsFor(userKey: AuthUserKey): Promise<ObjMap<AuthPermission>> {
-    return FireBlanket.awaitValue$(this.effectivePermissionsRef.child(userKey))
-      .first().toPromise().then(snap => {
-        return this.authSettings$().first().toPromise().then(authSettings => {
-          const v: ObjMap<AuthRoleDm> = snap.val()
-          const permissions: ObjMap<AuthPermission> = {}
-          let permissionSmap = authSettings.permissionsMap()
-          ObjectUtil.entries(v).forEach(entry => {
-            permissions[entry.key] = permissionSmap[entry.key]
-          })
-          return permissions
+    return firstValueFrom(FireBlanket.awaitValue$(child(this.effectivePermissionsRef, userKey))).then(snap => {
+      return this.authSettings$().pipe(first()).toPromise().then(authSettings => {
+        const v: ObjMap<AuthRoleDm> = snap.val()
+        const permissions: ObjMap<AuthPermission> = {}
+        let permissionSmap = authSettings.permissionsMap()
+        ObjectUtil.entries(v).forEach(entry => {
+          permissions[entry.key] = permissionSmap[entry.key]
         })
-
+        return permissions
       })
-  }
 
-  grantedPermissionsFor(userKey: AuthUserKey): Promise<ObjMap<AuthPermission>> {
-    return FireBlanket.awaitValue$(this.grantedPermissionsRef.child(userKey))
-      .first().toPromise().then(snap => {
-        return this.authSettings$().first().toPromise().then(authSettings => {
-          const v: ObjMap<AuthRoleDm> = snap.val()
-          const permissions: ObjMap<AuthPermission> = {}
-          let permissionSmap = authSettings.permissionsMap()
-          ObjectUtil.entries(v).forEach(entry => {
-            permissions[entry.key] = permissionSmap[entry.key]
-          })
-          return permissions
-        })
-
-      })
-  }
-
-  grantedRolesFor(userKey: AuthUserKey): Promise<ObjMap<AuthRole>> {
-    return FireBlanket.awaitValue$(this.grantedRolesRef.child(userKey))
-      .first().toPromise().then(snap => {
-        return this.authSettings$().first().toPromise().then(authSettings => {
-          const v: ObjMap<AuthRoleDm> = snap.val()
-          const roles: ObjMap<AuthRole> = {}
-          let roleMap = authSettings.rolesMap()
-          ObjectUtil.entries(v).forEach(entry => {
-            roles[entry.key] = roleMap[entry.key]
-          })
-          return roles
-        })
-
-      })
-  }
-
-  userPermissionsFromUserRolesMapping = (snap: DataSnapshot): Promise<ObjMap<AuthPermission>> => {
-    const roleKeys = snap.exists() ? snap.val() : {}
-    return this.authSettingsService.authSettings$().first().toPromise().then((authSettings: AuthSettings) => {
-      return authSettings.permissionsForRoles(ObjectUtil.keys(roleKeys))
     })
   }
 
+  grantedPermissionsFor(userKey: AuthUserKey): Promise<ObjMap<AuthPermission>> {
+    return firstValueFrom(FireBlanket.awaitValue$(child(this.grantedPermissionsRef, userKey))).then(snap => {
+      return firstValueFrom(this.authSettings$()).then(authSettings => {
+        const v: ObjMap<AuthRoleDm> = snap.val()
+        const permissions: ObjMap<AuthPermission> = {}
+        let permissionSmap = authSettings.permissionsMap()
+        ObjectUtil.entries(v).forEach(entry => {
+          permissions[entry.key] = permissionSmap[entry.key]
+        })
+        return permissions
+      })
 
-  getRolePermissionsFor(userKey: AuthUserKey): Promise<ObjMap<AuthPermission>> {
-    const userRolesRef = this.grantedRolesRef.child(userKey)
-    return FireBlanket.value(userRolesRef).then(this.userPermissionsFromUserRolesMapping)
+    })
+  }
+
+  grantedRolesFor(userKey: AuthUserKey): Promise<ObjMap<AuthRole>> {
+    return firstValueFrom(FireBlanket.awaitValue$(child(this.grantedRolesRef, userKey))).then(snap => {
+      return this.authSettings$().pipe(first()).toPromise().then(authSettings => {
+        const v: ObjMap<AuthRoleDm> = snap.val()
+        const roles: ObjMap<AuthRole> = {}
+        let roleMap = authSettings.rolesMap()
+        ObjectUtil.entries(v).forEach(entry => {
+          roles[entry.key] = roleMap[entry.key]
+        })
+        return roles
+      })
+
+    })
+  }
+
+  private authSettings$(): Observable<AuthSettings> {
+    return FireBlanket.awaitValue$(this.authSettingsRef).pipe(
+      map(snap => snap.val()),
+      map(docModel => AuthSettingsTransform.fromDocModel(docModel)))
   }
 
 

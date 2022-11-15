@@ -1,5 +1,9 @@
 = Tangential Developer Docs
 
+== *Required Edits - Todo*
+* Deploy Functions before the first 'ng serve' so users can log in.
+
+== Intro
 This document describes how to use this project as a bootstrap for your own application. We'll walk through cloning the Tangential Demo repo into your own working directory, initializing your own git repo, and then configuring the project.
 
 *Be aware* that you should be cloning the https://github.com/ggranum/tangential-demo[Tangential-Demo] project, NOT https://github.com/ggranum/tangential[Tangential] itself. The demo project is essentially this project, except everything living under 'src/libs' is imported via NPM. Which makes updating your code with Tangential's changes quite easy, as opposed to nearly impossible.
@@ -38,17 +42,19 @@ Side note: If your project name is common, Firebase will issue you an identifier
 
 Git:: Source control. https://git-scm.com/downloads
 
-Node 7+:: For all the things: https://nodejs.org/en/download/, or google how to install it with HomeBrew, apt... whatever the kids use nowadays.
+Node 9+:: For all the things: https://nodejs.org/en/download/, or google how to install it with HomeBrew, apt... whatever the kids use nowadays.
 
-Gulp:: Used for the build process. Once NodeJs is installed and on your path, run: `npm install -g gulp-cli`. This is one of very few NPM-managed tools that we recommend installing globally.
+Gulp:: Used for the build process. Once NodeJs is installed and on your path, run: `npm install gulp-cli`.
 
-That's right. We recommend against using global NPM installs. It only takes one crazy to debug version-related bug to convince most normal humans to join us in this odd notion.
+That's right. We recommend against using global NPM installs. It only takes one crazy to debug version-related bug to convince most normal humans to join us in this odd notion. Using `npx gulp` is just safer than dealing with version issues between projects.
 
-Instead of global installs, we recommend creating aliases to locally installed versions of tool libraries. Or, a distant second, to reference the locally installed dependencies via scripts in the package.json file. We realize this opinion is not universal, but experience (oh, such painful experience) leads us to prefer the use of aliases over global installs.
+Instead of global installs, we recommend using npx where possible, or (if you realllly need to have a one-word command) creating aliases to locally installed versions of tool libraries. If npx doesn't work, a distant third option would be to reference the locally installed dependencies via scripts in the package.json file.
 
-If you are super lucky and always get to use the latest and greats versions of everything, then by all means, use global installs. For the rest of us, there are aliases and local dependencies:
+We realize our opinion on global installs is not universal, but experience (oh, such painful experience) leads us to prefer the use of aliases over global installs.
 
-To create aliases for the tools used by this project, execute the following in your terminal:
+If you are super lucky and always get to use the latest and greats versions of everything, then by all means, use global installs. For the rest of us, there are npx, aliases and local dependencies:
+
+As an example, to create aliases for the tools used by this project, execute the following in your terminal:
 
 ```bash
 echo source ~/.bash_aliases >> ~/.bashrc
@@ -57,19 +63,34 @@ echo alias ng="./node_modules/.bin/ng"  >> ~/.bash_aliases
 source ~/.bash_aliases
 ```
 
-The use of a bash_aliases file is optional, but often calling `source` on ~/.bashrc repeatedly isn't completely side effect free (e.g. `path` becoming very, very, very long), and who has the energy to fix that?
+Just remember that `npx firebase` works perfectly fine.
+
+Or for ZSH:
+
+```zsh
+echo source ~/.zsh_alias >> ~/.zshrc
+echo alias firebase="./node_modules/.bin/firebase" >> ~/.zsh_alias
+echo alias ng="./node_modules/.bin/ng"  >> ~/.zsh_alias
+source ~/.zsh_alias
+```
+
+The use of an aliases file is optional, but often calling `source` on ~/.bashrc repeatedly isn't completely side effect free (e.g. `path` becoming very, very, very long), and who has the energy to fix that?
 
 The above use of aliases does restrict the use of these tools to the base directory of active projects. In practice this is rarely a problem.
 
 On the off chance it becomes a problem, it can be solved via NPM scripts, which are provided in the package.json for the Tangential and Tangential Demo projects. For example, to call `ng serve` via the script you instead call the npm script we've provided (see 'scripts' in link:package.json[]):
 
-```
-npm run ng -- serve
+```bash
+npm run ng serve
 ```
 
-Note the `--` before `serve`. This is how you pass arguments to an NPM script.
+Which is exactly(?) equivalent to just using npx:
 
-Generally speaking, adding an alias is more developer friendly. But when that's not possible npm scripts are there to fall back on.
+```bash
+npx ng serve
+```
+
+Which didn't exist when this documentation was first created. Yay progress!
 
 If you prefer (we're cautious, but not zealots), you can install the tools required by Tangential globally with the following:
 
@@ -90,7 +111,7 @@ Don't want to share? Contact us for licensing, we'll get your sorted. Or help us
 
 === Set up Firebase
 
-Not optional, unless you plan on writing alternate backend services that match our interfaces - and if you do, we really hope you contribute them back to Tangential! But we'll assume not :~)
+Not optional, unless you plan on writing alternate backend services that match our interfaces - and if you do, we really hope you contribute them back to Tangential!
 
 We'll be creating two Firebase projects. One for development and one for production.
 
@@ -152,7 +173,7 @@ Don't close this browser window yet, you'll need it for the next step:
 
 ==== Add Another GA Property for Prod
 
-Your production site will obviously get it's own custom domain in the future, but for now we'll set the property up using the Firebase hosting domain.
+Your production site will obviously get its own custom domain in the future, but for now we'll set the property up using the Firebase hosting domain.
 
 Returning to the browser window with your Google Analytics Tracking ID, click on the 'PROPERTY' dropdown near the top left - directly to the left of the Tracking ID, and under your Project Name. Choose 'Create new Property. Set the Website name to `${your-project-name}-firebase`, and the Website URL to `https://${your-project-name}.firebaseapp.com`. Set the industry however you wish, and click 'Get Tracking ID'.
 
@@ -246,8 +267,8 @@ Clone the project and then make it your own (remember! Tangential-Demo, NOT plai
 git clone git@github.com:ggranum/tangential-demo.git ${your-project-name}
 cd ${your-project-name}
 
-# Kill off the connection to tangential-demo and initialize your own repo:
-rm -rf .git
+# Kill off the connection to tangential-demo and initialize your own repo (remove the _XX to run the next command - we're being cautious, in case your above change-directory command failed):
+rm_XX -rf .git
 git init
 git add .
 git commit -m "Bootstrapping from Tangential Demo (https://github.com/ggranum/tangential-demo)"
@@ -284,12 +305,12 @@ gulp project:init
 
 This should create a couple of files:
 
-${projectRoot}/config/project.local.json:: Project configuration - includes Firebase settings, analytics settings, etc, for each environment.
+${projectRoot}/config/project.local.json:: Project configuration - includes Firebase settings, analytics settings, etc., for each environment.
 ${projectRoot}/config/users.local.ts:: Auto-generated file that is useful for running Integration tests. Import this file into your test class to avoid having to hard-code user ids and passwords into your integration test suite.
 ${projectRoot}/config/dev/firebase-adminsdk-private-key.local.json:: An empty stub for your Firebase Service Account Key, for the Development environment.
 ${projectRoot}/config/prod/firebase-adminsdk-private-key.local.json:: An empty stub for your Firebase Service Account Key, for the Production environment.
 ${projectRoot}/environments/environments.local.json:: Configuration settings for each environment that are imported into your project by Angular CLI build targets.
-${projectRoot}/.firebaserc:: "Normally" created by either running `firebase init` or `firebase alias...`. We create it for you because we can, and becuase if you run firebase init you will destroy some rather important configuration settings (well, not destroy, because you can always revert to your last commit... you did commit to source control, right? Right!? :~) ). The .firebaseRc file contains your project alias definitions for the Firebase-cli tool. The aliases are how we will be able to run commands like 'firebase use dev' later, instead of having to type out your entire firebase project id each time.
+${projectRoot}/.firebaserc:: "Normally" created by either running `firebase init` or `firebase alias...`. We create it for you because we can, and because if you run firebase init you will destroy some rather important configuration settings (well, not destroy, because you can always revert to your last commit... you did commit to source control, right? Right!? :~) ). The .firebaseRc file contains your project alias definitions for the Firebase-cli tool. The aliases are how we will be able to run commands like 'firebase use dev' later, instead of having to type out your entire firebase project id each time.
 
 
 Our next steps are to update project.local.json with our gathered data, provide some valid email addresses for our users, and copy our firebase private keys into the correct locations.
@@ -303,7 +324,7 @@ initialized:: Should currently be false. This will be set to true automatically 
 environments:: You have two to start with: dev and prod. Probably don't consider playing with these names until you already have a working app. And then... probably still don't. But feel free to add other environments at that point, if you need.
 suppressAds:: You probably don't want to show ads in your development environment most of the time, lest you accidentally click on one. Setting this to true will suppress the ads, and if the ad container isn't dynamicly sized, it will provide a spacer with a colored background to indicate where the ad _would_ be, were it not suppressed.
 production:: If true, enables certain optimizations. (calls Angular's `enableProdMode();` function in `src/main.ts`).
-googleAnalytics:: Pretty self-explanitory. Disable if you don't want it. Gulp build targets will fail if you leave this enabled with the default tracking ID.
+googleAnalytics:: Pretty self-explanatory. Disable if you don't want it. Gulp build targets will fail if you leave this enabled with the default tracking ID.
 firebase:: All paths are relative to the `${projectRoot/config/` directory (more accurately, they are relative to the `basePath` value specified in the root of this json object). We'll explain much of this in a seperate section.
 projectUsers:: When you start the app the first time, you'll want to be able to sign in to do things. You probably also want to run integration tests.  And we want a demo! So here are three basic user accounts. We'll discuss some important characteristics about these projectUsers in the next sections.
 
@@ -348,10 +369,11 @@ Otherwise
 
 Any time you make changes to the project.local.json file, you should run the update-local task. This re-generates the user.local.ts and environments.local.ts files. You can (and should) follow that up with the validate task, which will attempt to prevent invalid configuration settings from ruining your day.
 
-```bash
-gulp project:update-local
-gulp project:validate
-```
+[source,bash]
+----
+npx gulp project:update-local
+npx gulp project:validate
+----
 
 
 === Initialize our remote assets - which is to say, Firebase.
@@ -359,7 +381,8 @@ gulp project:validate
 We're assuming that you've never used these Firebase accounts. We do attempt to take a backup before blowing away data - in fact, we try to identify if there is data present, and we make you use a `--force` flag if we detect existing data.
 However, if you have existing data in your Firebase accounts, please go back it up somewhere. We'll feel really, really bad if you file a bug about how your data got wiped out, and we'll probably even try to fix the bug... but your data will still be gone, and the limit of our response really will be limited to feeling bad and maybe fixing the bug. So MAKE SURE your data is safe. Because this next task is intended to replace it with the contents of the `${projectRoot}/config/database.init.json` file.
 
-```bash
+[source,bash]
+----
 # Init the development project
 gulp firebase:push-project-users
 gulp firebase:push-database-template
@@ -370,7 +393,7 @@ gulp firebase:push-project-users --prod
 gulp firebase:push-database-template --prod
 firebase use prod && firebase deploy --only database
 
-```
+----
 
 Note that 'firebase deploy --only database' is somewhat misleading: It is deploying your database *rules*, not your database.
 
@@ -398,13 +421,14 @@ So, congratulations with completing the Bootstrap! The following steps are all t
 
 === It's time to build build build
 
-With our database initialized, we can now start up the application on a local server. Even the local server goes out to our remote firebase service though, hence why we require a the database to be initialized. Yeah, no deserted island development mode here, at least not yet. It's a great goal, but fantastically time-consuming in real life. (that said, if our consumers demand it, we'd absolutely love to implement it!)
+With our database initialized, we can now start up the application on a local server. Even the local server goes out to our remote firebase service though, hence why we require a the database to be initialized. Yeah, no deserted island development mode here, at least not yet.
 
 So, let's run locally, using the https://github.com/angular/angular-cli[Angular CLI] commands:
 
-```bash
-ng serve --host 0.0.0.0 -p 4200 -dev
-```
+[source,bash]
+----
+npx ng serve --host 0.0.0.0 --port 4200 --configuration dev
+----
 
 And open your browser to http://localhost:4200. After a moment or three, you should see the Tangential demo home page. Congratulations, you're nearly to the end!
 
@@ -472,7 +496,7 @@ Thanks, and Good luck!
 
 === Some useful commands:
 
-You'll probably want to run unit tests, and it's nice to have a simple list of commands to jump to... so here it is!
+You'll probably want to run unit tests, and it's nice to have a simple list of commands to jump to.
 
 `ng serve --host 0.0.0.0 -p 4200`:: Also, `ng serve --help`. This is the command we tend to start our development day with. It will build in the background while you make code and style changes. Fair warning: like any compiler it can't always catch the full breadth of some code changes. You may occasionally need to stop and restart the server to 'fix' odd behavior created by such bad state. It's rare enough that, when it happens, you'll likely blame something else first!
 `ng build --aot -prod -oh=all`:: Pre-release build, also should be run occasionally to check for AoT build errors (especially if you're editing routes!). AoT builds will find bugs in your templates that you might not catch with just browsing your app in 'serve' or runtime-compile mode.

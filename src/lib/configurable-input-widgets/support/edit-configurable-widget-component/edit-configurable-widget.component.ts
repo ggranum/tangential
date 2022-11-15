@@ -10,14 +10,14 @@ import {
   SimpleChange,
   ViewEncapsulation
 } from '@angular/core'
-import {MdDialog} from '@angular/material'
+import {MatDialog} from '@angular/material/dialog'
 import {Hacks} from '@tangential/core'
 import {InputConfig, InputConfigJson} from '../../input-config'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {ChooseInputWidgetDialog} from '../choose-input-widget-dialog/choose-input-widget-dialog'
 import {InputRegistry} from '../input-types-registry'
 import {InputViewModes} from '../input-view-mode'
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {InputTemplateIF} from '../template-components/input-template-component/input-template.component'
 
 @Component({
@@ -36,7 +36,7 @@ export class EditConfigurableWidgetComponent implements OnInit, OnChanges {
 
   constructor(private inputRegistry: InputRegistry,
               private changeDetectorRef: ChangeDetectorRef,
-              public dialog: MdDialog) {
+              public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -60,7 +60,8 @@ export class EditConfigurableWidgetComponent implements OnInit, OnChanges {
 
       const base: InputConfigJson = newConfig.toJson(true)
       if (this.inputConfig) {
-        base.label = this.inputConfig.label !== this.inputConfig.getModel().label
+        /** @todo: ggranum: Figure out why this is using label on a BaseMediaType model, that doesn't have a label field.  */
+        base.label = this.inputConfig.label !== (this.inputConfig.getModel() as any).label
           ? this.inputConfig.label
           : null
         base.orderIndex = this.inputConfig.orderIndex

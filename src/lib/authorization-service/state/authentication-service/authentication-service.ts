@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-//noinspection TypeScriptPreferShortImport
+import {Observable} from 'rxjs';
+//noinspection ES6PreferShortImport
 import {EmailPasswordCredentials} from '../../media-type/doc-model/email-password-credentials';
 import {AuthSubject} from '../../media-type/cdm/auth-subject';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 import {SessionInfoCdm} from '../../media-type/cdm/session-info';
-//noinspection TypeScriptPreferShortImport
+//noinspection ES6PreferShortImport
 
 @Injectable()
 export abstract class AuthenticationService {
