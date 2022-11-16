@@ -1,5 +1,10 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
-{
+{// these options are overrides used only by ts-node
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",

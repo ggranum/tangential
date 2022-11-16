@@ -1,4 +1,4 @@
-import minimist = require('minimist')
+import * as minimist from 'minimist'
 import {DEFAULT_CONFIG_FILE_NAME, DEFAULT_CONFIG_ROOT} from './constants';
 import * as path from 'path';
 

@@ -1,17 +1,17 @@
-import fs = require('fs');
-import {Database, DatabaseReference} from '@firebase/database'
-import {getAuth} from 'firebase-admin/lib/auth'
-import {set, get,  ref, goOnline, goOffline,  DataSnapshot, getDatabase} from 'firebase/database'
-import {FirebaseEnvironment} from '../model/firebase/firebase-environement';
-import {JSON_FILE_WRITE_CONFIG} from '../../constants';
-import {Project} from '../model/project';
-import {ProjectEnvironment} from '../model/project-environment';
-import {initializeApp } from "firebase/app";
+import * as fs from 'fs'
 import {FirebaseApp} from '@firebase/app'
 
-const jsonFile = require('jsonfile');
-
+import {Database, DatabaseReference} from '@firebase/database'
 import * as admin from 'firebase-admin'
+import {getAuth} from 'firebase-admin/auth'
+import {initializeApp} from 'firebase/app';
+import {DataSnapshot, get, getDatabase, goOffline, goOnline, ref, set} from 'firebase/database'
+import {JSON_FILE_WRITE_CONFIG} from '../../constants';
+import {FirebaseEnvironment} from '../model/firebase/firebase-environement';
+import {Project} from '../model/project';
+import {ProjectEnvironment} from '../model/project-environment';
+
+const jsonFile = require('jsonfile');
 
 
 let firebaseInitialized: boolean = false

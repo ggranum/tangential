@@ -1,4 +1,4 @@
-import crypto = require('crypto');
+import * as crypto from 'crypto'
 import {UserNotValid} from '../exception/user-not-valid';
 
 export interface ProjectUserJson {
@@ -83,7 +83,7 @@ export class ProjectUser implements ProjectUserJson {
   checkUidValid() {
     if (!this.uid || this.uid.length < 3) {
       throw new UserNotValid(
-        `User's UID must exist and be at least 3 characters long. 
+        `User's UID must exist and be at least 3 characters long.
     Found: ${this.uid} on user with display name '${this.displayName}' and email '${this.email}'`)
     }
   }

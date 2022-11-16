@@ -1,8 +1,7 @@
 import {task} from 'gulp';
+import * as minimist from 'minimist'
+import * as path from 'path'
 const jsonFile = require('jsonfile');
-import gulpRunSequence = require('run-sequence');
-import path = require('path');
-import minimist = require('minimist');
 
 import {PROJECT_ROOT, SOURCE_ROOT} from '../constants';
 import {collectComponents} from "../task_helpers";
@@ -43,7 +42,7 @@ function writeModuleDescriptor(module: PackageDescriptor):void {
 }
 
 
-task(':versionBump', function (done: (err?: any) => void) {
+export function versionBump() {
   const bump = argv['bump'];
   const beta = argv['beta'];
   const alpha = argv['alpha'];
@@ -62,12 +61,4 @@ task(':versionBump', function (done: (err?: any) => void) {
   let paths: string[] = collectComponents(SOURCE_ROOT)
   paths.sort()
   versionBumpPaths(paths, bump, qualifier);
-  done()
-});
-
-task('versionBump', function (done: () => void) {
-  gulpRunSequence(
-    ':versionBump',
-    done
-  );
-});
+}

@@ -1,6 +1,6 @@
 export class TangentialError extends Error {
 
-  name: string = TangentialError.name
+  override name: string = TangentialError.name
 
   constructor(message: string) {
     super(message);

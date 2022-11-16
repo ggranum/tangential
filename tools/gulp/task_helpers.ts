@@ -6,12 +6,11 @@ import * as path from 'path';
 
 import {NPM_VENDOR_FILES, PROJECT_ROOT, DIST_ROOT} from './constants';
 import {existsSync, readdirSync, statSync} from 'fs';
+import * as merge2 from 'merge2';
 
 
-/** Those imports lack typings. */
+/** These imports lack typings. */
 const gulpClean = require('gulp-clean');
-const gulpMerge = require('merge2');
-const gulpRunSequence = require('run-sequence');
 const gulpSass = require('gulp-sass');
 const gulpServer = require('gulp-server-livereload');
 const gulpSourcemaps = require('gulp-sourcemaps');
@@ -38,7 +37,7 @@ export function tsBuildTask(taskDir: string, tsconfigFilePath:string) {
       .pipe(tsProject(gulpTs.reporter.longReporter()));
     let dts = pipe.dts.pipe(gulp.dest(dest));
 
-    return gulpMerge([
+    return merge2([
       dts,
       pipe
         .pipe(gulpSourcemaps.write('.'))
@@ -138,24 +137,9 @@ export function cleanTask(glob: string) {
 }
 
 
-/** Build an task that depends on all application build tasks. */
-export function buildAppTask(appName: string) {
-  const buildTasks = ['vendor', 'ts', 'scss', 'assets']
-    .map(taskName => `:build:${appName}:${taskName}`);
-
-  return (done: () => void) => {
-    gulpRunSequence(
-      'clean',
-      ['build:components', ...buildTasks],
-      done
-    );
-  };
-}
-
-
 /** Create a task that copies vendor files in the proper destination. */
 export function vendorTask() {
-  return () => gulpMerge(
+  return () => merge2(
     NPM_VENDOR_FILES.map(root => {
       const glob = path.join(PROJECT_ROOT, 'node_modules', root, '**/*.+(js|js.map)');
       return gulp.src(glob).pipe(gulp.dest(path.join(DIST_ROOT, 'vendor', root)));
@@ -177,17 +161,6 @@ export function serverTask(liveReload: boolean = true,
       streamCallback(stream);
     }
     return stream;
-  }
-}
-
-
-/** Create a task that's a sequence of other tasks. */
-export function sequenceTask(...args: any[]) {
-  return (done: any) => {
-    gulpRunSequence(
-      ...args,
-      done
-    );
   }
 }
 

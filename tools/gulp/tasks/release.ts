@@ -1,13 +1,13 @@
 import {spawn} from 'child_process';
 import {existsSync, statSync} from 'fs';
-import {series} from 'gulp';
-import path = require('path');
-import minimist = require('minimist');
+import {series, task} from 'gulp';
+import * as minimist from 'minimist'
+import * as path from 'path'
 
 import {execTask, cleanTask, collectComponents} from '../task_helpers';
 import {DIST_COMPONENTS_ROOT} from '../constants';
 import {clean} from './clean'
-import {build_ngc} from './components'
+import {build_component_ngc} from './components'
 
 const argv = minimist(process.argv.slice(3));
 
@@ -15,14 +15,11 @@ const logMessageBuffer = (data: Buffer) => {
   console.log(`stdout: ${data.toString().split(/[\n\r]/g).join('\n        ')}`);
 }
 
-
-function build_release_cleanSpec(cb){
+export function build_release_cleanSpec(){
   cleanTask('dist/**/*.spec.*')
-  cb()
 }
 
 
-export const build_release = series( clean, build_ngc, build_release_cleanSpec)
 
 /** Make sure we're logged in. */
 function publish_whoami(cb){
@@ -43,12 +40,12 @@ function _execNpmPublish(componentPath: string, label: string): Promise<void> {
   const stat = statSync(componentPath);
 
   if (!stat.isDirectory()) {
-    return;
+    return new Promise<void>(resolve => {});
   }
 
   if (!existsSync(path.join(componentPath, 'package.json'))) {
     console.log(`Skipping ${componentPath} as it does not have a package.json.`);
-    return;
+    return new Promise<void>(resolve => {});
   }
 
   process.chdir(componentPath);
@@ -105,4 +102,6 @@ function publish_publish(cb){
     .then(() => process.chdir(currentDir));
 }
 
+
+export const build_release = series( clean, build_component_ngc, build_release_cleanSpec)
 exports.publish = series(publish_whoami, build_release, publish_publish, publish_logout)

@@ -1,11 +1,11 @@
+import * as fs from 'fs'
 import * as path from 'path';
-import {ProjectEnvironment, ProjectEnvironmentJson} from './project-environment';
 import {DEFAULT_CONFIG_FILE_NAME, JSON_FILE_WRITE_CONFIG, PROJECT_ROOT} from '../../constants';
 import {Env} from '../../env';
-import {ProjectUserJson} from './project-user';
-import {ProjectNotInitialized} from '../exception/project-not-initialized';
 import {ProjectConfigurationNotFound} from '../exception/project-configuration-not-found';
-import fs = require('fs');
+import {ProjectNotInitialized} from '../exception/project-not-initialized';
+import {ProjectEnvironment, ProjectEnvironmentJson} from './project-environment';
+import {ProjectUserJson} from './project-user';
 
 const jsonFile = require('jsonfile');
 

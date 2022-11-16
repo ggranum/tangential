@@ -1,12 +1,14 @@
 import {spawn} from 'child_process';
 import {existsSync, statSync} from 'fs';
-import {task} from 'gulp';
-import gulpRunSequence = require('run-sequence');
-import path = require('path');
-import minimist = require('minimist');
+import {series, task} from 'gulp';
+import * as minimist from 'minimist'
+import * as path from 'path'
 
 import {cleanTask, collectComponents} from '../task_helpers';
 import {DIST_COMPONENTS_ROOT} from '../constants';
+import {clean} from './clean'
+import {build_component_ngc} from './components'
+import {build_release, build_release_cleanSpec} from './release'
 
 const argv = minimist(process.argv.slice(3));
 
@@ -15,32 +17,17 @@ const logMessageBuffer = (data: Buffer) => {
 }
 
 
-task(':build:release:clean-spec', cleanTask('dist/**/*.spec.*'));
-
-
-task('build:release', function(done: () => void) {
-  // Synchronously run those tasks.
-  gulpRunSequence(
-    'clean',
-    ':build:components:ngc',
-    ':build:release:clean-spec',
-    done
-  );
-});
-
-
-
 
 function _execNpmLink(componentPath: string, unlink:boolean): Promise<void> {
   const stat = statSync(componentPath);
 
   if (!stat.isDirectory()) {
-    return;
+    return new Promise<void>(resolve => {});
   }
 
   if (!existsSync(path.join(componentPath, 'package.json'))) {
     console.log(`Skipping ${componentPath} as it does not have a package.json.`);
-    return;
+    return new Promise<void>(resolve => {});
   }
 
   process.chdir(componentPath);
@@ -73,7 +60,7 @@ function _execNpmLink(componentPath: string, unlink:boolean): Promise<void> {
 /**
  * Publish each of the @tangential/* components, as defined in src/tsconfig.lib.json
  */
-task(':link', function(done: (err?: any) => void) {
+function _link() {
   const unlink = !!argv['unlink'];
   const currentDir = process.cwd();
 
@@ -82,15 +69,12 @@ task(':link', function(done: (err?: any) => void) {
   // Build a promise chain that publish each component.
   paths
     .reduce((prev, dirName) => prev.then(() => _execNpmLink(dirName, unlink)), Promise.resolve())
-    .then(() => done())
-    .catch((err: Error) => done(err))
+    .catch((err: Error) => {
+      console.log('Link error:', err);
+      throw err;
+    })
     .then(() => process.chdir(currentDir));
-});
+}
 
-task('link', function(done: () => void) {
-  gulpRunSequence(
-    'build:release',
-    ':link',
-    done
-  );
-});
+const link = series(build_release, _link);
+export {link}

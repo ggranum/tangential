@@ -1,15 +1,15 @@
+import * as fs from 'fs'
 import * as path from 'path';
-
-import {FirebaseConfig} from './firebase-config';
-import {RemoteProjectUtil} from '../../firebase/remote-project-util';
 import {JSON_FILE_WRITE_CONFIG, PROJECT_ROOT} from '../../../constants';
 import {Env} from '../../../env';
-import {Project} from '../project';
-import {FirebasePrivateKeyNotInitialized} from '../../exception/firebase-private-key-not-initialized';
-import {ProjectEnvironment} from '../project-environment';
-import {FirebasePrivateKeyConfig, FirebasePrivateKeyTemplate} from './firebase-private-key-config';
-import fs = require('fs');
 import {FirebasePrivateKeyMismatch} from '../../exception/firebase-private-key-mismatch';
+import {FirebasePrivateKeyNotInitialized} from '../../exception/firebase-private-key-not-initialized';
+import {RemoteProjectUtil} from '../../firebase/remote-project-util';
+import {Project} from '../project';
+import {ProjectEnvironment} from '../project-environment';
+
+import {FirebaseConfig} from './firebase-config';
+import {FirebasePrivateKeyConfig, FirebasePrivateKeyTemplate} from './firebase-private-key-config';
 
 const jsonFile = require('jsonfile');
 const FirebaseRcPath = path.join(PROJECT_ROOT, '.firebaserc')
