@@ -41,7 +41,7 @@
     "url": "https://github.com/ggranum/tangential/issues"
   },
   "engines": {
-    "node": ">= 5 < 6"
+    "node": ">= 16"
   },
   "dependencies": {},
   "devDependencies": {},

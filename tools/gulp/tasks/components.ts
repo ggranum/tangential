@@ -1,5 +1,4 @@
-import {copyAssets} from '@angular-devkit/build-angular/src/utils/copy-assets'
-import {parallel, series, task, watch} from 'gulp';
+import {parallel, series, watch} from 'gulp';
 import * as path from 'path';
 
 import {SOURCE_ROOT, DIST_COMPONENTS_ROOT, PROJECT_ROOT} from '../constants';

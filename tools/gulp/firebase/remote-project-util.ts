@@ -1,6 +1,6 @@
-import fs = require('fs');
-import {FirebaseEnvironment} from '../project/model/firebase/firebase-environement';
+import fs from 'fs'
 import {JSON_FILE_WRITE_CONFIG} from '../constants';
+import {FirebaseEnvironment} from '../project/model/firebase/firebase-environement';
 import {Project} from '../project/model/project';
 
 const jsonFile = require('jsonfile');
