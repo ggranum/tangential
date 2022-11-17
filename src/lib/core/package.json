@@ -2,7 +2,7 @@
   "name": "@tangential/core",
   "description": "Core types and support code for Tangential",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.3.0-alpha.2",
+  "version": "0.3.0-alpha.3",
   "license": "GPL-3.0",
   "private": false,
   "repository": {
