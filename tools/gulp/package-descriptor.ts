@@ -10,6 +10,10 @@ export interface NpmBugs {
   url: string
 }
 
+/**
+ * Type to describe an NPM Package, as read from the file system by
+ * jsonFile.readFileSync (jsonFile is an external NPM project)
+ */
 export interface PackageDescriptor {
   filePath?: string
   name: string
@@ -62,57 +66,104 @@ const rootPackageDefinition: PackageDescriptor = {
   peerDependencies: {}
 }
 
+function isNumeric(value: any): boolean {
+  return !isNaN(value - parseFloat(value));
+}
 
-
-export class NpmPackageMaker {
+/**
+ * Utility class that mostly exists to make updating NPM dependencies on child/dependent modules
+ * a bit cleaner.
+ */
+export class NpmPackageUpdater {
 
   private fullModuleDefinitions: {[key: string]: PackageDescriptor} = {}
-  private globalDependencies: {[key: string]: string};
-  private previousGlobalVersion: string
-  private sharedDefinition:PackageDescriptor
+  private readonly globalDependencies: {[key: string]: string};
+  /**
+   * The root project's version prior to any version bumps. Such as "1.2.3-beta"
+   * @private
+   */
+  private readonly previousGlobalVersion: string
 
+  /**
+   * Dependent 'lib' or 'component' projects should all share the same top-level
+   * information with their 'parent' package.json definition.
+   * This field holds all the information that is common between parent and child projects,
+   * such as homepage, version, license, private etc.
+   *
+   * @private
+   */
+  private readonly sharedDefinition:PackageDescriptor
+
+  /**
+   *
+   * @param globalPackageDefinition The root module, generally.
+   * @param moduleDefinitions Dependent modules - e.g. libraries.
+   * @param bump The bump target, such as 'major', 'minor' etc. @See SemVer#inc
+   * @param qualifier The increment qualifier, such as 'beta', 'alpha' or any other string. @See SemVer#inc
+   */
   constructor(private globalPackageDefinition: PackageDescriptor,
               private moduleDefinitions: { [key: string]: PackageDescriptor},
               private bump: string,
               private qualifier: string) {
     this.previousGlobalVersion = this.globalPackageDefinition.version
+
     this.globalDependencies = this.joinMaps(
       this.globalPackageDefinition.dependencies || {},
       this.globalPackageDefinition.devDependencies || {},
       this.globalPackageDefinition.peerDependencies || {}
     )
+
     this.sharedDefinition = Object.assign( {}, this.globalPackageDefinition, {
       dependencies: {},
       devDependencies: {},
       peerDependencies: {}
     });
+
     delete this.sharedDefinition.scripts
   }
 
-  updatedRootModule():PackageDescriptor{
+  /**
+   * Bring put the updated version back into the root package definition.
+   */
+  updatedHostPackage():PackageDescriptor{
     return Object.assign({}, this.globalPackageDefinition, {
       version: this.sharedDefinition.version
     })
   }
 
-  updateModules(): {[key: string]: PackageDescriptor} {
+  /**
+   * Update the 'plugin' package descriptors (those packages that should have peer dependencies on the
+   * host ('root') project.
+   */
+  updatePlugins(): {[key: string]: PackageDescriptor} {
     this.sharedDefinition.version = SemVer.inc(this.sharedDefinition.version, this.bump, this.qualifier)
+
     Object.keys(this.moduleDefinitions).forEach((key: string) => {
-      this.fullModuleDefinitions[key] = this.getFullDefinition(this.moduleDefinitions[key])
+      this.fullModuleDefinitions[key] = this.getFullDefinitionWithBumpedVersion(this.moduleDefinitions[key])
     })
+
     Object.keys(this.fullModuleDefinitions).forEach((key: string) => {
       let module = this.fullModuleDefinitions[key]
       module.peerDependencies = this.getUpdatedPeerDependencies(module);
     })
+
     return this.fullModuleDefinitions
   }
 
-
-  private getFullDefinition(module: PackageDescriptor): PackageDescriptor {
+  /**
+   * Bump the version of the child component package.json and apply all the shared root project
+   * definition values that are missing from the child component.
+   * @param module
+   * @private
+   */
+  private getFullDefinitionWithBumpedVersion(module: PackageDescriptor): PackageDescriptor {
     let newVersion = SemVer.inc(module.version || this.previousGlobalVersion, this.bump, this.qualifier)
+    // Order of the Object assign is very important here - `newVersion` overrides `module.version`,
+    // and anything defined in `module` overrides whatever we originally found in the root project definition.
     let fullDefinition = Object.assign({}, this.sharedDefinition, module, {
       version: newVersion
     })
+    // @revisit: Does the child component really need to share all the keywords of the root project?
     let keywords = module.keywords.concat(this.sharedDefinition.keywords)
     let map = {} // remove duplicates
     keywords.forEach((item)=>{
@@ -123,6 +174,14 @@ export class NpmPackageMaker {
     return fullDefinition
   }
 
+  /**
+   * Plugin projects rely on the dependency versions declared by the host project.
+   * For example, Angular should not be declared as a `dependency` or `devDependency`,
+   * it should be declared as a `peerDependency`.
+   *
+   * @param module
+   * @private
+   */
   private getUpdatedPeerDependencies(module: PackageDescriptor): {[key: string]: string} {
     let peers: {[key: string]: string} = {}
     let x = this.fullModuleDefinitions
@@ -134,16 +193,36 @@ export class NpmPackageMaker {
       }
       if (!peerVersion) {
         if(x[key]){
-          console.log('NpmPackageMaker', "now that's f...fascinating", x[key].version)
+          console.log('NpmPackageMaker', "Peer version has no value.", x[key].version)
         }
         throw new Error(`Dependency for '${key}' not defined in the global project: cannot determine which version to use for module '${module.name} `)
       }
-      peers[key] = peerVersion
+      // 'truncate and 'x' the version and below the major portion.
+      // Peer dependencies should not be exactly tied to the host package version.
+      if(peerVersion.indexOf(".") > 0){
+        let widerVersion = peerVersion.substring(0, peerVersion.indexOf(".")) + '.x'
+        while(!isNumeric(widerVersion.charAt(0))){
+          widerVersion = widerVersion.substring(1)
+        }
+        peers[key] = widerVersion
+      }
     })
     return peers;
   }
 
 
+
+  /**
+   * Gather all the passed dependency maps into one map that we will use later,
+   * checking for duplicates along the way, because we can.
+   *
+   * More thoughtful analysis could lead us to decide not to do this checking and merging...
+   * but not merging would mean relying on everyone to use dependencies correctly 100% of the
+   * time, which may not be realistic.
+   * @param dependencies
+   * @param devDependencies
+   * @param peerDependencies
+   */
   joinMaps(dependencies: {[key: string]: string}, devDependencies: {[key: string]: string}, peerDependencies: {[key: string]: string}): {[key: string]: string} {
     // Could use varArgs version of assign, but then we couldn't error check
     let output: {[key: string]: string} = Object.assign({}, dependencies)
@@ -156,6 +235,7 @@ export class NpmPackageMaker {
       }
       output[key] = devDependencies[key]
     })
+    /** @todo: ggranum: Should we throw an error if the host project has a peer dependency? I really can't think of a valid use case. */
     Object.keys(peerDependencies).forEach((key: string) => {
       if (output[key]) {
         let abused = devDependencies[key] ? 'devDependencies' : 'dependencies'

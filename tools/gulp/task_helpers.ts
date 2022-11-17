@@ -186,6 +186,11 @@ export const pathIsComponentDir = function (filePath: string) {
   return existsSync(file)
 }
 
+/**
+ * Starting at `dirPath`, find child directories that contain a `package.json` file
+ * and add the path to the returned array.
+ * @param dirPath
+ */
 export const collectComponents = function (dirPath: string): string[] {
   let componentPaths: string[] = []
   let paths: string[] = listDirectories(dirPath)
