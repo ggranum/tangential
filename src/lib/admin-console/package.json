@@ -2,7 +2,7 @@
   "name": "@tangential/admin-console",
   "description": "A basic administration console",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.3.0-alpha.0",
+  "version": "0.3.0-alpha.1",
   "license": "GPL-3.0",
   "private": false,
   "repository": {
@@ -46,14 +46,9 @@
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
-    "@angular/core": "14.x",
-    "@angular/common": "14.x",
-    "@angular/forms": "14.x",
     "@tangential/core": "0.x",
     "@tangential/media-types": "0.x",
-    "@tangential/authorization-service": "0.x",
-    "firebase": "9.x",
-    "rxjs": "7.x"
+    "@tangential/authorization-service": "0.x"
   },
   "main": "./index.js",
   "typings": "./index.d.ts"
