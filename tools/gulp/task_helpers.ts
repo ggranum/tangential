@@ -10,7 +10,6 @@ import * as merge2 from 'merge2';
 
 
 /** These imports lack typings. */
-const gulpClean = require('gulp-clean');
 const gulpSass = require('gulp-sass');
 const gulpServer = require('gulp-server-livereload');
 const gulpSourcemaps = require('gulp-sourcemaps');
@@ -71,7 +70,7 @@ export interface ExecTaskOptions {
 
 /** Create a task that executes a binary as if from the command line. */
 export function execTask(binPath: string, args: string[], options: ExecTaskOptions = {}, spawnOpts={}) {
-  return (done: (err?: string) => void) => {
+  return new Promise<void>((resolve, reject) => {
     const childProcess = child_process.spawn(binPath, args, spawnOpts);
 
     if (!options.silent) {
@@ -87,55 +86,50 @@ export function execTask(binPath: string, args: string[], options: ExecTaskOptio
     childProcess.on('close', (code: number) => {
       if (code != 0) {
         if (options.errMessage === undefined) {
-          done('Process failed with code ' + code);
+          reject(new Error('Process failed with code ' + code));
         } else {
-          done(options.errMessage);
+          reject(options.errMessage);
         }
       } else {
-        done();
+        resolve();
       }
     });
-  }
+  })
 }
 
 /**
- * Create a task that executes an NPM Bin, by resolving the binary path then executing it. These are
+ * Create a promise that executes an NPM Bin, by resolving the binary path then executing it. These are
  * binaries that are normally in the `./node_modules/.bin` directory, but their name might differ
  * from the package. Examples are typescript, ngc and gulp itself.
  */
 export function execNodeTask(packageName: string, executable: string | string[], args?: string[],
-                             options: ExecTaskOptions = {}) {
+                             options: ExecTaskOptions = {}):Promise<void> {
   if (!args) {
     args = <string[]>executable;
     executable = undefined;
   }
 
-  return (done: (err: any) => void) => {
+  return new Promise((resolve, reject) => {
     resolveBin(packageName, {executable: executable}, (err: any, binPath: string) => {
       if (err) {
-        done(err);
+        reject(new Error(err));
       } else {
         // Forward to execTask.
-        execTask(binPath, args, options)(done);
+        execTask(binPath, args, options).then(resolve);
       }
     });
-  }
+  })
 }
 
 
 /** Copy files from a glob to a destination. */
-export function copyTask(srcGlobOrDir: string, outRoot: string) {
-  return () => {
-    return gulp.src(_globify(srcGlobOrDir)).pipe(gulp.dest(outRoot));
-  }
+export function copyTask(srcGlobOrDir: string, outRoot: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    let stream = gulp.src(_globify(srcGlobOrDir)).pipe(gulp.dest(outRoot))
+    stream.on("finish", resolve)
+    stream.on("error", reject)
+  })
 }
-
-
-/** Delete files. */
-export function cleanTask(glob: string) {
-  return () => gulp.src(glob, {read: false}).pipe(gulpClean(null));
-}
-
 
 /** Create a task that copies vendor files in the proper destination. */
 export function vendorTask() {
@@ -164,7 +158,10 @@ export function serverTask(liveReload: boolean = true,
   }
 }
 
-
+/**
+ * Provides a list of all subdirectories of the provided dirPath that do not contain a 'node_modules' child directory.
+ * @param dirPath
+ */
 export const listDirectories = function (dirPath: string): string[] {
   let dirs: string[] = []
   let childPaths: string[] = readdirSync(dirPath)
@@ -191,7 +188,7 @@ export const pathIsComponentDir = function (filePath: string) {
  * and add the path to the returned array.
  * @param dirPath
  */
-export const collectComponents = function (dirPath: string): string[] {
+export function collectComponents(dirPath: string): string[] {
   let componentPaths: string[] = []
   let paths: string[] = listDirectories(dirPath)
   paths.forEach((dirPath) => {

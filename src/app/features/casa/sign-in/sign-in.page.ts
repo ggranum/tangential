@@ -52,7 +52,7 @@ export class SignInPage extends Page implements OnInit {
     super(bus)
   }
 
-  override ngOnInit() {
+  ngOnInit() {
     this.signedOut$ = this.visitorService.visitor$().pipe(
       map((visitor) => {
         return visitor.subject.isGuest()

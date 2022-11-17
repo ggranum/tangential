@@ -4,19 +4,15 @@ import {series, task} from 'gulp';
 import * as minimist from 'minimist'
 import * as path from 'path'
 
-import {cleanTask, collectComponents} from '../task_helpers';
+import { collectComponents} from '../task_helpers';
 import {DIST_COMPONENTS_ROOT} from '../constants';
-import {clean} from './clean'
-import {build_component_ngc} from './components'
-import {build_release, build_release_cleanSpec} from './release'
+import {build_release} from './release'
 
 const argv = minimist(process.argv.slice(3));
 
 const logMessageBuffer = (data: Buffer) => {
   console.log(`stdout: ${data.toString().split(/[\n\r]/g).join('\n        ')}`);
 }
-
-
 
 function _execNpmLink(componentPath: string, unlink:boolean): Promise<void> {
   const stat = statSync(componentPath);

@@ -4,10 +4,10 @@ import {series, task} from 'gulp';
 import * as minimist from 'minimist'
 import * as path from 'path'
 
-import {execTask, cleanTask, collectComponents} from '../task_helpers';
+import {execTask, collectComponents} from '../task_helpers';
 import {DIST_COMPONENTS_ROOT} from '../constants';
-import {clean} from './clean'
-import {build_component_ngc} from './components'
+import {clean, cleanTask} from './clean'
+import {build_component_ngc, build_ngc} from './components'
 
 const argv = minimist(process.argv.slice(3));
 
@@ -15,37 +15,29 @@ const logMessageBuffer = (data: Buffer) => {
   console.log(`stdout: ${data.toString().split(/[\n\r]/g).join('\n        ')}`);
 }
 
-export function build_release_cleanSpec(){
-  cleanTask('dist/**/*.spec.*')
+export async function build_release_cleanSpec() {
+  return cleanTask('dist/**/*.spec.*')
 }
-
-
 
 /** Make sure we're logged in. */
-function publish_whoami(cb){
-  execTask('npm', ['whoami'], {
-    silent: true,
+function publish_whoami() {
+  return execTask('npm', ['whoami',  "--registry=https://registry.npmjs.com"], {
+    silent:     true,
     errMessage: 'You must be logged in to publish.'
   })
-  cb()
 }
-
-function publish_logout(cb){
-  execTask('npm', ['logout'])
-  cb()
-}
-
 
 function _execNpmPublish(componentPath: string, label: string): Promise<void> {
   const stat = statSync(componentPath);
 
   if (!stat.isDirectory()) {
-    return new Promise<void>(resolve => {});
+    console.log(`Skipping ${componentPath} as it is not a directory.`);
+    return Promise.resolve()
   }
 
   if (!existsSync(path.join(componentPath, 'package.json'))) {
     console.log(`Skipping ${componentPath} as it does not have a package.json.`);
-    return new Promise<void>(resolve => {});
+    return Promise.resolve()
   }
 
   process.chdir(componentPath);
@@ -53,7 +45,7 @@ function _execNpmPublish(componentPath: string, label: string): Promise<void> {
 
   const command = 'npm';
   let args = ['publish', '--access', 'public'];
-  if(label){
+  if (label) {
     args.push('--tag');
     args.push(label);
   }
@@ -70,7 +62,7 @@ function _execNpmPublish(componentPath: string, label: string): Promise<void> {
       if (code == 0) {
         resolve();
       } else {
-        if(errMsg && errMsg.length){
+        if (errMsg && errMsg.length) {
           console.error('stderr:' + errMsg.replace('npm ERR!', ''));
         }
         reject(new Error(`Component ${componentPath} did not publish, status: ${code}.`));
@@ -79,7 +71,7 @@ function _execNpmPublish(componentPath: string, label: string): Promise<void> {
   })
 }
 
-function publish_publish(cb){
+function publish_publish(cb) {
   const label = argv['tag'];
   const currentDir = process.cwd();
 
@@ -95,13 +87,15 @@ function publish_publish(cb){
 
 
   // Build a promise chain that publish each component.
-  paths
-    .reduce((prev, dirName) => prev.then(() => _execNpmPublish(dirName, label)), Promise.resolve())
+  return paths
+    .reduce((prev, dirName) => {
+      return prev.then(() => _execNpmPublish(dirName, label))
+    }, Promise.resolve())
     .then(() => cb())
     .catch((err: Error) => cb(err))
     .then(() => process.chdir(currentDir));
 }
 
 
-export const build_release = series( clean, build_component_ngc, build_release_cleanSpec)
-exports.publish = series(publish_whoami, build_release, publish_publish, publish_logout)
+export const build_release = series(clean, build_ngc, build_release_cleanSpec)
+exports.publish = series(publish_whoami, build_release, publish_publish)

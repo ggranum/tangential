@@ -51,7 +51,7 @@ export class PluginsPage extends Page implements OnInit {
 
   }
 
-  override ngOnInit() {
+  ngOnInit() {
     this.pluginManager.scan()
   }
 

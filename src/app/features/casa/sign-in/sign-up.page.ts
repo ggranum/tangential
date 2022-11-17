@@ -49,7 +49,7 @@ export class SignUpPage extends Page implements OnInit {
     super(bus)
   }
 
-  override ngOnInit() {
+  ngOnInit() {
     this.showForm$ = this.visitorService.visitor$().pipe(
       map((visitor) => {
         return visitor.subject.isGuest() || visitor.subject.isAnonymousAccount()

@@ -1,3 +1,4 @@
+import {copyAssets} from '@angular-devkit/build-angular/src/utils/copy-assets'
 import {parallel, series, task, watch} from 'gulp';
 import * as path from 'path';
 
@@ -19,9 +20,8 @@ export function build_component_scss(cb) {
   cb()
 }
 
-export function build_component_assets(cb) {
-  copyTask(path.join(libDir, '*/**/*.!(ts|spec.ts)'), DIST_COMPONENTS_ROOT)
-  cb()
+export function build_component_assets() {
+  return copyTask(path.join(libDir, '**/*.!(ts|spec.ts)'), DIST_COMPONENTS_ROOT)
 }
 
 export function watch_components(cb) {
@@ -36,12 +36,12 @@ function build_inlineResources(cb) {
   cb()
 }
 
-export function build_component_ngc(cb) {
-  execNodeTask(
-    '@angular/compiler-cli', 'ngc', ['-p', path.relative(PROJECT_ROOT, path.join(libDir, 'tsconfig.lib.json'))]
+export async function build_component_ngc() {
+  return execNodeTask(
+    '@angular/compiler-cli', 'ngc', ['-p', path.relative(PROJECT_ROOT, path.join(libDir, 'tsconfig.lib.json'))],
   )
-  cb()
 }
+(build_component_ngc as any).description = `Effectively just runs 'npx ngc', but on the lib directory, in order to build the Plugins.`
 
 const build_components = series(parallel(build_component_ts, build_component_scss, build_component_assets), build_inlineResources)
 const build_ngc = series(build_components, build_component_ngc)

@@ -1,15 +1,12 @@
-import * as gulp from 'gulp';
-const gulpClean = require('gulp-clean');
-
+import * as del from 'del';
 /**
  * Delete all files in the /dist directory.
  * */
-export function clean(cb){
-  cleanTask('dist')
-  cb()
+export async function clean(){
+  return cleanTask('dist')
 }
 
-function cleanTask(glob: string) {
-  return () => gulp.src(glob, { read: false }).pipe(gulpClean(null));
+export async function cleanTask(glob: string) {
+  return del(glob)
 }
 
