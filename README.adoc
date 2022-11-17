@@ -75,7 +75,7 @@ Dispensing with the 'Royal We' for a moment...
 
 With this release, I am officially seeking both additional committers, and funds. It is, perhaps, early, but developing this project to this point has been incredibly rewarding. With no advertising or posts, I'm seeing a surprising amount of activity, both here on Github, and via the analytics for https://tangential-demo.firebaseapp.com/[].
 
-Creating this set of tools has been very rewarding, and I hope to make this my full time gig. I would *vastly* prefer to be able to do so without having to deal with Dual Licensing - not because it's not worth what I will charge for it, but because I'm not shockingly greedy, and I truly enjoy knowing that my work has made other lives easier; that developers have managed to get more done than they otherwise would have, because of something I helped make.
+Creating this set of tools has been very rewarding, and I hope to make this my full time gig. I would *vastly* prefer to be able to do so without having to deal with Dual Licensing - not because it's not worth what I will need to charge for it, but because I'm not shockingly greedy, and I truly enjoy knowing that my work has made other lives easier; that developers have managed to get more done than they otherwise would have, because of something I helped make.
 
 If you stand to benefit from this work, please consider demonstrating how valuable it is to you by contributing to the project on https://www.patreon.com/tangential[Patreon].
 
