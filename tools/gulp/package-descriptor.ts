@@ -1,4 +1,4 @@
-const SemVer = require('semver');
+import * as SemVer from 'semver'
 
 
 export interface NpmRepository {
@@ -199,7 +199,8 @@ export class NpmPackageUpdater {
       }
       // 'truncate and 'x' the version and below the major portion.
       // Peer dependencies should not be exactly tied to the host package version.
-      if(peerVersion.indexOf(".") > 0){
+      // This is not a thorough test of 'is pre release', but whatevs
+      if(peerVersion.indexOf(".") > 0 && SemVer.prerelease(peerVersion) !== null){
         let widerVersion = peerVersion.substring(0, peerVersion.indexOf(".")) + '.x'
         while(!isNumeric(widerVersion.charAt(0))){
           widerVersion = widerVersion.substring(1)

@@ -7,7 +7,7 @@ import * as path from 'path'
 import {execTask, collectComponents} from '../task_helpers';
 import {DIST_COMPONENTS_ROOT} from '../constants';
 import {clean, cleanTask} from './clean'
-import {build_component_ngc, build_ngc} from './components'
+import { build_ngc} from './components'
 
 const argv = minimist(process.argv.slice(3));
 
@@ -21,7 +21,7 @@ export async function build_release_cleanSpec() {
 
 /** Make sure we're logged in. */
 function publish_whoami() {
-  return execTask('npm', ['whoami',  "--registry=https://registry.npmjs.com"], {
+  return execTask('npm', ['whoami'], {
     silent:     true,
     errMessage: 'You must be logged in to publish.'
   })
@@ -65,13 +65,13 @@ function _execNpmPublish(componentPath: string, label: string): Promise<void> {
         if (errMsg && errMsg.length) {
           console.error('stderr:' + errMsg.replace('npm ERR!', ''));
         }
-        reject(new Error(`Component ${componentPath} did not publish, status: ${code}.`));
+        reject(`Component ${componentPath} did not publish, status: ${code}.`);
       }
     })
   })
 }
 
-function publish_publish(cb) {
+async function publish_publish() {
   const label = argv['tag'];
   const currentDir = process.cwd();
 
@@ -85,15 +85,27 @@ function publish_publish(cb) {
   }
   console.log('\n\n');
 
+  const errors = []
+
+  for (const path of paths) {
+    try {
+      await _execNpmPublish(path, label)
+    } catch (e) {
+      errors.push(e)
+    }
+  }
+
+  process.chdir(currentDir)
+  if(errors.length){
+    throw new Error(errors.join("\n"))
+  }
 
   // Build a promise chain that publish each component.
-  return paths
-    .reduce((prev, dirName) => {
+  return paths.reduce((prev, dirName) => {
+      // return a promise so we can chain it all up. Should really use async and capture all the errors in a map which we throw
+    // at end
       return prev.then(() => _execNpmPublish(dirName, label))
     }, Promise.resolve())
-    .then(() => cb())
-    .catch((err: Error) => cb(err))
-    .then(() => process.chdir(currentDir));
 }
 
 
