@@ -14,6 +14,9 @@ echo '============================ To commit changelog changes to git run the fo
 echo 'git commit -m "docs(CHANGELOG): '$version'"'
 echo 'git tag v'$version
 echo 'git push --follow-tags'
+echo 'export CONVENTIONAL_GITLAB_RELEASER_TOKEN='
 echo './node_modules/.bin/conventional-github-releaser -t ' ${githubToken} ' -p angular'
 echo '===================================================================================='
+echo "The 'export CONVENTIONAL_GITLAB_RELEASER_TOKEN=' command (sometimes) fixes a bug in conventional-changelog, see https://github.com/conventional-changelog/releaser-tools/issues/187"
+echo "While the hack worked once, we've now had to update the file as suggested by https://github.com/conventional-changelog/releaser-tools/issues/187#issuecomment-767053598"
 

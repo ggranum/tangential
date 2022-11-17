@@ -198,20 +198,20 @@ export class NpmPackageUpdater {
         throw new Error(`Dependency for '${key}' not defined in the global project: cannot determine which version to use for module '${module.name} `)
       }
       // 'truncate and 'x' the version and below the major portion.
-      // Peer dependencies should not be exactly tied to the host package version.
-      // This is not a thorough test of 'is pre release', but whatevs
-      if(peerVersion.indexOf(".") > 0 && SemVer.prerelease(peerVersion) !== null){
+      // Peer dependencies should not be exactly tied to the host package version EXCEPT when it's a prerelease.
+      if(peerVersion.indexOf(".") > 0 && SemVer.prerelease(peerVersion) === null){
+        console.log(`Widening version for ${key}:${peerVersion}`)
         let widerVersion = peerVersion.substring(0, peerVersion.indexOf(".")) + '.x'
         while(!isNumeric(widerVersion.charAt(0))){
           widerVersion = widerVersion.substring(1)
         }
         peers[key] = widerVersion
+      } else {
+        console.log(`Not widening version for prerelease ${key}:${peerVersion}`)
       }
     })
     return peers;
   }
-
-
 
   /**
    * Gather all the passed dependency maps into one map that we will use later,

@@ -99,13 +99,6 @@ async function publish_publish() {
   if(errors.length){
     throw new Error(errors.join("\n"))
   }
-
-  // Build a promise chain that publish each component.
-  return paths.reduce((prev, dirName) => {
-      // return a promise so we can chain it all up. Should really use async and capture all the errors in a map which we throw
-    // at end
-      return prev.then(() => _execNpmPublish(dirName, label))
-    }, Promise.resolve())
 }
 
 
