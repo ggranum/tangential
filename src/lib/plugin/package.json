@@ -2,7 +2,7 @@
   "name": "@tangential/plugin",
   "description": "Enable plugin functionality",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.2.0-beta.6",
+  "version": "0.3.0-alpha.0",
   "license": "GPL-3.0",
   "private": false,
   "repository": {
@@ -46,9 +46,9 @@
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
-    "@tangential/authorization-service": "0.2.0-beta.6",
-    "@tangential/core": "0.2.0-beta.6",
-    "@tangential/firebase-util": "0.2.0-beta.6"
+    "@tangential/authorization-service": "0.x",
+    "@tangential/core": "0.x",
+    "@tangential/firebase-util": "0.x"
   },
   "main": "./index.js",
   "typings": "./index.d.ts"

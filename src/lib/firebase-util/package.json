@@ -2,7 +2,7 @@
   "name": "@tangential/firebase-util",
   "description": "Utility classes and shared functionality for Tangential services that use Firebase.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.2.0-beta.6",
+  "version": "0.3.0-alpha.0",
   "license": "GPL-3.0",
   "private": false,
   "repository": {
