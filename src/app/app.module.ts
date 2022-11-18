@@ -55,6 +55,7 @@ const appEnvironment: AppEnvironment = <AppEnvironment>environment
 
 if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config) {
   console.error('Missing environment or appConfig.firebaseConfig', JSON.stringify(appEnvironment))
+  console.error('   Maybe you didn\'t specify a configuration when running? Try `ng serve -c dev`');
 }
 
 
@@ -94,7 +95,6 @@ if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config)
 
   ],
   declarations:    [
-    Page,
     AppComponent,
     MainComponent,
     HomePage,

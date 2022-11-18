@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatFormFieldModule} from '@angular/material/form-field'
 import {RouterModule} from '@angular/router';
 import {TanjComponentsModule} from '@tangential/components';
 import {AdsenseModule} from '@tangential/analytics';
@@ -17,21 +17,23 @@ import {TipDialogFooterComponent} from './tip-dialog/tip-dialog-footer/tip-dialo
   imports: [
     CommonModule,
     FormsModule,
+    MatFormFieldModule,
     AdsenseModule,
-    TanjMaterialModule,
     /* Tangential*/
+    TanjMaterialModule,
     TanjComponentsModule,
     RouterModule.forChild([]),
   ],
-  declarations: [
+  exports: [
     ChooseIconDialog,
     MessageDialog,
     MessageDialogContainerComponent,
     MobileFooterBannerAdComponent,
     PageNotFoundComponent,
     TipDialogFooterComponent,
+    MatFormFieldModule,
   ],
-  exports: [
+  declarations: [
     ChooseIconDialog,
     MessageDialog,
     MessageDialogContainerComponent,

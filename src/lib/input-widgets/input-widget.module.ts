@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common'
 import {NgModule} from '@angular/core'
 import {FormsModule} from '@angular/forms'
 import {MatCheckboxModule} from '@angular/material/checkbox'
+import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatInputModule} from '@angular/material/input'
 import {MatSlideToggleModule} from '@angular/material/slide-toggle'
 import {MatSliderModule} from '@angular/material/slider'
@@ -53,7 +54,7 @@ import {TextWidgetComponent} from './text-widget/text-widget.component'
     MatCheckboxModule,
     MatSlideToggleModule,
     MatSliderModule,
-
+    MatFormFieldModule,
     TanjComponentsModule
   ],
   declarations:    [

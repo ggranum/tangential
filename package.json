@@ -42,7 +42,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve": "ng serve",
+    "serve": "ng serve --port 4201 -c dev",
     "lint": "tslint \"src/**/*.ts\"",
     "firebase:create-project-users": "gulp firebase:create-project-users",
     "firebase:push-project-users": "gulp firebase:push-project-users",

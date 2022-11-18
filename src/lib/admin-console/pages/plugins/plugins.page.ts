@@ -31,7 +31,6 @@ import {PluginManager} from '../../../plugin/plugin-manager'
 })
 export class PluginsPage extends Page implements OnInit {
 
-
   override routeInfo: RouteInfo = {
     page     : {
       title: 'Admin Console'

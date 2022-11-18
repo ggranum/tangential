@@ -86,7 +86,6 @@ import {TextTemplateComponent} from './widgets/text-input/text-template.componen
   ],
   entryComponents: [
     ChooseInputWidgetDialog,
-
     DateTimeTemplateComponent,
     IconRatingWidgetTemplateComponent,
     NumberTemplateComponent,

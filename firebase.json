@@ -2,6 +2,9 @@
   "database": {
     "rules": "./config/database.rules.json"
   },
+  "functions": {
+    "runtime": "nodejs16"
+  },
   "hosting": {
     "public": "dist",
     "rewrites": [
