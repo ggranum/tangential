@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field'
 import {RouterModule} from '@angular/router';
 import {TanjComponentsModule} from '../../../../projects/tangential/components/src/lib';
-import {AdsenseModule} from '@tangential/analytics';
+import {AdsenseModule} from '../../../../projects/tangential/analytics/src/lib';
 import {TanjMaterialModule} from '../../tanj-material-module';
 import {MobileFooterBannerAdComponent} from './ad-units/mobile-footer-banner/mobile-footer-banner-ad';
 import {ChooseIconDialog} from './choose-icon-dialog/choose-icon-dialog';

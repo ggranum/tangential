@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {GoogleAnalyticsFields} from '@tangential/analytics';
+import {GoogleAnalyticsFields} from '../../projects/tangential/analytics/src/lib';
 import {VisitorResolver} from '../../projects/tangential/authorization-service/src/lib';
 import {PageInfo} from '@tangential/core';
 import {AppRouteDefinitions} from './app.routes.definitions'

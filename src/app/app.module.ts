@@ -6,7 +6,7 @@ import {BrowserModule, Title} from '@angular/platform-browser'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 
 
-import {AdsenseModule, GoogleAnalytics} from '@tangential/analytics'
+import {AdsenseModule, GoogleAnalytics} from '../../projects/tangential/analytics/src/lib'
 
 import {
   AuthenticationService, AuthSettingsService, FirebaseAuthenticationService, FirebaseAuthSettingsService, FirebaseUserService,
