@@ -33,8 +33,17 @@
       "jasmine"
     ],
     "paths": {
-      "@tangential/admin-console-lib": [
-        "../../../dist/tangential/admin-console-lib"
+      "@tangential/core": [
+        "../../dist/tangential/core",
+      ],
+      "@tangential/firebase-util": [
+        "../../dist/tangential/firebase-util"
+      ],
+      "@tangential/media-types": [
+        "../../dist/tangential/media-types"
+      ],
+      "@tangential/authorization-service": [
+        "../../dist/tangential/authorization-service"
       ],
       "@tangential/admin-console": [
         "./admin-console"
@@ -48,23 +57,12 @@
       "@tangential/asciidoctor-panel": [
         "./asciidoctor-panel"
       ],
-      "@tangential/authorization-service": [
-        "./authorization-service"
-      ],
+
       "@tangential/components": [
         "./components"
       ],
       "@tangential/configurable-input-widgets": [
         "./configurable-input-widgets"
-      ],
-      "@tangential/core": [
-        "../../dist/tangential/core",
-      ],
-      "@tangential/media-types": [
-        "../../dist/tangential/media-types"
-      ],
-      "@tangential/firebase-util": [
-        "../../dist/tangential/firebase-util"
       ],
       "@tangential/input-widgets": [
         "./input-widgets"

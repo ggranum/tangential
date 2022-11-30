@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service';
+import {AuthenticationService, Visitor, VisitorService} from '../../../../../projects/tangential/authorization-service/src/lib';
 import {AuthInfo, NotificationIF, NotificationMessage} from '@tangential/components';
 import {CodedError, DefaultPageAnalytics, Logger, MessageBus, Page, RouteInfo} from '@tangential/core';
 import {FirebaseErrors} from '../../../../../projects/tangential/firebase-util/src/lib';

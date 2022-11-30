@@ -2,7 +2,7 @@ import {
   AuthenticationService,
   EmailPasswordCredentials,
   SignInStates,
-} from '@tangential/authorization-service';
+} from '../index';
 import {Logger, MessageBus} from '@tangential/core';
 import {first, firstValueFrom} from 'rxjs'
 import {filter} from 'rxjs/operators'

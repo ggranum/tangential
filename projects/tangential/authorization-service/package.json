@@ -42,9 +42,13 @@
   "engines": {
     "node": ">= 16"
   },
-  "dependencies": {},
-  "devDependencies": {},
-  "peerDependencies": {},
-  "main": "./index.js",
+  "peerDependencies": {
+    "@angular/core": "14.*",
+    "@tangential/core": "0.*"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "main": "../../../functions/index.js",
   "typings": "./index.d.ts"
 }

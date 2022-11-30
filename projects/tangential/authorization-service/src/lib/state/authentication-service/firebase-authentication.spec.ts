@@ -8,7 +8,7 @@ import {
   FirebaseAuthSettingsService,
   FirebaseUserService,
   UserService
-} from '@tangential/authorization-service';
+} from '../../index';
 import {
   BusLogger,
   ConsoleLogger,
@@ -17,7 +17,7 @@ import {
 } from '@tangential/core';
 
 import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util';
-import {environment} from '../../../../environments/environment.dev.local';
+import {environment} from '../../../../../../../src/environments/environment.dev.local';
 import {TestEntry} from '../../test/base-auth-service-tests.spec'
 import {TestConfiguration} from '../test-config.spec';
 import {ReflectiveInjector} from '@angular/core';

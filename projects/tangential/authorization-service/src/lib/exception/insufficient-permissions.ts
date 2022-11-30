@@ -1,4 +1,4 @@
-import {AuthPermission,} from '@tangential/authorization-service'
+import {AuthPermission,} from '../index'
 import {Guard} from '@tangential/core'
 
 export class InsufficientPermissions extends Error {

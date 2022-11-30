@@ -279,6 +279,37 @@
           }
         }
       }
+    },
+    "@tangential/authorization-service": {
+      "projectType": "library",
+      "root": "projects/tangential/authorization-service",
+      "sourceRoot": "projects/tangential/authorization-service/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/authorization-service/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/authorization-service/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/authorization-service/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/authorization-service/src/test.ts",
+            "tsConfig": "projects/tangential/authorization-service/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/authorization-service/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "tangential"

@@ -11,7 +11,7 @@ import {AdsenseModule, GoogleAnalytics} from '@tangential/analytics'
 import {
   AuthenticationService, AuthSettingsService, FirebaseAuthenticationService, FirebaseAuthSettingsService, FirebaseUserService,
   FirebaseVisitorService, HasPermissionGuard, HasRoleGuard, UserService, VisitorResolver, VisitorService
-} from '@tangential/authorization-service'
+} from '../../projects/tangential/authorization-service/src/lib'
 
 import {SignInPanelModule, TanjComponentsModule} from '@tangential/components'
 

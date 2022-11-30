@@ -1,52 +1,9 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "../dist/out-tsc/app",
+    "outDir": "dist/out-tsc/app",
     "target": "es2020",
     "module": "es2020",
-    "paths": {
-      "@tangential/app": [
-        "lib/app"
-      ],
-      "@tangential/admin-console-lib": [
-        "../dist/tangential/admin-console-lib"
-      ],
-      "@tangential/admin-console": [
-        "lib/admin-console"
-      ],
-      "@tangential/analytics": [
-        "lib/analytics"
-      ],
-      "@tangential/asciidoctor-panel": [
-        "lib/asciidoctor-panel"
-      ],
-      "@tangential/authorization-service": [
-        "lib/authorization-service"
-      ],
-      "@tangential/components": [
-        "lib/components"
-      ],
-      "@tangential/configurable-input-widgets": [
-        "lib/configurable-input-widgets"
-      ],
-      "@tangential/core": [
-        "../dist/tangential/core"
-      ],
-      "@tangential/firebase-util": [
-        "../dist/tangential/firebase-util"
-      ],
-      "@tangential/media-types": [
-        "../dist/tangential/media-types"
-      ],
-      "@tangential/input-widgets": [
-        "lib/input-widgets"
-      ],
-
-      "@tangential/plugin": [
-        "lib/plugin"
-      ]
-    }
   },
   "files": [
     "main.ts",

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 
 import {ObjMap} from '@tangential/core';
-import {projectUsers} from '../../../../config/users.local';
-import {EmailPasswordCredentials} from '@tangential/authorization-service';
+import {projectUsers} from '../../../../../../config/users.local';
+import {EmailPasswordCredentials} from '../index';
 
 const userMap: ObjMap<any> = {}
 

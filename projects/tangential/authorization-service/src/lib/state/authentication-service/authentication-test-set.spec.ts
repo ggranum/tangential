@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core'
 /* tslint:disable:no-unused-variable */
 import {
   AdminService, AuthenticationService, AuthPermission, AuthSettingsService
-} from '@tangential/authorization-service'
+} from '../../index'
 import {rejects} from 'assert'
 import {first, firstValueFrom} from 'rxjs';
 import {Logger, MessageBus} from '@tangential/core'

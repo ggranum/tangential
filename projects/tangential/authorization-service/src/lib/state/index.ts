@@ -10,4 +10,4 @@ export * from './settings-service/firebase-settings-service'
 export * from './user-service/user-service'
 export * from './user-service/firebase-user-service'
 
-export * from './visitor-service/'
+export * from './visitor-service'

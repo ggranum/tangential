@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {AdminService, FirebaseAdminService} from '@tangential/authorization-service';
+import {AdminService, FirebaseAdminService} from '../../../projects/tangential/authorization-service/src/lib';
 import {AdminConsoleLibModule} from '@tangential/admin-console-lib';
 import {TanjAdminConsoleModule} from '@tangential/admin-console';
 /**
