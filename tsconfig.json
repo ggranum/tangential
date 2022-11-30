@@ -49,14 +49,8 @@
       "@tangential/analytics": [
         "dist/tangential/analytics"
       ],
-
-
-
-      "@tangential/app": [
-        "src/lib/app"
-      ],
-      "@tangential/admin-console-lib": [
-        "dist/tangential/admin-console-lib"
+      "@tangential/plugin": [
+        "dist/tangential/plugin"
       ],
       "@tangential/admin-console": [
         "src/lib/admin-console"
@@ -69,9 +63,6 @@
       ],
       "@tangential/input-widgets": [
         "src/lib/input-widgets"
-      ],
-      "@tangential/plugin": [
-        "src/lib/plugin"
       ]
     }
   }

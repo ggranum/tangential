@@ -156,37 +156,6 @@
         }
       }
     },
-    "@tangential/admin-console-lib": {
-      "projectType": "library",
-      "root": "projects/tangential/admin-console-lib",
-      "sourceRoot": "projects/tangential/admin-console-lib/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/tangential/admin-console-lib/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/tangential/admin-console-lib/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/tangential/admin-console-lib/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/tangential/admin-console-lib/src/test.ts",
-            "tsConfig": "projects/tangential/admin-console-lib/tsconfig.spec.json",
-            "karmaConfig": "projects/tangential/admin-console-lib/karma.conf.js"
-          }
-        }
-      }
-    },
     "@tangential/core": {
       "projectType": "library",
       "root": "projects/tangential/core",
@@ -369,6 +338,37 @@
             "main": "projects/tangential/analytics/src/test.ts",
             "tsConfig": "projects/tangential/analytics/tsconfig.spec.json",
             "karmaConfig": "projects/tangential/analytics/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@tangential/plugin": {
+      "projectType": "library",
+      "root": "projects/tangential/plugin",
+      "sourceRoot": "projects/tangential/plugin/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/plugin/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/plugin/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/plugin/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/plugin/src/test.ts",
+            "tsConfig": "projects/tangential/plugin/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/plugin/karma.conf.js"
           }
         }
       }

@@ -25,7 +25,7 @@ import {TanjInputWidgetModule} from '@tangential/input-widgets'
 // Our Components
 import {environment} from '../environments/environment'
 // noinspection ES6PreferShortImport
-import {PluginManager} from '../lib/plugin/plugin-manager'
+import {PluginManager} from '../../projects/tangential/plugin/src/lib/plugin-manager'
 import {AppComponent} from './app.component'
 import {AppRoutingModule} from './app.routing.module'
 

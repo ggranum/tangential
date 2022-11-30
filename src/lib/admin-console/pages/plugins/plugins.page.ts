@@ -21,7 +21,7 @@ import {
 } from '@angular/router'
 import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
 // noinspection ES6PreferShortImport
-import {PluginManager} from '../../../plugin/plugin-manager'
+import {PluginManager} from '../../../../../projects/tangential/plugin/src/lib/plugin-manager'
 
 @Component({
   selector       : 'tanj-plugins-page',

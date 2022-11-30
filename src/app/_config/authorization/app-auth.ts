@@ -2,7 +2,7 @@ import {
   AuthPermission,
   AuthRole
 } from '../../../../projects/tangential/authorization-service/src/lib'
-import {PluginAuth} from '@tangential/plugin'
+import {PluginAuth} from '../../../../projects/tangential/plugin/src/lib'
 
 type AppPermissionsType = {
   addPermission: AuthPermission
