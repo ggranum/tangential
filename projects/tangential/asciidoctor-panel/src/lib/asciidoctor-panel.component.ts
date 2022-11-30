@@ -10,11 +10,11 @@ import {AsciidoctorPanelRenderer} from './asciidoctor-renderer';
 
 
 @Component({
-  selector: 'tanj-asciidoctor-panel',
-  templateUrl: './asciidoctor-panel.component.html',
-  styleUrls: ['./asciidoctor-panel.component.scss'],
+  selector:        'tanj-asciidoctor-panel',
+  templateUrl:     './asciidoctor-panel.component.html',
+  styleUrls:       ['./asciidoctor-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation:   ViewEncapsulation.None
 })
 export class AsciidoctorComponent implements AfterContentInit {
 

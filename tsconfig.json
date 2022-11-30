@@ -52,12 +52,13 @@
       "@tangential/plugin": [
         "dist/tangential/plugin"
       ],
+      "@tangential/asciidoctor-panel": [
+        "dist/tangential/asciidoctor-panel"
+      ],
       "@tangential/admin-console": [
         "src/lib/admin-console"
       ],
-      "@tangential/asciidoctor-panel": [
-        "src/lib/asciidoctor-panel"
-      ],
+
       "@tangential/configurable-input-widgets": [
         "src/lib/configurable-input-widgets"
       ],
