@@ -21,7 +21,7 @@ import {AppEnvironment, BusLogger, BusLoggerConfiguration, Logger, LoggerConfigu
 import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util'
 
 
-import {TanjInputWidgetModule} from '@tangential/input-widgets'
+import {TanjInputWidgetModule} from '../../projects/tangential/input-widgets/src/lib'
 // Our Components
 import {environment} from '../environments/environment'
 // noinspection ES6PreferShortImport

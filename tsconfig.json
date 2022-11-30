@@ -63,7 +63,7 @@
         "src/lib/configurable-input-widgets"
       ],
       "@tangential/input-widgets": [
-        "src/lib/input-widgets"
+        "dist/tangential/input-widgets"
       ]
     }
   }

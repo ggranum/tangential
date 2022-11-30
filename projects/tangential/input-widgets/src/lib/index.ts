@@ -1,4 +1,5 @@
 export * from './checkbox-widget'
+export * from './date-time-widget'
 export * from './duration-picker-widget'
 export * from './icon-rating-widget'
 export * from './number-slider-widget'
