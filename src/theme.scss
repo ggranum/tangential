@@ -53,9 +53,9 @@ $tanj-light-theme-background: (
 );
 
 $app-bar: (
-  height: 4em,
+  height: 6rem,
   background: mat-color($primary, 500),
-  text: mat-color($primary, 500),
+  text: mat-color($accent, 500),
   link: mat-color($accent, 200)
 );
 

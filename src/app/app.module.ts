@@ -4,16 +4,24 @@ import {FormsModule} from '@angular/forms'
 // Base Angular2
 import {BrowserModule, Title} from '@angular/platform-browser'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
+
+
 import {AdsenseModule, GoogleAnalytics} from '@tangential/analytics'
 
 import {
   AuthenticationService, AuthSettingsService, FirebaseAuthenticationService, FirebaseAuthSettingsService, FirebaseUserService,
   FirebaseVisitorService, HasPermissionGuard, HasRoleGuard, UserService, VisitorResolver, VisitorService
 } from '@tangential/authorization-service'
+
 import {SignInPanelModule, TanjComponentsModule} from '@tangential/components'
+
 import {InputRegistry} from '@tangential/configurable-input-widgets'
+
 import {AppEnvironment, BusLogger, BusLoggerConfiguration, Logger, LoggerConfiguration, MessageBus, Page} from '@tangential/core'
+
+
 import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util'
+
 import {TanjInputWidgetModule} from '@tangential/input-widgets'
 // Our Components
 import {environment} from '../environments/environment'
@@ -21,6 +29,9 @@ import {environment} from '../environments/environment'
 import {PluginManager} from '../lib/plugin/plugin-manager'
 import {AppComponent} from './app.component'
 import {AppRoutingModule} from './app.routing.module'
+
+
+
 // import { AdsenseModule } from "ng2-adsense";
 import {AboutPage} from './features/casa/about/about.page'
 import {ContactPage} from './features/casa/contact/contact.page'

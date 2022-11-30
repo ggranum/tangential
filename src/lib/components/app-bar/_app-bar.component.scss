@@ -12,11 +12,11 @@
     font-size: 24px;
 
     tanj-icon  {
-      color: mat-color($appBar, text);
+      color: map-get($appBar, text);
     }
 
     &.mat-toolbar.mat-primary {
-      background-color: mat-color($appBar, background);
+      background-color: map-get($appBar, background);
     }
 
     .tanj-app-bar-body, .tanj-app-bar-title-container {
@@ -28,7 +28,7 @@
       margin-left: .25em;
       font-size: 200%;
       a, a:visited, a:active {
-        color: mat-color($appBar, text);
+        color: map-get($appBar, text);
         text-decoration: none;
         text-underline: none;
         cursor: pointer;

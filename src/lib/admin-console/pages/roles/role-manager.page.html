@@ -1,21 +1,50 @@
 <tanj-page-body>
-  <div flex layout="column" layout-align="start">
-    <!-- @todo: remove PrimeNg -->
-    <div>We're removing PrimeNg. </div>
-<!--    <p-dataTable [value]="rows" [(selection)]="selected" dataKey="$key">-->
-<!--      <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>-->
-<!--      <p-column field="$key" header="Key" sortable="true"></p-column>-->
-<!--      <p-column field="description" header="Description" sortable="true"></p-column>-->
-<!--      <p-column field="createdMils" header="created" sortable="true">-->
-<!--        <ng-template let-col let-row="rowData" pTemplate="body">-->
-<!--          <span>{{row[col.field] | date:'yyyy-MM~dd, HH:mm:ss' }}</span>-->
-<!--        </ng-template>-->
-<!--      </p-column>-->
-<!--      <p-column field="editedMils" header="Last Edited" sortable="true">-->
-<!--        <ng-template let-col let-row="rowData" pTemplate="body">-->
-<!--          <span>{{row[col.field] | date:'yyyy-MM~dd, HH:mm:ss' }}</span>-->
-<!--        </ng-template>-->
-<!--      </p-column>-->
-<!--    </p-dataTable>-->
-  </div>
+  <table mat-table matSort (matSortChange)="announceSortChange($event)"  [dataSource]="dataSource" class="mat-elevation-z8 tng-user-mgr-table">
+
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row" >
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- UID Column -->
+    <ng-container matColumnDef="$key">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Permission ID"> Permission ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.$key}} </td>
+    </ng-container>
+
+    <!-- User name Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Description">  Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <!-- User Email Column -->
+    <ng-container matColumnDef="createdMils" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Created Date"> Created </th>
+      <td mat-cell *matCellDef="let element"> {{element.createdMils  | date:'yyyy-MM~dd, HH:mm:ss'}} </td>
+    </ng-container>
+
+    <!-- Last Sign in Column -->
+    <ng-container matColumnDef="editedMils">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Last Modified"> Last Modified </th>
+      <td mat-cell *matCellDef="let element"> {{element.editedMils | date:'yyyy-MM~dd, HH:mm:ss' }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
+  </table>
+
 </tanj-page-body>

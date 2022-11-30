@@ -1,7 +1,11 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core'
+import {LiveAnnouncer} from '@angular/cdk/a11y'
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core'
 import {AdminService, AuthPermission, AuthRole, AuthUser, UserService} from '@tangential/authorization-service'
 import {generatePushID} from '@tangential/core'
 import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
+import {MatSort, Sort} from '@angular/material/sort';
+import {SelectionModel} from '@angular/cdk/collections';
+import {MatTableDataSource} from '@angular/material/table';
 
 
 @Component({
@@ -11,8 +15,11 @@ import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
   encapsulation:   ViewEncapsulation.None
 })
 export class UserManagerPage implements OnInit {
+  displayedColumns: string[] = ['select', '$key', 'displayName', 'email', 'lastSignInMils'];
+  dataSource = new MatTableDataSource<AuthUser>();
+  selection = new SelectionModel<AuthUser>(true, []);
 
-  rows: any[] = []
+  rows: AuthUser[] = []
   selected = []
   columns = [
     {prop: '$key', name: 'Key', flexGrow: 1},
@@ -24,28 +31,21 @@ export class UserManagerPage implements OnInit {
 
   constructor(private adminService: AdminService,
               private parent: AdminConsoleParentPage,
+              private _liveAnnouncer: LiveAnnouncer,
               private changeDetectorRef: ChangeDetectorRef) {
   }
+
+  @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
     this.parent.auth$.subscribe({
       next: (v) => {
         this.rows = v.users
+        this.dataSource = new MatTableDataSource<AuthUser>(v.users);
+        this.dataSource.sort = this.sort;
         this.changeDetectorRef.markForCheck()
       }
     })
-  }
-
-
-  onSelect({selected}) {
-    console.log('Select Event', selected, this.selected);
-
-    this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
-  }
-
-  onActivate(event) {
-    console.log('Activate Event', event);
   }
 
 
@@ -107,6 +107,46 @@ export class UserManagerPage implements OnInit {
       throw new Error(reason)
     })
 
+  }
+
+  /**
+   * Borrowed directly from Angular Material examples: https://material.angular.io/components/table/overview
+   */
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: AuthUser): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} ${row.displayName}`;
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 
 }

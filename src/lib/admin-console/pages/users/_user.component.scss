@@ -1,11 +1,17 @@
 @mixin tangential-admin_console-user($theme) {
   tanj-user-manager-page {
-    box-sizing      : border-box;
-    display         : flex;
-    flex            : 1;
-    flex-direction  : column;
-    justify-content : start;
-    align-items     : stretch;
-    min-height      : 80vh;
+    box-sizing: border-box;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    min-height: 80vh;
+  }
+
+  .tng-user-mgr-table {
+    width: 100%;
   }
 }
+
+

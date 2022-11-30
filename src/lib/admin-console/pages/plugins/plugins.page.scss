@@ -6,7 +6,7 @@
   tanj-plugins-page {
     font-size       : 18px;
     @include tanj-flex();
-    @include tanj-flexure(column, start, stretch);
+    @include tanj-flexure(column, flex-start, stretch);
 
     .tanj-plugin-entry {
       margin-top: 1em;

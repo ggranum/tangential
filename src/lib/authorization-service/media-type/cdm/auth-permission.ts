@@ -14,8 +14,8 @@ export interface AuthPermissionCfg {
 
 export class AuthPermission {
   $key: string
-  createdMils: number = Date.now()
   description: string
+  createdMils: number = Date.now()
   editedMils: number = Date.now()
   orderIndex: number
 

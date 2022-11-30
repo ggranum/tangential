@@ -9,6 +9,8 @@ import {MatIconModule} from '@angular/material/icon'
 import {MatInputModule} from '@angular/material/input'
 import {MatListModule} from '@angular/material/list'
 import {MatMenuModule} from '@angular/material/menu'
+import {MatSortModule} from '@angular/material/sort'
+import {MatTableModule} from '@angular/material/table'
 import {MatToolbarModule} from '@angular/material/toolbar'
 
 import {TanjComponentsModule} from '@tangential/components'
@@ -50,7 +52,7 @@ import {PluginsPage} from './pages/plugins/plugins.page'
     RoleManagerPage,
     UserManagerPage,
   ],
-  imports:      [
+  imports: [
     CommonModule,
     FormsModule,
     MatButtonModule,
@@ -65,7 +67,9 @@ import {PluginsPage} from './pages/plugins/plugins.page'
 
     TanjComponentsModule,
     /* Routing */
-    AdminConsoleRoutingModule
+    AdminConsoleRoutingModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers:    [
     {provide: AdminService, useClass: FirebaseAdminService}
