@@ -60,15 +60,16 @@
       "@tangential/core": [
         "../../dist/tangential/core",
       ],
+      "@tangential/media-types": [
+        "../../dist/tangential/media-types"
+      ],
       "@tangential/firebase-util": [
-        "./firebase-util"
+        "../../dist/tangential/firebase-util"
       ],
       "@tangential/input-widgets": [
         "./input-widgets"
       ],
-      "@tangential/media-types": [
-        "./media-types"
-      ],
+
       "@tangential/plugin": [
         "./plugin"
       ]

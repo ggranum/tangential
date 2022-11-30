@@ -11,7 +11,7 @@ import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators'
 import {AppRoutes} from '../app.routing.module';
 import {ContextMenuMessage, Icon, Menu, MenuItem, NotificationMessage, SideNavComponent} from '@tangential/components';
-import {Placeholder} from '@tangential/firebase-util';
+import {Placeholder} from '../../../projects/tangential/firebase-util/src/lib';
 import {AppToggleMainMenuRequest} from '@tangential/app'
 
 @Component({

@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service';
 import {AuthInfo, NotificationIF, NotificationMessage} from '@tangential/components';
 import {CodedError, DefaultPageAnalytics, Logger, MessageBus, Page, RouteInfo} from '@tangential/core';
-import {FirebaseErrors} from '@tangential/firebase-util';
+import {FirebaseErrors} from '../../../../../projects/tangential/firebase-util/src/lib';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators'
 import {AppRouteDefinitions} from '../../../app.routes.definitions'

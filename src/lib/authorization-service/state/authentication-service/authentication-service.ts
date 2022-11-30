@@ -5,7 +5,6 @@ import {EmailPasswordCredentials} from '../../media-type/doc-model/email-passwor
 import {AuthSubject} from '../../media-type/cdm/auth-subject';
 //noinspection ES6PreferShortImport
 import {SessionInfoCdm} from '../../media-type/cdm/session-info';
-//noinspection ES6PreferShortImport
 
 @Injectable()
 export abstract class AuthenticationService {

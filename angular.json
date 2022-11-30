@@ -217,6 +217,68 @@
           }
         }
       }
+    },
+    "@tangential/firebase-util": {
+      "projectType": "library",
+      "root": "projects/tangential/firebase-util",
+      "sourceRoot": "projects/tangential/firebase-util/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/firebase-util/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/firebase-util/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/firebase-util/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/firebase-util/src/test.ts",
+            "tsConfig": "projects/tangential/firebase-util/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/firebase-util/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@tangential/media-types": {
+      "projectType": "library",
+      "root": "projects/tangential/media-types",
+      "sourceRoot": "projects/tangential/media-types/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/media-types/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/media-types/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/media-types/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/media-types/src/test.ts",
+            "tsConfig": "projects/tangential/media-types/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/media-types/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "tangential"

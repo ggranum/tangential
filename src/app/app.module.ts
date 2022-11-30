@@ -17,10 +17,9 @@ import {SignInPanelModule, TanjComponentsModule} from '@tangential/components'
 
 import {InputRegistry} from '@tangential/configurable-input-widgets'
 
-import {AppEnvironment, BusLogger, BusLoggerConfiguration, Logger, LoggerConfiguration, MessageBus, Page} from '@tangential/core'
-
-
+import {AppEnvironment, BusLogger, BusLoggerConfiguration, Logger, LoggerConfiguration, MessageBus} from '@tangential/core'
 import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util'
+
 
 import {TanjInputWidgetModule} from '@tangential/input-widgets'
 // Our Components

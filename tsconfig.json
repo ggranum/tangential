@@ -59,13 +59,14 @@
         "dist/tangential/core"
       ],
       "@tangential/firebase-util": [
-        "src/lib/firebase-util"
+        "dist/tangential/firebase-util"
       ],
       "@tangential/input-widgets": [
         "src/lib/input-widgets"
       ],
       "@tangential/media-types": [
-        "src/lib/media-types"
+        "src/lib/media-types",
+        "dist/tangential/media-types"
       ],
       "@tangential/plugin": [
         "src/lib/plugin"

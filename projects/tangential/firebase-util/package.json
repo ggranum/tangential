@@ -1,6 +1,6 @@
 {
-  "name": "@tangential/media-types",
-  "description": "Base functionality for reusable, persistent data types.",
+  "name": "@tangential/firebase-util",
+  "description": "Utility classes and shared functionality for Tangential services that use Firebase.",
   "homepage": "https://github.com/ggranum/tangential#readme",
   "version": "0.3.0-alpha.3",
   "license": "GPL-3.0",
@@ -16,15 +16,13 @@
     }
   ],
   "keywords": [
-    "Content Types",
-    "Type Definitions",
     "angular",
+    "auth",
+    "firebase",
     "angular2",
     "components",
     "widgets",
     "authentication",
-    "auth",
-    "firebase",
     "Angular",
     "Angular2",
     "AdWords",
@@ -45,9 +43,11 @@
   "engines": {
     "node": ">= 16"
   },
-  "dependencies": {},
-  "devDependencies": {},
-  "peerDependencies": {},
-  "main": "./index.js",
-  "typings": "./index.d.ts"
+  "peerDependencies": {
+    "@angular/core": "^14.2.0",
+    "rxjs": "7.x"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
 }
