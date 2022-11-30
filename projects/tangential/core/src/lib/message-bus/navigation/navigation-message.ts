@@ -1,5 +1,3 @@
-//noinspection ES6UnusedImports
-import {GaFunction} from '@tangential/analytics'
 import {Observable} from 'rxjs'
 import {filter} from 'rxjs/operators'
 import {

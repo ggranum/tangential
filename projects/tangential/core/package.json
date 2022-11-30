@@ -44,9 +44,8 @@
   "engines": {
     "node": ">= 16"
   },
-  "dependencies": {},
-  "devDependencies": {},
-  "peerDependencies": {},
-  "main": "./index.js",
-  "typings": "./index.d.ts"
+  "peerDependencies": {
+    "@angular/core": "14.x",
+    "rxjs": "7.x"
+  }
 }

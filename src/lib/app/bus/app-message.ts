@@ -1,12 +1,6 @@
 import {filter} from 'rxjs/operators'
 
-// noinspection ES6PreferShortImport
-import {
-  BusMessage,
-  BusMessageIntent,
-  Intention,
-  MessageBus
-} from '../../core/message-bus/message-bus'
+import { BusMessage, BusMessageIntent, Intention, MessageBus } from '@tangential/core'
 import {Observable} from 'rxjs'
 
 

@@ -1,6 +1,5 @@
 import {AuthPermission,} from '@tangential/authorization-service'
-// noinspection ES6PreferShortImport
-import {Guard} from '../lang/guard/guard'
+import {Guard} from '@tangential/core'
 
 export class InsufficientPermissions extends Error {
 

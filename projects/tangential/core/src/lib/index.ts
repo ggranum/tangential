@@ -1,6 +1,5 @@
 export * from './data/'
 export * from './event/'
-export * from './exceptions/'
 export * from './lang/'
 export * from './media-type/'
 export * from './message-bus/'

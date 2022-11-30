@@ -1,10 +1,11 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ActivatedRouteSnapshot, Router} from '@angular/router';
-import {
-  Logger,
-  MessageBus
-} from '@tangential/core';
+
+
+import { Logger, MessageBus } from '@tangential/core';
+
+
 import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service';
 import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators'

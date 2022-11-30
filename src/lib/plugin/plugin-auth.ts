@@ -2,13 +2,12 @@ import {
   AuthPermission,
   AuthPermissionDm,
   AuthRole,
-  AuthSubject
+  AuthSubject, InsufficientPermissions
 } from '@tangential/authorization-service'
 import {
   Guard,
   ObjectUtil
 } from '@tangential/core'
-import {InsufficientPermissions} from '@tangential/core'
 
 export type PermissionsByKey = { [key: string]: AuthPermission }
 export type RolesByKey = { [key: string]: AuthRole }

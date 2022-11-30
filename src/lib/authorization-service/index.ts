@@ -1,3 +1,4 @@
+export * from './exception'
 export * from './media-type'
 export * from './guard'
 export * from './state'

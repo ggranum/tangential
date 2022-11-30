@@ -58,7 +58,7 @@
         "./configurable-input-widgets"
       ],
       "@tangential/core": [
-        "./core"
+        "../../dist/tangential/core",
       ],
       "@tangential/firebase-util": [
         "./firebase-util"

@@ -1,8 +1,7 @@
 import {NgModule} from '@angular/core';
 import {AdminService, FirebaseAdminService} from '@tangential/authorization-service';
-import {AdminConsoleLibService} from '@tangential/admin-console-lib';
 import {AdminConsoleLibModule} from '@tangential/admin-console-lib';
-
+import {TanjAdminConsoleModule} from '@tangential/admin-console';
 /**
  * It is not possible (or doesn't seem to be possible) to lazy-load a module directly from an NPM imported project.
  * This module re-export provides a stub that will be compiled by the child project, providing a stable lazy-load target for
@@ -15,7 +14,8 @@ import {AdminConsoleLibModule} from '@tangential/admin-console-lib';
  */
 @NgModule({
   imports:      [
-    AdminConsoleLibModule
+    AdminConsoleLibModule,
+    TanjAdminConsoleModule
   ],
   providers:    [
     {provide: AdminService, useClass: FirebaseAdminService}
