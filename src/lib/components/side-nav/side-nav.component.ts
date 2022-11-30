@@ -31,14 +31,14 @@ import {
     '(window:touchend)': 'handleClick($event)',
   },
   animations: [
+    /** @todo: ggranum: Move the overflow and display attributes to simple 'ngIf' or [class] bindings */
     trigger('openedChange', [
-      state('0',
-        style({
-          width:    '0',
-          overflow: 'hidden',
-          display:  'none'
-        }),), state('1', style({width: '*'})), transition('0 => 1', animate('.3s ease-in')),
-      transition('1 => 0', animate('.3s ease-out'))])]
+      state('0', style({ width: '0', overflow: 'hidden', display:  'none' })),
+      state('1', style({width: '*'})),
+      transition('0 => 1', animate('.3s ease-in')),
+      transition('1 => 0', animate('.3s ease-out'))]
+    )
+  ]
 })
 export class SideNavComponent {
 

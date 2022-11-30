@@ -33,6 +33,9 @@
       "jasmine"
     ],
     "paths": {
+      "@tangential/admin-console-lib": [
+        "../../../dist/tangential/admin-console-lib"
+      ],
       "@tangential/admin-console": [
         "./admin-console"
       ],

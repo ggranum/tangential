@@ -155,6 +155,37 @@
           }
         }
       }
+    },
+    "@tangential/admin-console-lib": {
+      "projectType": "library",
+      "root": "projects/tangential/admin-console-lib",
+      "sourceRoot": "projects/tangential/admin-console-lib/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/admin-console-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/admin-console-lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/admin-console-lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/admin-console-lib/src/test.ts",
+            "tsConfig": "projects/tangential/admin-console-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/admin-console-lib/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "tangential"

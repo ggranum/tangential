@@ -34,6 +34,9 @@
       "@tangential/app": [
         "src/lib/app"
       ],
+      "@tangential/admin-console-lib": [
+        "dist/tangential/admin-console-lib"
+      ],
       "@tangential/admin-console": [
         "src/lib/admin-console"
       ],

@@ -9,6 +9,9 @@
       "@tangential/app": [
         "lib/app"
       ],
+      "@tangential/admin-console-lib": [
+        "../dist/tangential/admin-console-lib"
+      ],
       "@tangential/admin-console": [
         "lib/admin-console"
       ],
