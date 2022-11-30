@@ -10,9 +10,10 @@ import {AuthenticationService, Visitor, VisitorService} from '../../../projects/
 import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators'
 import {AppRoutes} from '../app.routing.module';
-import {ContextMenuMessage, Icon, Menu, MenuItem, NotificationMessage, SideNavComponent} from '@tangential/components';
+import {
+  ContextMenuMessage, Icon, Menu, MenuItem, NotificationMessage, SideNavComponent, ToggleMainMenuRequest
+} from '../../../projects/tangential/components/src/lib';
 import {Placeholder} from '../../../projects/tangential/firebase-util/src/lib';
-import {AppToggleMainMenuRequest} from '@tangential/app'
 
 @Component({
   selector: 'tanj-main',
@@ -48,7 +49,7 @@ export class MainComponent implements OnInit, OnDestroy {
               private visitorService: VisitorService,
               private changeDetectorRef: ChangeDetectorRef,
               private dialog: MatDialog) {
-    AppToggleMainMenuRequest.filter(bus).subscribe({
+    ToggleMainMenuRequest.filter(bus).subscribe({
       next: (v) => {
         this.sideNav?.toggle()
       }

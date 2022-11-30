@@ -4,9 +4,23 @@ import {
   Input,
   ViewEncapsulation
 } from '@angular/core'
-import {AppToggleMainMenuRequest} from '@tangential/app'
 import {Visitor} from '@tangential/authorization-service'
-import {MessageBus} from '@tangential/core'
+import {Intention, MessageBus, AppMessage} from '@tangential/core'
+import {filter, Observable} from 'rxjs'
+
+
+export class ToggleMainMenuRequest extends AppMessage {
+  static Key = 'openAppNavRequest'
+
+  constructor() {
+    super(Intention.request, ToggleMainMenuRequest.Key )
+  }
+
+  static override filter(bus:MessageBus):Observable<ToggleMainMenuRequest>{
+    return bus.all.pipe(filter(msg => msg.source === AppMessage.SourceKey && msg.key === ToggleMainMenuRequest.Key))
+  }
+}
+
 
 @Component({
   selector:        'tanj-app-bar',
@@ -22,7 +36,7 @@ export class AppBarComponent {
   }
 
   onToggleMainMenuRequest() {
-    this.bus.post(new AppToggleMainMenuRequest())
+    this.bus.post(new ToggleMainMenuRequest())
   }
 
 }

@@ -13,7 +13,7 @@ import {
   FirebaseVisitorService, HasPermissionGuard, HasRoleGuard, UserService, VisitorResolver, VisitorService
 } from '../../projects/tangential/authorization-service/src/lib'
 
-import {SignInPanelModule, TanjComponentsModule} from '@tangential/components'
+import {SignInPanelModule, TanjComponentsModule} from '../../projects/tangential/components/src/lib'
 
 import {InputRegistry} from '@tangential/configurable-input-widgets'
 

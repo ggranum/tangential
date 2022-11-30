@@ -1,13 +1,13 @@
-@import 'accordion/accordion.component';
-@import 'app-bar/app-bar.component';
-@import 'bottom-nav/bottom-nav.component';
-@import 'data-list/data-list.component';
-@import 'notification-bar/notification-bar.component';
-@import 'page-body/page-body.component';
-@import 'pagination-bar/pagination-bar.component';
-@import 'side-nav/side-nav.component';
-@import 'side-nav-menu/side-nav-menu.component';
-@import 'sign-in-panel/sign-in-panel.component';
+@import 'src/lib/accordion/accordion.component';
+@import 'src/lib/app-bar/app-bar.component';
+@import 'src/lib/bottom-nav/bottom-nav.component';
+@import 'src/lib/data-list/data-list.component';
+@import 'src/lib/notification-bar/notification-bar.component';
+@import 'src/lib/page-body/page-body.component';
+@import 'src/lib/pagination-bar/pagination-bar.component';
+@import 'src/lib/side-nav/side-nav.component';
+@import 'src/lib/side-nav-menu/side-nav-menu.component';
+@import 'src/lib/sign-in-panel/sign-in-panel.component';
 
 @mixin tangential-components($theme) {
   @include tangential-components-accordion($theme);

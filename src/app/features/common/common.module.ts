@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field'
 import {RouterModule} from '@angular/router';
-import {TanjComponentsModule} from '@tangential/components';
+import {TanjComponentsModule} from '../../../../projects/tangential/components/src/lib';
 import {AdsenseModule} from '@tangential/analytics';
 import {TanjMaterialModule} from '../../tanj-material-module';
 import {MobileFooterBannerAdComponent} from './ad-units/mobile-footer-banner/mobile-footer-banner-ad';

@@ -45,6 +45,9 @@
       "@tangential/authorization-service": [
         "../../dist/tangential/authorization-service"
       ],
+      "@tangential/components": [
+        "../../dist/tangential/components"
+      ],
       "@tangential/admin-console": [
         "./admin-console"
       ],
@@ -58,9 +61,6 @@
         "./asciidoctor-panel"
       ],
 
-      "@tangential/components": [
-        "./components"
-      ],
       "@tangential/configurable-input-widgets": [
         "./configurable-input-widgets"
       ],

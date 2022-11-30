@@ -2,7 +2,7 @@
 @import '../app/features/features-index';
 @import '../app/main/main';
 @import '../lib/admin-console/index';
-@import '../lib/components/index';
+@import '../../projects/tangential/components/index';
 
 @mixin apply-theme-to-app($theme) {
   @include tangential-app-global($theme);

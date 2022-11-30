@@ -310,6 +310,37 @@
           }
         }
       }
+    },
+    "@tangential/components": {
+      "projectType": "library",
+      "root": "projects/tangential/components",
+      "sourceRoot": "projects/tangential/components/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/components/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/components/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/components/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/components/src/test.ts",
+            "tsConfig": "projects/tangential/components/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/components/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "tangential"
