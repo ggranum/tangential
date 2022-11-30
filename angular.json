@@ -434,6 +434,37 @@
           }
         }
       }
+    },
+    "@tangential/configurable-input-widgets": {
+      "projectType": "library",
+      "root": "projects/tangential/configurable-input-widgets",
+      "sourceRoot": "projects/tangential/configurable-input-widgets/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/configurable-input-widgets/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/configurable-input-widgets/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/configurable-input-widgets/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/configurable-input-widgets/src/test.ts",
+            "tsConfig": "projects/tangential/configurable-input-widgets/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/configurable-input-widgets/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "tangential"

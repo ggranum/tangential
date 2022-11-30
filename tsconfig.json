@@ -58,9 +58,8 @@
       "@tangential/admin-console": [
         "src/lib/admin-console"
       ],
-
       "@tangential/configurable-input-widgets": [
-        "src/lib/configurable-input-widgets"
+        "dist/tangential/configurable-input-widgets"
       ],
       "@tangential/input-widgets": [
         "dist/tangential/input-widgets"

@@ -43,9 +43,15 @@
   "engines": {
     "node": ">= 16"
   },
-  "dependencies": {},
-  "devDependencies": {},
-  "peerDependencies": {},
-  "main": "./index.js",
-  "typings": "./index.d.ts"
+  "peerDependencies": {
+    "@angular/core": "^14.2.0",
+    "rxjs": "7.x"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },"exports": {
+  ".": {
+    "sass": "./_index.scss"
+  }
+}
 }
