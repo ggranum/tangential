@@ -2,10 +2,10 @@ import {LiveAnnouncer} from '@angular/cdk/a11y'
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core'
 import {AdminService, AuthPermission, AuthRole, AuthUser, UserService} from '@tangential/authorization-service'
 import {generatePushID} from '@tangential/core'
-import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
 import {MatSort, Sort} from '@angular/material/sort';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
+import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
 
 
 @Component({

@@ -1,5 +1,3 @@
-//noinspection ES6PreferShortImport
-//noinspection ES6PreferShortImport
 import {MapEntry, ObjectUtil} from '../util/core-util'
 import {ObjMap} from './obj-map'
 

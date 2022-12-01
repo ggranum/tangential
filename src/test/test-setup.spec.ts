@@ -1,4 +1,4 @@
-import {AuthPermission} from '../../projects/tangential/authorization-service/src/lib'
+import {AuthPermission} from '@tangential/authorization-service'
 
 export const cleanupSnapCaptures = function (): Promise<AuthPermission[]> {
   return Promise.all([])

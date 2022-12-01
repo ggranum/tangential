@@ -1,6 +1,6 @@
 import {Jsonified, ObjectUtil} from '@tangential/core'
 
-import * as moment from 'moment'
+import moment from 'moment'
 import {ConfigurableInputIval, ConfigurableInputIvalJson} from '../configurable-input-ival'
 
 const BROWSER_DATE_TIME_LOCAL_FORMAT = 'YYYY-MM-DDTHH:mm'

@@ -3,9 +3,8 @@ import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, R
 import {MessageBus, NavigationRequiresAuthenticationMessage, NavigationRequiresRoleMessage, NgUtil} from '@tangential/core';
 import {Observable} from 'rxjs';
 import {first, map} from 'rxjs/operators'
-import {AuthSubject} from '../media-type/cdm/auth-subject';
-//noinspection ES6PreferShortImport
-import {AuthenticationService} from '../state/authentication-service/authentication-service';
+import {AuthSubject} from '../media-type';
+import {AuthenticationService} from '../state'
 
 
 /**

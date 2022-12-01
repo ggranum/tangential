@@ -3,7 +3,7 @@ import {
 } from '@angular/core'
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms'
 import {Hacks} from '@tangential/core'
-import * as moment from 'moment'
+import moment from 'moment'
 
 
 /**

@@ -53,7 +53,19 @@
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
     "deploy": "firebase deploy",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "b-admin-console"             : "ng build @tangential/admin-console --configuration development",
+    "b-analytics"                 : "ng build @tangential/analytics --configuration development",
+    "b-asciidoctor-panel"        : "ng build @tangential/asciidoctor-panel --configuration development",
+    "b-authorization-service"     : "ng build @tangential/authorization-service --configuration development",
+    "b-components"                : "ng build @tangential/components --configuration development",
+    "b-configurable-input-widgets": "ng build @tangential/configurable-input-widgets --configuration development",
+    "b-core"                      : "ng build @tangential/core --configuration development",
+    "b-firebase-util"             : "ng build @tangential/firebase-util --configuration development",
+    "b-input-widgets"             : "ng build @tangential/input-widgets --configuration development",
+    "b-media-types"               : "ng build @tangential/media-types --configuration development",
+    "b-plugin"                    :      "ng build @tangential/plugin --configuration development",
+    "build-libs": "npm run b-core && npm run b-media-types && npm run b-firebase-util && npm run b-authorization-service && npm run b-plugin && npm run b-analytics && npm run b-asciidoctor-panel && npm run b-components && npm run b-input-widgets && npm run b-configurable-input-widgets && npm run b-admin-console"
   },
   "dependencies": {
     "@angular/animations": "14.2.10",

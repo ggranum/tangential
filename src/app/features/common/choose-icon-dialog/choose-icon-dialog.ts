@@ -1,7 +1,7 @@
 import {Component, HostBinding, ViewEncapsulation} from '@angular/core'
 import {MatDialogRef} from '@angular/material/dialog'
 
-import {IconIF} from '../../../../../projects/tangential/components/src/lib'
+import {IconIF} from '@tangential/components'
 import {BehaviorSubject} from 'rxjs'
 import {debounceTime} from 'rxjs/operators';
 

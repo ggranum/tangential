@@ -1,28 +1,31 @@
 import {LiveAnnouncer} from '@angular/cdk/a11y'
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {AdminService, AuthPermission} from '@tangential/authorization-service';
-import {NameGenerator} from '@tangential/core';
-import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core'
+import {AuthPermission, AuthRole, AdminService} from '@tangential/authorization-service'
+import {NameGenerator} from '@tangential/core'
+
 import {MatSort, Sort} from '@angular/material/sort';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
+import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
+
 
 @Component({
-  selector:        'tanj-permission-manager',
-  templateUrl:     './permission-manager.page.html',
+  selector:        'tanj-role-manager-page',
+  templateUrl:     './role-manager.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation:   ViewEncapsulation.None
 })
-export class PermissionManagerPage implements OnInit {
+export class RoleManagerPage implements OnInit {
   displayedColumns: string[] = ['select', '$key', 'description', 'createdMils', 'editedMils'];
-  dataSource = new MatTableDataSource<AuthPermission>();
-  selection = new SelectionModel<AuthPermission>(true, []);
+  dataSource = new MatTableDataSource<AuthRole>();
+  selection = new SelectionModel<AuthRole>(true, []);
 
-  rows: AuthPermission[] = [];
+  rows: AuthRole[] = [];
   selected: any[] = [];
 
-  constructor(private adminService: AdminService,
-              private parent: AdminConsoleParentPage,
+
+  constructor(private parent: AdminConsoleParentPage,
+              private adminService:AdminService,
               private _liveAnnouncer: LiveAnnouncer,
               private changeDetectorRef: ChangeDetectorRef) {
   }
@@ -32,8 +35,8 @@ export class PermissionManagerPage implements OnInit {
   ngOnInit() {
     this.parent.auth$.subscribe({
       next: (v) => {
-        this.rows = v.settings.permissions
-        this.dataSource = new MatTableDataSource<AuthPermission>(v.settings.permissions);
+        this.rows = v.settings.roles
+        this.dataSource = new MatTableDataSource<AuthRole>(v.settings.roles);
         this.dataSource.sort = this.sort;
         this.changeDetectorRef.markForCheck()
       }
@@ -48,37 +51,48 @@ export class PermissionManagerPage implements OnInit {
     return idx
   }
 
+  grantPermission(role: AuthRole, permission: AuthPermission) {
+    this.adminService.grantPermissionOnRole(role.$key, permission.$key).catch((reason) => {
+      console.error('RoleManagerComponent', 'could not grant permission', reason)
+    })
+  }
+
+  revokePermission(role: AuthRole, permission: AuthPermission) {
+    this.adminService.revokePermissionOnRole(role.$key, permission.$key).catch((reason) => {
+      console.error('RoleManagerComponent', 'could not revoke permission', reason)
+    })
+  }
+
   onAddItemAction() {
-    const permission = AuthPermission.from({
+    const role = AuthRole.from({
       $key:       NameGenerator.generate(),
       orderIndex: this.nextItemIndex
     })
-    this.adminService.addPermission(permission).catch((reason) => {
-      console.error('PermissionManagerPage', 'error adding permission', reason)
+    this.adminService.addRole(role).catch((reason) => {
+      console.error('RoleManagerComponent', 'error adding role', reason)
       throw new Error(reason)
     })
   }
 
   onRemove(key: string) {
-    this.adminService.removePermission(key).catch((reason) => {
-      console.error('PermissionManagerPage', 'error removing permission', reason)
+    this.adminService.removeRole(key).catch((reason) => {
+      console.error('RoleManagerComponent', 'error removing role', reason)
       throw new Error(reason)
     })
   }
 
   onRemoveSelectedAction(keys: string[]) {
     keys.forEach((key) => {
-      this.adminService.removePermission(key).catch((reason) => {
-        console.error('PermissionManagerPage', 'error removing permission', reason)
+      this.adminService.removeRole(key).catch((reason) => {
+        console.error('RoleManagerComponent', 'error removing role', reason)
         throw new Error(reason)
       })
     })
   }
 
-
-  onItemChange(permission: AuthPermission) {
-    this.adminService.updatePermission(permission).catch((reason) => {
-      console.error('PermissionManagerPage', 'error updating permission', reason)
+  onItemChange(role: AuthRole) {
+    this.adminService.updateRole(role).catch((reason) => {
+      console.log('RoleManagerComponent', 'error updating role', reason)
       throw new Error(reason)
     })
 
@@ -104,7 +118,7 @@ export class PermissionManagerPage implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: AuthPermission): string {
+  checkboxLabel(row?: AuthRole): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }

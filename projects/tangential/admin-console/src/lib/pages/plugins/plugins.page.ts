@@ -19,9 +19,8 @@ import {
   ActivatedRoute,
   Router
 } from '@angular/router'
+import {PluginManager} from '@tangential/plugin'
 import {AdminConsoleParentPage} from '../_parent/admin-console-parent.page'
-// noinspection ES6PreferShortImport
-import {PluginManager} from '../../../../../projects/tangential/plugin/src/lib/plugin-manager'
 
 @Component({
   selector       : 'tanj-plugins-page',

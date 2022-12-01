@@ -2,7 +2,7 @@ import {
   Jsonified,
   ObjectUtil
 } from '@tangential/core'
-import * as moment from 'moment'
+import moment from 'moment'
 //noinspection ES6PreferShortImport
 import {
   DateTimeType,

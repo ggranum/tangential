@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, RoutesRecognized} from '@angular/router';
 import {MessageBus, NgUtil, PageAnalyticsEvents, RouteInfo} from '@tangential/core';
-import {GoogleAnalytics, GoogleAnalyticsFields} from '../../projects/tangential/analytics/src/lib';
+import {GoogleAnalytics, GoogleAnalyticsFields} from '@tangential/analytics';
 
 
 @Component({

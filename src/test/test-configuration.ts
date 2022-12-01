@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {EmailPasswordCredentials} from '../../projects/tangential/authorization-service/src/lib'
+import {EmailPasswordCredentials} from '@tangential/authorization-service'
 
 import {ObjMap} from '@tangential/core'
 import {projectUsers} from '../../config/users.local'

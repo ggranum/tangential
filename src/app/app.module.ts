@@ -6,26 +6,26 @@ import {BrowserModule, Title} from '@angular/platform-browser'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 
 
-import {AdsenseModule, GoogleAnalytics} from '../../projects/tangential/analytics/src/lib'
+import {AdsenseModule, GoogleAnalytics} from '@tangential/analytics'
 
 import {
   AuthenticationService, AuthSettingsService, FirebaseAuthenticationService, FirebaseAuthSettingsService, FirebaseUserService,
   FirebaseVisitorService, HasPermissionGuard, HasRoleGuard, UserService, VisitorResolver, VisitorService
-} from '../../projects/tangential/authorization-service/src/lib'
+} from '@tangential/authorization-service'
 
-import {SignInPanelModule, TanjComponentsModule} from '../../projects/tangential/components/src/lib'
+import {SignInPanelModule, TanjComponentsModule} from '@tangential/components'
 
-import {InputRegistry} from '../../projects/tangential/configurable-input-widgets/src/lib'
+import {InputRegistry} from '@tangential/configurable-input-widgets'
 
 import {AppEnvironment, BusLogger, BusLoggerConfiguration, Logger, LoggerConfiguration, MessageBus} from '@tangential/core'
 import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util'
 
 
-import {TanjInputWidgetModule} from '../../projects/tangential/input-widgets/src/lib'
+import {TanjInputWidgetModule} from '@tangential/input-widgets'
+import {PluginManager} from '@tangential/plugin'
 // Our Components
 import {environment} from '../environments/environment'
 // noinspection ES6PreferShortImport
-import {PluginManager} from '../../projects/tangential/plugin/src/lib/plugin-manager'
 import {AppComponent} from './app.component'
 import {AppRoutingModule} from './app.routing.module'
 

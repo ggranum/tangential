@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthenticationService, Visitor, VisitorService} from '../../../../../projects/tangential/authorization-service/src/lib';
-import {AuthInfo} from '../../../../../projects/tangential/components/src/lib';
+import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service';
+import {AuthInfo} from '@tangential/components';
 import {DefaultPageAnalytics, MessageBus, Page, RouteInfo} from '@tangential/core';
 import {Observable} from 'rxjs';
 import {first, map} from 'rxjs/operators'

@@ -1,7 +1,7 @@
 import {Jsonified, ObjectUtil} from '@tangential/core'
 
 
-import * as moment from 'moment'
+import moment from 'moment'
 import {ConfigurableInputType, ConfigurableInputTypeJson} from '../configurable-input-type'
 import {DateTimeIval, DateTimeIvalIF} from './date-time-ival'
 

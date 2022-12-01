@@ -56,7 +56,7 @@
         "dist/tangential/asciidoctor-panel"
       ],
       "@tangential/admin-console": [
-        "src/lib/admin-console"
+        "dist/tangential/admin-console"
       ],
       "@tangential/configurable-input-widgets": [
         "dist/tangential/configurable-input-widgets"

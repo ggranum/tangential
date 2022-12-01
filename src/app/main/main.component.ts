@@ -6,14 +6,14 @@ import {ActivatedRouteSnapshot, Router} from '@angular/router';
 import { Logger, MessageBus } from '@tangential/core';
 
 
-import {AuthenticationService, Visitor, VisitorService} from '../../../projects/tangential/authorization-service/src/lib';
+import {AuthenticationService, Visitor, VisitorService} from '@tangential/authorization-service';
+import {Placeholder} from '@tangential/firebase-util'
 import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators'
 import {AppRoutes} from '../app.routing.module';
 import {
   ContextMenuMessage, Icon, Menu, MenuItem, NotificationMessage, SideNavComponent, ToggleMainMenuRequest
-} from '../../../projects/tangential/components/src/lib';
-import {Placeholder} from '../../../projects/tangential/firebase-util/src/lib';
+} from '@tangential/components';
 
 @Component({
   selector: 'tanj-main',

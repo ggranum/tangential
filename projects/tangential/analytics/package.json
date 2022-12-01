@@ -46,6 +46,7 @@
   },
   "peerDependencies": {
     "@angular/core": "^14.2.0",
+    "@tangential/core": "0.*",
     "rxjs": "7.x"
   },
   "dependencies": {

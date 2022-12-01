@@ -20,7 +20,7 @@ import {
   Hacks,
   TimeUnits
 } from '@tangential/core'
-import * as moment from 'moment'
+import moment from 'moment'
 import {
   DurationPickerDialog,
   DurationPickerDialogResult
