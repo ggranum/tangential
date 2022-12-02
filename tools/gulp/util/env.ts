@@ -1,7 +1,12 @@
 import * as minimist from 'minimist'
-import {DEFAULT_CONFIG_FILE_NAME, DEFAULT_CONFIG_ROOT} from './constants';
+import {DEFAULT_CONFIG_FILE_NAME, DEFAULT_CONFIG_ROOT} from '../constants';
 import * as path from 'path';
 
+/**
+ * Environment information for a build task. Parses the args passed on the command line for an `env` flag and other build environment
+ * related info.
+ * @revisit: Move this to the firebase directory? It's the only build tool using it.
+ */
 
 export type Options = {
   prod: boolean,

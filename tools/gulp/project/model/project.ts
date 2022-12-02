@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path';
 import {DEFAULT_CONFIG_FILE_NAME, JSON_FILE_WRITE_CONFIG, PROJECT_ROOT} from '../../constants';
-import {Env} from '../../env';
+import {Env} from '../../util/env';
 import {ProjectConfigurationNotFound} from '../exception/project-configuration-not-found';
 import {ProjectNotInitialized} from '../exception/project-not-initialized';
 import {ProjectEnvironment, ProjectEnvironmentJson} from './project-environment';

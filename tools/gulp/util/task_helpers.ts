@@ -1,8 +1,9 @@
+import {spawn} from 'child_process'
 import * as child_process from 'child_process';
 import * as gulp from 'gulp';
 import * as path from 'path';
 
-import {NPM_VENDOR_FILES, PROJECT_ROOT, DIST_ROOT} from './constants';
+import {NPM_VENDOR_FILES, PROJECT_ROOT, DIST_ROOT} from '../constants';
 import {existsSync, readdirSync, statSync} from 'fs';
 import * as merge2 from 'merge2';
 
@@ -56,6 +57,8 @@ export function execTask(binPath: string, args: string[], options: ExecTaskOptio
  * Create a promise that executes an NPM Bin, by resolving the binary path then executing it. These are
  * binaries that are normally in the `./node_modules/.bin` directory, but their name might differ
  * from the package. Examples are typescript, ngc and gulp itself.
+ * Example - Run angular cli command: `await execNodeTask('@angular/cli', 'ng', {argsArrayForNg})`
+ * Example - Run npm command: `await execNodeTask('@angular/cli', 'ng', {argsArrayForNg})`
  */
 export function execNodeTask(packageName: string, executable: string | string[], args?: string[],
                              options: ExecTaskOptions = {}):Promise<void> {
@@ -136,3 +139,37 @@ export function collectComponents(dirPath: string): string[] {
   })
   return componentPaths
 }
+
+/**
+ * Basic function that just dumps the provided buffer to console.
+ * @param data
+ */
+const logMessageBuffer = (data: Buffer) => {
+  console.log(`stdout: ${data.toString().split(/[\n\r]/g).join('\n        ')}`);
+}
+
+export async function execChildProcess(command: string, args: string[], errorMessage: string) {
+  return new Promise<void>((resolve, reject) => {
+    console.log(`Executing "${command} ${args.join(' ')}"...`);
+    let errMsgAry:string[] = []
+    const childProcess = spawn(command, args);
+    childProcess.stdout.on('data', logMessageBuffer);
+    childProcess.stderr.on('data', (data: Buffer) => {
+      errMsgAry.push(data.toString().split(/[\n\r]/g).join('\n        '));
+    });
+
+    childProcess.on('close', (code: number) => {
+      if (code == 0) {
+        resolve();
+      } else {
+        if(errMsgAry && errMsgAry.length){
+          console.error('stderr:' + errMsgAry.join('\n').replace('npm ERR!', ''));
+        }
+        reject(new Error(errorMessage + `Status code: ${code}`));
+      }
+    })
+  })
+
+
+}
+

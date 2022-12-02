@@ -5,7 +5,7 @@ import {series} from 'gulp';
 import * as path from 'path'
 import {DIST_LIBRARIES_ROOT} from '../constants';
 
-import {collectComponents} from '../task_helpers';
+import {collectComponents, execChildProcess} from '../util/task_helpers';
 
 import {build_release} from './release'
 
@@ -27,16 +27,12 @@ import {build_release} from './release'
  *
  *
  */
-const logMessageBuffer = (data: Buffer) => {
-  console.log(`stdout: ${data.toString().split(/[\n\r]/g).join('\n        ')}`);
-}
-
 /**
  * NPM Link or unlink a project into the global NPM 'namespace' for easier development.
  * @param componentPath
  * @param unlink
  */
-function _execNpmLink(componentPath: string, unlink:boolean): Promise<void> {
+async function _execNpmLink(componentPath: string, unlink:boolean): Promise<void> {
   const stat = statSync(componentPath);
 
   if (!stat.isDirectory()) {
@@ -55,26 +51,7 @@ function _execNpmLink(componentPath: string, unlink:boolean): Promise<void> {
 
   const command = 'npm';
   const args = unlink ? ['unlink'] : ['link'];
-  return new Promise<void>((resolve, reject) => {
-    console.log(`Executing "${command} ${args.join(' ')}"...`);
-    let errMsg = ''
-    const childProcess = spawn(command, args);
-    childProcess.stdout.on('data', logMessageBuffer);
-    childProcess.stderr.on('data', (data: Buffer) => {
-      errMsg = errMsg + data.toString().split(/[\n\r]/g).join('\n        ');
-    });
-
-    childProcess.on('close', (code: number) => {
-      if (code == 0) {
-        resolve();
-      } else {
-        if(errMsg && errMsg.length){
-          console.error('stderr:' + errMsg.replace('npm ERR!', ''));
-        }
-        reject(new Error(`Component ${componentPath} did not ${args[0]}, status: ${code}.`));
-      }
-    })
-  })
+  await execChildProcess(command, args, `Component ${componentPath} did not ${args[0]}.`)
 }
 
 

@@ -1,10 +1,9 @@
-import {spawn} from 'child_process';
 import {existsSync, statSync} from 'fs';
 import {series} from 'gulp';
 import * as minimist from 'minimist'
 import * as path from 'path'
 
-import {execTask, collectComponents} from '../task_helpers';
+import {execTask, collectComponents, execChildProcess} from '../util/task_helpers';
 import {DIST_LIBRARIES_ROOT} from '../constants';
 import {clean, deleteGlob} from './clean'
 import {buildLibs} from './libraries'
@@ -27,7 +26,7 @@ function publish_whoami() {
   })
 }
 
-function _execNpmPublish(componentPath: string, label: string): Promise<void> {
+async function _execNpmPublish(componentPath: string, label: string): Promise<void> {
   const stat = statSync(componentPath);
 
   if (!stat.isDirectory()) {
@@ -49,26 +48,8 @@ function _execNpmPublish(componentPath: string, label: string): Promise<void> {
     args.push('--tag');
     args.push(label);
   }
-  return new Promise<void>((resolve, reject) => {
-    console.log(`Executing "${command} ${args.join(' ')}"...`);
-    let errMsg = ''
-    const childProcess = spawn(command, args);
-    childProcess.stdout.on('data', logMessageBuffer);
-    childProcess.stderr.on('data', (data: Buffer) => {
-      errMsg = errMsg + data.toString().split(/[\n\r]/g).join('\n        ');
-    });
+  await execChildProcess(command, args, `Component ${componentPath} did not publish.`)
 
-    childProcess.on('close', (code: number) => {
-      if (code == 0) {
-        resolve();
-      } else {
-        if (errMsg && errMsg.length) {
-          console.error('stderr:' + errMsg.replace('npm ERR!', ''));
-        }
-        reject(`Component ${componentPath} did not publish, status: ${code}.`);
-      }
-    })
-  })
 }
 
 async function publish_publish() {

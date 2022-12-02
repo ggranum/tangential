@@ -13,6 +13,8 @@ export const DIST_LIBRARIES_ROOT = join(DIST_ROOT, 'tangential');
 export const PASSWORD_LENGTH = 12
 export const JSON_FILE_WRITE_CONFIG = {spaces: 2} as WriteFileOptions
 
+export const ALLOWED_PRE_RELEASE_IDENTIFIERS = ['alpha', 'beta', 'rc']
+
 export const LIBRARY_BUILD_ORDER = [
   'asciidoctor-panel',
   'core',

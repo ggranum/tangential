@@ -1,7 +1,7 @@
 import * as path from 'path';
 import {task} from 'gulp';
 import {Project} from './model/project';
-import {Env} from '../env';
+import {Env} from '../util/env';
 import {TangentialError} from './exception/tangential-error';
 
 
