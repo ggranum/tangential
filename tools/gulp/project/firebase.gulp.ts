@@ -1,5 +1,5 @@
 import {task} from 'gulp';
-import {Env} from '../env';
+import {Env} from '../util/env';
 import {Project} from './model/project';
 import {TangentialError} from './exception/tangential-error';
 

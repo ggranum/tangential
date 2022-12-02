@@ -66,22 +66,21 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
-            }
+            },
             "dev": {
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.dev.ts"
                 }
               ]
-            },
-
+            }
           }
         },
         "serve": {
@@ -153,6 +152,347 @@
             "exclude": [
               "**/node_modules/**"
             ]
+          }
+        }
+      }
+    },
+    "@tangential/core": {
+      "projectType": "library",
+      "root": "projects/tangential/core",
+      "sourceRoot": "projects/tangential/core/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/core/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/core/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/core/src/test.ts",
+            "tsConfig": "projects/tangential/core/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/core/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@tangential/firebase-util": {
+      "projectType": "library",
+      "root": "projects/tangential/firebase-util",
+      "sourceRoot": "projects/tangential/firebase-util/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/firebase-util/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/firebase-util/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/firebase-util/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/firebase-util/src/test.ts",
+            "tsConfig": "projects/tangential/firebase-util/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/firebase-util/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@tangential/media-types": {
+      "projectType": "library",
+      "root": "projects/tangential/media-types",
+      "sourceRoot": "projects/tangential/media-types/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/media-types/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/media-types/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/media-types/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/media-types/src/test.ts",
+            "tsConfig": "projects/tangential/media-types/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/media-types/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@tangential/authorization-service": {
+      "projectType": "library",
+      "root": "projects/tangential/authorization-service",
+      "sourceRoot": "projects/tangential/authorization-service/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/authorization-service/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/authorization-service/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/authorization-service/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/authorization-service/src/test.ts",
+            "tsConfig": "projects/tangential/authorization-service/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/authorization-service/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@tangential/components": {
+      "projectType": "library",
+      "root": "projects/tangential/components",
+      "sourceRoot": "projects/tangential/components/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/components/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/components/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/components/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/components/src/test.ts",
+            "tsConfig": "projects/tangential/components/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/components/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@tangential/analytics": {
+      "projectType": "library",
+      "root": "projects/tangential/analytics",
+      "sourceRoot": "projects/tangential/analytics/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/analytics/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/analytics/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/analytics/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/analytics/src/test.ts",
+            "tsConfig": "projects/tangential/analytics/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/analytics/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@tangential/plugin": {
+      "projectType": "library",
+      "root": "projects/tangential/plugin",
+      "sourceRoot": "projects/tangential/plugin/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/plugin/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/plugin/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/plugin/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/plugin/src/test.ts",
+            "tsConfig": "projects/tangential/plugin/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/plugin/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@tangential/asciidoctor-panel": {
+      "projectType": "library",
+      "root": "projects/tangential/asciidoctor-panel",
+      "sourceRoot": "projects/tangential/asciidoctor-panel/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/asciidoctor-panel/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/asciidoctor-panel/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/asciidoctor-panel/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/asciidoctor-panel/src/test.ts",
+            "tsConfig": "projects/tangential/asciidoctor-panel/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/asciidoctor-panel/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@tangential/input-widgets": {
+      "projectType": "library",
+      "root": "projects/tangential/input-widgets",
+      "sourceRoot": "projects/tangential/input-widgets/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/input-widgets/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/input-widgets/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/input-widgets/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/input-widgets/src/test.ts",
+            "tsConfig": "projects/tangential/input-widgets/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/input-widgets/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@tangential/configurable-input-widgets": {
+      "projectType": "library",
+      "root": "projects/tangential/configurable-input-widgets",
+      "sourceRoot": "projects/tangential/configurable-input-widgets/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/configurable-input-widgets/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/configurable-input-widgets/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/configurable-input-widgets/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/configurable-input-widgets/src/test.ts",
+            "tsConfig": "projects/tangential/configurable-input-widgets/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/configurable-input-widgets/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@tangential/admin-console": {
+      "projectType": "library",
+      "root": "projects/tangential/admin-console",
+      "sourceRoot": "projects/tangential/admin-console/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tangential/admin-console/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tangential/admin-console/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tangential/admin-console/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tangential/admin-console/src/test.ts",
+            "tsConfig": "projects/tangential/admin-console/tsconfig.spec.json",
+            "karmaConfig": "projects/tangential/admin-console/karma.conf.js"
           }
         }
       }

@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path';
 import {JSON_FILE_WRITE_CONFIG, PROJECT_ROOT} from '../../../constants';
-import {Env} from '../../../env';
+import {Env} from '../../../util/env';
 import {FirebasePrivateKeyMismatch} from '../../exception/firebase-private-key-mismatch';
 import {FirebasePrivateKeyNotInitialized} from '../../exception/firebase-private-key-not-initialized';
 import {RemoteProjectUtil} from '../../firebase/remote-project-util';

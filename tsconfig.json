@@ -31,41 +31,38 @@
       "node_modules/@types"
     ],
     "paths": {
-      "@tangential/app": [
-        "src/lib/app"
-      ],
-      "@tangential/admin-console": [
-        "src/lib/admin-console"
-      ],
-      "@tangential/analytics": [
-        "src/lib/analytics"
-      ],
-      "@tangential/asciidoctor-panel": [
-        "src/lib/asciidoctor-panel"
-      ],
-      "@tangential/authorization-service": [
-        "src/lib/authorization-service"
-      ],
-      "@tangential/components": [
-        "src/lib/components"
-      ],
-      "@tangential/configurable-input-widgets": [
-        "src/lib/configurable-input-widgets"
-      ],
       "@tangential/core": [
-        "src/lib/core"
+        "dist/tangential/core"
       ],
       "@tangential/firebase-util": [
-        "src/lib/firebase-util"
-      ],
-      "@tangential/input-widgets": [
-        "src/lib/input-widgets"
+        "dist/tangential/firebase-util"
       ],
       "@tangential/media-types": [
-        "src/lib/media-types"
+        "dist/tangential/media-types"
+      ],
+      "@tangential/authorization-service": [
+        "dist/tangential/authorization-service"
+      ],
+      "@tangential/components": [
+        "dist/tangential/components"
+      ],
+      "@tangential/analytics": [
+        "dist/tangential/analytics"
       ],
       "@tangential/plugin": [
-        "src/lib/plugin"
+        "dist/tangential/plugin"
+      ],
+      "@tangential/asciidoctor-panel": [
+        "dist/tangential/asciidoctor-panel"
+      ],
+      "@tangential/admin-console": [
+        "dist/tangential/admin-console"
+      ],
+      "@tangential/configurable-input-widgets": [
+        "dist/tangential/configurable-input-widgets"
+      ],
+      "@tangential/input-widgets": [
+        "dist/tangential/input-widgets"
       ]
     }
   }

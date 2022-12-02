@@ -1,0 +1,67 @@
+{
+  "name": "@tangential/admin-console",
+  "description": "A basic administration console",
+  "homepage": "https://github.com/ggranum/tangential#readme",
+  "version": "0.3.0-alpha.3",
+  "license": "GPL-3.0",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ggranum/tangential.git"
+  },
+  "contributors": [
+    {
+      "email": "geoff.granum@gmail.com",
+      "name": "Geoff M. Granum"
+    }
+  ],
+  "keywords": [
+    "angular",
+    "angular2",
+    "components",
+    "widgets",
+    "authentication",
+    "auth",
+    "firebase",
+    "Angular",
+    "Angular2",
+    "AdWords",
+    "Analytics",
+    "Auth",
+    "Authentication",
+    "Bootstrap",
+    "Components",
+    "Component Library",
+    "Firebase",
+    "IAM",
+    "Widgets",
+    "Widgets Library"
+  ],
+  "bugs": {
+    "url": "https://github.com/ggranum/tangential/issues"
+  },
+  "engines": {
+    "node": ">= 16"
+  },
+  "peerDependencies": {
+    "@angular/cdk": "^14.*",
+    "@angular/core": "^14.*",
+    "@angular/common": "^14*",
+    "@angular/forms": "^14*",
+    "@angular/material": "^14*",
+    "@angular/platform-browser-dynamic": "^14*",
+    "@angular/router": "^14*",
+    "@tangential/core": "0.*",
+    "@tangential/authorization-service": "0.*",
+    "@tangential/components": "0.*",
+    "rxjs": "7.x"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "exports": {
+    ".": {
+      "sass": "./_index.scss"
+    }
+  }
+}

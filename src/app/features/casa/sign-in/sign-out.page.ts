@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthenticationService} from '@tangential/authorization-service';
+import {AuthenticationService} from '@tangential/authorization-service'
 import {Logger, MessageBus, Page, RouteInfo} from '@tangential/core';
 import {AppRouteDefinitions} from '../../../app.routes.definitions'
 

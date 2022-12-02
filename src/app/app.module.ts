@@ -4,23 +4,33 @@ import {FormsModule} from '@angular/forms'
 // Base Angular2
 import {BrowserModule, Title} from '@angular/platform-browser'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
+
+
 import {AdsenseModule, GoogleAnalytics} from '@tangential/analytics'
 
 import {
   AuthenticationService, AuthSettingsService, FirebaseAuthenticationService, FirebaseAuthSettingsService, FirebaseUserService,
   FirebaseVisitorService, HasPermissionGuard, HasRoleGuard, UserService, VisitorResolver, VisitorService
 } from '@tangential/authorization-service'
+
 import {SignInPanelModule, TanjComponentsModule} from '@tangential/components'
+
 import {InputRegistry} from '@tangential/configurable-input-widgets'
-import {AppEnvironment, BusLogger, BusLoggerConfiguration, Logger, LoggerConfiguration, MessageBus, Page} from '@tangential/core'
+
+import {AppEnvironment, BusLogger, BusLoggerConfiguration, Logger, LoggerConfiguration, MessageBus} from '@tangential/core'
 import {FirebaseConfig, FirebaseProvider} from '@tangential/firebase-util'
+
+
 import {TanjInputWidgetModule} from '@tangential/input-widgets'
+import {PluginManager} from '@tangential/plugin'
 // Our Components
 import {environment} from '../environments/environment'
 // noinspection ES6PreferShortImport
-import {PluginManager} from '../lib/plugin/plugin-manager'
 import {AppComponent} from './app.component'
 import {AppRoutingModule} from './app.routing.module'
+
+
+
 // import { AdsenseModule } from "ng2-adsense";
 import {AboutPage} from './features/casa/about/about.page'
 import {ContactPage} from './features/casa/contact/contact.page'
@@ -55,6 +65,7 @@ const appEnvironment: AppEnvironment = <AppEnvironment>environment
 
 if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config) {
   console.error('Missing environment or appConfig.firebaseConfig', JSON.stringify(appEnvironment))
+  console.error('   Maybe you didn\'t specify a configuration when running? Try `ng serve -c dev`');
 }
 
 
@@ -94,7 +105,6 @@ if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config)
 
   ],
   declarations:    [
-    Page,
     AppComponent,
     MainComponent,
     HomePage,

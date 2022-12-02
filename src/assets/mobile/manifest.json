@@ -27,7 +27,7 @@
       "density": "2.0"
     },
     {
-      "src": "\/android-icon-144x144.png",
+      "src": "/assets/mobile/android-icon-144x144.png",
       "sizes": "144x144",
       "type": "image\/png",
       "density": "3.0"

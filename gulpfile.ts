@@ -1,13 +1,10 @@
-export * from  './tools/gulp/tasks/clean';
-export * from  './tools/gulp/tasks/components';
-export * from  './tools/gulp/tasks/e2e';
-export * from  './tools/gulp/tasks/lint';
-export * from  './tools/gulp/tasks/release';
-export * from  './tools/gulp/tasks/link';
-export * from  './tools/gulp/tasks/version-bump';
-export * from  './tools/gulp/tasks/serve';
+export {clean} from  './tools/gulp/tasks/clean';
+export {buildLibs} from './tools/gulp/tasks/libraries';
+export {versionBump, versionBumpAll} from './tools/gulp/tasks/version-bump';
+export {publish, build_release} from  './tools/gulp/tasks/release';
 export * from  './tools/gulp/project/firebase.gulp';
 export * from  './tools/gulp/project/project.gulp';
+export {link, unlink} from  './tools/gulp/tasks/link';
 import {help} from './tools/gulp/tasks/default'
 
 
