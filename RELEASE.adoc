@@ -20,15 +20,17 @@ If you are cloning this project for your own devious purposes, see the **Using t
 
 **Only perform a release from Master branch**
 
-===== Assumptions
-1) You have no uncommitted code.
-1) All changes intended for the release have already been merged to master.
+==== Assumptions
 
-===== Release Process
+. You have no uncommitted code.
+. All changes intended for the release have already been merged to master.
+
+==== Release Process for a library
 . Pull from origin/master
-. Run `gulp versionBump --bump=prerelease --beta && git add .`
-.. There's also --alpha and --rc flags, and --bump can take any of the semver _values_ that `npm version` accepts ({major | minor | patch | premajor | preminor | prepatch | prerelease})  (note, however, this is NOT using 'npm version' to do the update.)
-. Verify the version number has been updated and that there are no other uncommitted changes. Version numbers should be consistent across modules prior to release. Pending further discussion (and build tooling), this includes even 'new' components that are in an alpha state.
+. Run `gulp versionBump --lib [libName] -i preminor [--preid [alpha|beta|rc]] && git add .`
+.. For example `gulp versionBump --lib core -i preminor --preid beta && git add .`
+..  -i can take any of the semver _values_ that `npm version` accepts ({major | minor | patch | premajor | preminor | prepatch | prerelease})
+. Verify the version number has been updated and that there are no other uncommitted changes.
 . Run `./generate-changelog.sh patch`
 .. This should only modify and `git add` the changelog file.
 .. Execute the additional steps that are printed out to the console.
@@ -37,7 +39,8 @@ If you are cloning this project for your own devious purposes, see the **Using t
 
 The following require your npm user account credentials. Adding a local `.npmrc` file with `username=foo` and `email=foo@example.com` can make this a bit nicer.
 
-```shell
+[source,shell]
+----
  # sign out of your normal account
 > npm logout
  # Sign in to npm account
@@ -47,7 +50,7 @@ The following require your npm user account credentials. Adding a local `.npmrc`
 > Email: (this IS public) (you@example.com)
 > Logged in as tangential on https://registry.npmjs.org/.
 > npm run publish
-```
+----
 
 
 == Using this project as a bootstrap

@@ -27,7 +27,7 @@ export async function buildLibs() {
 buildLibs.description = 'Build all libraries (see constants.ts for build order list). Executes `ng build {libName}` for each library.'
 
 
-async function doBuildLib(lib: string, configuration: string) {
+export async function doBuildLib(lib: string, configuration?: string) {
   const args: string[] = ['build', `@tangential/${lib}`]
   if (configuration) {
     args.push('--configuration');
@@ -36,7 +36,7 @@ async function doBuildLib(lib: string, configuration: string) {
   await execNodeTask('@angular/cli', 'ng', args)
 }
 
-async function doBuildLibs(configuration?: string) {
+export async function doBuildLibs(configuration?: string) {
   for (const lib of LIBRARY_BUILD_ORDER) {
     await doBuildLib(lib, configuration)
   }

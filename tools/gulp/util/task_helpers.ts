@@ -145,7 +145,7 @@ export function collectComponents(dirPath: string): string[] {
  * @param data
  */
 const logMessageBuffer = (data: Buffer) => {
-  console.log(`stdout: ${data.toString().split(/[\n\r]/g).join('\n        ')}`);
+  console.log(`${data.toString().split(/[\n\r]/g).join('\n        ')}`);
 }
 
 export async function execChildProcess(command: string, args: string[], errorMessage: string) {
