@@ -6,7 +6,7 @@ Setting up new projects always involves the annoying step of creating the User a
 
 In case you're wondering, authentication is "Are you who you say you are?" and authorization is "I believe that you are who you say you are, but are you allowed to do this?".
 
-=== Structure
+== Structure
 
 Permission::
     A Name/Description pair. Nothing fancy: 'CAN CREATE ROLE' / 'A user with this permission is allowed to create new Roles'.
@@ -19,7 +19,7 @@ User::
     Each User has an identifier, a set of Roles and a set of Permissions. When a User is assigned a Role, the Role's permissions are 'copied' into the User's list of Permissions. There's a reason behind this, which we'll get to shortly. A User is associated with the Firebase authentication identifier for each Firebase auth user. See the Firebase Auth console for your firebase project: https://console.firebase.google.com/project/${YourProject}/authentication/users.
 
 
-=== About User Permissions
+== About User Permissions
 
 As mentioned earlier, when a User is assigned a Role, the permissions from the Role are copied into the User's list of permissions. There's a reason for this madness.
 
@@ -47,6 +47,6 @@ A real test for write of such critical fields should include additional checks f
 In any event, you can see how simple the lookup is using a single permission table. If you were to try to map permissions dynamically based on assigned roles this would be either incredibly difficult or impossible. It would absolutely be unmaintainable.
 
 
-=== Bootstrapping
+== Bootstrapping
 
 @todo

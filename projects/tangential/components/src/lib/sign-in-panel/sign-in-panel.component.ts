@@ -11,19 +11,7 @@ import {
   ViewEncapsulation
 } from '@angular/core'
 import {ChangeEvent} from '@tangential/core'
-
-export type SignInAction = 'signUp' | 'signIn' | 'forgotPassword'
-export const SignInActions = {
-  signUp: <SignInAction>'signUp', signIn: <SignInAction>'signIn', forgotPassword: <SignInAction>'forgotPassword',
-}
-
-export interface AuthInfo {
-  username: string
-  password?: string
-  password2?: string
-  rememberMe?: boolean
-  action: SignInAction
-}
+import {AuthInfo, SignInAction, SignInActions} from './sign-in/sign-in.component'
 
 
 @Component({

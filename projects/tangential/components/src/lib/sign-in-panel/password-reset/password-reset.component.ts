@@ -11,8 +11,8 @@ import {
 } from '@angular/core'
 import {NgForm} from '@angular/forms'
 import {Hacks} from '@tangential/core'
-//noinspection ES6PreferShortImport
-import {AuthInfo, SignInActions} from '../sign-in-panel.component'
+import {AuthInfo, SignInActions} from '../sign-in/sign-in.component'
+
 
 @Component({
   selector:        'tanj-password-reset',

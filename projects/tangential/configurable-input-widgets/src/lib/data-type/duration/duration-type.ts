@@ -1,7 +1,6 @@
 import {Jsonified, ObjectUtil} from '@tangential/core'
 
-import {NumberIval, NumberIvalIF} from '../number/number-ival'
-import {isNumeric, NumberType, NumberTypeIF} from '../number/number-type'
+import {isNumeric, NumberType, NumberTypeIF, NumberIval, NumberIvalIF} from '../number'
 import {ConfigurableInputType} from '../configurable-input-type'
 
 export interface DurationTypeJson extends NumberTypeIF {

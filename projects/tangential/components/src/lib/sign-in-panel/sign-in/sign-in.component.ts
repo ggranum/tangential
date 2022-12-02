@@ -11,11 +11,20 @@ import {
 } from '@angular/core'
 import {NgForm} from '@angular/forms'
 import {ChangeEvent} from '@tangential/core'
-//noinspection ES6PreferShortImport
-import {
-  AuthInfo,
-  SignInActions
-} from '../sign-in-panel.component'
+
+
+export type SignInAction = 'signUp' | 'signIn' | 'forgotPassword'
+export const SignInActions = {
+  signUp: <SignInAction>'signUp', signIn: <SignInAction>'signIn', forgotPassword: <SignInAction>'forgotPassword',
+}
+
+export interface AuthInfo {
+  username: string
+  password?: string
+  password2?: string
+  rememberMe?: boolean
+  action: SignInAction
+}
 
 @Component({
   selector:        'tanj-sign-in',

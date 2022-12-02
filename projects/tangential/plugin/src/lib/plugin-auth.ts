@@ -1,6 +1,5 @@
 import {
   AuthPermission,
-  AuthPermissionDm,
   AuthRole,
   AuthSubject, InsufficientPermissions
 } from '@tangential/authorization-service'

@@ -44,6 +44,8 @@
   },
   "peerDependencies": {
     "@angular/core": "14.*",
+    "@angular/common": "14.*",
+    "@angular/router": "14.*",
     "@tangential/core": "0.*",
     "@tangential/firebase-util": "0.*"
   },

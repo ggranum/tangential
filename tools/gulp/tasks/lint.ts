@@ -19,4 +19,4 @@ function tslint(cb) {
 }
 
 
-exports.lint = series(tslint, stylelint, series(build_release, madge))
+export const lint = series(tslint, stylelint, series(build_release, madge))

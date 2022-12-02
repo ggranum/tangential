@@ -6,7 +6,7 @@ If you have cloned Tangential in order to bootstrap your own 'Component Library'
 
 == Publishing
 
-These steps have only been tested on OSX. It will probably work on any 'nix variant. Windows 10 with developer 'nix shell is a distinct 'maybe'.
+These steps have only been tested on MacOS. It will probably work on any 'nix variant. MS Windows with a developer 'nix shell is a distinct 'maybe'.
 
 If you are cloning this project for your own devious purposes, see the **Using this project as a bootstrap** section, near the end.
 
@@ -15,8 +15,6 @@ If you are cloning this project for your own devious purposes, see the **Using t
 
 1) Create a github access token https://github.com/settings/tokens and save it in a file named `generate-changelog-token.local.txt`
 1) Clean and build the project successfully
-
-
 
 === Do every release
 

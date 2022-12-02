@@ -10,11 +10,7 @@ import {
 } from '@angular/core'
 import {NgForm} from '@angular/forms'
 import {ChangeEvent} from '@tangential/core'
-//noinspection ES6PreferShortImport
-import {
-  AuthInfo,
-  SignInActions
-} from '../sign-in-panel.component'
+import {AuthInfo, SignInActions} from '../sign-in/sign-in.component'
 
 @Component({
   selector:        'tanj-sign-up',

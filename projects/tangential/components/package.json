@@ -44,8 +44,14 @@
     "node": ">= 16"
   },
   "peerDependencies": {
+    "@angular/animations": "14.*",
+    "@angular/cdk": "14.*",
     "@angular/core": "14.*",
-    "@tangential/core": "0.*"
+    "@angular/common": "14.*",
+    "@angular/material": "14.*",
+    "@angular/router": "14.*",
+    "@tangential/core": "0.*",
+    "@tangential/authorization-service": "0.*"
   },
   "dependencies": {
     "tslib": "^2.3.0"

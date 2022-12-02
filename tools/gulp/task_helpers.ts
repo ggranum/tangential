@@ -1,7 +1,5 @@
 import * as child_process from 'child_process';
-import * as fs from 'fs';
 import * as gulp from 'gulp';
-import * as gulpTs from 'gulp-typescript';
 import * as path from 'path';
 
 import {NPM_VENDOR_FILES, PROJECT_ROOT, DIST_ROOT} from './constants';
@@ -9,56 +7,13 @@ import {existsSync, readdirSync, statSync} from 'fs';
 import * as merge2 from 'merge2';
 
 
-/** These imports lack typings. */
-const gulpSass = require('gulp-sass');
-const gulpServer = require('gulp-server-livereload');
-const gulpSourcemaps = require('gulp-sourcemaps');
-const resolveBin = require('resolve-bin');
+import * as resolveBin  from 'resolve-bin'
 
 
 /** If the string passed in is a glob, returns it, otherwise append '**\/*' to it. */
 function _globify(maybeGlob: string, suffix = '**/*') {
   return maybeGlob.indexOf('*') != -1 ? maybeGlob : path.join(maybeGlob, suffix);
 }
-
-/** Create a TS Build Task, based on the options found in the specified tsconfig file. */
-export function tsBuildTask(taskDir: string, tsconfigFilePath:string) {
-  return () => {
-    const tsConfig: any = JSON.parse(fs.readFileSync(tsconfigFilePath, 'utf-8'));
-    const dest: string = path.join(taskDir, tsConfig['compilerOptions']['outDir']);
-
-    const tsProject = gulpTs.createProject(tsconfigFilePath, {
-      typescript: require('typescript')
-    });
-
-    let pipe = tsProject.src()
-      .pipe(gulpSourcemaps.init())
-      .pipe(tsProject(gulpTs.reporter.longReporter()));
-    let dts = pipe.dts.pipe(gulp.dest(dest));
-
-    return merge2([
-      dts,
-      pipe
-        .pipe(gulpSourcemaps.write('.'))
-        .pipe(gulp.dest(dest))
-    ]);
-  };
-}
-
-
-/** Create a SASS Build Task. */
-export function sassBuildTask(dest: string, root: string, includePaths: string[]) {
-  const sassOptions = {includePaths};
-
-  return () => {
-    return gulp.src(_globify(root, '**/*.scss'))
-      .pipe(gulpSourcemaps.init())
-      .pipe(gulpSass(sassOptions).on('error', gulpSass.logError))
-      .pipe(gulpSourcemaps.write('.'))
-      .pipe(gulp.dest(dest));
-  };
-}
-
 
 /** Options that can be passed to execTask or execNodeTask. */
 export interface ExecTaskOptions {
@@ -112,6 +67,7 @@ export function execNodeTask(packageName: string, executable: string | string[],
   return new Promise((resolve, reject) => {
     resolveBin(packageName, {executable: executable}, (err: any, binPath: string) => {
       if (err) {
+        console.error(`Error running ${packageName}:${executable} using binPath ${binPath}`)
         reject(new Error(err));
       } else {
         // Forward to execTask.
@@ -138,24 +94,6 @@ export function vendorTask() {
       const glob = path.join(PROJECT_ROOT, 'node_modules', root, '**/*.+(js|js.map)');
       return gulp.src(glob).pipe(gulp.dest(path.join(DIST_ROOT, 'vendor', root)));
     }));
-}
-
-
-/** Create a task that serves the dist folder. */
-export function serverTask(liveReload: boolean = true,
-                           streamCallback: (stream: NodeJS.ReadWriteStream) => void = null) {
-  return () => {
-    const stream = gulp.src('dist').pipe(gulpServer({
-      livereload: liveReload,
-      fallback: 'index.html',
-      port: 4200
-    }));
-
-    if (streamCallback) {
-      streamCallback(stream);
-    }
-    return stream;
-  }
 }
 
 /**

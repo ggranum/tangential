@@ -1,13 +1,13 @@
 import {spawn} from 'child_process';
 import {existsSync, statSync} from 'fs';
-import {series, task} from 'gulp';
+import {series} from 'gulp';
 import * as minimist from 'minimist'
 import * as path from 'path'
 
 import {execTask, collectComponents} from '../task_helpers';
-import {DIST_COMPONENTS_ROOT} from '../constants';
-import {clean, cleanTask} from './clean'
-import { build_ngc} from './components'
+import {DIST_LIBRARIES_ROOT} from '../constants';
+import {clean, deleteGlob} from './clean'
+import {buildLibs} from './libraries'
 
 const argv = minimist(process.argv.slice(3));
 
@@ -16,7 +16,7 @@ const logMessageBuffer = (data: Buffer) => {
 }
 
 export async function build_release_cleanSpec() {
-  return cleanTask('dist/**/*.spec.*')
+  return deleteGlob('dist/**/*.spec.*')
 }
 
 /** Make sure we're logged in. */
@@ -75,7 +75,7 @@ async function publish_publish() {
   const label = argv['tag'];
   const currentDir = process.cwd();
 
-  let paths: string[] = collectComponents(DIST_COMPONENTS_ROOT)
+  let paths: string[] = collectComponents(DIST_LIBRARIES_ROOT)
   console.log('paths', paths)
   if (!label) {
     console.log('You can use a label with --tag=labelName.');
@@ -102,5 +102,5 @@ async function publish_publish() {
 }
 
 
-export const build_release = series(clean, build_ngc, build_release_cleanSpec)
-exports.publish = series(publish_whoami, build_release, publish_publish)
+export const build_release = series(clean, buildLibs, build_release_cleanSpec)
+export const publish = series(publish_whoami, build_release, publish_publish)
