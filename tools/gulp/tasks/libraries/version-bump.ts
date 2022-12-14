@@ -1,8 +1,8 @@
 import {series} from 'gulp'
 import * as minimist from 'minimist'
-import {ALLOWED_PRE_RELEASE_IDENTIFIERS, LIBRARIES_ROOT, LIBRARY_BUILD_ORDER} from '../constants';
-import {execChildProcess} from '../util/task_helpers';
-import {clean} from './clean'
+import {ALLOWED_PRE_RELEASE_IDENTIFIERS, LIBRARIES_ROOT, LIBRARY_BUILD_ORDER} from '../../constants';
+import {execChildProcess} from '../../util/task_helpers';
+import {clean} from '../clean'
 import {buildLib, buildLibs, doBuildLib, doBuildLibs} from './libraries'
 
 
@@ -62,15 +62,14 @@ async function versionBumpAllTask() {
   const mArgs = minimist(process.argv.slice(3));
   const increment = mArgs['i']
   const preId = mArgs['preid']
-  const yesReally = mArgs['yesIReallyMeanToBumpAllLibraryVersions']
+  const yesReally = mArgs['yesIReallyMeanAllLibs']
   if (!yesReally) {
     throw new Error(
-      'Rarely do we want to bump all library versions at once. Please set the `yesIReallyMeanToBumpAllLibraryVersions` flag to continue')
+      'Rarely do we want to bump all library versions at once. Please set the `yesIReallyMeanAllLibs` flag to continue')
   }
   for (const lib of LIBRARY_BUILD_ORDER) {
     await doVersionBump(lib, increment, preId)
   }
-  return doBuildLibs()
 }
 
 

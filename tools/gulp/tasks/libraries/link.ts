@@ -3,11 +3,11 @@ import {existsSync, statSync} from 'fs';
 import {series} from 'gulp';
 
 import * as path from 'path'
-import {DIST_LIBRARIES_ROOT} from '../constants';
+import {DIST_LIBRARIES_ROOT} from '../../constants';
 
-import {collectComponents, execChildProcess} from '../util/task_helpers';
+import {collectComponents, execChildProcess} from '../../util/task_helpers';
 
-import {build_release} from './release'
+import {build_release} from './publish'
 
 /**
  * GulpTask: link
@@ -25,7 +25,7 @@ import {build_release} from './release'
  *
  * @see https://docs.npmjs.com/cli/v9/commands/npm-link?v=true
  *
- *
+ * You will also need to run the link command from within the project that is under development.
  */
 /**
  * NPM Link or unlink a project into the global NPM 'namespace' for easier development.

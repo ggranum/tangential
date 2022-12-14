@@ -1,13 +1,13 @@
-import {LIBRARY_BUILD_ORDER} from '../constants';
+import {series} from 'gulp'
+import {LIBRARY_BUILD_ORDER} from '../../constants';
 import * as minimist from 'minimist'
-import {execNodeTask} from '../util/task_helpers'
-
-
+import {execNodeTask} from '../../util/task_helpers'
+import {clean} from '../clean'
+import {build_release_cleanSpec} from './publish'
 
 export async function buildLibsDevelopment() {
   return doBuildLibs('development')
 }
-
 buildLibsDevelopment.description = 'Build all libraries using the \'development\' configuration - shortcut for `buildLibs --configuration development`'
 
 
@@ -41,4 +41,7 @@ export async function doBuildLibs(configuration?: string) {
     await doBuildLib(lib, configuration)
   }
 }
+
+
+export const buildRelease = series(clean, buildLibs, build_release_cleanSpec)
 

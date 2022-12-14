@@ -3,16 +3,12 @@ import {series} from 'gulp';
 import * as minimist from 'minimist'
 import * as path from 'path'
 
-import {execTask, collectComponents, execChildProcess} from '../util/task_helpers';
-import {DIST_LIBRARIES_ROOT} from '../constants';
-import {clean, deleteGlob} from './clean'
-import {buildLibs} from './libraries'
+import {execTask, collectComponents, execChildProcess} from '../../util/task_helpers';
+import {DIST_LIBRARIES_ROOT} from '../../constants';
+import {clean, deleteGlob} from '../clean'
+import {buildLibs, buildRelease} from './libraries'
 
 const argv = minimist(process.argv.slice(3));
-
-const logMessageBuffer = (data: Buffer) => {
-  console.log(`stdout: ${data.toString().split(/[\n\r]/g).join('\n        ')}`);
-}
 
 export async function build_release_cleanSpec() {
   return deleteGlob('dist/**/*.spec.*')
@@ -52,8 +48,16 @@ async function _execNpmPublish(componentPath: string, label: string): Promise<vo
 
 }
 
-async function publish_publish() {
-  const label = argv['tag'];
+
+async function publishAllLibrariesTask() {
+  const mArgs = minimist(process.argv.slice(3));
+  const label = mArgs['tag']
+  const yesReally = mArgs['yesIReallyMeanAllLibs']
+  if (!yesReally) {
+    throw new Error(
+      'Rarely do we want to publish all library versions at once. Please set the `yesIReallyMeanAllLibs` flag to continue.\n ' +
+      'Probably you should cd into the library you made changes to and publish that on its own.')
+  }
   const currentDir = process.cwd();
 
   let paths: string[] = collectComponents(DIST_LIBRARIES_ROOT)
@@ -83,5 +87,5 @@ async function publish_publish() {
 }
 
 
-export const build_release = series(clean, buildLibs, build_release_cleanSpec)
-export const publish = series(publish_whoami, build_release, publish_publish)
+
+export const publishAllLibs = series(publish_whoami, buildRelease, publishAllLibrariesTask)
