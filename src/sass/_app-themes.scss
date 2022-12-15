@@ -1,7 +1,7 @@
 @import 'global';
 @import '../app/features/features-index';
 @import '../app/main/main';
-@import '../../projects/tangential/admin-console/src/index';
+@import '../../projects/tangential/admin-console/index';
 @import '../../projects/tangential/components/index';
 
 @mixin apply-theme-to-app($theme) {

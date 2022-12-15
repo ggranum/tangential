@@ -1,7 +1,9 @@
+import {copyAssets} from '@angular-devkit/build-angular/src/utils/copy-assets'
 import {series} from 'gulp'
-import {LIBRARY_BUILD_ORDER} from '../../constants';
+import {join} from 'path'
+import {DIST_LIBRARIES_ROOT, LIBRARIES_ROOT, LIBRARY_BUILD_ORDER} from '../../constants';
 import * as minimist from 'minimist'
-import {execNodeTask} from '../../util/task_helpers'
+import {copyTask, execNodeTask} from '../../util/task_helpers'
 import {clean, deleteGlob} from '../clean'
 
 export async function buildLibsDevelopment() {
@@ -26,6 +28,12 @@ export async function buildLibs() {
 buildLibs.description = 'Build all libraries (see constants.ts for build order list). Executes `ng build {libName}` for each library.'
 
 
+async function copyLibraryAssetsToBuildDir(lib: string) {
+  const srcPath = join(LIBRARIES_ROOT, lib)
+  const destPath = join(DIST_LIBRARIES_ROOT, lib)
+  await copyTask(srcPath + '/**/*+(.md|.css|.scss|.sass|.png|.gif|.ico)', destPath)
+}
+
 export async function doBuildLib(lib: string, configuration?: string) {
   const args: string[] = ['build', `@tangential/${lib}`]
   if (configuration) {
@@ -33,6 +41,7 @@ export async function doBuildLib(lib: string, configuration?: string) {
     args.push(configuration)
   }
   await execNodeTask('@angular/cli', 'ng', args)
+  await copyLibraryAssetsToBuildDir(lib)
 }
 
 export async function doBuildLibs(configuration?: string) {

@@ -82,7 +82,7 @@ export function execNodeTask(packageName: string, executable: string | string[],
 
 
 /** Copy files from a glob to a destination. */
-export function copyTask(srcGlobOrDir: string, outRoot: string): Promise<void> {
+export async function copyTask(srcGlobOrDir: string, outRoot: string): Promise<void> {
   return new Promise((resolve, reject) => {
     let stream = gulp.src(_globify(srcGlobOrDir)).pipe(gulp.dest(outRoot))
     stream.on("finish", resolve)

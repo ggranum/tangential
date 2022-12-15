@@ -2,7 +2,7 @@
   "name": "@tangential/core",
   "description": "Core types and support code for Tangential",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.3.0-alpha.3",
+  "version": "0.4.0-alpha.6",
   "license": "GPL-3.0",
   "private": false,
   "repository": {
@@ -46,6 +46,6 @@
   },
   "peerDependencies": {
     "@angular/core": "14.x",
-    "rxjs": "7.x"
+    "rxjs": ">=7.0.0"
   }
 }

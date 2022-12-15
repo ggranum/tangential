@@ -15,6 +15,8 @@ import {buildLib, buildLibs, doBuildLib, doBuildLibs} from './libraries'
 
 /**
  * You can test your version updates on the command line with the semver package:
+ * `npx semver 0.2.0-alpha.6 -i prerelease --preid alpha` ==> 0.2.0-alpha.7
+ * `npx semver 0.2.0-alpha.6 -i prerelease --preid beta` ==> 0.2.0-beta.0
  * `npx semver 0.2.0 -i prerelease --preid beta` ==> 0.2.1-beta.0
  * `npx semver 0.2.0 -i preminor --preid beta` ==> 0.3.0-beta.0
  * `npx semver 0.3.0-beta -i prerelease --preid beta` ==> 0.3.0-beta.0

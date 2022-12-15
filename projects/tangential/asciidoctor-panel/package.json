@@ -2,7 +2,7 @@
   "name": "@tangential/asciidoctor-panel",
   "description": "UI pane for displaying ASCII Doctor formatted data.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.3.0-alpha.3",
+  "version": "0.4.0-alpha.6",
   "license": "GPL-3.0",
   "private": false,
   "repository": {
@@ -44,8 +44,8 @@
     "node": ">= 16"
   },
   "peerDependencies": {
-    "@angular/core": "14.*",
-    "rxjs": "7.x"
+    "@angular/core": ">= 14.0.0",
+    "rxjs": ">=7.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

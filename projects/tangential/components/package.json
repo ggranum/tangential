@@ -2,7 +2,7 @@
   "name": "@tangential/components",
   "description": "Various view components.",
   "homepage": "https://github.com/ggranum/tangential#readme",
-  "version": "0.3.0-alpha.3",
+  "version": "0.4.0-alpha.6",
   "license": "GPL-3.0",
   "private": false,
   "repository": {
@@ -44,14 +44,14 @@
     "node": ">= 16"
   },
   "peerDependencies": {
-    "@angular/animations": "14.*",
-    "@angular/cdk": "14.*",
-    "@angular/core": "14.*",
-    "@angular/common": "14.*",
-    "@angular/material": "14.*",
-    "@angular/router": "14.*",
-    "@tangential/core": "0.*",
-    "@tangential/authorization-service": "0.*"
+    "@angular/animations": ">= 14.0.0",
+    "@angular/cdk": ">= 14.0.0",
+    "@angular/core": ">= 14.0.0",
+    "@angular/common": ">= 14.0.0",
+    "@angular/material": ">= 14.0.0",
+    "@angular/router": ">= 14.0.0",
+    "@tangential/core": ">0.3.0 || >0.4.0-alpha",
+    "@tangential/authorization-service": ">0.3.0 || >0.4.0-alpha"
   },
   "dependencies": {
     "tslib": "^2.3.0"
