@@ -23,7 +23,7 @@ Firebase Hosted::  Single server hosting. With Firebase Functions and some good 
 
 Angular Goodness:: Angular 4+, at the moment. We'll keep the project dependencies up to date
 
-Built in IAM console:: View, create and assign new roles and permissions. (We revamped this feature area to use PrimeNg recently and are in the process of adding back the 'creation and assignment' functionality - soon!).
+Built in IAM console:: View, create and assign new roles and permissions. (We revamped this feature area and are in the process of adding back the 'creation and assignment' functionality - soon!).
 
 Themed:: Customizable Material Design themes, using SCSS.
 

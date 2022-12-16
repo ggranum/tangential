@@ -8,41 +8,6 @@
       "jasmine",
       "node"
     ],
-    "paths": {
-      "@tangential/admin-console": [
-        "lib/admin-console"
-      ],
-      "@tangential/analytics": [
-        "lib/analytics"
-      ],
-      "@tangential/asciidoctor-panel": [
-        "lib/asciidoctor-panel"
-      ],
-      "@tangential/authorization-service": [
-        "lib/authorization-service"
-      ],
-      "@tangential/components": [
-        "lib/components"
-      ],
-      "@tangential/configurable-input-widgets": [
-        "lib/configurable-input-widgets"
-      ],
-      "@tangential/core": [
-        "lib/core"
-      ],
-      "@tangential/firebase-util": [
-        "lib/firebase-util"
-      ],
-      "@tangential/input-widgets": [
-        "lib/input-widgets"
-      ],
-      "@tangential/media-types": [
-        "lib/media-types"
-      ],
-      "@tangential/plugin": [
-        "lib/plugin"
-      ]
-    }
   },
   "files": [
     "test.ts",

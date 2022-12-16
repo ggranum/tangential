@@ -170,7 +170,6 @@ if (!environment || !appEnvironment.firebase || !appEnvironment.firebase.config)
       useClass: InputRegistry
     },
   ],
-  entryComponents: [AppComponent],
   bootstrap:       [AppComponent]
 })
 export class AppModule {

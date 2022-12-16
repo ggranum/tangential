@@ -1,7 +1,0 @@
-@import 'src/lib/support/choose-input-widget-dialog/choose-input-widget';
-@import 'src/lib/support/edit-configurable-widget-component/edit-configurable-widget';
-
-@mixin tanj-configurable_widgets-index($theme) {
-  @include tanj-configurable_widgets-choose_input_widget_dialog($theme);
-  @include tanj-configurable_widgets-edit_configurable_widget($theme);
-}

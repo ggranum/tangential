@@ -29,41 +29,6 @@
     ],
     "typeRoots": [
       "node_modules/@types"
-    ],
-    "paths": {
-      "@tangential/core": [
-        "dist/tangential/core"
-      ],
-      "@tangential/firebase-util": [
-        "dist/tangential/firebase-util"
-      ],
-      "@tangential/media-types": [
-        "dist/tangential/media-types"
-      ],
-      "@tangential/authorization-service": [
-        "dist/tangential/authorization-service"
-      ],
-      "@tangential/components": [
-        "dist/tangential/components"
-      ],
-      "@tangential/analytics": [
-        "dist/tangential/analytics"
-      ],
-      "@tangential/plugin": [
-        "dist/tangential/plugin"
-      ],
-      "@tangential/asciidoctor-panel": [
-        "dist/tangential/asciidoctor-panel"
-      ],
-      "@tangential/admin-console": [
-        "dist/tangential/admin-console"
-      ],
-      "@tangential/configurable-input-widgets": [
-        "dist/tangential/configurable-input-widgets"
-      ],
-      "@tangential/input-widgets": [
-        "dist/tangential/input-widgets"
-      ]
-    }
+    ]
   }
 }
